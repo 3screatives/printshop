@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $white_ink_diff = 0.0005; // Add when use white ink
 
     // Get material cost
-    $sql = "SELECT mat_vendor, mat_name, mat_details, mat_roll_size, mat_length, mat_size, mat_cost, ink_cost, mat_added_on FROM ps_materials WHERE mat_id = ?";
+    $sql = "SELECT mat_id, mat_vendor, mat_name, mat_details, mat_roll_size, mat_length, mat_size, mat_cost, ink_cost, mat_added_on FROM ps_materials WHERE mat_id = ?";
 
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $material_id);
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // --- Prepare breakdown ---
     $breakdown  = "<ul>";
-    $breakdown .= "<li><b>Material:</b> {$material_name}</li>";
+    $breakdown .= "<li><b>Material:</b> {$mat_name}</li>";
     $breakdown .= "<li>Width × Height: {$width} × {$height} in</li>";
     $breakdown .= "<li>Roll Size Limit: {$mat_size} in</li>";
     $breakdown .= "<li>Min Effective Size: {$min_size} in</li>";
