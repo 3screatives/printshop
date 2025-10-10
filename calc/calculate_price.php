@@ -1,14 +1,16 @@
 <?php
 include "../config/db.php";
 
+header('Content-Type: application/json');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $material_id     = intval($_POST['material_id']);
     $width           = floatval($_POST['width']);
     $height          = floatval($_POST['height']);
     $quantity        = intval($_POST['quantity']);
-    $sides           = $_POST['sides'] ?? "single"; // "single" or "double"
+    $sides           = $_POST['sides'] ?? "single";
     $grommets        = isset($_POST['grommets']) ? 1 : 0;
-    $production_time = floatval($_POST['production_time']); // percentage
+    $production_time = floatval($_POST['production_time']);
     $mem_type        = isset($_POST['mem_type']) ? intval($_POST['mem_type']) : 1;
 
     if ($material_id <= 0 || $width <= 0 || $height <= 0 || $quantity <= 0) {
@@ -20,27 +22,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Fixed costs
-    // $ink_cost    = 0.003700;
-    $running_cost   = 0.04; // printshop running cost
-    $markup         = 0.3;
+    $running_cost   = 0.04;
     $grommet_cost   = 3;
-    $hframe_cost    = 3;
-    $aframe_cost    = 80;
-    // $mat_size    = 1200;
-    // $roll_size   = 54;
-    $white_ink_diff = 0.0005; // Add when use white ink
+    $white_ink_diff = 0.0005;
 
     // Get material cost
-    $sql = "SELECT mat_id, mat_vendor, mat_name, mat_details, mat_roll_size, mat_length, mat_size, mat_cost, ink_cost, mat_added_on FROM ps_materials WHERE mat_id = ?";
+    $sql = "SELECT mat_id, mat_vendor, mat_name, mat_details, mat_roll_size, mat_length, mat_size, mat_cost, ink_cost, mat_added_on 
+            FROM ps_materials WHERE mat_id = ?";
 
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $material_id);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $mat_vendor, $mat_name, $mat_details, $mat_roll_size, $mat_length, $mat_size, $mat_cost, $ink_cost, $mat_added_on);
+    mysqli_stmt_bind_result($stmt, $mat_id, $mat_vendor, $mat_name, $mat_details, $mat_roll_size, $mat_length, $mat_size, $mat_cost, $ink_cost, $mat_added_on);
     mysqli_stmt_fetch($stmt);
     mysqli_stmt_close($stmt);
 
-    if (!$material_cost) {
+    if (!$mat_cost) {
         echo json_encode([
             "final_price" => "0.00",
             "breakdown"   => "<p>Invalid material selected.</p>"
@@ -59,19 +56,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $min_size = $max_print_size;
     }
 
-    // --- Calculate material cost per linear inch ---
+    // Material cost per linear inch
     $mat_cost_per_linear_inch = $mat_cost / $mat_size;
     $mat_cost_total = $mat_cost_per_linear_inch * $min_size;
 
-    // --- Ink cost (affected by double-sided) ---
+    // Ink cost
     $ink_multiplier = ($sides === "double") ? 2 : 1;
     $ink_cost_total = $ink_cost * ($width * $height) * $ink_multiplier;
 
-    // --- Base cost per print ---
+    // Base cost
     $cost_per_print = $mat_cost_total + $ink_cost_total + $running_cost;
 
-    // --- Membership markup multipliers ---
-    $mem_type = $mem_type ?? 0; // fallback if not set
+    // Membership markup
     if ($mem_type == 1) {          // Silver
         $markup = 3.00;
     } elseif ($mem_type == 2) {    // Gold
@@ -80,23 +76,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $markup = 1.00;
     }
 
-    // --- Apply markup ---
     $total_cost = $cost_per_print * $markup;
 
-    // --- Add grommets if selected ---
-    if ($grommets) {
-        $total_cost += $grommet_cost;
-    }
+    if ($grommets) $total_cost += $grommet_cost;
 
-    // --- Multiply by quantity ---
     $final_cost = ceil($total_cost) * $quantity;
 
-    // --- Apply rush/production surcharge ---
     if ($production_time > 0) {
         $final_cost += $final_cost * $production_time;
     }
 
-    // --- Prepare breakdown ---
+    // Breakdown
     $breakdown  = "<ul>";
     $breakdown .= "<li><b>Material:</b> {$mat_name}</li>";
     $breakdown .= "<li>Width × Height: {$width} × {$height} in</li>";
