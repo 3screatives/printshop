@@ -1,7 +1,8 @@
 <?php
 // Connection Function
-function db_connect() {
-    $conn = mysqli_connect("localhost", "root", "", "invoice_new");
+function db_connect()
+{
+    $conn = mysqli_connect("localhost", "root", "", "stma_printing");
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
@@ -9,7 +10,8 @@ function db_connect() {
 }
 
 // INSERT / UPDATE / DELETE Function (All use same logic)
-function execute_query($conn, $sql, $types, ...$params) {
+function execute_query($conn, $sql, $types, ...$params)
+{
     $stmt = mysqli_prepare($conn, $sql);
     if (!$stmt) {
         die("Prepare failed: " . mysqli_error($conn));
@@ -25,7 +27,8 @@ function execute_query($conn, $sql, $types, ...$params) {
 }
 
 // SELECT Function (with optional parameters)
-function select_query($conn, $sql, $types = "", ...$params) {
+function select_query($conn, $sql, $types = "", ...$params)
+{
     $stmt = mysqli_prepare($conn, $sql);
     if (!$stmt) {
         die("Prepare failed: " . mysqli_error($conn));

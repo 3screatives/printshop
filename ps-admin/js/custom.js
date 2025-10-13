@@ -302,18 +302,6 @@ $(document).ready(function () {
         </tr>`;
 
         $('#orderItems tbody').append(itemHtml);
-
-        // Load material options via AJAX for the new row
-        // $.ajax({
-        //     url: 'get-material-options.php',
-        //     method: 'GET',
-        //     success: function (data) {
-        //         $('#item_code' + count).html(data);
-        //     },
-        //     error: function () {
-        //         alert("Failed to load materials.");
-        //     }
-        // });
     });
 
 

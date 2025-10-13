@@ -1,5 +1,5 @@
 <?php
-include "../config/db.php";
+include "db.php";
 
 $sql = "SELECT mat_id, mat_name FROM ps_materials";
 $result = mysqli_query($conn, $sql);

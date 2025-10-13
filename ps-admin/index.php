@@ -114,9 +114,9 @@
         </div>
     </div>
 
-    <?php include 'include/view-order.php'; ?>
-    <?php include 'include/create-order.php'; ?>
-    <?php include 'include/order-designer.php'; ?>
+    <?php include 'view-order.php'; ?>
+    <?php include 'create-order.php'; ?>
+    <?php include 'order-designer.php'; ?>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
