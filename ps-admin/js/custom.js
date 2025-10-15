@@ -260,4 +260,115 @@ $(document).ready(function () {
     $('.close').on('click', function () {
         $('.order-details').hide();
     });
+
+    //Step 6: Create Order
+    //Add current date to create order form
+    const todayDate = new Date().toISOString().split('T')[0];  // "YYYY-MM-DD"
+    $('#order_today_date').val(todayDate);
+
+    //Due Date
+    function getAdjustedDate() {
+        let date = new Date();
+        date.setDate(date.getDate() + 2);
+
+        const day = date.getDay(); // 0 = Sunday, 6 = Saturday
+
+        if (day === 6 || day === 0) {
+            // Saturday or Sunday → push 2 more days
+            date.setDate(date.getDate() + 2);
+        }
+
+        return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    }
+
+    const adjustedDate = getAdjustedDate();
+    $('#order_due').val(adjustedDate);
+    
+    $(document).on('click', '#newOrder', function () {
+        $('.create-order').show();
+    })
+
+    //Close Create Order
+    $('.close').on('click', function () {
+        $('.create-order').hide();
+
+        const $form = $('.create-order form');
+        $form[0].reset(); // standard reset
+
+        // Optional cleanup:
+        $form.find('textarea').val('');
+        $form.find('input[type="number"]').val('');
+        $form.find('select').prop('selectedIndex', 0);
+
+        // If you added rows dynamically, remove them (except first row maybe)
+        $form.find('#orderItems tbody tr:gt(0)').remove(); // keep only the first row
+    });
+
+    //Create Order
+    let items = [];
+    var count = $(".itemRow").length;
+
+    // Add item row dynamically
+    $('#addItem').off('click').on('click', function () {
+        count++;
+
+        let itemHtml = `
+        <tr class="calculate itemRow">
+            <td>
+                <select class="form-control form-control-sm" name="order_material_id[]"
+                    id="order_material_id${count}">
+                    <option value="0" selected>Select</option>
+                    <option value="101">Poster</option>
+                    <option value="102">Banner</option>
+                    <option value="103">Adhesive</option>
+                    <option value="104">Clear Adhesive</option>
+                    <option value="105">Static Cling</option>
+                    <option value="106">Backlit</option>
+                </select>
+            </td>
+            <td>
+                <textarea name="order_item_details[]" class="form-control form-control-sm"
+                    rows="1" id="order_item_details${count}" placeholder="Details"></textarea>
+            </td>
+            <td>
+                <div class="input-group">
+                    <input dir="rtl" type="number" name="order_item_width[]"
+                        id="order_item_width${count}" class="form-control form-control-sm"
+                        placeholder="Width">
+                    <span class="input-group-text">in</span>
+                    <input dir="rtl" type="number" name="order_item_height[]"
+                        id="order_item_height${count}" class="form-control form-control-sm"
+                        placeholder="Height">
+                    <span class="input-group-text">in</span>
+                </div>
+            </td>
+            <td class="text-center">
+                <input type="number" name="order_item_qty[]" id="order_item_qty${count}"
+                    class="form-control form-control-sm">
+            </td>
+            <td class="text-end">
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input dir="rtl" type="number" name="order_item_price[]"
+                        id="order_item_price${count}" class="form-control form-control-sm">
+                </div>
+            </td>
+            <td>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input dir="rtl" type="number" name="order_item_total[]"
+                        id="order_item_total${count}" class="form-control form-control-sm" disabled>
+                </div>
+            </td>
+            <td><button type="button" class="removeItem form-control btn btn-sm btn-danger">X</button></td>
+        </tr>`;
+
+        $('#orderItems tbody').append(itemHtml);
+    });
+
+
+    // Remove item row dynamically
+    $(document).on('click', '.removeItem', function () {
+        $(this).closest('tr').remove();
+    });
 });
