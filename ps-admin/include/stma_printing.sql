@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2025 at 12:07 AM
+-- Generation Time: Oct 15, 2025 at 05:03 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,8 +65,62 @@ CREATE TABLE `ps_materials` (
   `mat_size` int(11) NOT NULL,
   `mat_cost` decimal(10,6) NOT NULL,
   `ink_cost` decimal(10,6) NOT NULL,
-  `mat_added_on` date NOT NULL DEFAULT curdate()
+  `mat_added_on` date NOT NULL DEFAULT curdate(),
+  `cat_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ps_materials`
+--
+
+INSERT INTO `ps_materials` (`mat_id`, `mat_vendor`, `mat_name`, `mat_details`, `mat_roll_size`, `mat_length`, `mat_size`, `mat_cost`, `ink_cost`, `mat_added_on`, `cat_id`) VALUES
+(1, 'Lexjet', 'Adhesive', '4WM66A - HP Prime Matte Air GP, 3.4 Mil', 54, 150, 1800, 217.070000, 0.003400, '2025-10-11', 4),
+(2, 'Lexjet', 'Backlit', 'KBLGS60 - Kodak glossy backlit film', 60, 100, 1200, 300.000000, 0.003400, '2025-10-11', 10),
+(3, 'Grimco', 'Banner Matte', 'DTXB54164M - 13OZ DURATEX BANNER MATTE', 54, 164, 1968, 179.590000, 0.003400, '2025-10-11', 1),
+(4, 'Reece Supply', 'Banner Gloss', 'JFM160050 - SUPERPRINT PLUS GLOSS ULTRAFLEX 13OZ BRIGHT', 63, 164, 1968, 175.480000, 0.003400, '2025-10-11', 1),
+(5, '', 'Print Only', 'N/A', 0, 0, 0, 0.000000, 0.003400, '2025-10-11', NULL),
+(6, 'Lexjet', 'Clear Adhesive', 'GF 206-54 - Clear Gloss Vinyl, Removeable', 54, 150, 1800, 230.000000, 0.003400, '2025-10-11', NULL),
+(7, 'Grimco', 'Coroplast', 'CP84W - Corrugated Plastic Panels 48\" x 96\", White', 48, 96, 1152, 8.630000, 0.003400, '2025-10-11', 3),
+(8, 'Grimco', 'Floor Sticker', '', 54, 150, 1800, 0.000000, 0.003400, '2025-10-11', NULL),
+(9, 'Reece Supply', 'Foam Board', 'Pn 122718 - 3/16 White Foam Board', 48, 96, 1152, 15.130000, 0.003400, '2025-10-11', 6),
+(10, 'Lexjet', 'Regular Paper', '', 36, 200, 2400, 0.000000, 0.003400, '2025-10-11', 2),
+(11, 'Lexjet', 'Polypropylene', 'ERWP36200 - LexJet Heavyweight WR Polypropylene - 36in x 200ft', 36, 200, 2400, 106.250000, 0.003400, '2025-10-11', 2),
+(12, 'Grimco', 'Polystyrene 020', 'UH020W4896A - White Styrene Matte 020 Thick', 48, 96, 1152, 8.840000, 0.003400, '2025-10-11', 6),
+(13, 'Grimco', 'Polystyrene 040', 'HIPS48X96X040W - Duratex Polystyrene Sheets - Double White', 48, 96, 1152, 18.840000, 0.003400, '2025-10-11', 6),
+(14, 'Lexjet', 'Static Cling', '207-5415 - GF-207 Clear', 54, 150, 1800, 260.090000, 0.003400, '2025-10-11', NULL),
+(15, 'Reece Supply', 'Window Perforated', 'Pn 55599 - UltraVision Window Perf 60/40 UV 6.3 Mil', 54, 164, 1968, 326.830000, 0.003400, '2025-10-11', 5),
+(16, 'Grimco', 'Aluminum', 'MM843MWDP - MAXMETAL™ 4\' x 8\', White DP, EACH', 48, 96, 1152, 48.910000, 0.003400, '2025-10-11', 8),
+(17, 'Grimco', 'Acrylic - Clear', 'CC4896316C - Duratex Cast Acrylic 48\" x 96\", Clear, 3/16\"', 48, 96, 1152, 106.970000, 0.003400, '2025-10-11', 9),
+(18, 'Grimco', 'Acrylic - White', 'CC4896316W7328 - Duratex Cast Acrylic 48\" x 96\", White 7328, 3/16\"', 48, 96, 1152, 113.680000, 0.003400, '2025-10-11', 9),
+(19, 'Lexjet', 'Polyester', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 0.003400, '2025-10-11', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ps_material_categories`
+--
+
+CREATE TABLE `ps_material_categories` (
+  `cat_id` int(11) NOT NULL,
+  `cat_name` varchar(100) NOT NULL,
+  `cat_description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ps_material_categories`
+--
+
+INSERT INTO `ps_material_categories` (`cat_id`, `cat_name`, `cat_description`) VALUES
+(1, 'Banner', 'Vinyl and mesh banners for indoor or outdoor use'),
+(2, 'Poster', 'Posters and photo paper prints'),
+(3, 'Yard Sign', 'Corrugated plastic yard signs'),
+(4, 'Window Sticker', 'Adhesive vinyl stickers for windows'),
+(5, 'Window Perforated', 'Perforated see-through window film'),
+(6, 'Indoor Sign', 'Foam board or styrene indoor signs'),
+(7, 'Pump Topper', 'Signs used on gas pump displays'),
+(8, 'Metal Sign', 'Durable aluminum signage'),
+(9, 'Acrylic Sign', 'Acrylic signs, clear or white'),
+(10, 'Backlit Sign', 'Film for lightbox or display backlit signs');
 
 -- --------------------------------------------------------
 
@@ -197,7 +251,14 @@ ALTER TABLE `ps_clients`
 -- Indexes for table `ps_materials`
 --
 ALTER TABLE `ps_materials`
-  ADD PRIMARY KEY (`mat_id`);
+  ADD PRIMARY KEY (`mat_id`),
+  ADD KEY `fk_material_category` (`cat_id`);
+
+--
+-- Indexes for table `ps_material_categories`
+--
+ALTER TABLE `ps_material_categories`
+  ADD PRIMARY KEY (`cat_id`);
 
 --
 -- Indexes for table `ps_orders`
@@ -240,7 +301,13 @@ ALTER TABLE `ps_clients`
 -- AUTO_INCREMENT for table `ps_materials`
 --
 ALTER TABLE `ps_materials`
-  MODIFY `mat_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `mat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `ps_material_categories`
+--
+ALTER TABLE `ps_material_categories`
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `ps_orders`
@@ -269,6 +336,12 @@ ALTER TABLE `ps_users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `ps_materials`
+--
+ALTER TABLE `ps_materials`
+  ADD CONSTRAINT `fk_material_category` FOREIGN KEY (`cat_id`) REFERENCES `ps_material_categories` (`cat_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ps_orders`
