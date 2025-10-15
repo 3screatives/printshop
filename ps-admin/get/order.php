@@ -26,6 +26,7 @@ SELECT
     c.contact_email,
     c.client_stma_id,
     u.user_name,
+    s.status_id,
     s.status_name,
     o.payment_type_id,
     i.item_id,
@@ -68,6 +69,7 @@ if (!empty($data)) {
         "client_address" => $order['business_address'],
         "client_phone" => $order['contact_phone'],
         "client_email" => $order['contact_email'],
+        "status_id" => $order['status_id'],
         "status_name" => $order['status_name'],
         "payment_type" => $order['payment_type_id'],  // or map manually if you have a separate table later
         "stmaID" => $order['client_stma_id'],

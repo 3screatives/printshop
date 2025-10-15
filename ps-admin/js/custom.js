@@ -93,6 +93,12 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.success) {
                     showUndoBanner(orderId, newStatus, oldStatus, $dropdown);
+
+                    const $mainDropdown = $(`.order-status[data-order-id="${orderId}"]`).not($dropdown);
+                    if ($mainDropdown.length) {
+                        $mainDropdown.val(newStatus);
+                        $mainDropdown.data('prev-status', newStatus);
+                    }
                 } else {
                     alert('Failed to update order status on server. Reverting UI.');
                     // revert UI immediately
@@ -113,90 +119,30 @@ $(document).ready(function () {
         });
     });
 
-    // show banner with undo - returns banner jQuery element
+    //Show banner
     function showUndoBanner(orderId, newStatus, oldStatus, $dropdown) {
         // remove any existing banner
         $('.undo-banner').remove();
 
-        // create banner (class-based to avoid id collisions)
+        // create simple confirmation banner
         const $banner = $(`
-            <div class="undo-banner" style="
-                position:fixed; top:12px; left:50%; transform:translateX(-50%);
-                background:#343a40; color:#fff; padding:6px 12px; border-radius:6px;
-                box-shadow:0 6px 18px rgba(0,0,0,0.2); z-index:99999; display:flex; gap:12px; align-items:center; font-size: 14px;">
-                <span>Order ${orderId} updated to status ${newStatus}</span>
-                <button class="undo-btn" style="
-                    background:#fff; color:#343a40; border:none; padding:6px 10px; border-radius:4px; cursor:pointer;">
-                    Undo
-                </button>
-                <button class="dismiss-btn" style="
-                    background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.15);
-                    padding:6px 8px; border-radius:4px; cursor:pointer;">
-                    X
-                </button>
-            </div>
-        `);
+        <div class="undo-banner" style="
+            position:fixed; top:12px; left:50%; transform:translateX(-50%);
+            background:#343a40; color:#fff; padding:6px 12px; border-radius:6px;
+            box-shadow:0 6px 18px rgba(0,0,0,0.2); z-index:99999;
+            display:flex; align-items:center; font-size:14px;">
+            <span>Status Updated Successfully! </span>
+            <button class="dismiss-btn" style=" background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.15); padding:6px 8px; border-radius:4px; cursor:pointer;"> X </button>
+        </div>
+    `);
 
         $('body').append($banner);
 
-        // set a timer to "commit" after 6s
-        const timer = setTimeout(function () {
-            console.log(`Auto-committing status ${newStatus} for order ${orderId}`);
-            // optional: call commit endpoint if you want a second confirm step
-            // commitStatusChange(orderId, newStatus);
-            $banner.fadeOut(200, function () { $(this).remove(); });
-        }, 6000);
-
-        // Undo handler (scoped to this banner)
-        $banner.on('click', '.undo-btn', function (e) {
-            e.preventDefault();
-            clearTimeout(timer); // stop auto commit
-            console.log('Undo clicked for order', orderId, 'reverting to', oldStatus);
-
-            // if no known oldStatus, just remove banner and do nothing (safety)
-            if (oldStatus === null || oldStatus === undefined) {
-                console.warn('No oldStatus available — cannot revert.');
-                $banner.fadeOut(200, function () { $(this).remove(); });
-                return;
-            }
-
-            // Send revert request to same endpoint
-            $.ajax({
-                url: 'get/update_order_status.php',
-                method: 'POST',
-                data: { order_id: orderId, status_id: oldStatus, undo: 1 }, // optional `undo` flag
-                dataType: 'json',
-                success: function (res) {
-                    if (res.success) {
-                        // update dropdown UI and its stored prev value
-                        $dropdown.val(oldStatus);
-                        $dropdown.data('prev-status', oldStatus);
-                        console.log(`Reverted order ${orderId} to status ${oldStatus}`);
-                    } else {
-                        alert('Failed to revert status on server.');
-                        console.error('Server response on revert:', res);
-                    }
-                    $banner.fadeOut(200, function () { $(this).remove(); });
-                },
-                error: function (xhr, status, err) {
-                    alert('Error reverting status.');
-                    console.error('AJAX error on revert:', status, err);
-                    $banner.fadeOut(200, function () { $(this).remove(); });
-                }
-            });
-        });
-
-        // Dismiss button (just hides banner without reverting)
-        $banner.on('click', '.dismiss-btn', function (e) {
-            e.preventDefault();
-            clearTimeout(timer);
-            $banner.fadeOut(200, function () { $(this).remove(); });
-        });
-
-        // return for possible external use
-        return $banner;
+        // Auto-hide after 3 seconds
+        setTimeout(() => {
+            $banner.fadeOut(300, function () { $(this).remove(); });
+        }, 3000);
     }
-
 
     // Step 5: View Order
     $(document).on('click', '.view-order', function () {
@@ -208,6 +154,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.order) {
+                    console.log(response);
                     const o = response.order;
                     $('#orderID').text(o.order_id);
                     $('#orderDue').text(new Date(o.order_due).toLocaleDateString());
@@ -220,7 +167,17 @@ $(document).ready(function () {
                     $('#client_email').text(o.client_email);
 
                     //Order Details
-                    $('#order_status').text(o.status_name);
+                    // $('#order_status').text(o.status_name);
+                    const $statusSelect = $('#order_status_select');
+                    $statusSelect.attr('data-order-id', o.order_id);
+                    $statusSelect.empty();
+
+                    statusOptions.forEach(status => {
+                        const selected = String(status.status_id) === String(o.status_id) ? "selected" : "";
+                        $statusSelect.append(`<option value="${status.status_id}" ${selected}>${status.status_name}</option>`);
+                    });
+
+                    // - X
                     $('#payment_method').text(o.payment_type);
 
                     $('#order_sub_total').text(o.before_tax);
@@ -283,7 +240,7 @@ $(document).ready(function () {
 
     const adjustedDate = getAdjustedDate();
     $('#order_due').val(adjustedDate);
-    
+
     $(document).on('click', '#newOrder', function () {
         $('.create-order').show();
     })

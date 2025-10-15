@@ -23,7 +23,14 @@
                                 </td>
                                 <td class="text-end">
                                     <h4>Due: <b id="orderDue"></b></h4>
-                                    <h5>Status: <b id="order_status">New</b></h5>
+                                    <!-- <h5>Status: <b id="order_status"></b></h5> -->
+                                    <h5>Status:
+                                        <select id="order_status_select"
+                                            class="form-control form-control-sm order-status"
+                                            style="display:inline-block; width:auto; padding:2px 8px; font-weight: bold; font-size: 16px;"
+                                            data-order-id="">
+                                        </select>
+                                    </h5>
                                 </td>
                             </tr>
                         </table>

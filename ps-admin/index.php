@@ -27,13 +27,13 @@
                         </a>
 
                         <ul class="navbar-nav">
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link active" href="./">
                                     <i class="bi bi-house"></i>
                                 </a>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
-                                <a class="nav-link" href="orders.php">
+                                <a class="nav-link active" href="./">
                                     <i class="bi bi-card-checklist"></i>
                                 </a>
                             </li>
