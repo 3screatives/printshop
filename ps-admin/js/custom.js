@@ -70,9 +70,45 @@ $(document).ready(function () {
     }
 
     // Step 4: Handle Status Change (Live Update)
+    // $(document).on('change', '.order-status', function () {
+    //     const orderId = $(this).data('order-id');
+    //     const newStatus = $(this).val();
+
+    //     $.ajax({
+    //         url: 'update_order_status.php',
+    //         method: 'POST',
+    //         data: { order_id: orderId, status_id: newStatus },
+    //         dataType: 'json',
+    //         success: function (res) {
+    //             if (res.success) {
+    //                 console.log(`✅ Order ${orderId} updated to status ${newStatus}`);
+    //             } else {
+    //                 alert('Failed to update order status');
+    //             }
+    //         },
+    //         error: function () {
+    //             alert('Error updating order status');
+    //         }
+    //     });
+    // });
+    // store previous status when user focuses/clicks the select (so we have the old value)
+    $(document).on('focus mousedown', '.order-status', function () {
+        // store the current value in data-prev (so it's available later)
+        const current = $(this).val();
+        $(this).data('prev-status', current);
+    });
+
+    // main change handler
     $(document).on('change', '.order-status', function () {
-        const orderId = $(this).data('order-id');
-        const newStatus = $(this).val();
+        const $dropdown = $(this);
+        const orderId = $dropdown.data('order-id');
+        const newStatus = $dropdown.val();
+        const oldStatus = $dropdown.data('prev-status') ?? $dropdown.data('old-status') ?? null;
+
+        console.log('Change detected. orderId=', orderId, 'oldStatus=', oldStatus, 'newStatus=', newStatus);
+
+        // immediately set data-prev-status to new (so subsequent changes are tracked)
+        $dropdown.data('prev-status', newStatus);
 
         $.ajax({
             url: 'update_order_status.php',
@@ -81,16 +117,112 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (res) {
                 if (res.success) {
-                    console.log(`✅ Order ${orderId} updated to status ${newStatus}`);
+                    // show undo banner (pass dropdown reference)
+                    showUndoBanner(orderId, newStatus, oldStatus, $dropdown);
                 } else {
-                    alert('Failed to update order status');
+                    alert('Failed to update order status on server. Reverting UI.');
+                    // revert UI immediately
+                    if (oldStatus !== null) {
+                        $dropdown.val(oldStatus);
+                        $dropdown.data('prev-status', oldStatus);
+                    }
                 }
             },
-            error: function () {
-                alert('Error updating order status');
+            error: function (xhr, status, err) {
+                console.error('AJAX error updating status:', status, err);
+                alert('Error updating order status. Reverting UI.');
+                if (oldStatus !== null) {
+                    $dropdown.val(oldStatus);
+                    $dropdown.data('prev-status', oldStatus);
+                }
             }
         });
     });
+
+    // show banner with undo - returns banner jQuery element
+    function showUndoBanner(orderId, newStatus, oldStatus, $dropdown) {
+        // remove any existing banner
+        $('.undo-banner').remove();
+
+        // create banner (class-based to avoid id collisions)
+        const $banner = $(`
+            <div class="undo-banner" style="
+                position:fixed; top:12px; left:50%; transform:translateX(-50%);
+                background:#343a40; color:#fff; padding:6px 12px; border-radius:6px;
+                box-shadow:0 6px 18px rgba(0,0,0,0.2); z-index:99999; display:flex; gap:12px; align-items:center; font-size: 14px;">
+                <span>✅ Order ${orderId} updated to status ${newStatus}</span>
+                <button class="undo-btn" style="
+                    background:#fff; color:#343a40; border:none; padding:6px 10px; border-radius:4px; cursor:pointer;">
+                    Undo
+                </button>
+                <button class="dismiss-btn" style="
+                    background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.15);
+                    padding:6px 8px; border-radius:4px; cursor:pointer;">
+                    X
+                </button>
+            </div>
+        `);
+
+        $('body').append($banner);
+
+        // set a timer to "commit" after 6s
+        const timer = setTimeout(function () {
+            console.log(`Auto-committing status ${newStatus} for order ${orderId}`);
+            // optional: call commit endpoint if you want a second confirm step
+            // commitStatusChange(orderId, newStatus);
+            $banner.fadeOut(200, function () { $(this).remove(); });
+        }, 6000);
+
+        // Undo handler (scoped to this banner)
+        $banner.on('click', '.undo-btn', function (e) {
+            e.preventDefault();
+            clearTimeout(timer); // stop auto commit
+            console.log('Undo clicked for order', orderId, 'reverting to', oldStatus);
+
+            // if no known oldStatus, just remove banner and do nothing (safety)
+            if (oldStatus === null || oldStatus === undefined) {
+                console.warn('No oldStatus available — cannot revert.');
+                $banner.fadeOut(200, function () { $(this).remove(); });
+                return;
+            }
+
+            // Send revert request to same endpoint
+            $.ajax({
+                url: 'update_order_status.php',
+                method: 'POST',
+                data: { order_id: orderId, status_id: oldStatus, undo: 1 }, // optional `undo` flag
+                dataType: 'json',
+                success: function (res) {
+                    if (res.success) {
+                        // update dropdown UI and its stored prev value
+                        $dropdown.val(oldStatus);
+                        $dropdown.data('prev-status', oldStatus);
+                        console.log(`Reverted order ${orderId} to status ${oldStatus}`);
+                    } else {
+                        alert('Failed to revert status on server.');
+                        console.error('Server response on revert:', res);
+                    }
+                    $banner.fadeOut(200, function () { $(this).remove(); });
+                },
+                error: function (xhr, status, err) {
+                    alert('Error reverting status.');
+                    console.error('AJAX error on revert:', status, err);
+                    $banner.fadeOut(200, function () { $(this).remove(); });
+                }
+            });
+        });
+
+        // Dismiss button (just hides banner without reverting)
+        $banner.on('click', '.dismiss-btn', function (e) {
+            e.preventDefault();
+            clearTimeout(timer);
+            $banner.fadeOut(200, function () { $(this).remove(); });
+        });
+
+        // return for possible external use
+        return $banner;
+    }
+
 
     // Step 5: View Order
     $(document).on('click', '.view-order', function () {
