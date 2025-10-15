@@ -2,7 +2,7 @@ $(document).ready(function () {
     let statusOptions = [];
 
     // Step 1: Load Status Options
-    $.getJSON('get_status_options.php')
+    $.getJSON('get/status_options.php')
         .done(function (statuses) {
             statusOptions = statuses;
             loadOrders(); // proceed to next step
@@ -13,7 +13,7 @@ $(document).ready(function () {
 
     // Step 2: Load Orders
     function loadOrders() {
-        $.getJSON('get_order_list.php')
+        $.getJSON('get/order_list.php')
             .done(function (response) {
                 if (response.orders && response.orders.length > 0) {
                     renderOrders(response.orders);
@@ -86,7 +86,7 @@ $(document).ready(function () {
         $dropdown.data('prev-status', newStatus);
 
         $.ajax({
-            url: 'update_order_status.php',
+            url: 'get/update_order_status.php',
             method: 'POST',
             data: { order_id: orderId, status_id: newStatus },
             dataType: 'json',
@@ -162,7 +162,7 @@ $(document).ready(function () {
 
             // Send revert request to same endpoint
             $.ajax({
-                url: 'update_order_status.php',
+                url: 'get/update_order_status.php',
                 method: 'POST',
                 data: { order_id: orderId, status_id: oldStatus, undo: 1 }, // optional `undo` flag
                 dataType: 'json',
@@ -202,7 +202,7 @@ $(document).ready(function () {
     $(document).on('click', '.view-order', function () {
         var orderID = $(this).data('order-id');
         $.ajax({
-            url: 'get_order.php',
+            url: 'get/order.php',
             method: 'GET',
             data: { order_id: orderID },
             dataType: 'json',
