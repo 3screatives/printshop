@@ -70,30 +70,7 @@ $(document).ready(function () {
     }
 
     // Step 4: Handle Status Change (Live Update)
-    // $(document).on('change', '.order-status', function () {
-    //     const orderId = $(this).data('order-id');
-    //     const newStatus = $(this).val();
-
-    //     $.ajax({
-    //         url: 'update_order_status.php',
-    //         method: 'POST',
-    //         data: { order_id: orderId, status_id: newStatus },
-    //         dataType: 'json',
-    //         success: function (res) {
-    //             if (res.success) {
-    //                 console.log(`✅ Order ${orderId} updated to status ${newStatus}`);
-    //             } else {
-    //                 alert('Failed to update order status');
-    //             }
-    //         },
-    //         error: function () {
-    //             alert('Error updating order status');
-    //         }
-    //     });
-    // });
-    // store previous status when user focuses/clicks the select (so we have the old value)
     $(document).on('focus mousedown', '.order-status', function () {
-        // store the current value in data-prev (so it's available later)
         const current = $(this).val();
         $(this).data('prev-status', current);
     });
@@ -105,9 +82,7 @@ $(document).ready(function () {
         const newStatus = $dropdown.val();
         const oldStatus = $dropdown.data('prev-status') ?? $dropdown.data('old-status') ?? null;
 
-        console.log('Change detected. orderId=', orderId, 'oldStatus=', oldStatus, 'newStatus=', newStatus);
-
-        // immediately set data-prev-status to new (so subsequent changes are tracked)
+        // console.log('Change detected. orderId=', orderId, 'oldStatus=', oldStatus, 'newStatus=', newStatus);
         $dropdown.data('prev-status', newStatus);
 
         $.ajax({
@@ -117,7 +92,6 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (res) {
                 if (res.success) {
-                    // show undo banner (pass dropdown reference)
                     showUndoBanner(orderId, newStatus, oldStatus, $dropdown);
                 } else {
                     alert('Failed to update order status on server. Reverting UI.');
@@ -129,7 +103,7 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, err) {
-                console.error('AJAX error updating status:', status, err);
+                // console.error('AJAX error updating status:', status, err);
                 alert('Error updating order status. Reverting UI.');
                 if (oldStatus !== null) {
                     $dropdown.val(oldStatus);
@@ -150,7 +124,7 @@ $(document).ready(function () {
                 position:fixed; top:12px; left:50%; transform:translateX(-50%);
                 background:#343a40; color:#fff; padding:6px 12px; border-radius:6px;
                 box-shadow:0 6px 18px rgba(0,0,0,0.2); z-index:99999; display:flex; gap:12px; align-items:center; font-size: 14px;">
-                <span>✅ Order ${orderId} updated to status ${newStatus}</span>
+                <span>Order ${orderId} updated to status ${newStatus}</span>
                 <button class="undo-btn" style="
                     background:#fff; color:#343a40; border:none; padding:6px 10px; border-radius:4px; cursor:pointer;">
                     Undo
@@ -233,7 +207,6 @@ $(document).ready(function () {
             data: { order_id: orderID },
             dataType: 'json',
             success: function (response) {
-                console.log(response);
                 if (response.order) {
                     const o = response.order;
                     $('#orderID').text(o.order_id);
