@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="card-body container-fluid py-3 scroll">
-                    <form>
+                    <form id="calcForm">
                         <div class="table-responsive">
                             <table class="table borderless">
                                 <tr>
@@ -53,7 +53,6 @@
                                         <th width="6%" class="text-center">Qty</th>
                                         <th width="12%">Price</th>
                                         <th width="12%">Total</th>
-                                        <th width="5%">Status</th>
                                         <th width="5%">Remove</th>
                                     </tr>
                                 </thead>

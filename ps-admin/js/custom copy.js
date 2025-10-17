@@ -271,7 +271,7 @@ $(document).ready(function () {
             materials = data;
         })
         .fail(function () {
-            alert('Failed to load materials.');
+            alert('❌ Failed to load materials.');
         });
 
     // Add item row dynamically
@@ -279,35 +279,36 @@ $(document).ready(function () {
         count++;
 
         let itemHtml = `
-    <tr class="itemRow">
+    <tr class="calculate itemRow">
         <td class="position-relative">
             <div class="custom-dropdown">
                 <input type="text" class="form-control form-control-sm mat-search" 
                     id="mat_search_${count}" placeholder="Search Material..." autocomplete="off">
                 <div class="dropdown-list border position-absolute bg-white w-100 shadow-sm" 
                      id="dropdown_${count}" style="display:none; max-height:180px; overflow-y:auto; z-index:1000;"></div>
+                <input type="hidden" name="order_material_id[]" id="order_material_id_${count}">
             </div>
         </td>
-        <td><textarea name="order_item_details[]" id="order_item_details${count}" class="form-control form-control-sm" rows="1" placeholder="Details"></textarea></td>
+        <td><textarea name="order_item_details[]" class="form-control form-control-sm" rows="1" placeholder="Details"></textarea></td>
         <td>
             <div class="input-group">
-                <input dir="rtl" type="number" name="order_item_width[]" id="order_item_width${count}" class="form-control form-control-sm" placeholder="Width">
-                <input dir="rtl" type="number" name="order_item_height[]" id="order_item_height${count}" class="form-control form-control-sm" placeholder="Height">
+                <input dir="rtl" type="number" name="order_item_width[]" class="form-control form-control-sm" placeholder="Width">
+                <input dir="rtl" type="number" name="order_item_height[]" class="form-control form-control-sm" placeholder="Height">
             </div>
         </td>
         <td class="text-center">
-            <input type="number" name="order_item_qty[]" id="order_item_qty${count}" class="form-control form-control-sm">
+            <input type="number" name="order_item_qty[]" class="form-control form-control-sm">
         </td>
         <td class="text-end">
             <div class="input-group">
                 <span class="input-group-text">$</span>
-                <input dir="rtl" type="number" name="order_item_price[]" id="order_item_price${count}" class="form-control form-control-sm">
+                <input dir="rtl" type="number" name="order_item_price[]" class="form-control form-control-sm">
             </div>
         </td>
         <td>
             <div class="input-group">
                 <span class="input-group-text">$</span>
-                <input dir="rtl" type="number" name="order_item_total[]" id="order_item_total${count}" class="form-control form-control-sm" disabled>
+                <input dir="rtl" type="number" name="order_item_total[]" class="form-control form-control-sm" disabled>
             </div>
         </td>
         <td>
@@ -347,32 +348,6 @@ $(document).ready(function () {
         dropdown.find('.dropdown-item:first').addClass('active');
     });
 
-    // Load materials dynamically
-    $.get("get/materials.php", function (data) {
-        $("#material_id").append(data);
-        console.log(data)
-    });
-
-    function calculatePrice() {
-        console.log('here');
-        $.ajax({
-            url: "get/material_price.php",
-            type: "POST",
-            data: $("#calcForm").serialize(),
-            dataType: "json",
-            success: function (response) {
-                console.log(response)
-                $("#result").html("Final Price: $" + response.final_price);
-                $("#breakdown").html(response.breakdown);
-            }
-        });
-    }
-
-    // Trigger calculation on input changes
-    $("#calcForm input, #calcForm select").on("input change", function () {
-        calculatePrice();
-    });
-
     // Select material
     $(document).on('click', '.dropdown-item', function () {
         const matName = $(this).text().trim();
@@ -381,7 +356,6 @@ $(document).ready(function () {
         parent.find('.mat-search').val(matName);
         parent.find('input[type="hidden"]').val(matId);
         parent.find('.dropdown-list').hide();
-        calculatePrice();
     });
 
     // Hide dropdown when clicking outside
@@ -443,7 +417,6 @@ $(document).ready(function () {
             if (active.length) {
                 active.trigger('click'); // simulate click
             }
-            calculatePrice();
         }
 
         else if (e.key === 'Escape') {

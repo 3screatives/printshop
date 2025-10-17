@@ -194,7 +194,7 @@ main {
     color: var(--color-black);
     vertical-align: middle !important;
     white-space: nowrap;
-    overflow: hidden;
+    /* overflow: hidden; */
     text-overflow: ellipsis;
 }
 
@@ -358,4 +358,30 @@ textarea {
 
 #suggestions div:hover {
     background-color: #f0f0f0;
+}
+
+.custom-dropdown {
+    position: relative;
+}
+
+.dropdown-list {
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    z-index: 99999;
+}
+
+.dropdown-item:hover,
+.hover-bg:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-item.active,
+.dropdown-item:hover {
+    background-color: #cccccc;
+    color: white;
 }
