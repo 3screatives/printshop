@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once 'db_function.php';
+require_once '../db_function.php';
 
 $conn = db_connect();
 

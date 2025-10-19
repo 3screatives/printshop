@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once 'db_function.php';
+require_once '../db_function.php';
 
 if (!isset($_POST['order_id'], $_POST['status_id'])) {
     echo json_encode(['success' => false, 'error' => 'Missing parameters']);

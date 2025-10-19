@@ -40,7 +40,6 @@ $(document).ready(function () {
     // Load materials dynamically
     $.get("calc/get_materials.php", function (data) {
         $("#material_id").append(data);
-        console.log(data)
     });
 
     function calculate() {
