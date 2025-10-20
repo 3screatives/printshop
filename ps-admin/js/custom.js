@@ -385,7 +385,7 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (response) {
-                console.log(response)
+                console.log('(' + response.mat_cost + ', ' + response.ink_cost + ') ' + (response.mat_cost + response.ink_cost));
             }
         });
     }
