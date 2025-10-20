@@ -11,7 +11,7 @@
                             <label for="order_today_date" class="mb-0 me-2"
                                 style="min-width: 90px; white-space: nowrap;">Order Date:</label>
                             <input type="date" class="form-control form-control-sm" name="order_today_date"
-                                id="order_today_date" value="" disabled>
+                                id="order_today_date" value="">
                         </div>
 
                         <div class="d-flex align-items-center">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="card-body container-fluid py-3 scroll">
-                    <form id="calcForm">
+                    <form>
                         <div class="table-responsive">
                             <table class="table borderless">
                                 <tr>
@@ -90,23 +90,23 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="22%"><b>Total</b></td>
-                                    <td width="12%" style="text-align: right;">
-                                        <div class="input-group">
-                                            <span class="input-group-text">$</span>
-                                            <input dir="rtl" type="number" class="form-control form-control-sm fw-bold"
-                                                name="order_total" id="order_total" value="" placeholder="0.00"
-                                                disabled>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td width="22%">Discount</td>
                                     <td width="12%" style="text-align: right;">
                                         <div class="input-group">
                                             <input dir="rtl" type="number" class="form-control form-control-sm"
-                                                placeholder="00" name="order_discount" id="order_discount">
+                                                name="order_discount" id="order-discount" value="" placeholder="0.00">
                                             <span class="input-group-text">%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="22%">Total</td>
+                                    <td width="12%" style="text-align: right;">
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input dir="rtl" type="number" class="form-control form-control-sm"
+                                                name="order_total" id="order-total" value="" placeholder="0.00"
+                                                disabled>
                                         </div>
                                     </td>
                                 </tr>
@@ -116,18 +116,17 @@
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <input dir="rtl" type="number" class="form-control form-control-sm"
-                                                placeholder="0.00" name="order_amount_paid" id="order_amount_paid">
+                                                name="order_paid" id="order-paid" value="" placeholder="0.00">
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="22%"><b>Due</b></td>
+                                    <td width="22%">Due</td>
                                     <td width="12%" style="text-align: right;">
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
-                                            <input dir="rtl" type="number" class="form-control form-control-sm fw-bold"
-                                                name="order_amount_due" id="order_amount_due" value=""
-                                                placeholder="0.00" disabled>
+                                            <input dir="rtl" type="number" class="form-control form-control-sm"
+                                                name="order_due" id="order-due" value="" placeholder="0.00" disabled>
                                         </div>
                                     </td>
                                 </tr>

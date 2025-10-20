@@ -29,11 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mat = $materials[0]; // Single material row
 
     // Extract values for readability
-    $mat_name       = $mat['mat_name'];
-    $mat_size       = $mat['mat_size'];
-    $mat_roll_size  = $mat['mat_roll_size'];
-    $mat_cost       = $mat['mat_cost'];
-    $ink_cost       = $mat['ink_cost'];
+    $mat_name           = $mat['mat_name'];
+    $mat_size           = $mat['mat_size'];
+    $mat_roll_size      = $mat['mat_roll_size'];
+    $mat_cost           = $mat['mat_cost'];
+    $ink_cost           = $mat['ink_cost'];
+    $running_cost       = 0.4;
+    $markup             = 3.0;
+    $production_time    = 1;
 
     $min_print_size = min($width, $height);
     $max_print_size = max($width, $height);
@@ -52,12 +55,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ink_multiplier = ($sides === "double") ? 2 : 1;
     $ink_cost_total = $ink_cost * ($width * $height) * $ink_multiplier;
 
+    $cost_per_print = $mat_cost_total + $ink_cost_total + $running_cost;
+    $total_cost = $cost_per_print * $markup;
+
+    $final_cost = ceil($total_cost) * $quantity;
+
+    if ($production_time > 0) {
+        $final_cost += $final_cost * $production_time;
+    }
+
     echo json_encode([
-        "mat_cost"   => round(($mat_cost_total), 2),
-        "ink_cost"   => round(($ink_cost_total), 2),
-        "mat_name"      => $mat_name,
-        "width"         => $width,
-        "height"        => $height,
-        "quantity"      => $quantity
+        "final_cost"    => round(($final_cost), 2)
     ]);
 }

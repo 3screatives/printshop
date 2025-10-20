@@ -277,58 +277,41 @@ $(document).ready(function () {
     // Add item row dynamically
     $('#addItem').off('click').on('click', function () {
         count++;
+        let rowId = count;
 
         let itemHtml = `
-    <tr class="calculate itemRow">
+    <tr class="calculate itemRow" data-row="${rowId}">
         <td class="position-relative">
             <div class="custom-dropdown">
-                <input type="text" class="form-control form-control-sm mat-search" 
-                    id="mat_search${count}" placeholder="Search Material..." autocomplete="off">
-                <div class="dropdown-list border position-absolute bg-white w-100 shadow-sm" 
-                     id="dropdown${count}" style="display:none; max-height:180px; overflow-y:auto; z-index:1000;"></div>
-                <input type="hidden" name="order_material_id[]" id="order_material_id${count}">
+                <input type="text" class="form-control form-control-sm mat-search"
+                       placeholder="Search Material..." autocomplete="off">
+                <div class="dropdown-list border position-absolute bg-white w-100 shadow-sm"
+                     style="display:none; max-height:180px; overflow-y:auto; z-index:1000;"></div>
+                <input type="hidden" name="order_material_id[]">
+                <input type="hidden" name="item_row_id[]" value="${rowId}">
             </div>
         </td>
-        <td>
-            <textarea name="order_item_details[]" id="order_item_details${count}" 
-                class="form-control form-control-sm" rows="1"></textarea>
-        </td>
-        <td>
-            <div class="input-group">
-                <input dir="rtl" type="number" name="order_item_width[]" 
-                    id="order_item_width${count}" class="form-control form-control-sm" placeholder="Width">
-                <input dir="rtl" type="number" name="order_item_height[]" 
-                    id="order_item_height${count}" class="form-control form-control-sm" placeholder="Height">
-            </div>
-        </td>
-        <td class="text-center">
-            <input type="number" name="order_item_qty[]" 
-                id="order_item_qty${count}" class="form-control form-control-sm">
-        </td>
-        <td class="text-end">
-            <div class="input-group">
-                <span class="input-group-text">$</span>
-                <input dir="rtl" type="number" name="order_item_price[]" 
-                    id="order_item_price${count}" class="form-control form-control-sm">
-            </div>
-        </td>
-        <td>
-            <div class="input-group">
-                <span class="input-group-text">$</span>
-                <input dir="rtl" type="number" name="order_item_total[]" 
-                    id="order_item_total${count}" class="form-control form-control-sm" disabled>
-            </div>
-        </td>
-        <td>
-            <button type="button" class="removeItem form-control btn btn-sm btn-danger">X</button>
-        </td>
+        <td><textarea name="order_item_details[]" class="form-control form-control-sm" rows="1"></textarea></td>
+        <td><div class="input-group">
+            <input dir="rtl" type="number" name="order_item_width[]" class="form-control form-control-sm" placeholder="Width">
+            <input dir="rtl" type="number" name="order_item_height[]" class="form-control form-control-sm" placeholder="Height">
+        </div></td>
+        <td class="text-center"><input type="number" name="order_item_qty[]" class="form-control form-control-sm"></td>
+        <td class="text-end"><div class="input-group"><span class="input-group-text">$</span>
+            <input dir="rtl" type="number" name="order_item_price[]" class="form-control form-control-sm"></div></td>
+        <td><div class="input-group"><span class="input-group-text">$</span>
+            <input dir="rtl" type="number" name="order_item_total[]" class="form-control form-control-sm" disabled></div></td>
+        <td><button type="button" class="removeItem form-control btn btn-sm btn-danger">X</button></td>
     </tr>`;
 
         $('#orderItems tbody').append(itemHtml);
     });
 
-    // Custom search filter
+
+    // Search materials
     $(document).on('input focus', '.mat-search', function () {
+        const $row = $(this).closest('.itemRow');
+        const rowId = $row.data('row');  // ✅ rowId is now defined
         const searchVal = $(this).val().toLowerCase();
         const dropdown = $(this).siblings('.dropdown-list');
         dropdown.empty().show();
@@ -345,49 +328,113 @@ $(document).ready(function () {
 
         filtered.forEach(m => {
             dropdown.append(`
-            <div class="dropdown-item px-2 py-1 hover-bg" 
-                 data-id="${m.id}" 
-                 style="cursor:pointer;">
+            <div class="dropdown-item px-2 py-1 hover-bg" data-id="${m.id}" data-row="${rowId}" style="cursor:pointer;">
                  <b>${m.name}</b>
             </div>`);
         });
 
-        // auto-select first item
         dropdown.find('.dropdown-item:first').addClass('active');
     });
+
 
     // Select material
     $(document).on('click', '.dropdown-item', function () {
         const matName = $(this).text().trim();
         const matId = $(this).data('id');
-        const parent = $(this).closest('.custom-dropdown');
-        parent.find('.mat-search').val(matName);
-        parent.find('input[type="hidden"]').val(matId);
-        parent.find('.dropdown-list').hide();
-        getMaterialPrice(matId);
+        const rowId = $(this).data('row');  // ✅ always defined
+        const $row = $(`.itemRow[data-row="${rowId}"]`);
+
+        $row.find('.mat-search').val(matName);
+        $row.find('input[name="order_material_id[]"]').val(matId);
+        $row.find('.dropdown-list').hide();
+
+        getMaterialPrice(matId, rowId);
     });
 
-    function getMaterialPrice(matId) {
-        const mat_ID = matId;
-        const details = 'details';
-        const width = 24;
-        const height = 36;
-        const quantity = 1;
+    $(document).on('change', '.itemRow input, .itemRow textarea', function () {
+        const $row = $(this).closest('.itemRow'); // get the current row
+        const rowId = $row.find('input[name="item_row_id[]"]').data(); // from data-rid
+        const matId = $row.find('input[name="order_material_id[]"]').val(); // from hidden input value
+
+        if (matId && rowId) {
+            getMaterialPrice(matId, rowId);
+        }
+    });
+
+    // When user edits qty, price, width, or height
+    $(document).on('input change',
+        'input[name="order_item_qty[]"], input[name="order_item_price[]"], input[name="order_item_width[]"], input[name="order_item_height[]"], #order-discount, #order-paid',
+        function () {
+            const $row = $(this).closest('.itemRow');
+
+            // Update item total for this row
+            const qty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 0;
+            const price = parseFloat($row.find('input[name="order_item_price[]"]').val()) || 0;
+            $row.find('input[name="order_item_total[]"]').val((qty * price).toFixed(2));
+
+            // Recalculate grand totals
+            calculateTotal();
+        }
+    );
+
+    // Discount or payment change
+    $(document).on('input', '#order-discount, #order-paid', function () {
+        calculateTotal();
+    });
+
+
+    function getMaterialPrice(matId, rowId) {
         $.ajax({
             url: "get/material_price.php",
             type: "POST",
             data: {
-                material_id: mat_ID,
-                details: details,
-                width: width,
-                height: height,
-                quantity: quantity
+                material_id: matId,
+                details: 'details',
+                width: 24,
+                height: 36,
+                quantity: 1
             },
             dataType: "json",
             success: function (response) {
-                console.log('(' + response.mat_cost + ', ' + response.ink_cost + ') ' + (response.mat_cost + response.ink_cost));
+                const $row = $(`.itemRow[data-row="${rowId}"]`);
+                $row.find('input[name="order_item_price[]"]').val(response.final_cost);
+                const quantity = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
+                $row.find('input[name="order_item_total[]"]').val((response.final_cost * quantity).toFixed(2));
+                calculateTotal();
             }
         });
+    }
+
+    function calculateTotal() {
+        let subtotal = 0;
+
+        // Sum all item totals
+        $('input[name="order_item_total[]"]').each(function () {
+            let val = parseFloat($(this).val()) || 0;
+            subtotal += val;
+        });
+
+        // Update Subtotal
+        $('#order-subtotal').val(subtotal.toFixed(2));
+
+        // Calculate Tax (8.25%)
+        let tax = subtotal * 0.0825;
+        $('#order-tax').val(tax.toFixed(2));
+
+        // Apply Discount
+        let discountPercent = parseFloat($('#order-discount').val()) || 0;
+        let discountAmount = (subtotal + tax) * (discountPercent / 100);
+
+        // Final Total
+        let total = (subtotal + tax) - discountAmount;
+
+        // Update total input reliably
+        $('#order-total').val(total.toFixed(2));
+
+        // Paid & Due
+        let paid = parseFloat($('#order-paid').val()) || 0;
+        let due = total - paid;
+        $('#order-due').val(total.toFixed(2));
     }
 
     // Hide dropdown when clicking outside
@@ -400,6 +447,7 @@ $(document).ready(function () {
     // Remove item
     $(document).on('click', '.removeItem', function () {
         $(this).closest('tr').remove();
+        calculateTotal();
     });
 
     // Keyboard navigation for dropdown
