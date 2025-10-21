@@ -234,6 +234,7 @@ $(document).ready(function () {
         $form.find('#orderItems tbody tr:gt(0)').remove();
     });
 
+    //Create Element
     let materials = [];
     let count = 0;
 
@@ -268,7 +269,7 @@ $(document).ready(function () {
         </div></td>
         <td class="text-center"><input type="number" name="order_item_qty[]" min="1" value="1" class="form-control form-control-sm"></td>
         <td class="text-end"><div class="input-group"><span class="input-group-text">$</span>
-            <input dir="rtl" type="number" name="order_item_price[]" class="form-control form-control-sm"></div></td>
+            <input dir="rtl" type="number" name="order_item_price[]" class="form-control form-control-sm" readonly></div></td>
         <td><div class="input-group"><span class="input-group-text">$</span>
             <input dir="rtl" type="number" name="order_item_total[]" class="form-control form-control-sm" disabled></div></td>
         <td><button type="button" class="removeItem form-control btn btn-sm btn-danger">X</button></td>
@@ -317,18 +318,21 @@ $(document).ready(function () {
         getMaterialPrice(matId, rowId);
     });
 
-    $(document).on('change', '.itemRow input, .itemRow textarea', function () {
-        const $row = $(this).closest('.itemRow');
-        const rowId = $row.find('input[name="item_row_id[]"]').data();
-        const matId = $row.find('input[name="order_material_id[]"]').val();
+    $(document).on('change input',
+        'input[name="order_item_width[]"], input[name="order_item_height[]"], input[name="order_item_qty[]"]',
+        function () {
+            const $row = $(this).closest('.itemRow');
+            const rowId = $row.data('row');
+            const matId = $row.find('input[name="order_material_id[]"]').val();
 
-        if (matId && rowId) {
-            getMaterialPrice(matId, rowId);
+            if (matId) {
+                getMaterialPrice(matId, rowId); // recalc live
+            }
         }
-    });
+    );
 
     $(document).on('input change',
-        'input[name="order_item_qty[]"], input[name="order_item_price[]"], input[name="order_item_width[]"], input[name="order_item_height[]"], #order-discount, #order-paid, #order-credits',
+        'input[name="order_item_qty[]"], input[name="order_item_price[]"], input[name="order_item_width[]"], input[name="order_item_height[]"]',
         function () {
             const $row = $(this).closest('.itemRow');
 
@@ -345,22 +349,32 @@ $(document).ready(function () {
     });
 
     function getMaterialPrice(matId, rowId) {
+        const $row = $(`.itemRow[data-row="${rowId}"]`);
+
+        const itemDetails = $row.find('textarea[name="order_item_details[]"]').val() || "";
+        const itemWidth = parseFloat($row.find('input[name="order_item_width[]"]').val()) || 0;
+        const itemHeight = parseFloat($row.find('input[name="order_item_height[]"]').val()) || 0;
+        const itemQty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
+
         $.ajax({
             url: "get/material_price.php",
             type: "POST",
             data: {
                 material_id: matId,
-                details: 'details',
-                width: 24,
-                height: 36,
-                quantity: 1
+                details: itemDetails,
+                width: itemWidth,
+                height: itemHeight,
+                quantity: itemQty
             },
             dataType: "json",
             success: function (response) {
-                const $row = $(`.itemRow[data-row="${rowId}"]`);
-                $row.find('input[name="order_item_price[]"]').val(response.final_cost);
-                const quantity = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
-                $row.find('input[name="order_item_total[]"]').val((response.final_cost * quantity).toFixed(2));
+                const unitPrice = parseFloat(response.final_cost) || 0;
+                const qty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
+                const total = unitPrice * qty;
+
+                $row.find('input[name="order_item_price[]"]').val(unitPrice.toFixed(2));
+                $row.find('input[name="order_item_total[]"]').val(total.toFixed(2));
+
                 calculateTotal();
             }
         });
@@ -393,6 +407,13 @@ $(document).ready(function () {
         let due = total - paid;
 
         $('#order-due').val(due.toFixed(2));
+
+        if (total <= 0) {
+            total = 0;
+        }
+        if (due <= 0) {
+            due = 0;
+        }
     }
 
     $(document).on('click', function (e) {

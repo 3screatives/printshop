@@ -93,9 +93,9 @@
                                     <td width="22%">Discount</td>
                                     <td width="12%" style="text-align: right;">
                                         <div class="input-group">
-                                            <input dir="rtl" type="number" class="form-control form-control-sm"
-                                                name="order_discount" id="order-discount" value="" placeholder="0.00">
                                             <span class="input-group-text">%</span>
+                                            <input dir="rtl" type="number" min="0" class="form-control form-control-sm"
+                                                name="order_discount" id="order-discount" value="" placeholder="0">
                                         </div>
                                     </td>
                                 </tr>
@@ -104,7 +104,7 @@
                                     <td width="12%" style="text-align: right;">
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
-                                            <input dir="rtl" type="number" class="form-control form-control-sm"
+                                            <input dir="rtl" type="number" min="0" class="form-control form-control-sm"
                                                 name="order_credits" id="order-credits" value="" placeholder="0.00">
                                         </div>
                                     </td>
@@ -125,7 +125,7 @@
                                     <td width="12%" style="text-align: right;">
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
-                                            <input dir="rtl" type="number" class="form-control form-control-sm"
+                                            <input dir="rtl" type="number" min="0" class="form-control form-control-sm"
                                                 name="order_paid" id="order-paid" value="" placeholder="0.00">
                                         </div>
                                     </td>
