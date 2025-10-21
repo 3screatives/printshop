@@ -479,3 +479,73 @@ $(document).ready(function () {
     });
 
 });
+
+
+/*
+$('#submitInvoice').off('click').on('click', function (e) {
+    e.preventDefault();
+    let isValid = true;
+    let rows = $('#itemTable tbody tr');
+    let items = [];
+    rows.each(function () {
+        let item = {
+            item_code: $(this).find('select[name="item_code[]"]').val(),
+            details: $(this).find('textarea[name="details[]"]').val(),
+            order_size_width: $(this).find('input[name="order_size_width[]"]')
+                .val(),
+            order_size_height: $(this).find('input[name="order_size_height[]"]')
+                .val(),
+            order_item_quantity: $(this).find('input[name="order_item_quantity[]"]')
+                .val(),
+            order_item_price: $(this).find('input[name="order_item_price[]"]')
+                .val(),
+            order_item_final_amount: $(this).find(
+                'input[name="order_item_final_amount[]"]').val()
+        };
+
+        items.push(item);
+    });
+
+    // Collect other form data
+    let orderData = {
+        user_id: $('#user_id').val(),
+        order_id: $('#order_id').val(),
+        order_receiver_name: $('#order_receiver_name').val(),
+        order_receiver_address: $('#order_receiver_address').val(),
+        order_receiver_phone: $('#order_receiver_phone').val(),
+        order_receiver_email: $('#order_receiver_email').val(),
+        order_total_before_tax: $('#order_total_before_tax').val(),
+        order_total_tax: $('#order_total_tax').val(),
+        order_tax_per: $('#order_tax_per').val(),
+        order_total_after_tax: $('#order_total_after_tax').val(),
+        order_amount_paid: $('#order_amount_paid').val(),
+        order_total_amount_due: $('#order_total_amount_due').val(),
+        payment_id: $('#payment_id').val(),
+        order_status: $('select[name="order_status"]').val(),
+        client_id: $('#client_id').val(),
+        order_due: $('#order_due').val(),
+        items: items
+    };
+
+    console.log(orderData);
+
+    if (!isValid) return;
+
+    $.ajax({
+        url: 'invoice-save.php',
+        type: 'POST',
+        data: orderData,
+        dataType: 'json',
+        success: function (response) {
+            console.log('Success:', response);
+            alert(response.message);
+            if (response.status === 'success') {
+                window.location.href = 'index.php';
+            }
+        },
+        error: function () {
+            alert("Error submitting invoice.");
+        }
+    });
+});
+*/
