@@ -1,15 +1,17 @@
 $(document).ready(function () {
     let statusOptions = [];
 
+    // Step 1: Load Status Options
     $.getJSON('get/status_options.php')
         .done(function (statuses) {
             statusOptions = statuses;
-            loadOrders();
+            loadOrders(); // proceed to next step
         })
         .fail(function () {
             alert('Failed to load status options');
         });
 
+    // Step 2: Load Orders
     function loadOrders() {
         $.getJSON('get/order_list.php')
             .done(function (response) {
@@ -24,6 +26,7 @@ $(document).ready(function () {
             });
     }
 
+    // Step 3: Render Orders Table
     function renderOrders(orders) {
         let rows = '';
 
@@ -34,6 +37,7 @@ $(document).ready(function () {
                 day: 'numeric'
             });
 
+            // Build dropdown
             let statusSelect = `<select class="form-select form-select-sm order-status" data-order-id="${o.order_id}">`;
             statusOptions.forEach(status => {
                 const selected = status.status_id === o.status_id ? "selected" : "";
@@ -65,17 +69,20 @@ $(document).ready(function () {
         $('#orderListMain tbody').html(rows);
     }
 
+    // Step 4: Handle Status Change (Live Update)
     $(document).on('focus mousedown', '.order-status', function () {
         const current = $(this).val();
         $(this).data('prev-status', current);
     });
 
+    // main change handler
     $(document).on('change', '.order-status', function () {
         const $dropdown = $(this);
         const orderId = $dropdown.data('order-id');
         const newStatus = $dropdown.val();
         const oldStatus = $dropdown.data('prev-status') ?? $dropdown.data('old-status') ?? null;
 
+        // console.log('Change detected. orderId=', orderId, 'oldStatus=', oldStatus, 'newStatus=', newStatus);
         $dropdown.data('prev-status', newStatus);
 
         $.ajax({
@@ -94,6 +101,7 @@ $(document).ready(function () {
                     }
                 } else {
                     alert('Failed to update order status on server. Reverting UI.');
+                    // revert UI immediately
                     if (oldStatus !== null) {
                         $dropdown.val(oldStatus);
                         $dropdown.data('prev-status', oldStatus);
@@ -101,6 +109,7 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, err) {
+                // console.error('AJAX error updating status:', status, err);
                 alert('Error updating order status. Reverting UI.');
                 if (oldStatus !== null) {
                     $dropdown.val(oldStatus);
@@ -110,9 +119,12 @@ $(document).ready(function () {
         });
     });
 
+    //Show banner
     function showUndoBanner(orderId, newStatus, oldStatus, $dropdown) {
+        // remove any existing banner
         $('.undo-banner').remove();
 
+        // create simple confirmation banner
         const $banner = $(`
         <div class="undo-banner" style="
             position:fixed; top:12px; left:50%; transform:translateX(-50%);
@@ -126,11 +138,13 @@ $(document).ready(function () {
 
         $('body').append($banner);
 
+        // Auto-hide after 3 seconds
         setTimeout(() => {
             $banner.fadeOut(300, function () { $(this).remove(); });
         }, 3000);
     }
 
+    // Step 5: View Order
     $(document).on('click', '.view-order', function () {
         var orderID = $(this).data('order-id');
         $.ajax({
@@ -146,11 +160,14 @@ $(document).ready(function () {
                     $('#orderDue').text(new Date(o.order_due).toLocaleDateString());
                     $('.order-details').show();
 
+                    //client Info
                     $('#client_name').text(o.client_name);
                     $('#client_address').text(o.client_address);
                     $('#client_phone').text(o.client_phone);
                     $('#client_email').text(o.client_email);
 
+                    //Order Details
+                    // $('#order_status').text(o.status_name);
                     const $statusSelect = $('#order_status_select');
                     $statusSelect.attr('data-order-id', o.order_id);
                     $statusSelect.empty();
@@ -160,6 +177,7 @@ $(document).ready(function () {
                         $statusSelect.append(`<option value="${status.status_id}" ${selected}>${status.status_name}</option>`);
                     });
 
+                    // - X
                     $('#payment_method').text(o.payment_type);
 
                     $('#order_sub_total').text(o.before_tax);
@@ -173,6 +191,7 @@ $(document).ready(function () {
 
                     $('#stmaID').text(o.stmaID ? o.stmaID : '-');
 
+                    // Fill Items
                     let rows = "";
                     response.items.forEach(item => {
                         rows += `<tr>
@@ -194,24 +213,29 @@ $(document).ready(function () {
         });
     });
 
+    //close View Order
     $('.close').on('click', function () {
         $('.order-details').hide();
     });
 
-    const todayDate = new Date().toISOString().split('T')[0];
+    //Step 6: Create Order
+    //Add current date to create order form
+    const todayDate = new Date().toISOString().split('T')[0];  // "YYYY-MM-DD"
     $('#order_today_date').val(todayDate);
 
+    //Due Date
     function getAdjustedDate() {
         let date = new Date();
         date.setDate(date.getDate() + 2);
 
-        const day = date.getDay();
+        const day = date.getDay(); // 0 = Sunday, 6 = Saturday
 
         if (day === 6 || day === 0) {
+            // Saturday or Sunday → push 2 more days
             date.setDate(date.getDate() + 2);
         }
 
-        return date.toISOString().split('T')[0];
+        return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
     }
 
     const adjustedDate = getAdjustedDate();
@@ -221,22 +245,27 @@ $(document).ready(function () {
         $('.create-order').show();
     })
 
+    //Close Create Order
     $('.close').on('click', function () {
         $('.create-order').hide();
 
         const $form = $('.create-order form');
-        $form[0].reset();
+        $form[0].reset(); // standard reset
 
+        // Optional cleanup:
         $form.find('textarea').val('');
         $form.find('input[type="number"]').val('');
         $form.find('select').prop('selectedIndex', 0);
 
-        $form.find('#orderItems tbody tr:gt(0)').remove();
+        // If you added rows dynamically, remove them (except first row maybe)
+        $form.find('#orderItems tbody tr:gt(0)').remove(); // keep only the first row
     });
 
+    //Create Order
     let materials = [];
     let count = 0;
 
+    // Load materials once globally
     $.getJSON('get/materials.php')
         .done(function (data) {
             materials = data;
@@ -245,6 +274,7 @@ $(document).ready(function () {
             alert('Failed to load materials.');
         });
 
+    // Add item row dynamically
     $('#addItem').off('click').on('click', function () {
         count++;
         let rowId = count;
@@ -277,9 +307,11 @@ $(document).ready(function () {
         $('#orderItems tbody').append(itemHtml);
     });
 
+
+    // Search materials
     $(document).on('input focus', '.mat-search', function () {
         const $row = $(this).closest('.itemRow');
-        const rowId = $row.data('row');
+        const rowId = $row.data('row');  // ✅ rowId is now defined
         const searchVal = $(this).val().toLowerCase();
         const dropdown = $(this).siblings('.dropdown-list');
         dropdown.empty().show();
@@ -304,10 +336,12 @@ $(document).ready(function () {
         dropdown.find('.dropdown-item:first').addClass('active');
     });
 
+
+    // Select material
     $(document).on('click', '.dropdown-item', function () {
         const matName = $(this).text().trim();
         const matId = $(this).data('id');
-        const rowId = $(this).data('row');
+        const rowId = $(this).data('row');  // ✅ always defined
         const $row = $(`.itemRow[data-row="${rowId}"]`);
 
         $row.find('.mat-search').val(matName);
@@ -318,31 +352,36 @@ $(document).ready(function () {
     });
 
     $(document).on('change', '.itemRow input, .itemRow textarea', function () {
-        const $row = $(this).closest('.itemRow');
-        const rowId = $row.find('input[name="item_row_id[]"]').data();
-        const matId = $row.find('input[name="order_material_id[]"]').val();
+        const $row = $(this).closest('.itemRow'); // get the current row
+        const rowId = $row.find('input[name="item_row_id[]"]').data(); // from data-rid
+        const matId = $row.find('input[name="order_material_id[]"]').val(); // from hidden input value
 
         if (matId && rowId) {
             getMaterialPrice(matId, rowId);
         }
     });
 
+    // When user edits qty, price, width, or height
     $(document).on('input change',
         'input[name="order_item_qty[]"], input[name="order_item_price[]"], input[name="order_item_width[]"], input[name="order_item_height[]"], #order-discount, #order-paid, #order-credits',
         function () {
             const $row = $(this).closest('.itemRow');
 
+            // Update item total for this row
             const qty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 0;
             const price = parseFloat($row.find('input[name="order_item_price[]"]').val()) || 0;
             $row.find('input[name="order_item_total[]"]').val((qty * price).toFixed(2));
 
+            // Recalculate grand totals
             calculateTotal();
         }
     );
 
+    // Discount or payment change
     $(document).on('input', '#order-discount, #order-paid , #order-credits', function () {
         calculateTotal();
     });
+
 
     function getMaterialPrice(matId, rowId) {
         $.ajax({
@@ -369,43 +408,55 @@ $(document).ready(function () {
     function calculateTotal() {
         let subtotal = 0;
 
+        // Sum all item totals
         $('input[name="order_item_total[]"]').each(function () {
             let val = parseFloat($(this).val()) || 0;
             subtotal += val;
         });
 
+        // Update Subtotal
         $('#order-subtotal').val(subtotal.toFixed(2));
 
+        // Calculate Tax (8.25%)
         let tax = subtotal * 0.0825;
         $('#order-tax').val(tax.toFixed(2));
 
+        // Apply Discount
         let discountPercent = parseFloat($('#order-discount').val()) || 0;
         let discountAmount = (subtotal + tax) * (discountPercent / 100);
 
+        // Calculate Total (after tax & discount)
         let total = (subtotal + tax) - discountAmount;
 
+        // Subtract Credits
         let creditAmount = parseFloat($('#order-credits').val()) || 0;
         total -= creditAmount;
 
+        // Update Total field
         $('#order-total').val(total.toFixed(2));
 
+        // Calculate Due (after paid)
         let paid = parseFloat($('#order-paid').val()) || 0;
         let due = total - paid;
 
+        // Update Due field
         $('#order-due').val(due.toFixed(2));
     }
 
+    // Hide dropdown when clicking outside
     $(document).on('click', function (e) {
         if (!$(e.target).closest('.custom-dropdown').length) {
             $('.dropdown-list').hide();
         }
     });
 
+    // Remove item
     $(document).on('click', '.removeItem', function () {
         $(this).closest('tr').remove();
         calculateTotal();
     });
 
+    // Keyboard navigation for dropdown
     $(document).on('keydown', '.mat-search', function (e) {
         const dropdown = $(this).siblings('.dropdown-list');
         const items = dropdown.find('.dropdown-item');
@@ -420,9 +471,10 @@ $(document).ready(function () {
             } else {
                 let next = active.removeClass('active').nextAll('.dropdown-item:first');
                 if (next.length) next.addClass('active');
-                else items.first().addClass('active');
+                else items.first().addClass('active'); // loop
             }
 
+            // Scroll to keep visible
             let newActive = dropdown.find('.active');
             dropdown.scrollTop(
                 newActive.position().top + dropdown.scrollTop() - dropdown.height() / 2
@@ -436,9 +488,10 @@ $(document).ready(function () {
             } else {
                 let prev = active.removeClass('active').prevAll('.dropdown-item:first');
                 if (prev.length) prev.addClass('active');
-                else items.last().addClass('active');
+                else items.last().addClass('active'); // loop
             }
 
+            // Scroll to keep visible
             let newActive = dropdown.find('.active');
             dropdown.scrollTop(
                 newActive.position().top + dropdown.scrollTop() - dropdown.height() / 2
@@ -448,7 +501,7 @@ $(document).ready(function () {
         else if (e.key === 'Enter') {
             e.preventDefault();
             if (active.length) {
-                active.trigger('click');
+                active.trigger('click'); // simulate click
             }
         }
 

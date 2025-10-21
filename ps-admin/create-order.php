@@ -11,7 +11,7 @@
                             <label for="order_today_date" class="mb-0 me-2"
                                 style="min-width: 90px; white-space: nowrap;">Order Date:</label>
                             <input type="date" class="form-control form-control-sm" name="order_today_date"
-                                id="order_today_date" value="">
+                                id="order_today_date" value="" disabled>
                         </div>
 
                         <div class="d-flex align-items-center">
@@ -78,7 +78,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="66%" rowspan="5" style="vertical-align: top;"><b>Comments:</b>
+                                    <td width="66%" rowspan="6" style="vertical-align: top;"><b>Comments:</b>
                                         xyz</td>
                                     <td width="22%">Total Tax (8.25%)</td>
                                     <td width="12%" style="text-align: right;">
@@ -96,6 +96,16 @@
                                             <input dir="rtl" type="number" class="form-control form-control-sm"
                                                 name="order_discount" id="order-discount" value="" placeholder="0.00">
                                             <span class="input-group-text">%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="22%">Credits</td>
+                                    <td width="12%" style="text-align: right;">
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input dir="rtl" type="number" class="form-control form-control-sm"
+                                                name="order_credits" id="order-credits" value="" placeholder="0.00">
                                         </div>
                                     </td>
                                 </tr>
