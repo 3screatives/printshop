@@ -18,7 +18,7 @@
                             <label for="order_due" class="mb-0 me-2" style="min-width: 90px; white-space: nowrap;">Due
                                 Date:</label>
                             <!-- <input type="date" class="form-control form-control-sm" name="order_due" id="order_due"> -->
-                            <select class="form-control form-control-sm" name="order_process" id="order_process">
+                            <select class="form-select form-select-sm" name="order_process" id="order_process">
                                 <option value="1" selected>Standard 3-5 days</option>
                                 <option value="2">Urgent 1-2 days</option>
                                 <option value="3">Same Day</option>
