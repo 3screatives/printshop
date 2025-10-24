@@ -319,7 +319,7 @@ $(document).ready(function () {
     });
 
     $(document).on('change input',
-        'input[name="order_item_width[]"], input[name="order_item_height[]"], input[name="order_item_qty[]"], input[name="order_process"]',
+        'input[name="order_item_width[]"], input[name="order_item_height[]"], input[name="order_item_qty[]"]',
         function () {
             const $row = $(this).closest('.itemRow');
             const rowId = $row.data('row');
@@ -330,6 +330,16 @@ $(document).ready(function () {
             }
         }
     );
+
+    $('#order_process').on('change', function () {
+        $('.itemRow').each(function () {
+            const rowId = $(this).data('row');
+            const matId = $(this).find('input[name="order_material_id[]"]').val();
+            if (matId) {
+                getMaterialPrice(matId, rowId);
+            }
+        });
+    });
 
     $(document).on('input change',
         'input[name="order_item_qty[]"], input[name="order_item_price[]"], input[name="order_item_width[]"], input[name="order_item_height[]"]',
