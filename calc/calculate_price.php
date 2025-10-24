@@ -1,5 +1,5 @@
 <?php
-require_once '../ps-admin/get/db_function.php';
+require_once '../ps-admin/db_function.php';
 header('Content-Type: application/json');
 
 $conn = db_connect();

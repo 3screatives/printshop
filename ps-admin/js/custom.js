@@ -319,7 +319,7 @@ $(document).ready(function () {
     });
 
     $(document).on('change input',
-        'input[name="order_item_width[]"], input[name="order_item_height[]"], input[name="order_item_qty[]"]',
+        'input[name="order_item_width[]"], input[name="order_item_height[]"], input[name="order_item_qty[]"], input[name="order_process"]',
         function () {
             const $row = $(this).closest('.itemRow');
             const rowId = $row.data('row');
@@ -355,6 +355,7 @@ $(document).ready(function () {
         const itemWidth = parseFloat($row.find('input[name="order_item_width[]"]').val()) || 0;
         const itemHeight = parseFloat($row.find('input[name="order_item_height[]"]').val()) || 0;
         const itemQty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
+        const orderProcess = parseFloat($('#order_process').val()) || 1;
 
         $.ajax({
             url: "get/material_price.php",
@@ -364,7 +365,8 @@ $(document).ready(function () {
                 details: itemDetails,
                 width: itemWidth,
                 height: itemHeight,
-                quantity: itemQty
+                quantity: itemQty,
+                process_time: orderProcess
             },
             dataType: "json",
             success: function (response) {
@@ -374,6 +376,7 @@ $(document).ready(function () {
 
                 $row.find('input[name="order_item_price[]"]').val(unitPrice.toFixed(2));
                 $row.find('input[name="order_item_total[]"]').val(total.toFixed(2));
+                console.log('Material Cost per Linear Inch:', response.mat_cost_l + ' | Ink Cost Total: ' + response.ink_cost_total + ' | Cost per Print: ' + response.cost_per_print + ' | Total Cost: ' + response.total_cost + ' | Final Price: ' + response.final_price);
 
                 calculateTotal();
             }

@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $height          = floatval($_POST['height']);
     $quantity        = intval($_POST['quantity']);
     $sides           = $_POST['sides'] ?? "single";
+    $order_process   = intval($_POST['process_time']);
 
     // ✅ Get material data using select_query()
     $sql = "SELECT mat_id, mat_vendor, mat_name, mat_details, mat_roll_size, mat_length, 
@@ -36,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ink_cost           = $mat['ink_cost'];
     $running_cost       = 0.4;
     $markup             = 3.0;
-    $production_time    = 1;
+    // $production_time    = 0.1;
 
     $min_print_size = min($width, $height);
     $max_print_size = max($width, $height);
@@ -61,11 +62,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // $final_cost = ceil($total_cost) * $quantity;
     $final_cost = ceil($total_cost);
 
+    if ($order_process == 1) {
+        $production_time = 0;
+    } elseif ($order_process == 2) {
+        $production_time = 0.2; // +20%
+    } elseif ($order_process == 3) {
+        $production_time = 0.4; // +40%
+    }
+
     if ($production_time > 0) {
         $final_cost += $final_cost * $production_time;
     }
 
     echo json_encode([
-        "final_cost"    => round(($final_cost), 2)
+        "final_cost"    => round(($final_cost), 2),
+        "mat_cost_l" => round(($mat_cost_per_linear_inch), 4),
+        "ink_cost_total" => round(($ink_cost_total), 4),
+        "cost_per_print" => round(($cost_per_print), 4),
+        "total_cost"   => round(($total_cost), 4),
+        "final_price"   => number_format($final_cost, 4),
     ]);
 }
