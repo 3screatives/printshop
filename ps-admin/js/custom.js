@@ -491,6 +491,64 @@ $(document).ready(function () {
         }
     });
 
+    $(document).ready(function () {
+        const $input = $("#itemInput");
+        const $suggestions = $("#suggestions");
+
+        // Live search
+        $input.on("keyup", function () {
+            const term = $(this).val().trim();
+
+            if (term.length < 2) {
+                $suggestions.empty().hide();
+                return;
+            }
+
+            $.getJSON("get/search_clients.php", { term: term }, function (data) {
+                $suggestions.empty();
+
+                if (data.length === 0) {
+                    // No results → just hide suggestions
+                    $suggestions.hide();
+                } else {
+                    $suggestions.show();
+                    data.forEach(function (client) {
+                        const item = `
+                            <button type="button" class="list-group-item list-group-item-action"
+                                data-id="${client.client_id}"
+                                data-name="${client.business_name}"
+                                data-address="${client.business_address || ''}"
+                                data-cname="${client.contact_name || ''}"
+                                data-phone="${client.contact_phone || ''}"
+                                data-email="${client.contact_email || ''}">
+                                ${client.business_name}
+                            </button>`;
+                        $suggestions.append(item);
+                    });
+                }
+            });
+        });
+
+        // Fill fields when a suggestion is clicked
+        $suggestions.on("click", ".list-group-item-action", function () {
+            const $this = $(this);
+            $("#c_client_id").val($this.data("id"));
+            $("#itemInput").val($this.data("name"));
+            $("#c_client_address").val($this.data("address"));
+            $("#c_client_name").val($this.data("cname"));
+            $("#c_client_phone").val($this.data("phone"));
+            $("#c_client_email").val($this.data("email"));
+            $suggestions.empty().hide();
+        });
+
+        // Hide suggestions when clicking outside or moving to another field
+        $(document).on("click focusin", function (e) {
+            if (!$(e.target).closest("#itemInput, #suggestions").length) {
+                $suggestions.empty().hide();
+            }
+        });
+    });
+
 });
 
 

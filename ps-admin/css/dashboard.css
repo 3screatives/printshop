@@ -385,3 +385,12 @@ textarea {
     background-color: #cccccc;
     color: white;
 }
+
+#suggestions {
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+.list-group-item {
+    cursor: pointer;
+}
