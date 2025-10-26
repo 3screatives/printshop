@@ -572,50 +572,73 @@ $(document).ready(function () {
             items.push(item);
         });
 
-        console.log(items);
-
         // Collect other form data
-        /* let orderData = {
-            user_id: $('#user_id').val(),
-            order_id: $('#order_id').val(),
-            order_receiver_name: $('#order_receiver_name').val(),
-            order_receiver_address: $('#order_receiver_address').val(),
-            order_receiver_phone: $('#order_receiver_phone').val(),
-            order_receiver_email: $('#order_receiver_email').val(),
-            order_total_before_tax: $('#order_total_before_tax').val(),
-            order_total_tax: $('#order_total_tax').val(),
-            order_tax_per: $('#order_tax_per').val(),
-            order_total_after_tax: $('#order_total_after_tax').val(),
-            order_amount_paid: $('#order_amount_paid').val(),
-            order_total_amount_due: $('#order_total_amount_due').val(),
-            payment_id: $('#payment_id').val(),
-            order_status: $('select[name="order_status"]').val(),
-            client_id: $('#client_id').val(),
+        // let orderData = {
+        //     user_id: $('#user_id').val(),
+        //     order_id: $('#order_id').val(),
+        //     order_receiver_name: $('#order_receiver_name').val(),
+        //     order_receiver_address: $('#order_receiver_address').val(),
+        //     order_receiver_phone: $('#order_receiver_phone').val(),
+        //     order_receiver_email: $('#order_receiver_email').val(),
+        //     order_total_before_tax: $('#order_total_before_tax').val(),
+        //     order_total_tax: $('#order_total_tax').val(),
+        //     order_tax_per: $('#order_tax_per').val(),
+        //     order_total_after_tax: $('#order_total_after_tax').val(),
+        //     order_amount_paid: $('#order_amount_paid').val(),
+        //     order_total_amount_due: $('#order_total_amount_due').val(),
+        //     payment_id: $('#payment_id').val(),
+        //     order_status: $('select[name="order_status"]').val(),
+        //     client_id: $('#client_id').val(),
+        //     order_due: $('#order_due').val(),
+        //     items: items
+        // };
+
+        let orderData = {
+            //ids
+            user_id: 1,
+            order_id: 0,
+            //client
+            client_name: $('#c_client_name').val(),
+            client_address: $('#c_client_address').val(),
+            client_phone: $('#c_client_phone').val(),
+            client_email: $('#c_client_email').val(),
+            client_contact_name: $('#c_client_name').val(),
+            //order details
+            order_date: $('#order_today_date').val(),
             order_due: $('#order_due').val(),
+            order_process_time: $('#order_process').val(),
+            order_payment_type: $('#order_payment_type').val(),
+            order_subtotal: $('#order-subtotal').val(),
+            order_tax: $('#order-tax').val(),
+            order_discount: $('#order-discount').val(),
+            order_credits: $('#order-credits').val(),
+            order_total: $('#order-total').val(),
+            order_paid: $('#order-paid').val(),
+            order_due_amount: $('#order-due').val(),
+            order_comments: $('#order_comments').val(),
             items: items
-        };
+        }
 
         console.log(orderData);
 
-        if (!isValid) return;
+        // if (!isValid) return;
 
-        $.ajax({
-            url: 'invoice-save.php',
-            type: 'POST',
-            data: orderData,
-            dataType: 'json',
-            success: function (response) {
-                console.log('Success:', response);
-                alert(response.message);
-                if (response.status === 'success') {
-                    window.location.href = 'index.php';
-                }
-            },
-            error: function () {
-                alert("Error submitting invoice.");
-            }
-        });
-        */
+        // $.ajax({
+        //     url: 'invoice-save.php',
+        //     type: 'POST',
+        //     data: orderData,
+        //     dataType: 'json',
+        //     success: function (response) {
+        //         console.log('Success:', response);
+        //         alert(response.message);
+        //         if (response.status === 'success') {
+        //             window.location.href = 'index.php';
+        //         }
+        //     },
+        //     error: function () {
+        //         alert("Error submitting invoice.");
+        //     }
+        // });
     });
 
 });

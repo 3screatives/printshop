@@ -42,7 +42,7 @@
                                         <textarea name="c_client_address" rows="2" id="c_client_address"
                                             class="form-control form-control-sm mb-1"
                                             placeholder="Client Address"></textarea>
-                                        <input type="text" name="c_client_name" id="c_client_name"
+                                        <input type="text" name="c_contact_name" id="c_contact_name"
                                             class="form-control form-control-sm mb-1" placeholder="Client Name">
                                         <input type="tel" name="c_client_phone" id="c_client_phone"
                                             class="form-control form-control-sm mb-1" placeholder="Client Phone">
