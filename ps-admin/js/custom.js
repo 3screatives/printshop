@@ -550,92 +550,62 @@ $(document).ready(function () {
 
     $('#submitOrder').off('click').on('click', function (e) {
         e.preventDefault();
-        let isValid = true;
-        let rows = $('#orderItems tbody tr');
-        let items = [];
-        rows.each(function () {
-            let item = {
-                item_code: $(this).find('input[name="order_material_id[]"]').val(),
-                details: $(this).find('textarea[name="order_item_details[]"]').val(),
-                order_size_width: $(this).find('input[name="order_item_width[]"]')
-                    .val(),
-                order_size_height: $(this).find('input[name="order_item_height[]"]')
-                    .val(),
-                order_item_quantity: $(this).find('input[name="order_item_qty[]"]')
-                    .val(),
-                order_item_price: $(this).find('input[name="order_item_price[]"]')
-                    .val(),
-                order_item_final_amount: $(this).find(
-                    'input[name="order_item_total[]"]').val()
-            };
 
-            items.push(item);
+        let items = [];
+        $('#orderItems tbody tr').each(function () {
+            items.push({
+                material_id: $(this).find('input[name="order_material_id[]"]').val(),
+                item_details: $(this).find('textarea[name="order_item_details[]"]').val(),
+                item_quantity: $(this).find('input[name="order_item_qty[]"]').val(),
+                item_size_width: $(this).find('input[name="order_item_width[]"]').val(),
+                item_size_height: $(this).find('input[name="order_item_height[]"]').val(),
+                item_price: $(this).find('input[name="order_item_price[]"]').val(),
+                item_total: $(this).find('input[name="order_item_total[]"]').val()
+            });
         });
 
-        // Collect other form data
-        // let orderData = {
-        //     user_id: $('#user_id').val(),
-        //     order_id: $('#order_id').val(),
-        //     order_receiver_name: $('#order_receiver_name').val(),
-        //     order_receiver_address: $('#order_receiver_address').val(),
-        //     order_receiver_phone: $('#order_receiver_phone').val(),
-        //     order_receiver_email: $('#order_receiver_email').val(),
-        //     order_total_before_tax: $('#order_total_before_tax').val(),
-        //     order_total_tax: $('#order_total_tax').val(),
-        //     order_tax_per: $('#order_tax_per').val(),
-        //     order_total_after_tax: $('#order_total_after_tax').val(),
-        //     order_amount_paid: $('#order_amount_paid').val(),
-        //     order_total_amount_due: $('#order_total_amount_due').val(),
-        //     payment_id: $('#payment_id').val(),
-        //     order_status: $('select[name="order_status"]').val(),
-        //     client_id: $('#client_id').val(),
-        //     order_due: $('#order_due').val(),
-        //     items: items
-        // };
-
         let orderData = {
-            //ids
             user_id: 1,
             order_id: 0,
-            //client
-            client_name: $('#itemInput').val(),
-            client_address: $('#c_client_address').val(),
-            client_phone: $('#c_client_phone').val(),
-            client_email: $('#c_client_email').val(),
-            client_contact_name: $('#c_contact_name').val(),
-            //order details
+            // client info
+            business_name: $('#itemInput').val(),
+            business_address: $('#c_client_address').val(),
+            contact_name: $('#c_contact_name').val(),
+            contact_phone: $('#c_client_phone').val(),
+            contact_email: $('#c_client_email').val(),
+            // order info
             order_date: $('#order_today_date').val(),
-            order_process_time: $('#order_process').val(),
-            order_payment_type: $('#paument_method').val(),
-            order_subtotal: $('#order-subtotal').val(),
+            order_due: $('#order_due_date').val(),
+            order_before_tax: $('#order-subtotal').val(),
             order_tax: $('#order-tax').val(),
-            order_discount: $('#order-discount').val(),
-            order_credits: $('#order-credits').val(),
-            order_total: $('#order-total').val(),
-            order_paid: $('#order-paid').val(),
-            order_due_amount: $('#order-due').val(),
-            order_comments: $('#order_comments').val(),
+            order_after_tax: $('#order-total').val(),
+            order_amount_paid: $('#order-paid').val(),
+            order_amount_due: $('#order-due').val(),
+            order_production_time: $('#order_process').val(),
+            payment_type_id: $('#paument_method').val(),
+            status_id: 1,
+            order_comment: $('#order_comments').val(),
             items: items
-        }
-        console.log(orderData);
+        };
 
-        // if (!isValid) return;
-        // $.ajax({
-        //     url: 'invoice-save.php',
-        //     type: 'POST',
-        //     data: orderData,
-        //     dataType: 'json',
-        //     success: function (response) {
-        //         console.log('Success:', response);
-        //         alert(response.message);
-        //         if (response.status === 'success') {
-        //             window.location.href = 'index.php';
-        //         }
-        //     },
-        //     error: function () {
-        //         alert("Error submitting invoice.");
-        //     }
-        // });
+        $.ajax({
+            url: 'get/invoice-save.php',
+            type: 'POST',
+            data: JSON.stringify(orderData),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (response) {
+                console.log('Success:', response);
+                alert(response.message);
+                if (response.status === 'success') {
+                    window.location.href = 'index.php';
+                }
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                alert("Error submitting invoice.");
+            }
+        });
     });
 
 });
