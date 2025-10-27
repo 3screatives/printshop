@@ -598,16 +598,15 @@ $(document).ready(function () {
             user_id: 1,
             order_id: 0,
             //client
-            client_name: $('#c_client_name').val(),
+            client_name: $('#itemInput').val(),
             client_address: $('#c_client_address').val(),
             client_phone: $('#c_client_phone').val(),
             client_email: $('#c_client_email').val(),
-            client_contact_name: $('#c_client_name').val(),
+            client_contact_name: $('#c_contact_name').val(),
             //order details
             order_date: $('#order_today_date').val(),
-            order_due: $('#order_due').val(),
             order_process_time: $('#order_process').val(),
-            order_payment_type: $('#order_payment_type').val(),
+            order_payment_type: $('#paument_method').val(),
             order_subtotal: $('#order-subtotal').val(),
             order_tax: $('#order-tax').val(),
             order_discount: $('#order-discount').val(),
@@ -618,11 +617,9 @@ $(document).ready(function () {
             order_comments: $('#order_comments').val(),
             items: items
         }
-
         console.log(orderData);
 
         // if (!isValid) return;
-
         // $.ajax({
         //     url: 'invoice-save.php',
         //     type: 'POST',

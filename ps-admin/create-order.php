@@ -15,7 +15,7 @@
                         </div>
 
                         <div class="d-flex align-items-center">
-                            <label for="order_due" class="mb-0 me-2" style="min-width: 90px; white-space: nowrap;">Due
+                            <label for="order_process" class="mb-0 me-2" style="min-width: 90px; white-space: nowrap;">Due
                                 Date:</label>
                             <!-- <input type="date" class="form-control form-control-sm" name="order_due" id="order_due"> -->
                             <select class="form-select form-select-sm" name="order_process" id="order_process">
@@ -73,7 +73,16 @@
                                 Draft</button>
                             <table class="table table-bordered">
                                 <tr>
-                                    <td width="66%"><b>Payment Method:</b> Cash/Account/Card</td>
+                                    <td width="66%">
+                                        <div class="d-flex align-items-center">
+                                            <label for="paument_method" class="mb-0 me-2">Payment Method:</label>
+                                            <select class="form-select form-select-sm" name="paument_method" id="paument_method">
+                                                <option value="1" selected>Credit/Debit Card</option>
+                                                <option value="2">Cash</option>
+                                                <option value="3">Account</option>
+                                            </select>
+                                        </div>
+                                    </td>
                                     <td width="22%">Sub Total</td>
                                     <td width="12%" style="text-align: right;">
                                         <div class="input-group">
