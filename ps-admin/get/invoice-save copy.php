@@ -1,157 +1,119 @@
 <?php
-// Start output buffering to capture any unexpected output
 ob_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);
-ini_set('error_log', __DIR__ . '/php_error.log'); // Logs will go here
-
-// Set JSON response header
+ini_set('error_log', __DIR__ . '/php_error.log');
 header('Content-Type: application/json');
 
-// Include DB connection
-include('include/conn.php');
+include('../db_function.php');
+$conn = db_connect();
 
-// Sanitize common input
-$user_id = mysqli_real_escape_string($conn, $_POST['user_id'] ?? '');
-$order_id = intval($_POST['order_id'] ?? 0);
-
-$order_receiver_name = mysqli_real_escape_string($conn, $_POST['order_receiver_name'] ?? '');
-$order_receiver_address = mysqli_real_escape_string($conn, $_POST['order_receiver_address'] ?? '');
-$order_receiver_phone = mysqli_real_escape_string($conn, $_POST['order_receiver_phone'] ?? '');
-$order_receiver_email = mysqli_real_escape_string($conn, $_POST['order_receiver_email'] ?? '');
-
-$order_total_before_tax = mysqli_real_escape_string($conn, $_POST['order_total_before_tax'] ?? '0');
-$order_total_tax = mysqli_real_escape_string($conn, $_POST['order_total_tax'] ?? '0');
-$order_tax_per = mysqli_real_escape_string($conn, $_POST['order_tax_per'] ?? '0');
-$order_total_after_tax = mysqli_real_escape_string($conn, $_POST['order_total_after_tax'] ?? '0');
-$order_amount_paid = mysqli_real_escape_string($conn, $_POST['order_amount_paid'] ?? '0');
-$order_total_amount_due = mysqli_real_escape_string($conn, $_POST['order_total_amount_due'] ?? '0');
-// $order_due = mysqli_real_escape_string($conn, $_POST['order_due'] ?? '');
-
-// Get raw POST value
-$order_due_raw = $_POST['order_due'] ?? '';
-
-$order_due_date = DateTime::createFromFormat('Y-m-d', $order_due_raw);
-
-if ($order_due_date && $order_due_date->format('Y-m-d') === $order_due_raw) {
-    $order_due = mysqli_real_escape_string($conn, $order_due_date->format('Y-m-d'));
-} else {
-    $order_due = null;
-}
-
-$payment_id = mysqli_real_escape_string($conn, $_POST['payment_id'] ?? '');
-$order_status_id = mysqli_real_escape_string($conn, $_POST['order_status'] ?? 1);
-$order_comment = 'Thank you for your business.';
-$items = $_POST['items'] ?? [];
-
-$client_id = mysqli_real_escape_string($conn, $_POST['client_id'] ?? '0');
-
-if ($client_id > 0) {
-    $query_update_client = "UPDATE invoice_client SET 
-                client_name = '$order_receiver_name',
-                client_address = '$order_receiver_address',
-                client_phone = '$order_receiver_phone',
-                client_email = '$order_receiver_email'
-                WHERE client_id = $client_id";
-
-    $update_result = mysqli_query($conn, $query_update_client);
-
-    if (!$update_result) {
-        echo json_encode(['status' => 'error', 'message' => 'Update failed: ' . mysqli_error($conn)]);
-        exit;
-    }
-} else {
-    $query_insert_client = "INSERT INTO invoice_client (client_name, client_address, client_phone, client_email)
-                            VALUES ('$order_receiver_name', '$order_receiver_address', '$order_receiver_phone', '$order_receiver_email')";
-    if (mysqli_query($conn, $query_insert_client)) {
-        $client_id = mysqli_insert_id($conn);
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Error inserting client: ' . mysqli_error($conn)]);
-        exit;
-    }
-}
-
-if ($order_id > 0) {
-    // Update existing invoice
-    $query_update_order = "UPDATE invoice_order SET 
-        user_id = '$user_id',
-        order_due = '$order_due',
-        order_total_before_tax = '$order_total_before_tax',
-        order_total_tax = '$order_total_tax',
-        order_tax_per = '$order_tax_per',
-        order_total_after_tax = '$order_total_after_tax',
-        order_amount_paid = '$order_amount_paid',
-        order_total_amount_due = '$order_total_amount_due',
-        payment_id = '$payment_id',
-        order_comment = '$order_comment',
-        order_status_id = '$order_status_id',
-        client_id = '$client_id'
-        WHERE order_id = $order_id";
-
-    if (!mysqli_query($conn, $query_update_order)) {
-        echo json_encode(['status' => 'error', 'message' => 'Error updating invoice: ' . mysqli_error($conn)]);
-        exit;
-    }
-
-    // Delete old items
-    mysqli_query($conn, "DELETE FROM invoice_order_item WHERE order_id = $order_id");
-} else {
-    // Insert new invoice
-    $query_insert_order = "INSERT INTO invoice_order (
-        user_id, order_due, order_total_before_tax, order_total_tax, order_tax_per, order_total_after_tax,
-        order_amount_paid, order_total_amount_due, payment_id, order_comment, order_status_id, client_id
-    ) VALUES (
-        '$user_id', '$order_due', '$order_total_before_tax', '$order_total_tax', '$order_tax_per', '$order_total_after_tax',
-        '$order_amount_paid', '$order_total_amount_due', '$payment_id', '$order_comment', '$order_status_id', '$client_id'
-    )";
-
-    if (!mysqli_query($conn, $query_insert_order)) {
-        echo json_encode(['status' => 'error', 'message' => 'Error inserting new invoice: ' . mysqli_error($conn)]);
-        exit;
-    }
-
-    $order_id = mysqli_insert_id($conn);
-}
-
-// Insert items
-$all_items_inserted = true;
-
-foreach ($items as $item) {
-    $item_code = mysqli_real_escape_string($conn, $item['item_code'] ?? '');
-    $details = mysqli_real_escape_string($conn, $item['details'] ?? '');
-    $order_size_width = mysqli_real_escape_string($conn, $item['order_size_width'] ?? '0');
-    $order_size_height = mysqli_real_escape_string($conn, $item['order_size_height'] ?? '0');
-    $order_item_quantity = mysqli_real_escape_string($conn, $item['order_item_quantity'] ?? '0');
-    $order_item_price = mysqli_real_escape_string($conn, $item['order_item_price'] ?? '0');
-    $order_item_final_amount = mysqli_real_escape_string($conn, $item['order_item_final_amount'] ?? '0');
-
-    $query_insert_item = "INSERT INTO invoice_order_item (
-        order_id, item_code, details, order_size_width, order_size_height,
-        order_item_quantity, order_item_price, order_item_final_amount
-    ) VALUES (
-        '$order_id', '$item_code', '$details', '$order_size_width', '$order_size_height',
-        '$order_item_quantity', '$order_item_price', '$order_item_final_amount'
-    )";
-
-    if (!mysqli_query($conn, $query_insert_item)) {
-        $all_items_inserted = false;
-        break;
-    }
-}
-
-// Check for unexpected output (e.g., PHP warnings)
-$output = ob_get_clean();
-
-if (!empty($output)) {
-    echo json_encode(['status' => 'error', 'message' => 'Unexpected output: ' . $output]);
+// Decode JSON input
+$data = json_decode(file_get_contents('php://input'), true);
+if (!$data) {
+    echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
     exit;
 }
 
-if ($all_items_inserted) {
-    echo json_encode(['status' => 'success', 'message' => 'Invoice saved successfully.', 'order_id' => $order_id]);
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'Error inserting invoice items.']);
+// === CLIENT DATA ===
+$business_name = trim($data['business_name'] ?? '');
+$business_address = trim($data['business_address'] ?? '');
+$contact_name = trim($data['contact_name'] ?? '');
+$contact_phone = trim($data['contact_phone'] ?? '');
+$contact_email = trim($data['contact_email'] ?? '');
+$client_since = date('Y-m-d');
+
+// === ORDER DATA ===
+$user_id = intval($data['user_id'] ?? 0);
+$order_id = intval($data['order_id'] ?? 0);
+$order_date = $data['order_date'] ?? date('Y-m-d H:i:s');
+$order_due = $data['order_due'] ?? null;
+$order_before_tax = floatval($data['order_before_tax'] ?? 0);
+$order_tax = floatval($data['order_tax'] ?? 0);
+$order_after_tax = floatval($data['order_after_tax'] ?? 0);
+$order_amount_paid = floatval($data['order_amount_paid'] ?? 0);
+$order_amount_due = floatval($data['order_amount_due'] ?? 0);
+$order_production_time = intval($data['order_production_time'] ?? 0);
+$payment_type_id = intval($data['payment_type_id'] ?? 0);
+$status_id = intval($data['status_id'] ?? 1);
+$order_comment = trim($data['order_comment'] ?? '');
+$items = $data['items'] ?? [];
+
+// === INSERT CLIENT ===
+$sql_client = "INSERT INTO ps_clients (business_name, business_address, contact_name, contact_phone, contact_email, client_since)
+               VALUES (?, ?, ?, ?, ?, ?)";
+$client_result = execute_query($conn, $sql_client, "ssssss", $business_name, $business_address, $contact_name, $contact_phone, $contact_email, $client_since);
+if (!$client_result) {
+    echo json_encode(['status' => 'error', 'message' => 'Failed to insert client.']);
+    exit;
+}
+$client_id = mysqli_insert_id($conn);
+
+// === INSERT ORDER ===
+$sql_order = "INSERT INTO ps_orders (
+    order_date, order_due, user_id, order_before_tax, order_tax, order_after_tax, 
+    order_amount_paid, order_amount_due, order_production_time, payment_type_id, 
+    client_id, status_id, order_comment
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$order_result = execute_query(
+    $conn,
+    $sql_order,
+    "ssidddddiiiis",
+    $order_date,
+    $order_due,
+    $user_id,
+    $order_before_tax,
+    $order_tax,
+    $order_after_tax,
+    $order_amount_paid,
+    $order_amount_due,
+    $order_production_time,
+    $payment_type_id,
+    $client_id,
+    $status_id,
+    $order_comment
+);
+
+if (!$order_result) {
+    echo json_encode(['status' => 'error', 'message' => 'Failed to insert order.']);
+    exit;
+}
+$order_id = mysqli_insert_id($conn);
+
+// === INSERT ORDER ITEMS ===
+$sql_item = "INSERT INTO ps_order_items (
+    order_id, material_id, item_details, item_quantity, item_size_width, 
+    item_size_height, item_price, item_total
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+foreach ($items as $item) {
+    $material_id = intval($item['material_id'] ?? 0);
+    $item_details = trim($item['item_details'] ?? '');
+    $item_quantity = intval($item['item_quantity'] ?? 0);
+    $item_size_width = floatval($item['item_size_width'] ?? 0);
+    $item_size_height = floatval($item['item_size_height'] ?? 0);
+    $item_price = floatval($item['item_price'] ?? 0);
+    $item_total = floatval($item['item_total'] ?? 0);
+
+    $res = execute_query(
+        $conn,
+        $sql_item,
+        "iisiiddd",
+        $order_id,
+        $material_id,
+        $item_details,
+        $item_quantity,
+        $item_size_width,
+        $item_size_height,
+        $item_price,
+        $item_total
+    );
+    if (!$res) {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to insert order item.']);
+        exit;
+    }
 }
 
+echo json_encode(['status' => 'success', 'message' => 'Order saved successfully!', 'order_id' => $order_id]);
 mysqli_close($conn);

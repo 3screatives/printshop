@@ -1,17 +1,15 @@
 $(document).ready(function () {
     let statusOptions = [];
 
-    // Step 1: Load Status Options
     $.getJSON('get/status_options.php')
         .done(function (statuses) {
             statusOptions = statuses;
-            loadOrders(); // proceed to next step
+            loadOrders();
         })
         .fail(function () {
             alert('Failed to load status options');
         });
 
-    // Step 2: Load Orders
     function loadOrders() {
         $.getJSON('get/order_list.php')
             .done(function (response) {
@@ -26,7 +24,6 @@ $(document).ready(function () {
             });
     }
 
-    // Step 3: Render Orders Table
     function renderOrders(orders) {
         let rows = '';
 
@@ -37,7 +34,6 @@ $(document).ready(function () {
                 day: 'numeric'
             });
 
-            // Build dropdown
             let statusSelect = `<select class="form-select form-select-sm order-status" data-order-id="${o.order_id}">`;
             statusOptions.forEach(status => {
                 const selected = status.status_id === o.status_id ? "selected" : "";
@@ -69,20 +65,17 @@ $(document).ready(function () {
         $('#orderListMain tbody').html(rows);
     }
 
-    // Step 4: Handle Status Change (Live Update)
     $(document).on('focus mousedown', '.order-status', function () {
         const current = $(this).val();
         $(this).data('prev-status', current);
     });
 
-    // main change handler
     $(document).on('change', '.order-status', function () {
         const $dropdown = $(this);
         const orderId = $dropdown.data('order-id');
         const newStatus = $dropdown.val();
         const oldStatus = $dropdown.data('prev-status') ?? $dropdown.data('old-status') ?? null;
 
-        // console.log('Change detected. orderId=', orderId, 'oldStatus=', oldStatus, 'newStatus=', newStatus);
         $dropdown.data('prev-status', newStatus);
 
         $.ajax({
@@ -101,7 +94,6 @@ $(document).ready(function () {
                     }
                 } else {
                     alert('Failed to update order status on server. Reverting UI.');
-                    // revert UI immediately
                     if (oldStatus !== null) {
                         $dropdown.val(oldStatus);
                         $dropdown.data('prev-status', oldStatus);
@@ -109,7 +101,6 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, err) {
-                // console.error('AJAX error updating status:', status, err);
                 alert('Error updating order status. Reverting UI.');
                 if (oldStatus !== null) {
                     $dropdown.val(oldStatus);
@@ -119,12 +110,9 @@ $(document).ready(function () {
         });
     });
 
-    //Show banner
     function showUndoBanner(orderId, newStatus, oldStatus, $dropdown) {
-        // remove any existing banner
         $('.undo-banner').remove();
 
-        // create simple confirmation banner
         const $banner = $(`
         <div class="undo-banner" style="
             position:fixed; top:12px; left:50%; transform:translateX(-50%);
@@ -138,13 +126,11 @@ $(document).ready(function () {
 
         $('body').append($banner);
 
-        // Auto-hide after 3 seconds
         setTimeout(() => {
             $banner.fadeOut(300, function () { $(this).remove(); });
         }, 3000);
     }
 
-    // Step 5: View Order
     $(document).on('click', '.view-order', function () {
         var orderID = $(this).data('order-id');
         $.ajax({
@@ -160,14 +146,11 @@ $(document).ready(function () {
                     $('#orderDue').text(new Date(o.order_due).toLocaleDateString());
                     $('.order-details').show();
 
-                    //client Info
                     $('#client_name').text(o.client_name);
                     $('#client_address').text(o.client_address);
                     $('#client_phone').text(o.client_phone);
                     $('#client_email').text(o.client_email);
 
-                    //Order Details
-                    // $('#order_status').text(o.status_name);
                     const $statusSelect = $('#order_status_select');
                     $statusSelect.attr('data-order-id', o.order_id);
                     $statusSelect.empty();
@@ -177,7 +160,6 @@ $(document).ready(function () {
                         $statusSelect.append(`<option value="${status.status_id}" ${selected}>${status.status_name}</option>`);
                     });
 
-                    // - X
                     $('#payment_method').text(o.payment_type);
 
                     $('#order_sub_total').text(o.before_tax);
@@ -191,7 +173,6 @@ $(document).ready(function () {
 
                     $('#stmaID').text(o.stmaID ? o.stmaID : '-');
 
-                    // Fill Items
                     let rows = "";
                     response.items.forEach(item => {
                         rows += `<tr>
@@ -213,29 +194,24 @@ $(document).ready(function () {
         });
     });
 
-    //close View Order
     $('.close').on('click', function () {
         $('.order-details').hide();
     });
 
-    //Step 6: Create Order
-    //Add current date to create order form
-    const todayDate = new Date().toISOString().split('T')[0];  // "YYYY-MM-DD"
+    const todayDate = new Date().toISOString().split('T')[0];
     $('#order_today_date').val(todayDate);
 
-    //Due Date
     function getAdjustedDate() {
         let date = new Date();
         date.setDate(date.getDate() + 2);
 
-        const day = date.getDay(); // 0 = Sunday, 6 = Saturday
+        const day = date.getDay();
 
         if (day === 6 || day === 0) {
-            // Saturday or Sunday → push 2 more days
             date.setDate(date.getDate() + 2);
         }
 
-        return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        return date.toISOString().split('T')[0];
     }
 
     const adjustedDate = getAdjustedDate();
@@ -245,27 +221,23 @@ $(document).ready(function () {
         $('.create-order').show();
     })
 
-    //Close Create Order
     $('.close').on('click', function () {
         $('.create-order').hide();
 
         const $form = $('.create-order form');
-        $form[0].reset(); // standard reset
+        $form[0].reset();
 
-        // Optional cleanup:
         $form.find('textarea').val('');
         $form.find('input[type="number"]').val('');
         $form.find('select').prop('selectedIndex', 0);
 
-        // If you added rows dynamically, remove them (except first row maybe)
-        $form.find('#orderItems tbody tr:gt(0)').remove(); // keep only the first row
+        $form.find('#orderItems tbody tr:gt(0)').remove();
     });
 
-    //Create Order
+    //Create Element
     let materials = [];
     let count = 0;
 
-    // Load materials once globally
     $.getJSON('get/materials.php')
         .done(function (data) {
             materials = data;
@@ -274,7 +246,6 @@ $(document).ready(function () {
             alert('Failed to load materials.');
         });
 
-    // Add item row dynamically
     $('#addItem').off('click').on('click', function () {
         count++;
         let rowId = count;
@@ -298,7 +269,7 @@ $(document).ready(function () {
         </div></td>
         <td class="text-center"><input type="number" name="order_item_qty[]" min="1" value="1" class="form-control form-control-sm"></td>
         <td class="text-end"><div class="input-group"><span class="input-group-text">$</span>
-            <input dir="rtl" type="number" name="order_item_price[]" class="form-control form-control-sm"></div></td>
+            <input dir="rtl" type="number" name="order_item_price[]" class="form-control form-control-sm" readonly></div></td>
         <td><div class="input-group"><span class="input-group-text">$</span>
             <input dir="rtl" type="number" name="order_item_total[]" class="form-control form-control-sm" disabled></div></td>
         <td><button type="button" class="removeItem form-control btn btn-sm btn-danger">X</button></td>
@@ -307,11 +278,9 @@ $(document).ready(function () {
         $('#orderItems tbody').append(itemHtml);
     });
 
-
-    // Search materials
     $(document).on('input focus', '.mat-search', function () {
         const $row = $(this).closest('.itemRow');
-        const rowId = $row.data('row');  // ✅ rowId is now defined
+        const rowId = $row.data('row');
         const searchVal = $(this).val().toLowerCase();
         const dropdown = $(this).siblings('.dropdown-list');
         dropdown.empty().show();
@@ -336,12 +305,10 @@ $(document).ready(function () {
         dropdown.find('.dropdown-item:first').addClass('active');
     });
 
-
-    // Select material
     $(document).on('click', '.dropdown-item', function () {
         const matName = $(this).text().trim();
         const matId = $(this).data('id');
-        const rowId = $(this).data('row');  // ✅ always defined
+        const rowId = $(this).data('row');
         const $row = $(`.itemRow[data-row="${rowId}"]`);
 
         $row.find('.mat-search').val(matName);
@@ -351,55 +318,75 @@ $(document).ready(function () {
         getMaterialPrice(matId, rowId);
     });
 
-    $(document).on('change', '.itemRow input, .itemRow textarea', function () {
-        const $row = $(this).closest('.itemRow'); // get the current row
-        const rowId = $row.find('input[name="item_row_id[]"]').data(); // from data-rid
-        const matId = $row.find('input[name="order_material_id[]"]').val(); // from hidden input value
+    $(document).on('change input',
+        'input[name="order_item_width[]"], input[name="order_item_height[]"], input[name="order_item_qty[]"]',
+        function () {
+            const $row = $(this).closest('.itemRow');
+            const rowId = $row.data('row');
+            const matId = $row.find('input[name="order_material_id[]"]').val();
 
-        if (matId && rowId) {
-            getMaterialPrice(matId, rowId);
+            if (matId) {
+                getMaterialPrice(matId, rowId); // recalc live
+            }
         }
+    );
+
+    $('#order_process').on('change', function () {
+        $('.itemRow').each(function () {
+            const rowId = $(this).data('row');
+            const matId = $(this).find('input[name="order_material_id[]"]').val();
+            if (matId) {
+                getMaterialPrice(matId, rowId);
+            }
+        });
     });
 
-    // When user edits qty, price, width, or height
     $(document).on('input change',
-        'input[name="order_item_qty[]"], input[name="order_item_price[]"], input[name="order_item_width[]"], input[name="order_item_height[]"], #order-discount, #order-paid, #order-credits',
+        'input[name="order_item_qty[]"], input[name="order_item_price[]"], input[name="order_item_width[]"], input[name="order_item_height[]"]',
         function () {
             const $row = $(this).closest('.itemRow');
 
-            // Update item total for this row
             const qty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 0;
             const price = parseFloat($row.find('input[name="order_item_price[]"]').val()) || 0;
             $row.find('input[name="order_item_total[]"]').val((qty * price).toFixed(2));
 
-            // Recalculate grand totals
             calculateTotal();
         }
     );
 
-    // Discount or payment change
     $(document).on('input', '#order-discount, #order-paid , #order-credits', function () {
         calculateTotal();
     });
 
-
     function getMaterialPrice(matId, rowId) {
+        const $row = $(`.itemRow[data-row="${rowId}"]`);
+
+        const itemDetails = $row.find('textarea[name="order_item_details[]"]').val() || "";
+        const itemWidth = parseFloat($row.find('input[name="order_item_width[]"]').val()) || 0;
+        const itemHeight = parseFloat($row.find('input[name="order_item_height[]"]').val()) || 0;
+        const itemQty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
+        const orderProcess = parseFloat($('#order_process').val()) || 1;
+
         $.ajax({
             url: "get/material_price.php",
             type: "POST",
             data: {
                 material_id: matId,
-                details: 'details',
-                width: 24,
-                height: 36,
-                quantity: 1
+                details: itemDetails,
+                width: itemWidth,
+                height: itemHeight,
+                quantity: itemQty,
+                process_time: orderProcess
             },
             dataType: "json",
             success: function (response) {
-                const $row = $(`.itemRow[data-row="${rowId}"]`);
-                $row.find('input[name="order_item_price[]"]').val(response.final_cost);
-                const quantity = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
-                $row.find('input[name="order_item_total[]"]').val((response.final_cost * quantity).toFixed(2));
+                const unitPrice = parseFloat(response.final_cost) || 0;
+                const qty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
+                const total = unitPrice * qty;
+
+                $row.find('input[name="order_item_price[]"]').val(unitPrice.toFixed(2));
+                $row.find('input[name="order_item_total[]"]').val(total.toFixed(2));
+                // console.log('Material Cost per Linear Inch:', response.mat_cost_l + ' | Ink Cost Total: ' + response.ink_cost_total + ' | Cost per Print: ' + response.cost_per_print + ' | Total Cost: ' + response.total_cost + ' | Final Price: ' + response.final_price);
                 calculateTotal();
             }
         });
@@ -408,55 +395,50 @@ $(document).ready(function () {
     function calculateTotal() {
         let subtotal = 0;
 
-        // Sum all item totals
         $('input[name="order_item_total[]"]').each(function () {
             let val = parseFloat($(this).val()) || 0;
             subtotal += val;
         });
 
-        // Update Subtotal
         $('#order-subtotal').val(subtotal.toFixed(2));
 
-        // Calculate Tax (8.25%)
         let tax = subtotal * 0.0825;
         $('#order-tax').val(tax.toFixed(2));
 
-        // Apply Discount
         let discountPercent = parseFloat($('#order-discount').val()) || 0;
         let discountAmount = (subtotal + tax) * (discountPercent / 100);
 
-        // Calculate Total (after tax & discount)
         let total = (subtotal + tax) - discountAmount;
 
-        // Subtract Credits
         let creditAmount = parseFloat($('#order-credits').val()) || 0;
         total -= creditAmount;
 
-        // Update Total field
         $('#order-total').val(total.toFixed(2));
 
-        // Calculate Due (after paid)
         let paid = parseFloat($('#order-paid').val()) || 0;
         let due = total - paid;
 
-        // Update Due field
         $('#order-due').val(due.toFixed(2));
+
+        if (total <= 0) {
+            total = 0;
+        }
+        if (due <= 0) {
+            due = 0;
+        }
     }
 
-    // Hide dropdown when clicking outside
     $(document).on('click', function (e) {
         if (!$(e.target).closest('.custom-dropdown').length) {
             $('.dropdown-list').hide();
         }
     });
 
-    // Remove item
     $(document).on('click', '.removeItem', function () {
         $(this).closest('tr').remove();
         calculateTotal();
     });
 
-    // Keyboard navigation for dropdown
     $(document).on('keydown', '.mat-search', function (e) {
         const dropdown = $(this).siblings('.dropdown-list');
         const items = dropdown.find('.dropdown-item');
@@ -471,10 +453,9 @@ $(document).ready(function () {
             } else {
                 let next = active.removeClass('active').nextAll('.dropdown-item:first');
                 if (next.length) next.addClass('active');
-                else items.first().addClass('active'); // loop
+                else items.first().addClass('active');
             }
 
-            // Scroll to keep visible
             let newActive = dropdown.find('.active');
             dropdown.scrollTop(
                 newActive.position().top + dropdown.scrollTop() - dropdown.height() / 2
@@ -488,10 +469,9 @@ $(document).ready(function () {
             } else {
                 let prev = active.removeClass('active').prevAll('.dropdown-item:first');
                 if (prev.length) prev.addClass('active');
-                else items.last().addClass('active'); // loop
+                else items.last().addClass('active');
             }
 
-            // Scroll to keep visible
             let newActive = dropdown.find('.active');
             dropdown.scrollTop(
                 newActive.position().top + dropdown.scrollTop() - dropdown.height() / 2
@@ -501,13 +481,131 @@ $(document).ready(function () {
         else if (e.key === 'Enter') {
             e.preventDefault();
             if (active.length) {
-                active.trigger('click'); // simulate click
+                active.trigger('click');
             }
         }
 
         else if (e.key === 'Escape') {
             dropdown.hide();
         }
+    });
+
+    $(document).ready(function () {
+        const $input = $("#itemInput");
+        const $suggestions = $("#suggestions");
+
+        // Live search
+        $input.on("keyup", function () {
+            const term = $(this).val().trim();
+
+            if (term.length < 2) {
+                $suggestions.empty().hide();
+                return;
+            }
+
+            $.getJSON("get/search_clients.php", { term: term }, function (data) {
+                $suggestions.empty();
+
+                if (data.length === 0) {
+                    // No results → just hide suggestions
+                    $suggestions.hide();
+                } else {
+                    $suggestions.show();
+                    data.forEach(function (client) {
+                        const item = `
+                            <button type="button" class="list-group-item list-group-item-action"
+                                data-id="${client.client_id}"
+                                data-name="${client.business_name}"
+                                data-address="${client.business_address || ''}"
+                                data-cname="${client.contact_name || ''}"
+                                data-phone="${client.contact_phone || ''}"
+                                data-email="${client.contact_email || ''}">
+                                ${client.business_name}
+                            </button>`;
+                        $suggestions.append(item);
+                    });
+                }
+            });
+        });
+
+        // Fill fields when a suggestion is clicked
+        $suggestions.on("click", ".list-group-item-action", function () {
+            const $this = $(this);
+            $("#c_client_id").val($this.data("id"));
+            $("#itemInput").val($this.data("name"));
+            $("#c_client_address").val($this.data("address"));
+            $("#c_client_name").val($this.data("cname"));
+            $("#c_client_phone").val($this.data("phone"));
+            $("#c_client_email").val($this.data("email"));
+            $suggestions.empty().hide();
+        });
+
+        // Hide suggestions when clicking outside or moving to another field
+        $(document).on("click focusin", function (e) {
+            if (!$(e.target).closest("#itemInput, #suggestions").length) {
+                $suggestions.empty().hide();
+            }
+        });
+    });
+
+    $('#submitOrder').off('click').on('click', function (e) {
+        e.preventDefault();
+
+        let items = [];
+        $('#orderItems tbody tr').each(function () {
+            items.push({
+                material_id: $(this).find('input[name="order_material_id[]"]').val(),
+                item_details: $(this).find('textarea[name="order_item_details[]"]').val(),
+                item_quantity: $(this).find('input[name="order_item_qty[]"]').val(),
+                item_size_width: $(this).find('input[name="order_item_width[]"]').val(),
+                item_size_height: $(this).find('input[name="order_item_height[]"]').val(),
+                item_price: $(this).find('input[name="order_item_price[]"]').val(),
+                item_total: $(this).find('input[name="order_item_total[]"]').val()
+            });
+        });
+
+        let orderData = {
+            user_id: 1,
+            order_id: 0,
+            // client info
+            business_name: $('#itemInput').val(),
+            business_address: $('#c_client_address').val(),
+            contact_name: $('#c_contact_name').val(),
+            contact_phone: $('#c_client_phone').val(),
+            contact_email: $('#c_client_email').val(),
+            // order info
+            order_date: $('#order_today_date').val(),
+            order_due: $('#order_due_date').val(),
+            order_before_tax: $('#order-subtotal').val(),
+            order_tax: $('#order-tax').val(),
+            order_after_tax: $('#order-total').val(),
+            order_amount_paid: $('#order-paid').val(),
+            order_amount_due: $('#order-due').val(),
+            order_production_time: $('#order_process').val(),
+            payment_type_id: $('#paument_method').val(),
+            status_id: 1,
+            order_comment: $('#order_comments').val(),
+            items: items
+        };
+
+        $.ajax({
+            url: 'get/invoice-save.php',
+            type: 'POST',
+            data: JSON.stringify(orderData),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (response) {
+                console.log('Success:', response);
+                alert(response.message);
+                if (response.status === 'success') {
+                    window.location.href = 'index.php';
+                }
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                alert("Error submitting invoice.");
+            }
+        });
     });
 
 });

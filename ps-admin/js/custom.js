@@ -198,6 +198,87 @@ $(document).ready(function () {
         $('.order-details').hide();
     });
 
+    $(document).on('click', '.edit-order', function () {
+        const orderID = $(this).data('order-id');
+
+        $.ajax({
+            url: 'get/order.php',
+            method: 'GET',
+            data: { order_id: orderID },
+            dataType: 'json',
+            success: function (response) {
+                if (response.order) {
+                    const o = response.order;
+
+                    // Show the overlay
+                    $('.overlay.create-order').fadeIn();
+
+                    // Fill general order fields
+                    $('#order_today_date').val(o.order_date);
+                    $('#order_process').val(o.order_process);
+                    $('#paument_method').val(o.payment_type_id);
+
+                    // Fill client info
+                    $('#c_client_id').val(o.client_id);
+                    $('#itemInput').val(o.client_name);
+                    $('#c_client_address').val(o.client_address);
+                    $('#c_contact_name').val(o.contact_name);
+                    $('#c_client_phone').val(o.client_phone);
+                    $('#c_client_email').val(o.client_email);
+
+                    // Totals
+                    $('#order-subtotal').val(o.before_tax);
+                    $('#order-tax').val(o.tax);
+                    $('#order-discount').val(o.discount);
+                    $('#order-credits').val(o.credits);
+                    $('#order-total').val(o.after_tax);
+                    $('#order-paid').val(o.paid);
+                    $('#order-due').val(o.due);
+
+                    // Comment
+                    $('textarea[name="order_comments"]').val(o.comment || '');
+
+                    // Clear old items
+                    $('#orderItems tbody').empty();
+
+                    // Rebuild items
+                    response.items.forEach(item => {
+                        const rowHtml = `
+                        <tr class="itemRow" data-row="${item.id}">
+                            <td>
+                                <select class="form-select form-select-sm" name="order_material_id[]">
+                                    <option value="${item.material_id}" selected>${item.material}</option>
+                                </select>
+                            </td>
+                            <td><input type="text" class="form-control form-control-sm" name="order_item_details[]" value="${item.details}"></td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <input type="number" step="0.01" class="form-control form-control-sm" name="order_item_width[]" value="${item.width}">
+                                    <input type="number" step="0.01" class="form-control form-control-sm" name="order_item_height[]" value="${item.height}">
+                                </div>
+                            </td>
+                            <td><input type="number" class="form-control form-control-sm text-center" name="order_item_qty[]" value="${item.quantity}"></td>
+                            <td><input type="number" class="form-control form-control-sm text-end" name="order_item_price[]" value="${item.price}"></td>
+                            <td><input type="number" class="form-control form-control-sm text-end" name="order_item_total[]" value="${item.total}" disabled></td>
+                            <td class="text-center"><button type="button" class="btn btn-sm btn-danger remove-item">X</button></td>
+                        </tr>
+                    `;
+                        $('#orderItems tbody').append(rowHtml);
+                    });
+
+                    // Change overlay header and button
+                    $('.create-order h5').text('Edit Order');
+                    $('#submitOrder').text('Update Invoice').data('order-id', o.order_id);
+                } else {
+                    alert(response.error || 'Something went wrong while loading order.');
+                }
+            },
+            error: function () {
+                alert('Failed to load order data for editing.');
+            }
+        });
+    });
+
     const todayDate = new Date().toISOString().split('T')[0];
     $('#order_today_date').val(todayDate);
 
@@ -554,6 +635,7 @@ $(document).ready(function () {
         let items = [];
         $('#orderItems tbody tr').each(function () {
             items.push({
+                item_id: $(this).data('item-id') || 0, // existing item id (if editing)
                 material_id: $(this).find('input[name="order_material_id[]"]').val(),
                 item_details: $(this).find('textarea[name="order_item_details[]"]').val(),
                 item_quantity: $(this).find('input[name="order_item_qty[]"]').val(),
@@ -566,14 +648,12 @@ $(document).ready(function () {
 
         let orderData = {
             user_id: 1,
-            order_id: 0,
-            // client info
+            order_id: $('#order_id').val() || 0, // set order id dynamically
             business_name: $('#itemInput').val(),
             business_address: $('#c_client_address').val(),
             contact_name: $('#c_contact_name').val(),
             contact_phone: $('#c_client_phone').val(),
             contact_email: $('#c_client_email').val(),
-            // order info
             order_date: $('#order_today_date').val(),
             order_due: $('#order_due_date').val(),
             order_before_tax: $('#order-subtotal').val(),
@@ -583,7 +663,7 @@ $(document).ready(function () {
             order_amount_due: $('#order-due').val(),
             order_production_time: $('#order_process').val(),
             payment_type_id: $('#paument_method').val(),
-            status_id: 1,
+            status_id: $('#order_status').val() || 1,
             order_comment: $('#order_comments').val(),
             items: items
         };

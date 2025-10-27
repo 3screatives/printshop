@@ -9,7 +9,6 @@ header('Content-Type: application/json');
 include('../db_function.php');
 $conn = db_connect();
 
-// Decode JSON input
 $data = json_decode(file_get_contents('php://input'), true);
 if (!$data) {
     echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
@@ -40,54 +39,91 @@ $status_id = intval($data['status_id'] ?? 1);
 $order_comment = trim($data['order_comment'] ?? '');
 $items = $data['items'] ?? [];
 
-// === INSERT CLIENT ===
-$sql_client = "INSERT INTO ps_clients (business_name, business_address, contact_name, contact_phone, contact_email, client_since)
-               VALUES (?, ?, ?, ?, ?, ?)";
-$client_result = execute_query($conn, $sql_client, "ssssss", $business_name, $business_address, $contact_name, $contact_phone, $contact_email, $client_since);
-if (!$client_result) {
-    echo json_encode(['status' => 'error', 'message' => 'Failed to insert client.']);
-    exit;
+// === CLIENT HANDLING ===
+if ($order_id == 0) {
+    // New order → new client
+    $sql_client = "INSERT INTO ps_clients (business_name, business_address, contact_name, contact_phone, contact_email, client_since)
+                   VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conn, $sql_client);
+    mysqli_stmt_bind_param($stmt, "ssssss", $business_name, $business_address, $contact_name, $contact_phone, $contact_email, $client_since);
+    mysqli_stmt_execute($stmt);
+    $client_id = mysqli_insert_id($conn);
+    mysqli_stmt_close($stmt);
+} else {
+    // Existing order → update client
+    $res = mysqli_query($conn, "SELECT client_id FROM ps_orders WHERE order_id = $order_id");
+    $row = mysqli_fetch_assoc($res);
+    $client_id = $row['client_id'] ?? 0;
+    mysqli_free_result($res);
+
+    $sql_update_client = "UPDATE ps_clients 
+                          SET business_name=?, business_address=?, contact_name=?, contact_phone=?, contact_email=?
+                          WHERE client_id=?";
+    $stmt = mysqli_prepare($conn, $sql_update_client);
+    mysqli_stmt_bind_param($stmt, "sssssi", $business_name, $business_address, $contact_name, $contact_phone, $contact_email, $client_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
 }
-$client_id = mysqli_insert_id($conn);
 
-// === INSERT ORDER ===
-$sql_order = "INSERT INTO ps_orders (
-    order_date, order_due, user_id, order_before_tax, order_tax, order_after_tax, 
-    order_amount_paid, order_amount_due, order_production_time, payment_type_id, 
-    client_id, status_id, order_comment
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-$order_result = execute_query(
-    $conn,
-    $sql_order,
-    "ssidddddiiiis",
-    $order_date,
-    $order_due,
-    $user_id,
-    $order_before_tax,
-    $order_tax,
-    $order_after_tax,
-    $order_amount_paid,
-    $order_amount_due,
-    $order_production_time,
-    $payment_type_id,
-    $client_id,
-    $status_id,
-    $order_comment
-);
-
-if (!$order_result) {
-    echo json_encode(['status' => 'error', 'message' => 'Failed to insert order.']);
-    exit;
+// === ORDER HANDLING ===
+if ($order_id == 0) {
+    // Insert new order
+    $sql_order = "INSERT INTO ps_orders (
+        order_date, order_due, user_id, order_before_tax, order_tax, order_after_tax,
+        order_amount_paid, order_amount_due, order_production_time, payment_type_id,
+        client_id, status_id, order_comment
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conn, $sql_order);
+    mysqli_stmt_bind_param(
+        $stmt,
+        "ssidddddiiiis",
+        $order_date,
+        $order_due,
+        $user_id,
+        $order_before_tax,
+        $order_tax,
+        $order_after_tax,
+        $order_amount_paid,
+        $order_amount_due,
+        $order_production_time,
+        $payment_type_id,
+        $client_id,
+        $status_id,
+        $order_comment
+    );
+    mysqli_stmt_execute($stmt);
+    $order_id = mysqli_insert_id($conn);
+    mysqli_stmt_close($stmt);
+} else {
+    // Update existing order
+    $sql_update_order = "UPDATE ps_orders SET
+        order_date=?, order_due=?, order_before_tax=?, order_tax=?, order_after_tax=?,
+        order_amount_paid=?, order_amount_due=?, order_production_time=?, payment_type_id=?,
+        status_id=?, order_comment=? WHERE order_id=?";
+    $stmt = mysqli_prepare($conn, $sql_update_order);
+    mysqli_stmt_bind_param(
+        $stmt,
+        "ssddddddii si",
+        $order_date,
+        $order_due,
+        $order_before_tax,
+        $order_tax,
+        $order_after_tax,
+        $order_amount_paid,
+        $order_amount_due,
+        $order_production_time,
+        $payment_type_id,
+        $status_id,
+        $order_comment,
+        $order_id
+    );
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
 }
-$order_id = mysqli_insert_id($conn);
 
-// === INSERT ORDER ITEMS ===
-$sql_item = "INSERT INTO ps_order_items (
-    order_id, material_id, item_details, item_quantity, item_size_width, 
-    item_size_height, item_price, item_total
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
+// === ORDER ITEMS ===
 foreach ($items as $item) {
+    $item_id = intval($item['item_id'] ?? 0);
     $material_id = intval($item['material_id'] ?? 0);
     $item_details = trim($item['item_details'] ?? '');
     $item_quantity = intval($item['item_quantity'] ?? 0);
@@ -96,22 +132,48 @@ foreach ($items as $item) {
     $item_price = floatval($item['item_price'] ?? 0);
     $item_total = floatval($item['item_total'] ?? 0);
 
-    $res = execute_query(
-        $conn,
-        $sql_item,
-        "iisiiddd",
-        $order_id,
-        $material_id,
-        $item_details,
-        $item_quantity,
-        $item_size_width,
-        $item_size_height,
-        $item_price,
-        $item_total
-    );
-    if (!$res) {
-        echo json_encode(['status' => 'error', 'message' => 'Failed to insert order item.']);
-        exit;
+    if ($item_id > 0) {
+        // Update existing item
+        $sql_item_update = "UPDATE ps_order_items 
+                            SET material_id=?, item_details=?, item_quantity=?, item_size_width=?, 
+                                item_size_height=?, item_price=?, item_total=? 
+                            WHERE item_id=?";
+        $stmt = mysqli_prepare($conn, $sql_item_update);
+        mysqli_stmt_bind_param(
+            $stmt,
+            "isiddddi",
+            $material_id,
+            $item_details,
+            $item_quantity,
+            $item_size_width,
+            $item_size_height,
+            $item_price,
+            $item_total,
+            $item_id
+        );
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    } else {
+        // Insert new item
+        $sql_item_insert = "INSERT INTO ps_order_items (
+            order_id, material_id, item_details, item_quantity, item_size_width,
+            item_size_height, item_price, item_total
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = mysqli_prepare($conn, $sql_item_insert);
+        mysqli_stmt_bind_param(
+            $stmt,
+            "iisiiddd",
+            $order_id,
+            $material_id,
+            $item_details,
+            $item_quantity,
+            $item_size_width,
+            $item_size_height,
+            $item_price,
+            $item_total
+        );
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
     }
 }
 
