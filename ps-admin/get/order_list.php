@@ -7,6 +7,7 @@ $conn = db_connect();
 $sql = "
     SELECT 
         o.order_id,
+        o.order_date,
         o.order_due,
         o.order_after_tax,
         c.business_name AS client_name,

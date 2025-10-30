@@ -98,6 +98,7 @@
                                     <tr>
                                         <th width="10%">Order #</th>
                                         <th width="10%">Order Date</th>
+                                        <th width="10%">Order Due</th>
                                         <th width="30%">Client Name</th>
                                         <th width="10%">Amount</th>
                                         <th width="20%">Status</th>

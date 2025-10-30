@@ -65,12 +65,14 @@ if (!empty($data)) {
         "due" => $order['order_amount_due'],
         "comment" => $order['order_comment'],
         "production_time" => $order['order_production_time'],
+        "business_name" => $order['business_name'],
+        "business_address" => $order['business_address'],
         "client_name" => $order['contact_name'],
-        "client_address" => $order['business_address'],
         "client_phone" => $order['contact_phone'],
         "client_email" => $order['contact_email'],
         "status_id" => $order['status_id'],
         "status_name" => $order['status_name'],
+        "order_process" => $order['order_production_time'],
         "payment_type" => $order['payment_type_id'],  // or map manually if you have a separate table later
         "stmaID" => $order['client_stma_id'],
     ];
@@ -83,9 +85,11 @@ if (!empty($data)) {
                 "quantity" => $row['item_quantity'],
                 "material" => $row['mat_name'] . " (" . $row['mat_vendor'] . ")",
                 "details" => $row['item_details'],
-                "size" => number_format($row['item_size_width'], 2) . " x " . number_format($row['item_size_height'], 2),
+                "size_width" => number_format($row['item_size_width'], 2),
+                "size_height" => number_format($row['item_size_height'], 2),
                 "grommets" => $row['item_grommets'],
-                "price" => "$" . number_format($row['item_total'], 2)
+                "price" => number_format($row['item_price'], 2),
+                "total" => number_format($row['item_total'], 2)
             ];
         }
     }

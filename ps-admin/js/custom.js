@@ -28,11 +28,25 @@ $(document).ready(function () {
         let rows = '';
 
         orders.forEach(o => {
-            const formattedDate = new Date(o.order_due).toLocaleDateString("en-US", {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
+            // const formattedDate = new Date(o.order_due).toLocaleDateString("en-US", {
+            //     year: 'numeric',
+            //     month: 'short',
+            //     day: 'numeric'
+            // });
+            function formatOrderDate(dateString) {
+                if (!dateString) return "";
+
+                const [year, month, day] = dateString.split("-");
+                const date = new Date(year, month - 1, day);
+
+                return date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric"
+                });
+            }
+            const formattedDate = formatOrderDate(o.order_date);
+            const formattedDue = formatOrderDate(o.order_due);
 
             let statusSelect = `<select class="form-select form-select-sm order-status" data-order-id="${o.order_id}">`;
             statusOptions.forEach(status => {
@@ -40,11 +54,12 @@ $(document).ready(function () {
                 statusSelect += `<option value="${status.status_id}" ${selected}>${status.status_name}</option>`;
             });
             statusSelect += `</select>`;
-
+            console.log(formattedDate);
             rows += `
                 <tr>
                     <td>PS#25-${o.order_id}</td>
                     <td>${formattedDate}</td>
+                    <td>${formattedDue}</td>
                     <td>${o.client_name ?? '—'}</td>
                     <td>$${parseFloat(o.order_after_tax || 0).toFixed(2)}</td>
                     <td>${statusSelect}</td>
@@ -179,7 +194,7 @@ $(document).ready(function () {
                         <td class="text-center">${item.quantity}</td>
                         <td>${item.material}</td>
                         <td>${item.details}</td>
-                        <td>${item.size}</td>
+                        <td>${item.size_width} x ${item.size_height}</td>
                         <td class="text-end">${item.price}</td>
                     </tr>`;
                     });
@@ -197,6 +212,25 @@ $(document).ready(function () {
     $('.close').on('click', function () {
         $('.order-details').hide();
     });
+
+    const todayDate = new Date().toISOString().split('T')[0];
+    $('#order_today_date').val(todayDate);
+
+    function getAdjustedDate() {
+        let date = new Date();
+        date.setDate(date.getDate() + 2);
+
+        const day = date.getDay();
+
+        if (day === 6 || day === 0) {
+            date.setDate(date.getDate() + 2);
+        }
+
+        return date.toISOString().split('T')[0];
+    }
+
+    const adjustedDate = getAdjustedDate();
+    $('#order_due').val(adjustedDate);
 
     $(document).on('click', '.edit-order', function () {
         const orderID = $(this).data('order-id');
@@ -218,11 +252,13 @@ $(document).ready(function () {
                     $('#order_process').val(o.order_process);
                     $('#paument_method').val(o.payment_type_id);
 
+                    console.log('process: ', o.order_process);
+
                     // Fill client info
                     $('#c_client_id').val(o.client_id);
-                    $('#itemInput').val(o.client_name);
-                    $('#c_client_address').val(o.client_address);
-                    $('#c_contact_name').val(o.contact_name);
+                    $('#itemInput').val(o.business_name);
+                    $('#c_client_address').val(o.business_address);
+                    $('#c_contact_name').val(o.client_name);
                     $('#c_client_phone').val(o.client_phone);
                     $('#c_client_email').val(o.client_email);
 
@@ -253,8 +289,8 @@ $(document).ready(function () {
                             <td><input type="text" class="form-control form-control-sm" name="order_item_details[]" value="${item.details}"></td>
                             <td>
                                 <div class="d-flex gap-1">
-                                    <input type="number" step="0.01" class="form-control form-control-sm" name="order_item_width[]" value="${item.width}">
-                                    <input type="number" step="0.01" class="form-control form-control-sm" name="order_item_height[]" value="${item.height}">
+                                    <input type="number" step="0.01" class="form-control form-control-sm" name="order_item_width[]" value="${item.size_width}">
+                                    <input type="number" step="0.01" class="form-control form-control-sm" name="order_item_height[]" value="${item.size_height}">
                                 </div>
                             </td>
                             <td><input type="number" class="form-control form-control-sm text-center" name="order_item_qty[]" value="${item.quantity}"></td>
@@ -278,25 +314,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    const todayDate = new Date().toISOString().split('T')[0];
-    $('#order_today_date').val(todayDate);
-
-    function getAdjustedDate() {
-        let date = new Date();
-        date.setDate(date.getDate() + 2);
-
-        const day = date.getDay();
-
-        if (day === 6 || day === 0) {
-            date.setDate(date.getDate() + 2);
-        }
-
-        return date.toISOString().split('T')[0];
-    }
-
-    const adjustedDate = getAdjustedDate();
-    $('#order_due').val(adjustedDate);
 
     $(document).on('click', '#newOrder', function () {
         $('.create-order').show();
