@@ -54,7 +54,7 @@ $(document).ready(function () {
                 statusSelect += `<option value="${status.status_id}" ${selected}>${status.status_name}</option>`;
             });
             statusSelect += `</select>`;
-            console.log(formattedDate);
+            // console.log(formattedDate);
             rows += `
                 <tr>
                     <td>PS#25-${o.order_id}</td>
@@ -155,7 +155,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.order) {
-                    console.log(response);
+                    // console.log(response);
                     const o = response.order;
                     $('#orderID').text(o.order_id);
                     $('#orderDue').text(new Date(o.order_due).toLocaleDateString());
@@ -216,104 +216,21 @@ $(document).ready(function () {
     const todayDate = new Date().toISOString().split('T')[0];
     $('#order_today_date').val(todayDate);
 
-    function getAdjustedDate() {
-        let date = new Date();
-        date.setDate(date.getDate() + 2);
+    // function getAdjustedDate() {
+    //     let date = new Date();
+    //     date.setDate(date.getDate() + 2);
 
-        const day = date.getDay();
+    //     const day = date.getDay();
 
-        if (day === 6 || day === 0) {
-            date.setDate(date.getDate() + 2);
-        }
+    //     if (day === 6 || day === 0) {
+    //         date.setDate(date.getDate() + 2);
+    //     }
 
-        return date.toISOString().split('T')[0];
-    }
+    //     return date.toISOString().split('T')[0];
+    // }
 
-    const adjustedDate = getAdjustedDate();
-    $('#order_due').val(adjustedDate);
-
-    $(document).on('click', '.edit-order', function () {
-        const orderID = $(this).data('order-id');
-
-        $.ajax({
-            url: 'get/order.php',
-            method: 'GET',
-            data: { order_id: orderID },
-            dataType: 'json',
-            success: function (response) {
-                if (response.order) {
-                    const o = response.order;
-
-                    // Show the overlay
-                    $('.overlay.create-order').fadeIn();
-
-                    // Fill general order fields
-                    $('#order_today_date').val(o.order_date);
-                    $('#order_process').val(o.order_process);
-                    $('#paument_method').val(o.payment_type_id);
-
-                    console.log('process: ', o.order_process);
-
-                    // Fill client info
-                    $('#c_client_id').val(o.client_id);
-                    $('#itemInput').val(o.business_name);
-                    $('#c_client_address').val(o.business_address);
-                    $('#c_contact_name').val(o.client_name);
-                    $('#c_client_phone').val(o.client_phone);
-                    $('#c_client_email').val(o.client_email);
-
-                    // Totals
-                    $('#order-subtotal').val(o.before_tax);
-                    $('#order-tax').val(o.tax);
-                    $('#order-discount').val(o.discount);
-                    $('#order-credits').val(o.credits);
-                    $('#order-total').val(o.after_tax);
-                    $('#order-paid').val(o.paid);
-                    $('#order-due').val(o.due);
-
-                    // Comment
-                    $('textarea[name="order_comments"]').val(o.comment || '');
-
-                    // Clear old items
-                    $('#orderItems tbody').empty();
-
-                    // Rebuild items
-                    response.items.forEach(item => {
-                        const rowHtml = `
-                        <tr class="itemRow" data-row="${item.id}">
-                            <td>
-                                <select class="form-select form-select-sm" name="order_material_id[]">
-                                    <option value="${item.material_id}" selected>${item.material}</option>
-                                </select>
-                            </td>
-                            <td><input type="text" class="form-control form-control-sm" name="order_item_details[]" value="${item.details}"></td>
-                            <td>
-                                <div class="d-flex gap-1">
-                                    <input type="number" step="0.01" class="form-control form-control-sm" name="order_item_width[]" value="${item.size_width}">
-                                    <input type="number" step="0.01" class="form-control form-control-sm" name="order_item_height[]" value="${item.size_height}">
-                                </div>
-                            </td>
-                            <td><input type="number" class="form-control form-control-sm text-center" name="order_item_qty[]" value="${item.quantity}"></td>
-                            <td><input type="number" class="form-control form-control-sm text-end" name="order_item_price[]" value="${item.price}"></td>
-                            <td><input type="number" class="form-control form-control-sm text-end" name="order_item_total[]" value="${item.total}" disabled></td>
-                            <td class="text-center"><button type="button" class="btn btn-sm btn-danger remove-item">X</button></td>
-                        </tr>
-                    `;
-                        $('#orderItems tbody').append(rowHtml);
-                    });
-
-                    // Change overlay header and button
-                    $('.create-order h5').text('Edit Order');
-                    $('#submitOrder').text('Update Invoice').data('order-id', o.order_id);
-                } else {
-                    alert(response.error || 'Something went wrong while loading order.');
-                }
-            },
-            error: function () {
-                alert('Failed to load order data for editing.');
-            }
-        });
-    });
+    // const adjustedDate = getAdjustedDate();
+    // $('#order_due').val(adjustedDate);
 
     $(document).on('click', '#newOrder', function () {
         $('.create-order').show();
@@ -692,15 +609,103 @@ $(document).ready(function () {
             contentType: 'application/json',
             dataType: 'json',
             success: function (response) {
-                console.log('Success:', response);
+                // console.log('Success:', response);
                 alert(response.message);
                 if (response.status === 'success') {
                     window.location.href = 'index.php';
                 }
             },
             error: function (xhr) {
-                console.error(xhr.responseText);
+                // console.error(xhr.responseText);
                 alert("Error submitting invoice.");
+            }
+        });
+    });
+
+    $(document).on('click', '.edit-order', function () {
+        const orderID = $(this).data('order-id');
+
+        $.ajax({
+            url: 'get/order.php',
+            method: 'GET',
+            data: { order_id: orderID },
+            dataType: 'json',
+            success: function (response) {
+                if (response.order) {
+                    const o = response.order;
+
+                    // Show the overlay
+                    $('.overlay.create-order').fadeIn();
+
+                    // Fill general order fields
+                    $('#order_today_date').val(o.order_date);
+                    $('#order_process').val(o.order_process);
+                    $('#paument_method').val(o.payment_type_id);
+
+                    // console.log('process: ', o.order_process);
+
+                    // Fill client info
+                    $('#c_client_id').val(o.client_id);
+                    $('#itemInput').val(o.business_name);
+                    $('#c_client_address').val(o.business_address);
+                    $('#c_contact_name').val(o.client_name);
+                    $('#c_client_phone').val(o.client_phone);
+                    $('#c_client_email').val(o.client_email);
+
+                    // Totals
+                    $('#order-subtotal').val(o.before_tax);
+                    $('#order-tax').val(o.tax);
+                    $('#order-discount').val(o.discount);
+                    $('#order-credits').val(o.credits);
+                    $('#order-total').val(o.after_tax);
+                    $('#order-paid').val(o.paid);
+                    $('#order-due').val(o.due);
+
+                    // Comment
+                    $('textarea[name="order_comments"]').val(o.comment || '');
+
+                    // Clear old items
+                    $('#orderItems tbody').empty();
+
+                    // Rebuild items
+                    response.items.forEach(item => {
+                        const rowHtml = `
+                        <tr class="itemRow" data-row="${item.id}">
+                            <td class="position-relative">
+                                <div class="custom-dropdown">
+                                    <input type="text" class="form-control form-control-sm mat-search"
+                                        placeholder="Search Material..." autocomplete="off" value="${item.material}">
+                                    <div class="dropdown-list border position-absolute bg-white w-100 shadow-sm"
+                                        style="display:none; max-height:180px; overflow-y:auto; z-index:1000;"></div>
+                                    <input type="hidden" name="order_material_id[]">
+                                    <input type="hidden" name="item_row_id[]" value="${item.id}">
+                                </div>
+                            </td>
+                            <td><input type="text" class="form-control form-control-sm" name="order_item_details[]" value="${item.details}"></td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <input type="number" step="0.01" class="form-control form-control-sm" name="order_item_width[]" value="${item.size_width}">
+                                    <input type="number" step="0.01" class="form-control form-control-sm" name="order_item_height[]" value="${item.size_height}">
+                                </div>
+                            </td>
+                            <td><input type="number" class="form-control form-control-sm text-center" name="order_item_qty[]" value="${item.quantity}"></td>
+                            <td><input type="number" class="form-control form-control-sm text-end" name="order_item_price[]" value="${item.price}"></td>
+                            <td><input type="number" class="form-control form-control-sm text-end" name="order_item_total[]" value="${item.total}" disabled></td>
+                            <td class="text-center"><button type="button" class="btn btn-sm btn-danger remove-item">X</button></td>
+                        </tr>
+                    `;
+                        $('#orderItems tbody').append(rowHtml);
+                    });
+
+                    // Change overlay header and button
+                    $('.create-order h5').text('Edit Order');
+                    $('#submitOrder').text('Update Invoice').data('order-id', o.order_id);
+                } else {
+                    alert(response.error || 'Something went wrong while loading order.');
+                }
+            },
+            error: function () {
+                alert('Failed to load order data for editing.');
             }
         });
     });

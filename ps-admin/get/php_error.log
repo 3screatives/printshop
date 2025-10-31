@@ -10,3 +10,8 @@ Stack trace:
 #1 C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php(70): execute_query(Object(mysqli), 'INSERT INTO inv...', 'ssss', 'Alpha Print Co', '123 Main St, Ch...', '312-555-1212', 'john@alpha.com')
 #2 {main}
   thrown in C:\xampp\htdocs\printshop\ps-admin\db_function.php on line 15
+[30-Oct-2025 13:51:35 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'order_due' cannot be null in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php:94
+Stack trace:
+#0 C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php(94): mysqli_stmt_execute(Object(mysqli_stmt))
+#1 {main}
+  thrown in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php on line 94

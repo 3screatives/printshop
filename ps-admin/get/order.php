@@ -83,7 +83,7 @@ if (!empty($data)) {
         if (!empty($row['item_id'])) {
             $response['items'][] = [
                 "quantity" => $row['item_quantity'],
-                "material" => $row['mat_name'] . " (" . $row['mat_vendor'] . ")",
+                "material" => $row['mat_name'],
                 "details" => $row['item_details'],
                 "size_width" => number_format($row['item_size_width'], 2),
                 "size_height" => number_format($row['item_size_height'], 2),
