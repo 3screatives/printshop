@@ -1,6 +1,6 @@
 <div class="overlay create-order" style="display: none;">
     <div class="container h-100 py-3 position-relative">
-        <div class="close">X</div>
+        <div class="close"></div>
         <div class="order-wrap p-2 border-radius-1">
             <div class="card border-0 mb-7 p-0">
                 <div class="card-header d-flex align-items-center justify-content-between flex-wrap">
@@ -15,7 +15,8 @@
                         </div>
 
                         <div class="d-flex align-items-center">
-                            <label for="order_process" class="mb-0 me-2" style="min-width: 90px; white-space: nowrap;">Due
+                            <label for="order_process" class="mb-0 me-2"
+                                style="min-width: 90px; white-space: nowrap;">Due
                                 Date:</label>
                             <!-- <input type="date" class="form-control form-control-sm" name="order_due" id="order_due"> -->
                             <select class="form-select form-select-sm" name="order_process" id="order_process">
@@ -42,7 +43,7 @@
                                         <textarea name="c_client_address" rows="2" id="c_client_address"
                                             class="form-control form-control-sm mb-1"
                                             placeholder="Client Address"></textarea>
-                                        <input type="text" name="c_contact_name" id="c_contact_name"
+                                        <input type="text" name="c_client_name" id="c_client_name"
                                             class="form-control form-control-sm mb-1" placeholder="Client Name">
                                         <input type="tel" name="c_client_phone" id="c_client_phone"
                                             class="form-control form-control-sm mb-1" placeholder="Client Phone">
@@ -76,7 +77,8 @@
                                     <td width="66%">
                                         <div class="d-flex align-items-center">
                                             <label for="paument_method" class="mb-0 me-2">Payment Method:</label>
-                                            <select class="form-select form-select-sm" name="paument_method" id="paument_method">
+                                            <select class="form-select form-select-sm" name="paument_method"
+                                                id="paument_method">
                                                 <option value="1" selected>Credit/Debit Card</option>
                                                 <option value="2">Cash</option>
                                                 <option value="3">Account</option>

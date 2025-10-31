@@ -23,7 +23,7 @@
                 <nav class="navbar show navbar-vertical shadow-l-1 h-100 border-radius-1">
                     <div class="container-fluid">
                         <a class="navbar-brand pb-3" href="#">
-                            <img src="../img/stma-print-logo.jpg" alt="">
+                            <img src="../img/dashboard-logo-new-top-color.png" alt="">
                         </a>
 
                         <ul class="navbar-nav">

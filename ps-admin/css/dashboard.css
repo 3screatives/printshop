@@ -150,7 +150,7 @@ nav {
 }
 
 .navbar-vertical .navbar-brand img {
-    width: 30px;
+    width: 100%;
     height: auto;
 }
 
@@ -391,6 +391,7 @@ textarea {
     overflow-y: auto;
     display: none;
 }
+
 .list-group-item {
     cursor: pointer;
 }
