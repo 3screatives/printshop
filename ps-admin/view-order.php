@@ -7,7 +7,8 @@
                     <h5 class="mb-0 py-3">Order ID: <b>#PS25-</b><b id="orderID"></b></h5>
                     <div>
                         <button type="button" class="btn btn-sm btn-outline-secondary me-2">Edit</button>
-                        <button type="button" class="btn btn-sm btn-outline-primary">Download/Print</button>
+                        <button type="button"
+                            class="btn btn-sm btn-outline-primary download-pdf">Download/Print</button>
                     </div>
                 </div>
                 <div class="card-body container-fluid py-3 scroll">

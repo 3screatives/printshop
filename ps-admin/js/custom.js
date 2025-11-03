@@ -489,7 +489,6 @@ $(document).ready(function () {
 
                 $row.find('input[name="order_item_price[]"]').val(unitPrice.toFixed(2));
                 $row.find('input[name="order_item_total[]"]').val(total.toFixed(2));
-                // console.log('Material Cost per Linear Inch:', response.mat_cost_l + ' | Ink Cost Total: ' + response.ink_cost_total + ' | Cost per Print: ' + response.cost_per_print + ' | Total Cost: ' + response.total_cost + ' | Final Price: ' + response.final_price);
                 calculateTotal();
             }
         });
@@ -759,5 +758,11 @@ $(document).ready(function () {
                 loadClients();
             });
         }
+    });
+
+    //download pdf
+    $(document).on('click', '.download-pdf', function () {
+        const orderId = $(this).data('order-id');
+        window.open('get/order_pdf.php?order_id=' + orderId, '_blank');
     });
 });
