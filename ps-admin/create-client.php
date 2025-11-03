@@ -18,7 +18,8 @@
                     </div>
                     <div class="col-md-12">
                         <label>Business Address</label>
-                        <textarea name="business_address" id="business_address" class="form-control" required></textarea>
+                        <textarea name="business_address" id="business_address" class="form-control"
+                            required></textarea>
                     </div>
                     <div class="col-md-6">
                         <label>Phone</label>
@@ -28,11 +29,7 @@
                         <label>Email</label>
                         <input type="email" name="contact_email" id="contact_email" class="form-control">
                     </div>
-                    <div class="col-md-6">
-                        <label>Client Since</label>
-                        <input type="date" name="client_since" id="client_since" class="form-control" required>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label>Client STMA ID</label>
                         <input type="number" name="client_stma_id" id="client_stma_id" class="form-control">
                     </div>
