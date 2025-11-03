@@ -711,4 +711,54 @@ $(document).ready(function () {
         });
     });
 
+    loadClients();
+
+    $("#newMember").click(function(){
+        $("#clientForm")[0].reset();
+        $("#client_id").val('');
+        $(".modal-title").text("Add Client");
+        $("#clientModal").modal("show");
+    });
+
+    $("#clientForm").submit(function(e){
+        e.preventDefault();
+        $.post("get/client_action.php", $(this).serialize() + "&action=save", function(res){
+            alert(res);
+            $("#clientModal").modal("hide");
+            loadClients();
+        });
+    });
+
+    function loadClients() {
+        $.post("get/client_action.php", {action: "fetch"}, function(data){
+            $("#clientsTable tbody").html(data);
+        });
+    }
+
+    $(document).on("click", ".editClient", function(){
+        var id = $(this).data("id");
+        $.post("get/client_action.php", {action: "get", client_id: id}, function(data){
+            var client = JSON.parse(data);
+            $("#client_id").val(client.client_id);
+            $("#business_name").val(client.business_name);
+            $("#business_address").val(client.business_address);
+            $("#contact_name").val(client.contact_name);
+            $("#contact_phone").val(client.contact_phone);
+            $("#contact_email").val(client.contact_email);
+            $("#client_since").val(client.client_since);
+            $("#client_stma_id").val(client.client_stma_id);
+            $(".modal-title").text("Edit Client");
+            $("#clientModal").modal("show");
+        });
+    });
+
+    $(document).on("click", ".deleteClient", function(){
+        if(confirm("Are you sure you want to delete this client?")){
+            var id = $(this).data("id");
+            $.post("get/client_action.php", {action: "delete", client_id: id}, function(res){
+                alert(res);
+                loadClients();
+            });
+        }
+    });
 });

@@ -33,12 +33,12 @@
                                 </a>
                             </li> -->
                             <li class="nav-item">
-                                <a class="nav-link active" href="./">
+                                <a class="nav-link" href="./">
                                     <i class="bi bi-card-checklist"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="clients.php">
+                                <a class="nav-link active" href="clients.php">
                                     <i class="bi bi-people"></i>
                                 </a>
                             </li>
@@ -93,16 +93,18 @@
                             <input type="text" class="form-control" name="" id="" placeholder="search order here...">
                         </div>
                         <div class="data-record p-3">
-                            <table class="table" id="orderListMain">
+                            <table class="table" id="clientsTable">
                                 <thead>
                                     <tr>
-                                        <th width="10%">Order #</th>
-                                        <th width="10%">Order Date</th>
-                                        <th width="10%">Order Due</th>
-                                        <th width="30%">Client Name</th>
-                                        <th width="10%">Amount</th>
-                                        <th width="20%">Status</th>
-                                        <th width="20%" class="text-center">Action</th>
+                                        <th width="10%">Client #</th>
+                                        <th width="10%">STMA ID</th>
+                                        <th width="15%">B. Name</th>
+                                        <th width="20%">B. Address</th>
+                                        <th width="10%">Name</th>
+                                        <th width="10%">Phone</th>
+                                        <th width="10%">EMail</th>
+                                        <th width="10%">Since</th>
+                                        <th width="10%" class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
