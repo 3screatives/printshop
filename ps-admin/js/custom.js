@@ -148,6 +148,7 @@ $(document).ready(function () {
 
     $(document).on('click', '.view-order', function () {
         var orderID = $(this).data('order-id');
+        $(".download-pdf").attr("data-oid", orderID);
         $.ajax({
             url: 'get/order.php',
             method: 'GET',
@@ -762,7 +763,7 @@ $(document).ready(function () {
 
     //download pdf
     $(document).on('click', '.download-pdf', function () {
-        const orderId = $(this).data('order-id');
+        const orderId = $(this).data('oid');
         window.open('get/order_pdf.php?order_id=' + orderId, '_blank');
     });
 });
