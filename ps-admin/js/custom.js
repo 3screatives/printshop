@@ -735,7 +735,9 @@ $(document).ready(function () {
     $(document).on("click", ".editClient", function () {
         var id = $(this).data("id");
         $.post("get/client_action.php", { action: "get", client_id: id }, function (data) {
+            console.log(data);
             var client = JSON.parse(data);
+            console.log(client);
             $("#client_id").val(client.client_id);
             $("#business_name").val(client.business_name);
             $("#business_address").val(client.business_address);

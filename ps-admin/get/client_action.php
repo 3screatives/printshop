@@ -28,13 +28,13 @@ if ($action == 'save') {
     if ($clients) {
         foreach ($clients as $row) {
             echo "<tr>
-                <td>" . (!empty($row['client_id']) ? $row['client_id'] : '-') . "</td>
-                <td>" . (!empty($row['client_stma_id']) ? $row['client_stma_id'] : '-') . "</td>
-                <td>" . (!empty($row['business_name']) ? $row['business_name'] : '-') . "</td>
-                <td>" . (!empty($row['business_address']) ? $row['business_address'] : '-') . "</td>
-                <td>" . (!empty($row['contact_name']) ? $row['contact_name'] : '-') . "</td>
-                <td>" . (!empty($row['contact_phone']) ? $row['contact_phone'] : '-') . "</td>
-                <td>" . (!empty($row['contact_email']) ? $row['contact_email'] : '-') . "</td>
+                <td>{$row['client_id']}</td>
+                <td>{$row['client_stma_id']}</td>
+                <td>{$row['business_name']}</td>
+                <td>{$row['business_address']}</td>
+                <td>{$row['contact_name']}</td>
+                <td>{$row['contact_phone']}</td>
+                <td>{$row['contact_email']}</td>
                 <td>
                     <button class='btn btn-outline-primary btn-sm me-2 editClient' data-id='{$row['client_id']}'>
                         <span class='bi bi-pencil'></span>
