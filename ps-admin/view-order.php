@@ -17,8 +17,9 @@
                             <tr>
                                 <td>
                                     From,
-                                    <span class="d-block"><b id="client_name"></b></span>
-                                    <span class="d-block" id="client_address"></span>
+                                    <span class="d-block"><b id="business_name"></b></span>
+                                    <span class="d-block" id="business_address"></span>
+                                    <span class="d-block" id="client_name"></span>
                                     <span class="d-block" id="client_phone"></span>
                                     <span class="d-block" id="client_email"></span>
                                 </td>

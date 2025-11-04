@@ -162,8 +162,9 @@ $(document).ready(function () {
                     $('#orderDue').text(new Date(o.order_due).toLocaleDateString());
                     $('.order-details').show();
 
+                    $('#business_name').text(o.business_name);
+                    $('#business_address').text(o.business_address);
                     $('#client_name').text(o.client_name);
-                    $('#client_address').text(o.client_address);
                     $('#client_phone').text(o.client_phone);
                     $('#client_email').text(o.client_email);
 
@@ -671,13 +672,8 @@ $(document).ready(function () {
 
         let orderData = {
             user_id: 1,
-            order_id: $('#order_id').val() || 0, // set order id dynamically
+            order_id: $('#order_id').val() || 0,
             client_id: $('#c_client_id').val(),
-            // business_name: $('#itemInput').val(),
-            // business_address: $('#c_client_address').val(),
-            // contact_name: $('#c_client_name').val(),
-            // contact_phone: $('#c_client_phone').val(),
-            // contact_email: $('#c_client_email').val(),
             order_date: $('#order_today_date').val(),
             order_due: $('#order_due_date').val(),
             order_before_tax: $('#order-subtotal').val(),
