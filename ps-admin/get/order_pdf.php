@@ -79,14 +79,11 @@ $content = '
         <td width="10%">
             <img src="http://localhost/printshop/ps-admin/img/stma-print-logo.jpg" width="40">
         </td>
-        <td width="65%">
-            <h4>STMA Printing</h4>
-                <span style="font-size:10px;">
-                    12054 Starcrest Dr, San Antonio, TX 78247
-                </span>
-            
+        <td width="60%" style="font-size: 18px; font-weight: bold; line-height: 14px;">
+            STMA Printing <br>
+            <span style="font-size:10px; font-weight: normal; ">12054 Starcrest Dr, San Antonio, TX 78247</span>
         </td>
-        <td width="20%" align="right">
+        <td width="30%" align="right">
             <h3>INVOICE<br>#PS25-' . $order['order_id'] . '</h3>
         </td>
     </tr>

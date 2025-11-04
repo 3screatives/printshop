@@ -15,10 +15,17 @@ if (!$data) {
     exit;
 }
 
+// === CLIENT DATA ===
+$business_name = trim($data['business_name'] ?? '');
+$business_address = trim($data['business_address'] ?? '');
+$contact_name = trim($data['contact_name'] ?? '');
+$contact_phone = trim($data['contact_phone'] ?? '');
+$contact_email = trim($data['contact_email'] ?? '');
+$client_since = date('Y-m-d');
+
 // === ORDER DATA ===
 $user_id = intval($data['user_id'] ?? 0);
 $order_id = intval($data['order_id'] ?? 0);
-$client_id = intval($data['client_id'] ?? 0); // ✅ add this line
 $order_date = $data['order_date'] ?? date('Y-m-d H:i:s');
 $order_due = $data['order_due'] ?? null;
 $order_before_tax = floatval($data['order_before_tax'] ?? 0);
@@ -31,6 +38,32 @@ $payment_type_id = intval($data['payment_type_id'] ?? 0);
 $status_id = intval($data['status_id'] ?? 1);
 $order_comment = trim($data['order_comment'] ?? '');
 $items = $data['items'] ?? [];
+
+// === CLIENT HANDLING ===
+if ($order_id == 0) {
+    // New order → new client
+    $sql_client = "INSERT INTO ps_clients (business_name, business_address, contact_name, contact_phone, contact_email, client_since)
+                   VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conn, $sql_client);
+    mysqli_stmt_bind_param($stmt, "ssssss", $business_name, $business_address, $contact_name, $contact_phone, $contact_email, $client_since);
+    mysqli_stmt_execute($stmt);
+    $client_id = mysqli_insert_id($conn);
+    mysqli_stmt_close($stmt);
+} else {
+    // Existing order → update client
+    $res = mysqli_query($conn, "SELECT client_id FROM ps_orders WHERE order_id = $order_id");
+    $row = mysqli_fetch_assoc($res);
+    $client_id = $row['client_id'] ?? 0;
+    mysqli_free_result($res);
+
+    $sql_update_client = "UPDATE ps_clients 
+                          SET business_name=?, business_address=?, contact_name=?, contact_phone=?, contact_email=?
+                          WHERE client_id=?";
+    $stmt = mysqli_prepare($conn, $sql_update_client);
+    mysqli_stmt_bind_param($stmt, "sssssi", $business_name, $business_address, $contact_name, $contact_phone, $contact_email, $client_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
 
 // === ORDER HANDLING ===
 if ($order_id == 0) {
@@ -59,24 +92,18 @@ if ($order_id == 0) {
         $order_comment
     );
     mysqli_stmt_execute($stmt);
-
-    if (mysqli_stmt_error($stmt)) {
-        echo json_encode(['status' => 'error', 'message' => mysqli_stmt_error($stmt)]);
-        exit;
-    }
-
     $order_id = mysqli_insert_id($conn);
     mysqli_stmt_close($stmt);
 } else {
     // Update existing order
     $sql_update_order = "UPDATE ps_orders SET
-    order_date=?, order_due=?, order_before_tax=?, order_tax=?, order_after_tax=?,
-    order_amount_paid=?, order_amount_due=?, order_production_time=?, payment_type_id=?,
-    status_id=?, order_comment=? WHERE order_id=?";
+        order_date=?, order_due=?, order_before_tax=?, order_tax=?, order_after_tax=?,
+        order_amount_paid=?, order_amount_due=?, order_production_time=?, payment_type_id=?,
+        status_id=?, order_comment=? WHERE order_id=?";
     $stmt = mysqli_prepare($conn, $sql_update_order);
     mysqli_stmt_bind_param(
         $stmt,
-        "ssddddddiiisi",
+        "ssddddddii si",
         $order_date,
         $order_due,
         $order_before_tax,
