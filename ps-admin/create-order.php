@@ -5,7 +5,7 @@
             <div class="card border-0 mb-7 p-0">
                 <div class="card-header d-flex align-items-center justify-content-between flex-wrap">
                     <h5 class="mb-0 py-3 text-uppercase">Create Order</h5>
-
+                    <input type="hidden" id="order_id" name="order_id" value="">
                     <div class="d-flex align-items-center gap-3 flex-wrap">
                         <div class="d-flex align-items-center">
                             <label for="order_today_date" class="mb-0 me-2"
@@ -15,11 +15,10 @@
                         </div>
 
                         <div class="d-flex align-items-center">
-                            <label for="order_process" class="mb-0 me-2"
+                            <label for="order_due_date" class="mb-0 me-2"
                                 style="min-width: 90px; white-space: nowrap;">Due
                                 Date:</label>
-                            <!-- <input type="date" class="form-control form-control-sm" name="order_due" id="order_due"> -->
-                            <select class="form-select form-select-sm" name="order_process" id="order_process">
+                            <select class="form-select form-select-sm" name="order_due_date" id="order_due_date">
                                 <option value="1" selected>Standard 3-5 days</option>
                                 <option value="2">Urgent 1-2 days</option>
                                 <option value="3">Same Day</option>
@@ -76,9 +75,9 @@
                                 <tr>
                                     <td width="66%">
                                         <div class="d-flex align-items-center">
-                                            <label for="paument_method" class="mb-0 me-2">Payment Method:</label>
-                                            <select class="form-select form-select-sm" name="paument_method"
-                                                id="paument_method">
+                                            <label for="payment_method" class="mb-0 me-2">Payment Method:</label>
+                                            <select class="form-select form-select-sm" name="payment_method"
+                                                id="payment_method">
                                                 <option value="1" selected>Credit/Debit Card</option>
                                                 <option value="2">Cash</option>
                                                 <option value="3">Account</option>

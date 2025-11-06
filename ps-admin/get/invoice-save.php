@@ -16,11 +16,41 @@ if (!$data) {
 }
 
 // === ORDER DATA ===
+$order_date = $data['order_date'] ?? date('Y-m-d H:i:s');
+$order_process = $data['order_due_date'] ?? 1;
+
+// --- Calculate base due date ---
+switch ($order_process) {
+    case 1: // Standard: 3–5 days
+        $add_days = 4;
+        break;
+    case 2: // Urgent: 1–2 days
+        $add_days = 2;
+        break;
+    case 3: // Same Day
+        $add_days = 1;
+        break;
+    default:
+        $add_days = 4;
+        break;
+}
+
+// --- Add days to order date ---
+$order_due = date('Y-m-d', strtotime("$order_date +$add_days days"));
+
+// --- Adjust for weekends ---
+$dayOfWeek = date('N', strtotime($order_due)); // 6 = Saturday, 7 = Sunday
+if ($dayOfWeek == 6) {
+    // Saturday → push to Monday (+2 days)
+    $order_due = date('Y-m-d', strtotime($order_due . ' +2 days'));
+} elseif ($dayOfWeek == 7) {
+    // Sunday → push to Monday (+1 day)
+    $order_due = date('Y-m-d', strtotime($order_due . ' +1 day'));
+}
+
 $user_id = intval($data['user_id'] ?? 0);
 $order_id = intval($data['order_id'] ?? 0);
 $client_id = intval($data['client_id'] ?? 0); // ✅ add this line
-$order_date = $data['order_date'] ?? date('Y-m-d H:i:s');
-$order_due = $data['order_due'] ?? null;
 $order_before_tax = floatval($data['order_before_tax'] ?? 0);
 $order_tax = floatval($data['order_tax'] ?? 0);
 $order_after_tax = floatval($data['order_after_tax'] ?? 0);

@@ -10,7 +10,7 @@
                     <input type="hidden" name="client_id" id="client_id">
                     <div class="col-md-6">
                         <label>Business Name</label>
-                        <input type="text" name="business_name" id="business_name" class="form-control" required>
+                        <input type="text" name="mbusiness_name" id="mbusiness_name" class="form-control" required>
                     </div>
                     <div class="col-md-6">
                         <label>Contact Name</label>
@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-md-12">
                         <label>Business Address</label>
-                        <textarea name="business_address" id="business_address" class="form-control"
+                        <textarea name="mbusiness_address" id="mbusiness_address" class="form-control"
                             required></textarea>
                     </div>
                     <div class="col-md-6">

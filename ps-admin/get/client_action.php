@@ -6,8 +6,8 @@ $action = $_POST['action'] ?? '';
 
 if ($action == 'save') {
     $client_id = $_POST['client_id'];
-    $business_name = $_POST['business_name'];
-    $business_address = $_POST['business_address'];
+    $business_name = $_POST['mbusiness_name'];
+    $business_address = $_POST['mbusiness_address'];
     $contact_name = $_POST['contact_name'];
     $contact_phone = $_POST['contact_phone'];
     $contact_email = $_POST['contact_email'];
@@ -35,6 +35,7 @@ if ($action == 'save') {
                 <td>{$row['contact_name']}</td>
                 <td>{$row['contact_phone']}</td>
                 <td>{$row['contact_email']}</td>
+                <td>" . (!empty($row['client_since']) ? date('M d, Y', strtotime($row['client_since'])) : '-') . "</td>
                 <td>
                     <button class='btn btn-outline-primary btn-sm me-2 editClient' data-id='{$row['client_id']}'>
                         <span class='bi bi-pencil'></span>

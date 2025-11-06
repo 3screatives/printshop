@@ -67,6 +67,7 @@ if (!empty($data)) {
         "production_time" => $order['order_production_time'],
         "business_name" => $order['business_name'],
         "business_address" => $order['business_address'],
+        "client_id" => $order['client_id'],
         "client_name" => $order['contact_name'],
         "client_phone" => $order['contact_phone'],
         "client_email" => $order['contact_email'],

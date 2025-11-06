@@ -20,3 +20,13 @@ Stack trace:
 #0 C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php(69): mysqli_stmt_execute(Object(mysqli_stmt))
 #1 {main}
   thrown in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php on line 69
+[06-Nov-2025 20:09:30 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php:121
+Stack trace:
+#0 C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php(121): mysqli_stmt_bind_param(Object(mysqli_stmt), 'ssddddddiiisi', '2025-11-06', '2025-11-10', 144, 11.88, 155.88, 0, 155.88, 0, 0, 1, '', 7)
+#1 {main}
+  thrown in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php on line 121
+[06-Nov-2025 20:14:15 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php:121
+Stack trace:
+#0 C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php(121): mysqli_stmt_bind_param(Object(mysqli_stmt), 'ssddddddiiisi', '2025-11-06', '2025-11-10', 144, 11.88, 155.88, 0, 155.88, 0, 0, 1, '', 7)
+#1 {main}
+  thrown in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php on line 121

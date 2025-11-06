@@ -54,7 +54,6 @@ $(document).ready(function () {
                 statusSelect += `<option value="${status.status_id}" ${selected}>${status.status_name}</option>`;
             });
             statusSelect += `</select>`;
-            // console.log(formattedDate);
             rows += `
                 <tr>
                     <td>PS#25-${o.order_id}</td>
@@ -156,7 +155,6 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.order) {
-                    // console.log(response);
                     const o = response.order;
                     $('#orderID').text(o.order_id);
                     $('#orderDue').text(new Date(o.order_due).toLocaleDateString());
@@ -269,9 +267,8 @@ $(document).ready(function () {
                     // Fill general order fields
                     $('#order_today_date').val(o.order_date);
                     $('#order_process').val(o.order_process);
-                    $('#paument_method').val(o.payment_type_id);
-
-                    // console.log('process: ', o.order_process);
+                    $('#payment_method').val(o.payment_type_id);
+                    $('#order_id').val(o.order_id);
 
                     // Fill client info
                     $('#c_client_id').val(o.client_id);
@@ -642,7 +639,6 @@ $(document).ready(function () {
             $("#c_client_phone").val($this.data("phone"));
             $("#c_client_email").val($this.data("email"));
             $suggestions.empty().hide();
-            console.log($("#c_client_name").val());
         });
 
         // Hide suggestions when clicking outside or moving to another field
@@ -681,7 +677,6 @@ $(document).ready(function () {
             order_after_tax: $('#order-total').val(),
             order_amount_paid: $('#order-paid').val(),
             order_amount_due: $('#order-due').val(),
-            order_production_time: $('#order_process').val(),
             payment_type_id: $('#paument_method').val(),
             status_id: $('#order_status').val() || 1,
             order_comment: $('#order_comments').val(),
@@ -695,15 +690,51 @@ $(document).ready(function () {
             contentType: 'application/json',
             dataType: 'json',
             success: function (response) {
-                // console.log('Success:', response);
-                alert(response.message);
                 if (response.status === 'success') {
+                    alert(response.message);
+
+                    // Reset form if new order, or just reload if edit
+                    if (orderData.order_id === 0) {
+                        $('#order_id').val(0);
+                        $('#orderItems tbody').empty();
+                    }
+
                     window.location.href = 'index.php';
+                } else {
+                    alert(response.message || 'Failed to save order.');
                 }
             },
-            error: function (xhr) {
-                // console.error(xhr.responseText);
+            error: function () {
                 alert("Error submitting invoice.");
+            }
+        });
+    });
+
+    // Delete order
+    $(document).on('click', '.delete-order', function () {
+        const orderID = $(this).data('order-id');
+
+        if (!confirm(`Are you sure you want to delete order PS#25-${orderID}?`)) return;
+
+        $.ajax({
+            url: 'get/invoice-delete.php', // adjust path if needed
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                action: 'delete',
+                order_id: orderID
+            }),
+            success: function (response) {
+                if (response.status === 'success') {
+                    // alert('Order deleted successfully.');
+                    loadOrders();
+                } else {
+                    alert('❌ ' + (response.message || 'Failed to delete order.'));
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Delete failed:', error);
+                alert('Server error deleting order.');
             }
         });
     });
@@ -735,12 +766,10 @@ $(document).ready(function () {
     $(document).on("click", ".editClient", function () {
         var id = $(this).data("id");
         $.post("get/client_action.php", { action: "get", client_id: id }, function (data) {
-            console.log(data);
             var client = JSON.parse(data);
-            console.log(client);
             $("#client_id").val(client.client_id);
-            $("#business_name").val(client.business_name);
-            $("#business_address").val(client.business_address);
+            $("#mbusiness_name").val(client.business_name);
+            $("#mbusiness_address").val(client.business_address);
             $("#contact_name").val(client.contact_name);
             $("#contact_phone").val(client.contact_phone);
             $("#contact_email").val(client.contact_email);
