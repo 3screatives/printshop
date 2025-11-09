@@ -699,8 +699,6 @@ $(document).ready(function () {
             items: items
         };
 
-        console.log(orderData);
-
         $.ajax({
             url: 'get/invoice-save.php',
             type: 'POST',
@@ -708,6 +706,7 @@ $(document).ready(function () {
             contentType: 'application/json',
             dataType: 'json',
             success: function (response) {
+                console.log(response);
                 if (response.status === 'success') {
                     alert(response.message);
 
