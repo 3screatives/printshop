@@ -242,11 +242,23 @@ $(document).ready(function () {
         const $form = $('.create-order form');
         $form[0].reset();
 
+        // Clear all input fields and selects
         $form.find('textarea').val('');
-        $form.find('input[type="number"]').val('');
+        $form.find('input').val('');
         $form.find('select').prop('selectedIndex', 0);
 
-        $form.find('#orderItems tbody tr:gt(0)').remove();
+        // Remove dynamic order item rows safely
+        const $tbody = $form.find('#orderItems tbody');
+        if ($tbody.find('tr').length > 1) {
+            // Keep template row
+            $tbody.find('tr').not(':first').remove();
+            $tbody.find('tr:first input, tr:first select').val('');
+        } else {
+            // All rows are dynamic — just clear
+            $tbody.empty();
+        }
+
+        count = 0;
     });
 
     $(document).on('click', '.edit-order', function () {
@@ -295,29 +307,33 @@ $(document).ready(function () {
 
                     // Rebuild items
                     response.items.forEach(item => {
+                        count++;
+                        let id = count;
+                        
                         const rowHtml = `
-                        <tr class="itemRow" data-row="${item.id}">
+                        <tr class="itemRow" data-row="${id}">
                             <td class="position-relative">
                                 <div class="custom-dropdown">
                                     <input type="text" class="form-control form-control-sm mat-search"
                                         placeholder="Search Material..." autocomplete="off" value="${item.material}">
                                     <div class="dropdown-list border position-absolute bg-white w-100 shadow-sm"
                                         style="display:none; max-height:180px; overflow-y:auto; z-index:1000;"></div>
-                                    <input type="hidden" name="order_material_id[]">
-                                    <input type="hidden" name="item_row_id[]" value="${item.id}">
+                                    <input type="hidden" name="order_material_id" value="${item.mat_id}">
+                                    <input type="hidden" name="item_row_id" value="${id}">
+                                    <input type="hidden" name="item_id" value="${item.item_id}">
                                 </div>
                             </td>
-                            <td><input type="text" class="form-control form-control-sm" name="order_item_details[]" value="${item.details}"></td>
-                            <td>
-                                <div class="d-flex gap-1">
-                                    <input type="number" step="0.01" class="form-control form-control-sm" name="order_item_width[]" value="${item.size_width}">
-                                    <input type="number" step="0.01" class="form-control form-control-sm" name="order_item_height[]" value="${item.size_height}">
-                                </div>
-                            </td>
-                            <td><input type="number" class="form-control form-control-sm text-center" name="order_item_qty[]" value="${item.quantity}"></td>
-                            <td><input type="number" class="form-control form-control-sm text-end" name="order_item_price[]" value="${item.price}"></td>
-                            <td><input type="number" class="form-control form-control-sm text-end" name="order_item_total[]" value="${item.total}" disabled></td>
-                            <td class="text-center"><button type="button" class="btn btn-sm btn-danger remove-item">X</button></td>
+                            <td><textarea name="order_item_details[]" class="form-control form-control-sm" rows="1">${item.details}</textarea></td>
+                            <td><div class="input-group">
+                                <input dir="rtl" type="number" name="order_item_width[]" class="form-control form-control-sm" placeholder="Width" value="${item.size_width}">
+                                <input dir="rtl" type="number" name="order_item_height[]" class="form-control form-control-sm" placeholder="Height" value="${item.size_width}">
+                            </div></td>
+                            <td class="text-center"><input type="number" name="order_item_qty[]" min="1" value="1" class="form-control form-control-sm" value="${item.quantity}"></td>
+                            <td class="text-end"><div class="input-group"><span class="input-group-text">$</span>
+                                <input dir="rtl" type="number" name="order_item_price[]" class="form-control form-control-sm" readonly value="${item.price}"></div></td>
+                            <td><div class="input-group"><span class="input-group-text">$</span>
+                                <input dir="rtl" type="number" name="order_item_total[]" class="form-control form-control-sm" disabled value="${item.total}"></div></td>
+                            <td><button type="button" class="removeItem form-control btn btn-sm btn-danger">X</button></td>
                         </tr>
                     `;
                         $('#orderItems tbody').append(rowHtml);
@@ -426,6 +442,8 @@ $(document).ready(function () {
             const $row = $(this).closest('.itemRow');
             const rowId = $row.data('row');
             const matId = $row.find('input[name="order_material_id[]"]').val();
+
+            console.log($row, rowId);
 
             if (matId) {
                 getMaterialPrice(matId, rowId); // recalc live
@@ -677,7 +695,7 @@ $(document).ready(function () {
             order_after_tax: $('#order-total').val(),
             order_amount_paid: $('#order-paid').val(),
             order_amount_due: $('#order-due').val(),
-            payment_type_id: $('#paument_method').val(),
+            payment_type_id: $('#payment_method').val(),
             status_id: $('#order_status').val() || 1,
             order_comment: $('#order_comments').val(),
             items: items

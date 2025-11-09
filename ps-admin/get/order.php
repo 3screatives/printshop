@@ -83,7 +83,9 @@ if (!empty($data)) {
     foreach ($data as $row) {
         if (!empty($row['item_id'])) {
             $response['items'][] = [
+                "item_id" => $row['item_id'],
                 "quantity" => $row['item_quantity'],
+                "mat_id" => $row['mat_id'],
                 "material" => $row['mat_name'],
                 "details" => $row['item_details'],
                 "size_width" => number_format($row['item_size_width'], 2),
