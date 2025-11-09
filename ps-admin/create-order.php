@@ -96,7 +96,9 @@
                                 </tr>
                                 <tr>
                                     <td width="66%" rowspan="6" style="vertical-align: top;"><b>Comments:</b>
-                                        xyz</td>
+                                        <textarea name="order_comments" id="order_comments" class="form-control"
+                                            rows="6" style="width: 100%;"></textarea>
+                                    </td>
                                     <td width="22%">Total Tax (8.25%)</td>
                                     <td width="12%" style="text-align: right;">
                                         <div class="input-group">

@@ -318,9 +318,9 @@ $(document).ready(function () {
                                         placeholder="Search Material..." autocomplete="off" value="${item.material}">
                                     <div class="dropdown-list border position-absolute bg-white w-100 shadow-sm"
                                         style="display:none; max-height:180px; overflow-y:auto; z-index:1000;"></div>
-                                    <input type="hidden" name="order_material_id" value="${item.mat_id}">
-                                    <input type="hidden" name="item_row_id" value="${id}">
-                                    <input type="hidden" name="item_id" value="${item.item_id}">
+                                    <input type="hidden" name="order_material_id[]" value="${item.mat_id}">
+                                    <input type="hidden" name="item_row_id[]" value="${id}">
+                                    <input type="hidden" name="item_id[]" value="${item.item_id}">
                                 </div>
                             </td>
                             <td><textarea name="order_item_details[]" class="form-control form-control-sm" rows="1">${item.details}</textarea></td>
@@ -442,8 +442,6 @@ $(document).ready(function () {
             const $row = $(this).closest('.itemRow');
             const rowId = $row.data('row');
             const matId = $row.find('input[name="order_material_id[]"]').val();
-
-            console.log($row, rowId);
 
             if (matId) {
                 getMaterialPrice(matId, rowId); // recalc live
@@ -673,7 +671,7 @@ $(document).ready(function () {
         let items = [];
         $('#orderItems tbody tr').each(function () {
             items.push({
-                item_id: $(this).data('item-id') || 0, // existing item id (if editing)
+                item_id: $(this).find('input[name="item_id[]"]').val() || 0, // existing item id (if editing)
                 material_id: $(this).find('input[name="order_material_id[]"]').val(),
                 item_details: $(this).find('textarea[name="order_item_details[]"]').val(),
                 item_quantity: $(this).find('input[name="order_item_qty[]"]').val(),
@@ -689,17 +687,19 @@ $(document).ready(function () {
             order_id: $('#order_id').val() || 0,
             client_id: $('#c_client_id').val(),
             order_date: $('#order_today_date').val(),
-            order_due: $('#order_due_date').val(),
+            order_due_date: $('#order_due_date').val(),
             order_before_tax: $('#order-subtotal').val(),
             order_tax: $('#order-tax').val(),
             order_after_tax: $('#order-total').val(),
             order_amount_paid: $('#order-paid').val(),
             order_amount_due: $('#order-due').val(),
-            payment_type_id: $('#payment_method').val(),
+            payment_type_id: $('#payment_method').val() || 1,
             status_id: $('#order_status').val() || 1,
             order_comment: $('#order_comments').val(),
             items: items
         };
+
+        console.log(orderData);
 
         $.ajax({
             url: 'get/invoice-save.php',
