@@ -86,17 +86,16 @@
                         </div>
                         <div class="search-bar p-3 border-bottom">
                             <!-- <input type="text" class="form-control" name="" id="" placeholder="search order here..."> -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="d-flex align-items-center gap-2">
-                                    <input type="text" id="orderSearch" class="form-control form-control-sm"
-                                        placeholder="Search by order #, business name, or amount" style="width: 260px;">
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="text" id="orderSearch" class="form-control form-control-sm flex-grow-1"
+                                    placeholder="Search by order #, business name, or amount">
 
-                                    <select id="statusFilter" class="form-select form-select-sm" style="width: 160px;">
-                                        <option value="">All Statuses</option>
-                                    </select>
-                                </div>
+                                <select id="statusFilter" class="form-select form-select-sm flex-shrink-0"
+                                    style="width:150px;">
+                                    <option value="">All</option>
+                                </select>
 
-                                <button id="refreshOrders" class="btn btn-outline-secondary btn-sm">
+                                <button id="refreshOrders" class="btn btn-outline-secondary btn-sm flex-shrink-0">
                                     <i class="bi bi-arrow-repeat"></i> Refresh
                                 </button>
                             </div>
