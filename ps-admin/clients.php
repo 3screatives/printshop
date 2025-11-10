@@ -22,16 +22,11 @@
             <div class="d-flex justify-content-between h-100 py-3">
                 <nav class="navbar show navbar-vertical shadow-l-1 h-100 border-radius-1">
                     <div class="container-fluid">
-                        <a class="navbar-brand pb-3" href="#">
+                        <a class="navbar-brand pb-3" href="./">
                             <img src="../img/dashboard-logo-new-top-color.png" alt="">
                         </a>
 
                         <ul class="navbar-nav">
-                            <!-- <li class="nav-item">
-                                <a class="nav-link active" href="./">
-                                    <i class="bi bi-house"></i>
-                                </a>
-                            </li> -->
                             <li class="nav-item">
                                 <a class="nav-link" href="./">
                                     <i class="bi bi-card-checklist"></i>

@@ -4,25 +4,31 @@ $(document).ready(function () {
     $.getJSON('get/status_options.php')
         .done(function (statuses) {
             statusOptions = statuses;
+
+            const $statusFilter = $('#statusFilter');
+            statusOptions.forEach(status => {
+                $statusFilter.append(`<option value="${status.status_id}">${status.status_name}</option>`);
+            });
+
             loadOrders();
         })
         .fail(function () {
             alert('Failed to load status options');
         });
 
-    function loadOrders() {
-        $.getJSON('get/order_list.php')
-            .done(function (response) {
-                if (response.orders && response.orders.length > 0) {
-                    renderOrders(response.orders);
-                } else {
-                    $('#orderListMain tbody').html('<tr><td colspan="6" class="text-center">No orders found</td></tr>');
-                }
-            })
-            .fail(function () {
-                alert('Failed to load orders');
-            });
-    }
+    // function loadOrders() {
+    //     $.getJSON('get/order_list.php')
+    //         .done(function (response) {
+    //             if (response.orders && response.orders.length > 0) {
+    //                 renderOrders(response.orders);
+    //             } else {
+    //                 $('#orderListMain tbody').html('<tr><td colspan="6" class="text-center">No orders found</td></tr>');
+    //             }
+    //         })
+    //         .fail(function () {
+    //             alert('Failed to load orders');
+    //         });
+    // }
 
     function renderOrders(orders) {
         let rows = '';
@@ -78,6 +84,63 @@ $(document).ready(function () {
 
         $('#orderListMain tbody').html(rows);
     }
+
+    let allOrders = []; // store all orders for filtering
+
+    function loadOrders() {
+        $.getJSON('get/order_list.php')
+            .done(function (response) {
+                if (response.orders && response.orders.length > 0) {
+                    allOrders = response.orders; // keep for filtering
+                    applyFilters(); // render filtered version
+                } else {
+                    $('#orderListMain tbody').html('<tr><td colspan="7" class="text-center">No orders found</td></tr>');
+                }
+            })
+            .fail(function () {
+                alert('Failed to load orders');
+            });
+    }
+
+    function applyFilters() {
+        const searchTerm = $('#orderSearch').val().toLowerCase().trim();
+        const selectedStatus = $('#statusFilter').val();
+
+        const filtered = allOrders.filter(o => {
+            const orderNum = `PS#25-${o.order_id}`.toLowerCase();
+            const business = (o.client_name || '').toLowerCase();
+            const contact = (o.contact_name || '').toLowerCase();
+            const amount = (parseFloat(o.order_after_tax || 0)).toFixed(2);
+
+            const matchesSearch =
+                orderNum.includes(searchTerm) ||
+                business.includes(searchTerm) ||
+                contact.includes(searchTerm) ||
+                amount.includes(searchTerm);
+
+            const matchesStatus =
+                !selectedStatus || String(o.status_id) === String(selectedStatus);
+
+            return matchesSearch && matchesStatus;
+        });
+
+        renderOrders(filtered);
+    }
+
+    // Search & filter live updates
+    $(document).on('input', '#orderSearch', function () {
+        applyFilters();
+    });
+
+    $(document).on('change', '#statusFilter', function () {
+        applyFilters();
+    });
+
+    $('#refreshOrders').on('click', function () {
+        $('#orderSearch').val('');
+        $('#statusFilter').val('');
+        loadOrders();
+    });
 
     $(document).on('focus mousedown', '.order-status', function () {
         const current = $(this).val();
@@ -154,6 +217,8 @@ $(document).ready(function () {
             data: { order_id: orderID },
             dataType: 'json',
             success: function (response) {
+                console.log(response);
+
                 if (response.order) {
                     const o = response.order;
                     $('#orderID').text(o.order_id);
@@ -178,13 +243,12 @@ $(document).ready(function () {
                     $('#payment_method').text(o.payment_type);
 
                     $('#order_sub_total').text(o.before_tax);
-                    $('#order_tax').text(o.tax);
-                    $('#order_total').text(o.after_tax);
-                    $('#order_discount').text(o.before_tax);
-                    $('#order_amount_paid').text(o.paid);
-                    $('#order_amount_due').text(o.due);
-
-                    $('#order_comments').text(o.comment);
+                    $('#order_t_tax').text(o.tax);
+                    $('#order_t_total').text(o.after_tax);
+                    $('#order_t_discount').text(o.before_tax);
+                    $('#order_t_amount_paid').text(o.paid);
+                    $('#order_t_amount_due').text(o.due);
+                    $('#order_t_comments').text(o.comment);
 
                     $('#stmaID').text(o.stmaID ? o.stmaID : '-');
 
@@ -291,16 +355,16 @@ $(document).ready(function () {
                     $('#c_client_email').val(o.client_email);
 
                     // Totals
-                    $('#order-subtotal').val(o.before_tax);
-                    $('#order-tax').val(o.tax);
-                    $('#order-discount').val(o.discount);
-                    $('#order-credits').val(o.credits);
-                    $('#order-total').val(o.after_tax);
-                    $('#order-paid').val(o.paid);
-                    $('#order-due').val(o.due);
+                    $('#order_t_subtotal').val(o.before_tax);
+                    $('#order_t_tax').val(o.tax);
+                    $('#order_t_discount').val(o.discount);
+                    $('#order_t_credits').val(o.credits);
+                    $('#order_t_total').val(o.after_tax);
+                    $('#order_t_paid').val(o.paid);
+                    $('#order_t_due').val(o.due);
 
                     // Comment
-                    $('textarea[name="order_comments"]').val(o.comment || '');
+                    $('#order_t_comments').val(o.comment || '');
 
                     // Clear old items
                     $('#orderItems tbody').empty();
@@ -309,7 +373,7 @@ $(document).ready(function () {
                     response.items.forEach(item => {
                         count++;
                         let id = count;
-                        
+
                         const rowHtml = `
                         <tr class="itemRow" data-row="${id}">
                             <td class="position-relative">
@@ -517,25 +581,25 @@ $(document).ready(function () {
             subtotal += val;
         });
 
-        $('#order-subtotal').val(subtotal.toFixed(2));
+        $('#order_t_subtotal').val(subtotal.toFixed(2));
 
         let tax = subtotal * 0.0825;
-        $('#order-tax').val(tax.toFixed(2));
+        $('#order_t_tax').val(tax.toFixed(2));
 
-        let discountPercent = parseFloat($('#order-discount').val()) || 0;
+        let discountPercent = parseFloat($('#order_t_discount').val()) || 0;
         let discountAmount = (subtotal + tax) * (discountPercent / 100);
 
         let total = (subtotal + tax) - discountAmount;
 
-        let creditAmount = parseFloat($('#order-credits').val()) || 0;
+        let creditAmount = parseFloat($('#order_t_credits').val()) || 0;
         total -= creditAmount;
 
-        $('#order-total').val(total.toFixed(2));
+        $('#order_t_total').val(total.toFixed(2));
 
-        let paid = parseFloat($('#order-paid').val()) || 0;
+        let paid = parseFloat($('#order_t_paid').val()) || 0;
         let due = total - paid;
 
-        $('#order-due').val(due.toFixed(2));
+        $('#order_t_due').val(due.toFixed(2));
 
         if (total <= 0) {
             total = 0;
@@ -665,7 +729,7 @@ $(document).ready(function () {
         });
     });
 
-    $('#submitOrder').off('click').on('click', function (e) {
+    $(document).on('click', '#submitOrder', function (e) {
         e.preventDefault();
 
         let items = [];
@@ -688,14 +752,14 @@ $(document).ready(function () {
             client_id: $('#c_client_id').val(),
             order_date: $('#order_today_date').val(),
             order_due_date: $('#order_due_date').val(),
-            order_before_tax: $('#order-subtotal').val(),
-            order_tax: $('#order-tax').val(),
-            order_after_tax: $('#order-total').val(),
-            order_amount_paid: $('#order-paid').val(),
-            order_amount_due: $('#order_due_date').val(),
-            payment_type_id: $('#payment_method').val() || 1,
-            status_id: $('#order_status').val() || 1,
-            order_comment: $('#order_comments').val(),
+            order_before_tax: $('#order_t_subtotal').val(),
+            order_tax: $('#order_t_tax').val(),
+            order_after_tax: $('#order_t_total').val(),
+            order_amount_paid: $('#order_t_paid').val(),
+            order_amount_due: $('#order_t_due').val(),
+            payment_type_id: $('#payment_t_method').val() || 1,
+            status_id: $('#order_t_status').val() || 1,
+            order_t_comments: $('#order_t_comments').val(),
             items: items
         };
 

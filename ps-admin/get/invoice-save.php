@@ -15,6 +15,9 @@ if (!$data) {
     exit;
 }
 
+// 🔍 Debug log #1: check if frontend sends comment
+error_log("Received comments: " . ($data['order_t_comments'] ?? 'NULL'));
+
 // === ORDER DATA ===
 $order_date = $data['order_date'] ?? date('Y-m-d H:i:s');
 $order_process = $data['order_due_date'] ?? 1;
@@ -59,7 +62,10 @@ $order_amount_due = floatval($data['order_amount_due'] ?? 0);
 $order_due_date = intval($data['order_due_date'] ?? 0);
 $payment_type_id = intval($data['payment_type_id'] ?? 0);
 $status_id = intval($data['status_id'] ?? 1);
-$order_comment = trim($data['order_comment'] ?? '');
+$order_t_comments = trim($data['order_t_comments'] ?? '');
+// 🔍 Debug log #2: confirm comment before saving
+error_log("Saving comment: " . $order_t_comments);
+
 $items = $data['items'] ?? [];
 
 // === ORDER HANDLING ===
@@ -86,7 +92,7 @@ if ($order_id == 0) {
         $payment_type_id,
         $client_id,
         $status_id,
-        $order_comment
+        $order_t_comments
     );
     mysqli_stmt_execute($stmt);
 
@@ -118,7 +124,7 @@ if ($order_id == 0) {
         $order_due_date,
         $payment_type_id,
         $status_id,
-        $order_comment,
+        $order_t_comments,
         $order_id
     );
 

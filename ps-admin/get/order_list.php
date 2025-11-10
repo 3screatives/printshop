@@ -11,6 +11,7 @@ $sql = "
         o.order_due,
         o.order_after_tax,
         c.business_name AS client_name,
+        c.contact_name AS contact_name,
         s.status_name,
         s.status_id
     FROM ps_orders AS o

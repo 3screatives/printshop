@@ -22,16 +22,11 @@
             <div class="d-flex justify-content-between h-100 py-3">
                 <nav class="navbar show navbar-vertical shadow-l-1 h-100 border-radius-1">
                     <div class="container-fluid">
-                        <a class="navbar-brand pb-3" href="#">
+                        <a class="navbar-brand pb-3" href="./">
                             <img src="../img/dashboard-logo-new-top-color.png" alt="">
                         </a>
 
                         <ul class="navbar-nav">
-                            <!-- <li class="nav-item">
-                                <a class="nav-link active" href="./">
-                                    <i class="bi bi-house"></i>
-                                </a>
-                            </li> -->
                             <li class="nav-item">
                                 <a class="nav-link active" href="./">
                                     <i class="bi bi-card-checklist"></i>
@@ -90,7 +85,21 @@
                             </div>
                         </div>
                         <div class="search-bar p-3 border-bottom">
-                            <input type="text" class="form-control" name="" id="" placeholder="search order here...">
+                            <!-- <input type="text" class="form-control" name="" id="" placeholder="search order here..."> -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <input type="text" id="orderSearch" class="form-control form-control-sm"
+                                        placeholder="Search by order #, business name, or amount" style="width: 260px;">
+
+                                    <select id="statusFilter" class="form-select form-select-sm" style="width: 160px;">
+                                        <option value="">All Statuses</option>
+                                    </select>
+                                </div>
+
+                                <button id="refreshOrders" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-arrow-repeat"></i> Refresh
+                                </button>
+                            </div>
                         </div>
                         <div class="data-record p-3">
                             <table class="table" id="orderListMain">

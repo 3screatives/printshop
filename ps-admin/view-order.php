@@ -16,7 +16,6 @@
                         <table class="table borderless">
                             <tr>
                                 <td>
-                                    From,
                                     <span class="d-block"><b id="business_name"></b></span>
                                     <span class="d-block" id="business_address"></span>
                                     <span class="d-block" id="client_name"></span>
@@ -57,7 +56,7 @@
                             </tr>
                             <tr>
                                 <td width="66%" rowspan="5" style="vertical-align: top;"><b>Comments:</b>
-                                    <span id="order_comments"></span>
+                                    <span id="order_t_comments"></span>
                                 </td>
                                 <td width="22%">Total Tax (8.25%)</td>
                                 <td width="12%" style="text-align: right;" id="order_tax"></td>

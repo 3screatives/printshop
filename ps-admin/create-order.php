@@ -89,14 +89,14 @@
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <input dir="rtl" type="number" class="form-control form-control-sm"
-                                                name="order_subtotal" id="order-subtotal" value="" placeholder="0.00"
-                                                disabled>
+                                                name="order_t_subtotal" id="order_t_subtotal" value=""
+                                                placeholder="0.00" disabled>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="66%" rowspan="6" style="vertical-align: top;"><b>Comments:</b>
-                                        <textarea name="order_comments" id="order_comments" class="form-control"
+                                        <textarea name="order_t_comments" id="order_t_comments" class="form-control"
                                             rows="6" style="width: 100%;"></textarea>
                                     </td>
                                     <td width="22%">Total Tax (8.25%)</td>
@@ -104,7 +104,8 @@
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <input dir="rtl" type="number" class="form-control form-control-sm"
-                                                name="order_tax" id="order-tax" value="" placeholder="0.00" disabled>
+                                                name="order_t_tax" id="order_t_tax" value="" placeholder="0.00"
+                                                disabled>
                                         </div>
                                     </td>
                                 </tr>
@@ -114,7 +115,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text">%</span>
                                             <input dir="rtl" type="number" min="0" class="form-control form-control-sm"
-                                                name="order_discount" id="order-discount" value="" placeholder="0">
+                                                name="order_t_discount" id="order_t_discount" value="" placeholder="0">
                                         </div>
                                     </td>
                                 </tr>
@@ -124,7 +125,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <input dir="rtl" type="number" min="0" class="form-control form-control-sm"
-                                                name="order_credits" id="order-credits" value="" placeholder="0.00">
+                                                name="order_t_credits" id="order_t_credits" value="" placeholder="0.00">
                                         </div>
                                     </td>
                                 </tr>
@@ -134,7 +135,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <input dir="rtl" type="number" class="form-control form-control-sm"
-                                                name="order_total" id="order-total" value="" placeholder="0.00"
+                                                name="order_t_total" id="order_t_total" value="" placeholder="0.00"
                                                 disabled>
                                         </div>
                                     </td>
@@ -145,7 +146,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <input dir="rtl" type="number" min="0" class="form-control form-control-sm"
-                                                name="order_paid" id="order-paid" value="" placeholder="0.00">
+                                                name="order_t_paid" id="order_t_paid" value="" placeholder="0.00">
                                         </div>
                                     </td>
                                 </tr>
@@ -155,7 +156,8 @@
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <input dir="rtl" type="number" class="form-control form-control-sm"
-                                                name="order_due" id="order-due" value="" placeholder="0.00" disabled>
+                                                name="order_t_due" id="order_t_due" value="" placeholder="0.00"
+                                                disabled>
                                         </div>
                                     </td>
                                 </tr>
