@@ -692,7 +692,7 @@ $(document).ready(function () {
             order_tax: $('#order-tax').val(),
             order_after_tax: $('#order-total').val(),
             order_amount_paid: $('#order-paid').val(),
-            order_amount_due: $('#order-due').val(),
+            order_amount_due: $('#order_due_date').val(),
             payment_type_id: $('#payment_method').val() || 1,
             status_id: $('#order_status').val() || 1,
             order_comment: $('#order_comments').val(),

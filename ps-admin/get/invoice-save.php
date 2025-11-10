@@ -104,9 +104,10 @@ if ($order_id == 0) {
     order_amount_paid=?, order_amount_due=?, order_production_time=?, payment_type_id=?,
     status_id=?, order_comment=? WHERE order_id=?";
     $stmt = mysqli_prepare($conn, $sql_update_order);
+
     mysqli_stmt_bind_param(
         $stmt,
-        "ssddddddiiisi",
+        "ssdddddiiisi",
         $order_date,
         $order_due,
         $order_before_tax,
@@ -120,7 +121,12 @@ if ($order_id == 0) {
         $order_comment,
         $order_id
     );
+
     mysqli_stmt_execute($stmt);
+    if (mysqli_stmt_error($stmt)) {
+        echo json_encode(['status' => 'error', 'message' => mysqli_stmt_error($stmt)]);
+        exit;
+    }
     mysqli_stmt_close($stmt);
 }
 
