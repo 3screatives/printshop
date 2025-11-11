@@ -142,11 +142,7 @@ $(document).ready(function () {
         loadOrders();
     });
 
-    $(document).on('focus mousedown', '.order-status', function () {
-        const current = $(this).val();
-        $(this).data('prev-status', current);
-    });
-
+    // Handle order status change
     $(document).on('change', '.order-status', function () {
         const $dropdown = $(this);
         const orderId = $dropdown.data('order-id');
@@ -186,8 +182,10 @@ $(document).ready(function () {
             }
         });
     });
+    // CLose - Handle order Status change
 
-    function showUndoBanner(orderId, newStatus, oldStatus, $dropdown) {
+    // Show undo banner
+    function showUndoBanner() {
         $('.undo-banner').remove();
 
         const $banner = $(`
@@ -197,7 +195,6 @@ $(document).ready(function () {
             box-shadow:0 6px 18px rgba(0,0,0,0.2); z-index:99999;
             display:flex; align-items:center; font-size:14px;">
             <span>Status Updated Successfully! </span>
-            <button class="dismiss-btn" style=" background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.15); padding:6px 8px; border-radius:4px; cursor:pointer;"> X </button>
         </div>
     `);
 
@@ -207,7 +204,9 @@ $(document).ready(function () {
             $banner.fadeOut(300, function () { $(this).remove(); });
         }, 3000);
     }
+    // Close - Show undo banner
 
+    // View Order Details
     $(document).on('click', '.view-order', function () {
         var orderID = $(this).data('order-id');
         $(".download-pdf").attr("data-oid", orderID);
@@ -276,25 +275,11 @@ $(document).ready(function () {
     $('.close').on('click', function () {
         $('.order-details').hide();
     });
+    // Close - View Order Details
 
+    // Create / Edit Order
     const todayDate = new Date().toISOString().split('T')[0];
     $('#order_today_date').val(todayDate);
-
-    // function getAdjustedDate() {
-    //     let date = new Date();
-    //     date.setDate(date.getDate() + 2);
-
-    //     const day = date.getDay();
-
-    //     if (day === 6 || day === 0) {
-    //         date.setDate(date.getDate() + 2);
-    //     }
-
-    //     return date.toISOString().split('T')[0];
-    // }
-
-    // const adjustedDate = getAdjustedDate();
-    // $('#order_due').val(adjustedDate);
 
     $(document).on('click', '#newOrder', function () {
         $('.create-order').show();

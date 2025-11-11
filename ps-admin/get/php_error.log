@@ -2,3 +2,14 @@
 [10-Nov-2025 22:27:59 Europe/Berlin] Saving comment: 
 [10-Nov-2025 22:33:49 Europe/Berlin] Received comments: 
 [10-Nov-2025 22:33:49 Europe/Berlin] Saving comment: 
+[11-Nov-2025 06:31:18 Europe/Berlin] Received comments: 
+[11-Nov-2025 06:31:18 Europe/Berlin] Saving comment: 
+[11-Nov-2025 06:36:07 Europe/Berlin] Received comments: 
+[11-Nov-2025 06:36:07 Europe/Berlin] Saving comment: 
+[11-Nov-2025 06:36:07 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`stma_printing`.`ps_orders`, CONSTRAINT `fk_orders_client` FOREIGN KEY (`client_id`) REFERENCES `ps_clients` (`client_id`)) in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php:97
+Stack trace:
+#0 C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php(97): mysqli_stmt_execute(Object(mysqli_stmt))
+#1 {main}
+  thrown in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php on line 97
+[11-Nov-2025 06:36:43 Europe/Berlin] Received comments: 
+[11-Nov-2025 06:36:43 Europe/Berlin] Saving comment: 

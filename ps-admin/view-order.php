@@ -59,23 +59,23 @@
                                     <span id="order_t_comments"></span>
                                 </td>
                                 <td width="22%">Total Tax (8.25%)</td>
-                                <td width="12%" style="text-align: right;" id="order_tax"></td>
+                                <td width="12%" style="text-align: right;" id="order_t_tax"></td>
                             </tr>
                             <tr class="table-light">
                                 <td width="22%"><b>Total</b></td>
-                                <td width="12%" style="text-align: right;"><b id="order_total"></b></td>
+                                <td width="12%" style="text-align: right;"><b id="order_t_total"></b></td>
                             </tr>
                             <tr>
                                 <td width="22%">Discount</td>
-                                <td width="12%" style="text-align: right;" id="order_discount"></td>
+                                <td width="12%" style="text-align: right;" id="order_t_discount"></td>
                             </tr>
                             <tr>
                                 <td width="22%">Total Paid</td>
-                                <td width="12%" style="text-align: right;" id="order_amount_paid"></td>
+                                <td width="12%" style="text-align: right;" id="order_t_amount_paid"></td>
                             </tr>
                             <tr class="table-light">
                                 <td width="22%"><b>Due</b></td>
-                                <td width="12%" style="text-align: right;"><b id="order_amount_due"></b></td>
+                                <td width="12%" style="text-align: right;"><b id="order_t_amount_due"></b></td>
                             </tr>
                         </table>
                     </div>
