@@ -515,7 +515,7 @@ $(document).ready(function () {
 
     $(document).on('input', '#O_discount, #O_paid , #O_credits', function () {
         console.log($(this).val());
-        // calculateTotal();
+        calculateTotal();
     });
 
     function getMaterialPrice(matId, rowId) {
