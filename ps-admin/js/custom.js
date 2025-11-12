@@ -321,37 +321,30 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.order) {
                     const o = response.order;
-
-                    // Show the overlay
                     $('.overlay.create-order').fadeIn();
 
-                    // Fill general order fields
                     $('#order_today_date').val(o.order_date);
                     $('#order_process').val(o.order_process);
                     $('#payment_method').val(o.payment_type_id);
                     $('#order_id').val(o.order_id);
 
-                    // Fill client info
-                    $('#c_client_id').val(o.client_id);
-                    $('#itemInput').val(o.business_name);
-                    $('#c_client_address').val(o.business_address);
-                    $('#c_client_name').val(o.client_name);
-                    $('#c_client_phone').val(o.client_phone);
-                    $('#c_client_email').val(o.client_email);
+                    $('#client_id').val(o.client_id);
+                    $('#c_business').val(o.business_name);
+                    $('#c_address').val(o.business_address);
+                    $('#c_name').val(o.client_name);
+                    $('#c_phone').val(o.client_phone);
+                    $('#c_email').val(o.client_email);
 
-                    // Totals
-                    $('#order_t_subtotal').val(o.before_tax);
-                    $('#order_t_tax').val(o.tax);
-                    $('#order_t_discount').val(o.discount);
-                    $('#order_t_credits').val(o.credits);
-                    $('#order_t_total').val(o.after_tax);
-                    $('#order_t_paid').val(o.paid);
-                    $('#order_t_due').val(o.due);
+                    $('#o_subtotal').val(o.before_tax);
+                    $('#o_tax').val(o.tax);
+                    $('#o_discount').val(o.discount);
+                    $('#o_credits').val(o.credits);
+                    $('#o_total').val(o.after_tax);
+                    $('#o_paid').val(o.paid);
+                    $('#o_due').val(o.due);
 
-                    // Comment
-                    $('#order_t_comments').val(o.comment || '');
+                    $('#o_comments').val(o.comment || '');
 
-                    // Clear old items
                     $('#orderItems tbody').empty();
 
                     // Rebuild items
@@ -388,7 +381,6 @@ $(document).ready(function () {
                         $('#orderItems tbody').append(rowHtml);
                     });
 
-                    // Change overlay header and button
                     $('.create-order h5').text('Edit Order');
                     $('#submitOrder').text('Update Invoice').data('order-id', o.order_id);
                 } else {
@@ -521,8 +513,9 @@ $(document).ready(function () {
         }
     );
 
-    $(document).on('input', '#order-discount, #order-paid , #order-credits', function () {
-        calculateTotal();
+    $(document).on('input', '#O_discount, #O_paid , #O_credits', function () {
+        console.log($(this).val());
+        // calculateTotal();
     });
 
     function getMaterialPrice(matId, rowId) {
@@ -566,25 +559,27 @@ $(document).ready(function () {
             subtotal += val;
         });
 
-        $('#order_t_subtotal').val(subtotal.toFixed(2));
+        $('#o_subtotal').val(subtotal.toFixed(2));
 
-        let tax = subtotal * 0.0825;
-        $('#order_t_tax').val(tax.toFixed(2));
+        let tax = subtotal * 0.0825;    
+        $('#o_tax').val(tax.toFixed(2));
 
-        let discountPercent = parseFloat($('#order_t_discount').val()) || 0;
+        let discountPercent = parseFloat($('#o_discount').val()) || 0;
         let discountAmount = (subtotal + tax) * (discountPercent / 100);
 
         let total = (subtotal + tax) - discountAmount;
 
-        let creditAmount = parseFloat($('#order_t_credits').val()) || 0;
+        console.log(discountPercent);
+
+        let creditAmount = parseFloat($('#o_credits').val()) || 0;
         total -= creditAmount;
 
-        $('#order_t_total').val(total.toFixed(2));
+        $('#o_total').val(total.toFixed(2));
 
-        let paid = parseFloat($('#order_t_paid').val()) || 0;
+        let paid = parseFloat($('#o_paid').val()) || 0;
         let due = total - paid;
 
-        $('#order_t_due').val(due.toFixed(2));
+        $('#o_due').val(due.toFixed(2));
 
         if (total <= 0) {
             total = 0;
@@ -657,7 +652,7 @@ $(document).ready(function () {
     });
 
     $(document).ready(function () {
-        const $input = $("#itemInput");
+        const $input = $("#c_business");
         const $suggestions = $("#suggestions");
 
         // Live search
@@ -697,18 +692,18 @@ $(document).ready(function () {
         // Fill fields when a suggestion is clicked
         $suggestions.on("click", ".list-group-item-action", function () {
             const $this = $(this);
-            $("#c_client_id").val($this.data("id"));
-            $("#itemInput").val($this.data("name"));
-            $("#c_client_address").val($this.data("address"));
-            $("#c_client_name").val($this.data("cname"));
-            $("#c_client_phone").val($this.data("phone"));
-            $("#c_client_email").val($this.data("email"));
+            $("#client_id").val($this.data("id"));
+            $("#c_business").val($this.data("name"));
+            $("#c_address").val($this.data("address"));
+            $("#c_name").val($this.data("cname"));
+            $("#c_phone").val($this.data("phone"));
+            $("#c_email").val($this.data("email"));
             $suggestions.empty().hide();
         });
 
         // Hide suggestions when clicking outside or moving to another field
         $(document).on("click focusin", function (e) {
-            if (!$(e.target).closest("#itemInput, #suggestions").length) {
+            if (!$(e.target).closest("#c_business, #suggestions").length) {
                 $suggestions.empty().hide();
             }
         });
@@ -734,17 +729,17 @@ $(document).ready(function () {
         let orderData = {
             user_id: 1,
             order_id: $('#order_id').val() || 0,
-            client_id: $('#c_client_id').val(),
+            client_id: $('#client_id').val(),
             order_date: $('#order_today_date').val(),
             order_due_date: $('#order_due_date').val(),
-            order_before_tax: $('#order_t_subtotal').val(),
-            order_tax: $('#order_t_tax').val(),
-            order_after_tax: $('#order_t_total').val(),
-            order_amount_paid: $('#order_t_paid').val(),
-            order_amount_due: $('#order_t_due').val(),
+            order_before_tax: $('#o_subtotal').val(),
+            order_tax: $('#o_tax').val(),
+            order_after_tax: $('#o_total').val(),
+            order_amount_paid: $('#o_paid').val(),
+            order_amount_due: $('#o_due').val(),
             payment_type_id: $('#payment_t_method').val() || 1,
-            status_id: $('#order_t_status').val() || 1,
-            order_t_comments: $('#order_t_comments').val(),
+            status_id: $('#o_status').val() || 1,
+            order_comments: $('#o_comments').val(),
             items: items
         };
 
