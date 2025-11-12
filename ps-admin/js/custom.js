@@ -176,7 +176,7 @@ $(document).ready(function () {
             background:#343a40; color:#fff; padding:6px 12px; border-radius:6px;
             box-shadow:0 6px 18px rgba(0,0,0,0.2); z-index:99999;
             display:flex; align-items:center; font-size:14px;">
-            <span>Status Updated Successfully! </span>
+            <span>Status Updated Successfully!</span>
         </div>
     `);
 
@@ -484,14 +484,18 @@ $(document).ready(function () {
         }
     );
 
+    // $('#process_time').on('change', function () {
+    //     $('.itemRow').each(function () {
+    //         const rowId = $(this).data('row');
+    //         const matId = $(this).find('input[name="order_material_id[]"]').val();
+    //         if (matId) {
+    //             getMaterialPrice(matId, rowId);
+    //         }
+    //     });
+    // });
     $('#process_time').on('change', function () {
-        $('.itemRow').each(function () {
-            const rowId = $(this).data('row');
-            const matId = $(this).find('input[name="order_material_id[]"]').val();
-            if (matId) {
-                getMaterialPrice(matId, rowId);
-            }
-        });
+        let val = $(this).val();
+        calculateTotal(val);
     });
 
     $(document).on('input change',
@@ -544,22 +548,36 @@ $(document).ready(function () {
         });
     }
 
-    function calculateTotal() {
+    function calculateTotal(val) {
         let subtotal = 0;
 
         // Sum all item totals
         $('input[name="order_item_total[]"]').each(function () {
-            let val = parseFloat($(this).val()) || 0;
-            subtotal += val;
+            let itotal = parseFloat($(this).val()) || 0;
+            subtotal += itotal;
         });
 
         $('#o_subtotal').val(subtotal.toFixed(2));
 
+        let rush = 0;
+        if (val == 1) {
+            rush;
+        } else if (val == 2) {
+            rush = 0.2;
+        } else if (val == 3) {
+            rush = 0.4;
+        }
+
+        rushVal = subtotal * rush;
+        $('#o_rush').val(rushVal.toFixed(2));
+
+        subWithRush = subtotal + rushVal;
+
         // Apply discount first
         let discountPercent = parseFloat($('#o_discount').val()) || 0;
         let creditAmount = parseFloat($('#o_credits').val()) || 0;
-        let discountAmount = subtotal * (discountPercent / 100);
-        let subtotalAfterDiscount = subtotal - discountAmount - creditAmount;
+        let discountAmount = subWithRush * (discountPercent / 100);
+        let subtotalAfterDiscount = subWithRush - discountAmount - creditAmount;
 
         // Calculate tax on discounted subtotal
         let tax = subtotalAfterDiscount * 0.0825;
