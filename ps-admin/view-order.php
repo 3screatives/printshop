@@ -6,7 +6,9 @@
                 <div class="card-header d-flex align-items-center">
                     <h5 class="mb-0 py-3">Order ID: <b>#PS25-</b><b id="orderID"></b></h5>
                     <div>
-                        <button type="button" class="btn btn-sm btn-outline-secondary me-2">Edit</button>
+                        <button class="btn btn-outline-primary btn-sm me-2 edit-order">
+                            <span class="bi bi-pencil"> Edit</span>
+                        </button>
                         <button type="button"
                             class="btn btn-sm btn-outline-primary download-pdf">Download/Print</button>
                     </div>
@@ -26,8 +28,7 @@
                                     <h4>Due: <b id="orderDue"></b></h4>
                                     <!-- <h5>Status: <b id="order_status"></b></h5> -->
                                     <h5>Status:
-                                        <select id="order_status_select"
-                                            class="form-select form-select-sm order-status"
+                                        <select id="order_status_select" class="form-select form-select-sm order-status"
                                             style="display:inline-block; width:auto; padding:4px 36px 4px 8px; font-weight: bold; font-size: 16px;"
                                             data-order-id="">
                                         </select>

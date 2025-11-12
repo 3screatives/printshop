@@ -198,10 +198,9 @@ $(document).ready(function () {
             data: { order_id: orderID },
             dataType: 'json',
             success: function (response) {
-                console.log(response);
-
                 if (response.order) {
                     const o = response.order;
+                    $('.edit-order').attr('data-order-id', o.order_id);
                     $('#orderID').text(o.order_id);
                     $('#orderDue').text(new Date(o.order_due).toLocaleDateString());
                     $('.order-details').show();
@@ -228,7 +227,6 @@ $(document).ready(function () {
                         3: 'Account'
                     }[o.payment_type] || '—';
 
-                    console.log(paymentText);
                     $('#payment_method').text(paymentText);
 
                     $('#order_sub_total').text(o.before_tax);
@@ -312,6 +310,7 @@ $(document).ready(function () {
                 if (response.order) {
                     const o = response.order;
                     $('.overlay.create-order').fadeIn();
+
                     $('#order_today_date').val(o.order_date);
                     $('#order_process').val(o.order_process);
 
@@ -506,7 +505,6 @@ $(document).ready(function () {
     );
 
     $(document).on('input', '#O_discount, #O_paid , #O_credits', function () {
-        console.log($(this).val());
         calculateTotal();
     });
 
@@ -560,8 +558,6 @@ $(document).ready(function () {
         let discountAmount = (subtotal + tax) * (discountPercent / 100);
 
         let total = (subtotal + tax) - discountAmount;
-
-        console.log(discountPercent);
 
         let creditAmount = parseFloat($('#o_credits').val()) || 0;
         total -= creditAmount;
@@ -742,7 +738,6 @@ $(document).ready(function () {
             contentType: 'application/json',
             dataType: 'json',
             success: function (response) {
-                console.log(response);
                 if (response.status === 'success') {
                     alert(response.message);
 
