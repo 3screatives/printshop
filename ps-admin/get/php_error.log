@@ -1,29 +1,12 @@
-[10-Nov-2025 22:27:59 Europe/Berlin] Received comments: 
-[10-Nov-2025 22:27:59 Europe/Berlin] Saving comment: 
-[10-Nov-2025 22:33:49 Europe/Berlin] Received comments: 
-[10-Nov-2025 22:33:49 Europe/Berlin] Saving comment: 
-[11-Nov-2025 06:31:18 Europe/Berlin] Received comments: 
-[11-Nov-2025 06:31:18 Europe/Berlin] Saving comment: 
-[11-Nov-2025 06:36:07 Europe/Berlin] Received comments: 
-[11-Nov-2025 06:36:07 Europe/Berlin] Saving comment: 
-[11-Nov-2025 06:36:07 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`stma_printing`.`ps_orders`, CONSTRAINT `fk_orders_client` FOREIGN KEY (`client_id`) REFERENCES `ps_clients` (`client_id`)) in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php:97
-Stack trace:
-#0 C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php(97): mysqli_stmt_execute(Object(mysqli_stmt))
-#1 {main}
-  thrown in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php on line 97
-[11-Nov-2025 06:36:43 Europe/Berlin] Received comments: 
-[11-Nov-2025 06:36:43 Europe/Berlin] Saving comment: 
-[12-Nov-2025 07:06:14 Europe/Berlin] Received comments: Comment Updated
-[12-Nov-2025 07:06:14 Europe/Berlin] Saving comment: None
-[12-Nov-2025 07:08:53 Europe/Berlin] Received comments: Comment CHanged
-[12-Nov-2025 07:08:53 Europe/Berlin] Saving comment: None
-[12-Nov-2025 07:12:10 Europe/Berlin] Received comments: Final Comments
-[12-Nov-2025 07:12:10 Europe/Berlin] Saving comment: Final Comments
-[12-Nov-2025 07:12:35 Europe/Berlin] Received comments: - Final Comments
-- New Comments
-[12-Nov-2025 07:12:35 Europe/Berlin] Saving comment: - Final Comments
-- New Comments
-[12-Nov-2025 07:23:20 Europe/Berlin] Received comments: - added comment
-[12-Nov-2025 07:23:20 Europe/Berlin] Saving comment: - added comment
-[12-Nov-2025 07:23:41 Europe/Berlin] Received comments: - More Comments
-[12-Nov-2025 07:23:41 Europe/Berlin] Saving comment: - More Comments
+[12-Nov-2025 18:25:40 Europe/Berlin] Received comments: something
+[12-Nov-2025 18:25:40 Europe/Berlin] Saving comment: something
+[12-Nov-2025 18:31:16 Europe/Berlin] Received comments: Testing
+New
+Something
+[12-Nov-2025 18:31:16 Europe/Berlin] Saving comment: Testing
+New
+Something
+[12-Nov-2025 19:34:50 Europe/Berlin] Received comments: Re-design/Fix sizes
+[12-Nov-2025 19:34:50 Europe/Berlin] Saving comment: Re-design/Fix sizes
+[12-Nov-2025 20:06:49 Europe/Berlin] Received comments: Re-design/Fix sizes
+[12-Nov-2025 20:06:49 Europe/Berlin] Saving comment: Re-design/Fix sizes

@@ -25,16 +25,16 @@ $order_process = $data['order_due_date'] ?? 1;
 // --- Calculate base due date ---
 switch ($order_process) {
     case 1: // Standard: 3–5 days
-        $add_days = 4;
+        $add_days = 5;
         break;
     case 2: // Urgent: 1–2 days
         $add_days = 2;
         break;
     case 3: // Same Day
-        $add_days = 1;
+        $add_days = 0;
         break;
     default:
-        $add_days = 4;
+        $add_days = 5;
         break;
 }
 

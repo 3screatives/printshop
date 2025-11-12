@@ -76,8 +76,8 @@
                                     <td width="66%">
                                         <div class="d-flex align-items-center">
                                             <label for="payment_method" class="mb-0 me-2">Payment Method:</label>
-                                            <select class="form-select form-select-sm" name="payment_method"
-                                                id="payment_method">
+                                            <select class="form-select form-select-sm" name="payment_t_method"
+                                                id="payment_t_method">
                                                 <option value="1" selected>Credit/Debit Card</option>
                                                 <option value="2">Cash</option>
                                                 <option value="3">Account</option>
@@ -89,23 +89,21 @@
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <input dir="rtl" type="number" class="form-control form-control-sm"
-                                                name="o_subtotal" id="o_subtotal" value=""
-                                                placeholder="0.00" disabled>
+                                                name="o_subtotal" id="o_subtotal" value="" placeholder="0.00" disabled>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="66%" rowspan="6" style="vertical-align: top !important;"><b>Comments:</b>
-                                        <textarea name="o_comments" id="o_comments" class="form-control"
-                                            rows="6" style="width: 100%;"></textarea>
+                                        <textarea name="o_comments" id="o_comments" class="form-control" rows="6"
+                                            style="width: 100%;"></textarea>
                                     </td>
                                     <td width="22%">Total Tax (8.25%)</td>
                                     <td width="12%" style="text-align: right;">
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <input dir="rtl" type="number" class="form-control form-control-sm"
-                                                name="o_tax" id="o_tax" value="" placeholder="0.00"
-                                                disabled>
+                                                name="o_tax" id="o_tax" value="" placeholder="0.00" disabled>
                                         </div>
                                     </td>
                                 </tr>
@@ -135,8 +133,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <input dir="rtl" type="number" class="form-control form-control-sm"
-                                                name="o_total" id="o_total" value="" placeholder="0.00"
-                                                disabled>
+                                                name="o_total" id="o_total" value="" placeholder="0.00" disabled>
                                         </div>
                                     </td>
                                 </tr>
@@ -156,8 +153,7 @@
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <input dir="rtl" type="number" class="form-control form-control-sm"
-                                                name="o_due" id="o_due" value="" placeholder="0.00"
-                                                disabled>
+                                                name="o_due" id="o_due" value="" placeholder="0.00" disabled>
                                         </div>
                                     </td>
                                 </tr>

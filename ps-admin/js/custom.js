@@ -221,7 +221,15 @@ $(document).ready(function () {
                         $statusSelect.append(`<option value="${status.status_id}" ${selected}>${status.status_name}</option>`);
                     });
 
-                    $('#payment_method').text(o.payment_type);
+                    // $('#payment_method').text(o.payment_type);
+                    let paymentText = {
+                        1: 'Credit/Debit Card',
+                        2: 'Cash',
+                        3: 'Account'
+                    }[o.payment_type] || '—';
+
+                    console.log(paymentText);
+                    $('#payment_method').text(paymentText);
 
                     $('#order_sub_total').text(o.before_tax);
                     $('#order_t_tax').text(o.tax);
@@ -229,7 +237,6 @@ $(document).ready(function () {
                     $('#order_t_discount').text(o.before_tax);
                     $('#order_t_amount_paid').text(o.paid);
                     $('#order_t_amount_due').text(o.due);
-                    // $('#order_t_comments').text(o.comment);
                     $('#order_t_comments').html((o.comment || '').replace(/\n/g, '<br>'));
 
                     $('#stmaID').text(o.stmaID ? o.stmaID : '-');
@@ -305,10 +312,12 @@ $(document).ready(function () {
                 if (response.order) {
                     const o = response.order;
                     $('.overlay.create-order').fadeIn();
-
                     $('#order_today_date').val(o.order_date);
                     $('#order_process').val(o.order_process);
-                    $('#payment_method').val(o.payment_type_id);
+
+                    $('#payment_t_method option').prop('selected', false); // clear selection
+                    $('#payment_t_method option[value="' + o.payment_type + '"]').prop('selected', true);
+
                     $('#order_id').val(o.order_id);
 
                     $('#client_id').val(o.client_id);
@@ -544,7 +553,7 @@ $(document).ready(function () {
 
         $('#o_subtotal').val(subtotal.toFixed(2));
 
-        let tax = subtotal * 0.0825;    
+        let tax = subtotal * 0.0825;
         $('#o_tax').val(tax.toFixed(2));
 
         let discountPercent = parseFloat($('#o_discount').val()) || 0;
