@@ -16,6 +16,8 @@ SELECT
     o.order_after_tax,
     o.order_amount_paid,
     o.order_amount_due,
+    o.order_discount,
+    o.order_credits,
     o.order_comment,
     o.order_production_time,
     c.client_id,
@@ -54,17 +56,22 @@ $data = select_query($conn, $sql, "i", $order_id);
 $response = [];
 if (!empty($data)) {
     $order = $data[0];
+
+    $dueDate = !empty($order['order_due']) ? date_format(new DateTime($order['order_due']), "m/d/Y") : '-';
+
     $response['order'] = [
         "order_id" => $order['order_id'],
         "order_date" => $order['order_date'],
-        "order_due" => $order['order_due'],
+        "order_due" => $dueDate,
+        "discount" => $order['order_discount'],
+        "credits" => $order['order_credits'],
         "before_tax" => $order['order_before_tax'],
         "tax" => $order['order_tax'],
         "after_tax" => $order['order_after_tax'],
         "paid" => $order['order_amount_paid'],
         "due" => $order['order_amount_due'],
         "comment" => $order['order_comment'],
-        "production_time" => $order['order_production_time'],
+        // "production_time" => $order['order_production_time'],
         "business_name" => $order['business_name'],
         "business_address" => $order['business_address'],
         "client_id" => $order['client_id'],
@@ -73,7 +80,7 @@ if (!empty($data)) {
         "client_email" => $order['contact_email'],
         "status_id" => $order['status_id'],
         "status_name" => $order['status_name'],
-        "order_process" => $order['order_production_time'],
+        "process_time" => $order['order_production_time'],
         "payment_type" => $order['payment_type_id'],  // or map manually if you have a separate table later
         "stmaID" => $order['client_stma_id'],
     ];

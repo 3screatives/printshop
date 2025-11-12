@@ -15,10 +15,10 @@
                         </div>
 
                         <div class="d-flex align-items-center">
-                            <label for="order_due_date" class="mb-0 me-2"
+                            <label for="process_time" class="mb-0 me-2"
                                 style="min-width: 90px; white-space: nowrap;">Due
                                 Date:</label>
-                            <select class="form-select form-select-sm" name="order_due_date" id="order_due_date">
+                            <select class="form-select form-select-sm" name="process_time" id="process_time">
                                 <option value="1" selected>Standard 3-5 days</option>
                                 <option value="2">Urgent 1-2 days</option>
                                 <option value="3">Same Day</option>
@@ -94,16 +94,26 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="66%" rowspan="6" style="vertical-align: top !important;"><b>Comments:</b>
+                                    <td width="66%" rowspan="7" style="vertical-align: top !important;"><b>Comments:</b>
                                         <textarea name="o_comments" id="o_comments" class="form-control" rows="6"
                                             style="width: 100%;"></textarea>
                                     </td>
-                                    <td width="22%">Total Tax (8.25%)</td>
+                                    <td width="22%">Rush Charges</td>
                                     <td width="12%" style="text-align: right;">
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
-                                            <input dir="rtl" type="number" class="form-control form-control-sm"
-                                                name="o_tax" id="o_tax" value="" placeholder="0.00" disabled>
+                                            <input dir="rtl" type="number" min="0" class="form-control form-control-sm"
+                                                name="o_rush" id="o_rush" value="" placeholder="0.00" disabled>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="22%">Credits</td>
+                                    <td width="12%" style="text-align: right;">
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input dir="rtl" type="number" min="0" class="form-control form-control-sm"
+                                                name="o_credits" id="o_credits" value="" placeholder="0.00">
                                         </div>
                                     </td>
                                 </tr>
@@ -118,12 +128,12 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="22%">Credits</td>
+                                    <td width="22%">Total Tax (8.25%)</td>
                                     <td width="12%" style="text-align: right;">
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
-                                            <input dir="rtl" type="number" min="0" class="form-control form-control-sm"
-                                                name="o_credits" id="o_credits" value="" placeholder="0.00">
+                                            <input dir="rtl" type="number" class="form-control form-control-sm"
+                                                name="o_tax" id="o_tax" value="" placeholder="0.00" disabled>
                                         </div>
                                     </td>
                                 </tr>

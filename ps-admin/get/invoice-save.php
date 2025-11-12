@@ -59,7 +59,7 @@ $order_tax = floatval($data['order_tax'] ?? 0);
 $order_after_tax = floatval($data['order_after_tax'] ?? 0);
 $order_amount_paid = floatval($data['order_amount_paid'] ?? 0);
 $order_amount_due = floatval($data['order_amount_due'] ?? 0);
-$order_due_date = intval($data['order_due_date'] ?? 0);
+$process_time = intval($data['process_time'] ?? 0);
 $payment_type_id = intval($data['payment_type_id'] ?? 0);
 $status_id = intval($data['status_id'] ?? 1);
 $order_comments = trim($data['order_comments'] ?? 'None');
@@ -88,7 +88,7 @@ if ($order_id == 0) {
         $order_after_tax,
         $order_amount_paid,
         $order_amount_due,
-        $order_due_date,
+        $process_time,
         $payment_type_id,
         $client_id,
         $status_id,
@@ -121,7 +121,7 @@ if ($order_id == 0) {
         $order_after_tax,
         $order_amount_paid,
         $order_amount_due,
-        $order_due_date,
+        $process_time,
         $payment_type_id,
         $status_id,
         $order_comments,

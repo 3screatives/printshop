@@ -18,16 +18,15 @@
                     </div>
                     <div class="col-md-12">
                         <label>Business Address</label>
-                        <textarea name="mbusiness_address" id="mbusiness_address" class="form-control"
-                            required></textarea>
+                        <textarea name="mbusiness_address" id="mbusiness_address" class="form-control"></textarea>
                     </div>
                     <div class="col-md-6">
                         <label>Phone</label>
-                        <input type="text" name="contact_phone" id="contact_phone" class="form-control">
+                        <input type="text" name="contact_phone" id="contact_phone" class="form-control" required>
                     </div>
                     <div class="col-md-6">
                         <label>Email</label>
-                        <input type="email" name="contact_email" id="contact_email" class="form-control">
+                        <input type="email" name="contact_email" id="contact_email" class="form-control" required>
                     </div>
                     <div class="col-md-12">
                         <label>Client STMA ID</label>

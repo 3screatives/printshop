@@ -202,7 +202,8 @@ $(document).ready(function () {
                     const o = response.order;
                     $('.edit-order').attr('data-order-id', o.order_id);
                     $('#orderID').text(o.order_id);
-                    $('#orderDue').text(new Date(o.order_due).toLocaleDateString());
+                    $('#orderDue').text(o.order_due);
+
                     $('.order-details').show();
 
                     $('#business_name').text(o.business_name);
@@ -229,12 +230,13 @@ $(document).ready(function () {
 
                     $('#payment_method').text(paymentText);
 
-                    $('#order_sub_total').text(o.before_tax);
-                    $('#order_t_tax').text(o.tax);
-                    $('#order_t_total').text(o.after_tax);
-                    $('#order_t_discount').text(o.before_tax);
-                    $('#order_t_amount_paid').text(o.paid);
-                    $('#order_t_amount_due').text(o.due);
+                    $('#order_sub_total').text('$' + o.before_tax);
+                    $('#order_t_tax').text('$' + o.tax);
+                    $('#order_t_total').text('$' + o.after_tax);
+                    $('#order_t_credits').text('$' + (o.credits || '0.00'));
+                    $('#order_t_discount').text('$' + (o.discount || '0.00'));
+                    $('#order_t_amount_paid').text('$' + o.paid);
+                    $('#order_t_amount_due').text('$' + o.due);
                     $('#order_t_comments').html((o.comment || '').replace(/\n/g, '<br>'));
 
                     $('#stmaID').text(o.stmaID ? o.stmaID : '-');
@@ -246,7 +248,8 @@ $(document).ready(function () {
                         <td>${item.material}</td>
                         <td>${item.details}</td>
                         <td>${item.size_width} x ${item.size_height}</td>
-                        <td class="text-end">${item.price}</td>
+                        <td class="text-end">$${item.price}</td>
+                        <td class="text-end">$${item.total}</td>
                     </tr>`;
                     });
                     $('#order_items tbody').html(rows);
@@ -271,7 +274,7 @@ $(document).ready(function () {
 
     $(document).on('click', '#newOrder', function () {
         $('.create-order').show();
-    })
+    });
 
     $('.close').on('click', function () {
         $('.create-order').hide();
@@ -312,7 +315,7 @@ $(document).ready(function () {
                     $('.overlay.create-order').fadeIn();
 
                     $('#order_today_date').val(o.order_date);
-                    $('#order_process').val(o.order_process);
+                    $('#process_time').val(o.process_time);
 
                     $('#payment_t_method option').prop('selected', false); // clear selection
                     $('#payment_t_method option[value="' + o.payment_type + '"]').prop('selected', true);
@@ -359,9 +362,9 @@ $(document).ready(function () {
                             <td><textarea name="order_item_details[]" class="form-control form-control-sm" rows="1">${item.details}</textarea></td>
                             <td><div class="input-group">
                                 <input dir="rtl" type="number" name="order_item_width[]" class="form-control form-control-sm" placeholder="Width" value="${item.size_width}">
-                                <input dir="rtl" type="number" name="order_item_height[]" class="form-control form-control-sm" placeholder="Height" value="${item.size_width}">
+                                <input dir="rtl" type="number" name="order_item_height[]" class="form-control form-control-sm" placeholder="Height" value="${item.size_height}">
                             </div></td>
-                            <td class="text-center"><input type="number" name="order_item_qty[]" min="1" value="1" class="form-control form-control-sm" value="${item.quantity}"></td>
+                            <td class="text-center"><input type="number" name="order_item_qty[]" min="1" class="form-control form-control-sm" value="${item.quantity}"></td>
                             <td class="text-end"><div class="input-group"><span class="input-group-text">$</span>
                                 <input dir="rtl" type="number" name="order_item_price[]" class="form-control form-control-sm" readonly value="${item.price}"></div></td>
                             <td><div class="input-group"><span class="input-group-text">$</span>
@@ -481,7 +484,7 @@ $(document).ready(function () {
         }
     );
 
-    $('#order_process').on('change', function () {
+    $('#process_time').on('change', function () {
         $('.itemRow').each(function () {
             const rowId = $(this).data('row');
             const matId = $(this).find('input[name="order_material_id[]"]').val();
@@ -504,7 +507,7 @@ $(document).ready(function () {
         }
     );
 
-    $(document).on('input', '#O_discount, #O_paid , #O_credits', function () {
+    $(document).on('input', '#o_discount, #o_paid , #o_credits', function () {
         calculateTotal();
     });
 
@@ -515,7 +518,7 @@ $(document).ready(function () {
         const itemWidth = parseFloat($row.find('input[name="order_item_width[]"]').val()) || 0;
         const itemHeight = parseFloat($row.find('input[name="order_item_height[]"]').val()) || 0;
         const itemQty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
-        const orderProcess = parseFloat($('#order_process').val()) || 1;
+        const orderProcess = parseFloat($('#process_time').val()) || 1;
 
         $.ajax({
             url: "get/material_price.php",
@@ -544,6 +547,7 @@ $(document).ready(function () {
     function calculateTotal() {
         let subtotal = 0;
 
+        // Sum all item totals
         $('input[name="order_item_total[]"]').each(function () {
             let val = parseFloat($(this).val()) || 0;
             subtotal += val;
@@ -551,31 +555,30 @@ $(document).ready(function () {
 
         $('#o_subtotal').val(subtotal.toFixed(2));
 
-        let tax = subtotal * 0.0825;
+        // Apply discount first
+        let discountPercent = parseFloat($('#o_discount').val()) || 0;
+        let creditAmount = parseFloat($('#o_credits').val()) || 0;
+        let discountAmount = subtotal * (discountPercent / 100);
+        let subtotalAfterDiscount = subtotal - discountAmount - creditAmount;
+
+        // Calculate tax on discounted subtotal
+        let tax = subtotalAfterDiscount * 0.0825;
         $('#o_tax').val(tax.toFixed(2));
 
-        let discountPercent = parseFloat($('#o_discount').val()) || 0;
-        let discountAmount = (subtotal + tax) * (discountPercent / 100);
-
-        let total = (subtotal + tax) - discountAmount;
-
-        let creditAmount = parseFloat($('#o_credits').val()) || 0;
-        total -= creditAmount;
+        // Calculate total
+        let total = subtotalAfterDiscount + tax;
 
         $('#o_total').val(total.toFixed(2));
 
+        // Calculate due
         let paid = parseFloat($('#o_paid').val()) || 0;
         let due = total - paid;
+        if (total <= 0) total = 0;
+        if (due <= 0) due = 0;
 
         $('#o_due').val(due.toFixed(2));
-
-        if (total <= 0) {
-            total = 0;
-        }
-        if (due <= 0) {
-            due = 0;
-        }
     }
+
 
     $(document).on('click', function (e) {
         if (!$(e.target).closest('.custom-dropdown').length) {
@@ -719,9 +722,11 @@ $(document).ready(function () {
             order_id: $('#order_id').val() || 0,
             client_id: $('#client_id').val(),
             order_date: $('#order_today_date').val(),
-            order_due_date: $('#order_due_date').val(),
+            process_time: $('#process_time').val(),
             order_before_tax: $('#o_subtotal').val(),
             order_tax: $('#o_tax').val(),
+            order_discount: $('#o_discount').val(),
+            order_credits: $('#o_credits').val(),
             order_after_tax: $('#o_total').val(),
             order_amount_paid: $('#o_paid').val(),
             order_amount_due: $('#o_due').val(),

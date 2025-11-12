@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $height          = floatval($_POST['height']);
     $quantity        = intval($_POST['quantity']);
     $sides           = $_POST['sides'] ?? "single";
-    $order_process   = intval($_POST['process_time']);
+    $process_time   = intval($_POST['process_time']);
 
     // ✅ Get material data using select_query()
     $sql = "SELECT mat_id, mat_vendor, mat_name, mat_details, mat_roll_size, mat_length, 
@@ -62,11 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // $final_cost = ceil($total_cost) * $quantity;
     $final_cost = ceil($total_cost);
 
-    if ($order_process == 1) {
+    if ($process_time == 1) {
         $production_time = 0;
-    } elseif ($order_process == 2) {
+    } elseif ($process_time == 2) {
         $production_time = 0.2; // +20%
-    } elseif ($order_process == 3) {
+    } elseif ($process_time == 3) {
         $production_time = 0.4; // +40%
     }
 

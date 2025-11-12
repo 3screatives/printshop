@@ -41,9 +41,10 @@
                                 <tr>
                                     <th width="6%" class="text-center">Qty</th>
                                     <th width="18%">Material</th>
-                                    <th width="42%">Details</th>
+                                    <th width="30%">Details</th>
                                     <th width="22%">Size (inches)</th>
                                     <th width="12%">Price</th>
+                                    <th width="12%">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,19 +57,27 @@
                                 <td width="12%" style="text-align: right;" id="order_sub_total"></td>
                             </tr>
                             <tr>
-                                <td width="66%" rowspan="5" style="vertical-align: top !important;"><b>Comments:</b>
+                                <td width="66%" rowspan="7" style="vertical-align: top !important;"><b>Comments:</b>
                                     <span id="order_t_comments" class="d-block"></span>
                                 </td>
+                                <td width="22%">Rush Charges</td>
+                                <td width="12%" style="text-align: right;" id="order_t_rush"></td>
+                            </tr>
+                            <tr>
+                                <td width="22%">Credits</td>
+                                <td width="12%" style="text-align: right;" id="order_t_credits"></td>
+                            </tr>
+                            <tr>
+                                <td width="22%">Discount</td>
+                                <td width="12%" style="text-align: right;" id="order_t_discount"></td>
+                            </tr>
+                            <tr>
                                 <td width="22%">Total Tax (8.25%)</td>
                                 <td width="12%" style="text-align: right;" id="order_t_tax"></td>
                             </tr>
                             <tr class="table-light">
                                 <td width="22%"><b>Total</b></td>
                                 <td width="12%" style="text-align: right;"><b id="order_t_total"></b></td>
-                            </tr>
-                            <tr>
-                                <td width="22%">Discount</td>
-                                <td width="12%" style="text-align: right;" id="order_t_discount"></td>
                             </tr>
                             <tr>
                                 <td width="22%">Total Paid</td>
