@@ -27,8 +27,8 @@
                                     <!-- <h5>Status: <b id="order_status"></b></h5> -->
                                     <h5>Status:
                                         <select id="order_status_select"
-                                            class="form-control form-control-sm order-status"
-                                            style="display:inline-block; width:auto; padding:2px 8px; font-weight: bold; font-size: 16px;"
+                                            class="form-select form-select-sm order-status"
+                                            style="display:inline-block; width:auto; padding:4px 36px 4px 8px; font-weight: bold; font-size: 16px;"
                                             data-order-id="">
                                         </select>
                                     </h5>
@@ -55,8 +55,8 @@
                                 <td width="12%" style="text-align: right;" id="order_sub_total"></td>
                             </tr>
                             <tr>
-                                <td width="66%" rowspan="5" style="vertical-align: top;"><b>Comments:</b>
-                                    <span id="order_t_comments"></span>
+                                <td width="66%" rowspan="5" style="vertical-align: top !important;"><b>Comments:</b>
+                                    <span id="order_t_comments" class="d-block"></span>
                                 </td>
                                 <td width="22%">Total Tax (8.25%)</td>
                                 <td width="12%" style="text-align: right;" id="order_t_tax"></td>

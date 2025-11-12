@@ -95,7 +95,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="66%" rowspan="6" style="vertical-align: top;"><b>Comments:</b>
+                                    <td width="66%" rowspan="6" style="vertical-align: top !important;"><b>Comments:</b>
                                         <textarea name="o_comments" id="o_comments" class="form-control"
                                             rows="6" style="width: 100%;"></textarea>
                                     </td>

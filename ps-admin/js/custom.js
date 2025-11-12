@@ -247,7 +247,8 @@ $(document).ready(function () {
                     $('#order_t_discount').text(o.before_tax);
                     $('#order_t_amount_paid').text(o.paid);
                     $('#order_t_amount_due').text(o.due);
-                    $('#order_t_comments').text(o.comment);
+                    // $('#order_t_comments').text(o.comment);
+                    $('#order_t_comments').html((o.comment || '').replace(/\n/g, '<br>'));
 
                     $('#stmaID').text(o.stmaID ? o.stmaID : '-');
 

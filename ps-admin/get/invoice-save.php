@@ -62,8 +62,8 @@ $order_amount_due = floatval($data['order_amount_due'] ?? 0);
 $order_due_date = intval($data['order_due_date'] ?? 0);
 $payment_type_id = intval($data['payment_type_id'] ?? 0);
 $status_id = intval($data['status_id'] ?? 1);
-$order_comments = trim($data['order_comments'] ?? '');
-// 🔍 Debug log #2: confirm comment before saving
+$order_comments = trim($data['order_comments'] ?? 'None');
+
 error_log("Saving comment: " . $order_comments);
 
 $items = $data['items'] ?? [];
