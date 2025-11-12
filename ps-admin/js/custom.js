@@ -16,29 +16,10 @@ $(document).ready(function () {
             alert('Failed to load status options');
         });
 
-    // function loadOrders() {
-    //     $.getJSON('get/order_list.php')
-    //         .done(function (response) {
-    //             if (response.orders && response.orders.length > 0) {
-    //                 renderOrders(response.orders);
-    //             } else {
-    //                 $('#orderListMain tbody').html('<tr><td colspan="6" class="text-center">No orders found</td></tr>');
-    //             }
-    //         })
-    //         .fail(function () {
-    //             alert('Failed to load orders');
-    //         });
-    // }
-
     function renderOrders(orders) {
         let rows = '';
 
         orders.forEach(o => {
-            // const formattedDate = new Date(o.order_due).toLocaleDateString("en-US", {
-            //     year: 'numeric',
-            //     month: 'short',
-            //     day: 'numeric'
-            // });
             function formatOrderDate(dateString) {
                 if (!dateString) return "";
 
@@ -57,7 +38,8 @@ $(document).ready(function () {
             let statusSelect = `<select class="form-select form-select-sm order-status" data-order-id="${o.order_id}">`;
             statusOptions.forEach(status => {
                 const selected = status.status_id === o.status_id ? "selected" : "";
-                statusSelect += `<option value="${status.status_id}" ${selected}>${status.status_name}</option>`;
+                const color = status.status_color || "#ffffff"; // fallback color
+                statusSelect += `<option value="${status.status_id}" style="background-color: ${color};" ${selected}>${status.status_name}</option>`;
             });
             statusSelect += `</select>`;
             rows += `
@@ -65,7 +47,7 @@ $(document).ready(function () {
                     <td>PS#25-${o.order_id}</td>
                     <td>${formattedDate}</td>
                     <td>${formattedDue}</td>
-                    <td>${o.client_name ?? '—'}</td>
+                    <td>${o.client_name ?? '—'} <i style="color: #999999;">(${o.contact_name})</i></td>
                     <td>$${parseFloat(o.order_after_tax || 0).toFixed(2)}</td>
                     <td>${statusSelect}</td>
                     <td class="text-center">
