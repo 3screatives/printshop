@@ -15,9 +15,6 @@ if (!$data) {
     exit;
 }
 
-// 🔍 Debug log #1: check if frontend sends comment
-error_log("Received comments: " . ($data['order_comments'] ?? 'NULL'));
-
 // === ORDER DATA ===
 $order_date = $data['order_date'] ?? date('Y-m-d H:i:s');
 $order_process = $data['order_due_date'] ?? 1;
@@ -63,8 +60,6 @@ $process_time = intval($data['process_time'] ?? 0);
 $payment_type_id = intval($data['payment_type_id'] ?? 0);
 $status_id = intval($data['status_id'] ?? 1);
 $order_comments = trim($data['order_comments'] ?? 'None');
-
-error_log("Saving comment: " . $order_comments);
 
 $items = $data['items'] ?? [];
 

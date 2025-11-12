@@ -548,8 +548,9 @@ $(document).ready(function () {
         });
     }
 
-    function calculateTotal(val) {
+    function calculateTotal() {
         let subtotal = 0;
+        let rush = 0
 
         // Sum all item totals
         $('input[name="order_item_total[]"]').each(function () {
@@ -559,32 +560,26 @@ $(document).ready(function () {
 
         $('#o_subtotal').val(subtotal.toFixed(2));
 
-        let rush = 0;
-        if (val == 1) {
-            rush;
-        } else if (val == 2) {
-            rush = 0.2;
-        } else if (val == 3) {
-            rush = 0.4;
-        }
+        let val = parseInt($('#process_time').val()) || 1;
+        if (val === 1) rush = 0;
+        else if (val === 2) rush = 0.2;
+        else if (val === 3) rush = 0.4;
 
         rushVal = subtotal * rush;
         $('#o_rush').val(rushVal.toFixed(2));
 
-        subWithRush = subtotal + rushVal;
-
         // Apply discount first
         let discountPercent = parseFloat($('#o_discount').val()) || 0;
         let creditAmount = parseFloat($('#o_credits').val()) || 0;
-        let discountAmount = subWithRush * (discountPercent / 100);
-        let subtotalAfterDiscount = subWithRush - discountAmount - creditAmount;
+        let discountAmount = subtotal * (discountPercent / 100);
+        let subtotalAfterDiscount = subtotal - discountAmount - creditAmount;
 
         // Calculate tax on discounted subtotal
         let tax = subtotalAfterDiscount * 0.0825;
         $('#o_tax').val(tax.toFixed(2));
 
         // Calculate total
-        let total = subtotalAfterDiscount + tax;
+        let total = subtotalAfterDiscount + rushVal + tax;
 
         $('#o_total').val(total.toFixed(2));
 
