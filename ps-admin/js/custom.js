@@ -484,15 +484,6 @@ $(document).ready(function () {
         }
     );
 
-    // $('#process_time').on('change', function () {
-    //     $('.itemRow').each(function () {
-    //         const rowId = $(this).data('row');
-    //         const matId = $(this).find('input[name="order_material_id[]"]').val();
-    //         if (matId) {
-    //             getMaterialPrice(matId, rowId);
-    //         }
-    //     });
-    // });
     $('#process_time').on('change', function () {
         let val = $(this).val();
         calculateTotal(val);
@@ -561,11 +552,11 @@ $(document).ready(function () {
         $('#o_subtotal').val(subtotal.toFixed(2));
 
         let val = parseInt($('#process_time').val()) || 1;
-        if (val === 1) rush = 0;
-        else if (val === 2) rush = 0.2;
+        if (val === 2) rush = 0.2;
         else if (val === 3) rush = 0.4;
+        let rushVal = subtotal * rush;
+        if (rush > 0 && rushVal < 10) rushVal = 10;
 
-        rushVal = subtotal * rush;
         $('#o_rush').val(rushVal.toFixed(2));
 
         // Apply discount first
