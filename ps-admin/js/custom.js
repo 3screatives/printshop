@@ -85,14 +85,14 @@ $(document).ready(function () {
     }
 
     function applyFilters() {
-        const searchTerm = $('#orderSearch').val().toLowerCase().trim();
+        const searchTerm = ($('#orderSearch').val() || '').toLowerCase().trim();
         const selectedStatus = $('#statusFilter').val();
 
-        const filtered = allOrders.filter(o => {
-            const orderNum = `PS#25-${o.order_id}`.toLowerCase();
-            const business = (o.client_name || '').toLowerCase();
-            const contact = (o.contact_name || '').toLowerCase();
-            const amount = (parseFloat(o.order_after_tax || 0)).toFixed(2);
+        const filtered = (allOrders || []).filter(o => {
+            const orderNum = (`PS#25-${o?.order_id || ''}`).toLowerCase();
+            const business = (o?.client_name || '').toLowerCase();
+            const contact = (o?.contact_name || '').toLowerCase();
+            const amount = (parseFloat(o?.order_after_tax || 0)).toFixed(2);
 
             const matchesSearch =
                 orderNum.includes(searchTerm) ||
@@ -101,7 +101,7 @@ $(document).ready(function () {
                 amount.includes(searchTerm);
 
             const matchesStatus =
-                !selectedStatus || String(o.status_id) === String(selectedStatus);
+                !selectedStatus || String(o?.status_id || '') === String(selectedStatus);
 
             return matchesSearch && matchesStatus;
         });
@@ -851,4 +851,5 @@ $(document).ready(function () {
         const orderId = $(this).data('oid');
         window.open('get/order_pdf.php?order_id=' + orderId, '_blank');
     });
+
 });
