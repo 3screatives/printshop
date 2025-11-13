@@ -19,9 +19,9 @@
                                 style="min-width: 90px; white-space: nowrap;">Due
                                 Date:</label>
                             <select class="form-select form-select-sm" name="process_time" id="process_time">
-                                <option value="1" selected>Standard 3-5 days</option>
-                                <option value="2">Urgent 1-2 days</option>
-                                <option value="3">Same Day</option>
+                                <option value="1" selected>Standard (3-5 days)</option>
+                                <option value="2">Rush (1-2 days)</option>
+                                <!-- <option value="3">Same Day</option> -->
                             </select>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
                 <div class="card-body container-fluid py-3 scroll">
                     <form>
                         <div class="table-responsive">
-                            <table class="table borderless">
+                            <table class="table borderless find-client">
                                 <tr>
                                     <td width="70%"></td>
                                     <td width="30%" class="position-relative">
@@ -39,7 +39,7 @@
                                             <div id="suggestions"></div>
                                         </div>
                                         <input type="hidden" name="client_id" id="client_id" value="">
-                                        <textarea name="c_address" rows="2" id="c_address"
+                                        <!-- <textarea name="c_address" rows="2" id="c_address"
                                             class="form-control form-control-sm mb-1"
                                             placeholder="Client Address"></textarea>
                                         <input type="text" name="c_name" id="c_name"
@@ -47,7 +47,11 @@
                                         <input type="tel" name="c_phone" id="c_phone"
                                             class="form-control form-control-sm mb-1" placeholder="Client Phone">
                                         <input type="email" name="c_email" id="c_email"
-                                            class="form-control form-control-sm" placeholder="Client Email">
+                                            class="form-control form-control-sm" placeholder="Client Email"> -->
+                                        <span id="c_address"></span>
+                                        <span id="c_name"></span>
+                                        <span id="c_phone"></span>
+                                        <span id="c_email"></span>
                                     </td>
                                 </tr>
                             </table>

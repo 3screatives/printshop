@@ -395,3 +395,8 @@ textarea {
 .list-group-item {
     cursor: pointer;
 }
+
+.find-client span {
+    display: block;
+    padding-left: 10px;
+}

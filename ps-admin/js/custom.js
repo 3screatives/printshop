@@ -39,11 +39,11 @@ $(document).ready(function () {
             statusOptions.forEach(status => {
                 const selected = status.status_id === o.status_id ? "selected" : "";
                 const color = status.status_color || "#ffffff"; // fallback color
-                statusSelect += `<option value="${status.status_id}" style="background-color: ${color};" ${selected}>${status.status_name}</option>`;
+                statusSelect += `<option value="${status.status_id}" data-color="${color}" style="background-color:${color};" ${selected}>${status.status_name}</option>`;
             });
             statusSelect += `</select>`;
             rows += `
-                <tr>
+                <tr style="background-color:${color};">
                     <td>PS#25-${o.order_id}</td>
                     <td>${formattedDate}</td>
                     <td>${formattedDue}</td>
@@ -280,24 +280,27 @@ $(document).ready(function () {
         $('.create-order').hide();
 
         const $form = $('.create-order form');
+        if ($form.length === 0) return;
+
         $form[0].reset();
 
-        // Clear all input fields and selects
         $form.find('textarea').val('');
-        $form.find('input').val('');
-        $form.find('select').prop('selectedIndex', 0);
+        $form.find('input[type="text"], input[type="number"], input[type="hidden"]').val('');
+        $form.find('span').text('');
 
-        // Remove dynamic order item rows safely
+        $form.find('select').each(function () {
+            this.selectedIndex = 0;
+        });
+
+        $('#process_time').val('1').trigger('change');
+
         const $tbody = $form.find('#orderItems tbody');
         if ($tbody.find('tr').length > 1) {
-            // Keep template row
             $tbody.find('tr').not(':first').remove();
-            $tbody.find('tr:first input, tr:first select').val('');
+            $tbody.find('tr:first').find('input, select').val('');
         } else {
-            // All rows are dynamic — just clear
             $tbody.empty();
         }
-
         count = 0;
     });
 
@@ -552,10 +555,10 @@ $(document).ready(function () {
         $('#o_subtotal').val(subtotal.toFixed(2));
 
         let val = parseInt($('#process_time').val()) || 1;
-        if (val === 2) rush = 0.2;
-        else if (val === 3) rush = 0.4;
+        if (val === 2) rush = 0.3;
+        // else if (val === 3) rush = 0.4;
         let rushVal = subtotal * rush;
-        if (rush > 0 && rushVal < 10) rushVal = 10;
+        if (rush > 0 && rushVal < 15) rushVal = 15;
 
         $('#o_rush').val(rushVal.toFixed(2));
 
@@ -689,10 +692,10 @@ $(document).ready(function () {
             const $this = $(this);
             $("#client_id").val($this.data("id"));
             $("#c_business").val($this.data("name"));
-            $("#c_address").val($this.data("address"));
-            $("#c_name").val($this.data("cname"));
-            $("#c_phone").val($this.data("phone"));
-            $("#c_email").val($this.data("email"));
+            $("#c_address").text($this.data("address"));
+            $("#c_name").text($this.data("cname"));
+            $("#c_phone").text($this.data("phone"));
+            $("#c_email").text($this.data("email"));
             $suggestions.empty().hide();
         });
 

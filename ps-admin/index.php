@@ -82,6 +82,12 @@
                                     </span>
                                     <span>New Member</span>
                                 </a>
+                                <a href="#" id="newMaterial" class="btn btn-outline-primary btn-sm mx-1">
+                                    <span class="pe-2">
+                                        <i class="bi bi-plus"></i>
+                                    </span>
+                                    <span>New Material</span>
+                                </a>
                             </div>
                         </div>
                         <div class="search-bar p-3 border-bottom">
