@@ -59,20 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cost_per_print = $mat_cost_total + $ink_cost_total + $running_cost;
     $total_cost = $cost_per_print * $markup;
 
-    // $final_cost = ceil($total_cost) * $quantity;
     $final_cost = ceil($total_cost);
-
-    if ($process_time == 1) {
-        $production_time = 0;
-    } elseif ($process_time == 2) {
-        $production_time = 0.2; // +20%
-    } elseif ($process_time == 3) {
-        $production_time = 0.4; // +40%
-    }
-
-    if ($production_time > 0) {
-        $final_cost += $final_cost * $production_time;
-    }
 
     echo json_encode([
         "final_cost"    => round(($final_cost), 2),
