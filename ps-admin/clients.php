@@ -115,6 +115,7 @@
     <?php include 'view-order.php'; ?>
     <?php include 'create-order.php'; ?>
     <?php include 'create-client.php'; ?>
+    <?php include 'create-material.php'; ?>
     <?php include 'order-designer.php'; ?>
 
     <!-- Scripts -->

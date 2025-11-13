@@ -74,8 +74,8 @@ if ($action == 'save') {
                 <td>{$row['mat_size']}</td>
                 <td>\${$row['mat_cost']}</td>
                 <td>\${$row['ink_cost']}</td>
-                <td>{$row['cat_id']}</td>
                 <td>" . (!empty($row['mat_added_on']) ? date('M d, Y', strtotime($row['mat_added_on'])) : '-') . "</td>
+                <td>{$row['cat_id']}</td>
                 <td>
                     <button class='btn btn-outline-primary btn-sm me-2 editMaterial' data-id='{$row['mat_id']}'>
                         <span class='bi bi-pencil'></span>

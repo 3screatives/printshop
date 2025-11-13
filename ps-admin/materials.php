@@ -94,21 +94,21 @@
                             <input type="text" class="form-control" name="" id="" placeholder="search order here...">
                         </div>
                         <div class="data-record p-3">
-                            <table class="table" id="materialTable">
+                            <table class="table" id="materialsTable">
                                 <thead>
                                     <tr>
-                                        <th>Material #</th>
-                                        <th>Vendor</th>
-                                        <th>Name</th>
-                                        <th>Details</th>
-                                        <th>Roll Size</th>
-                                        <th>Length</th>
-                                        <th>Size</th>
-                                        <th>Cost</th>
-                                        <th>Ink</th>
-                                        <th>Added On</th>
-                                        <th>Cat ID</th>
-                                        <th class="text-center">Action</th>
+                                        <th width="5%">Mat #</th>
+                                        <th width="10%">Vendor</th>
+                                        <th width="10%">Name</th>
+                                        <th width="10%">Details</th>
+                                        <th width="5%">Roll Size</th>
+                                        <th width="5%">Length</th>
+                                        <th width="5%">Size</th>
+                                        <th width="10%">Cost</th>
+                                        <th width="10%">Ink</th>
+                                        <th width="10%">Added On</th>
+                                        <th width="5%">Cat ID</th>
+                                        <th width="10%" class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -124,6 +124,7 @@
     <?php include 'view-order.php'; ?>
     <?php include 'create-order.php'; ?>
     <?php include 'create-client.php'; ?>
+    <?php include 'create-material.php'; ?>
     <?php include 'order-designer.php'; ?>
 
     <!-- Scripts -->

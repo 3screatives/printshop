@@ -852,4 +852,60 @@ $(document).ready(function () {
         window.open('get/order_pdf.php?order_id=' + orderId, '_blank');
     });
 
+
+    //Materials
+    loadMaterials();
+
+    $("#newMaterial").click(function () {
+        $("#materialForm")[0].reset();
+        $("#mat_id").val('');
+        $(".modal-title").text("Add Material");
+        $("#materialModal").modal("show");
+    });
+
+    $("#materialForm").submit(function (e) {
+        e.preventDefault();
+        $.post("get/material_action.php", $(this).serialize() + "&action=save", function (res) {
+            alert(res);
+            $("#materialModal").modal("hide");
+            loadMaterials();
+        });
+    });
+
+    function loadMaterials() {
+        $.post("get/material_action.php", { action: "fetch" }, function (data) {
+            $("#materialsTable tbody").html(data);
+        });
+    }
+
+    $(document).on("click", ".editMaterial", function () {
+        console.log("Edit material clicked");
+        var id = $(this).data("id");
+        $.post("get/material_action.php", { action: "get", mat_id: id }, function (data) {
+            var mat = JSON.parse(data);
+            $("#mat_id").val(mat.mat_id);
+            $("#mat_vendor").val(mat.mat_vendor);
+            $("#mat_name").val(mat.mat_name);
+            $("#mat_details").val(mat.mat_details);
+            $("#mat_roll_size").val(mat.mat_roll_size);
+            $("#mat_length").val(mat.mat_length);
+            $("#mat_size").val(mat.mat_size);
+            $("#mat_cost").val(mat.mat_cost);
+            $("#ink_cost").val(mat.ink_cost);
+            $("#cat_id").val(mat.cat_id);
+            $(".modal-title").text("Edit Material");
+            $("#materialModal").modal("show");
+        });
+    });
+
+    $(document).on("click", ".deleteMaterial", function () {
+        if (confirm("Are you sure you want to delete this material?")) {
+            var id = $(this).data("id");
+            $.post("get/material_action.php", { action: "delete", mat_id: id }, function (res) {
+                alert(res);
+                loadMaterials();
+            });
+        }
+    });
+
 });
