@@ -602,6 +602,7 @@ $(document).ready(function () {
 
         // Calculate tax on discounted subtotal
         let tax = subtotalAfterDiscount * 0.0825;
+        if (tax <= 0) tax = 0;
         $('#o_tax').val(tax.toFixed(2));
 
         // Calculate total
@@ -613,7 +614,6 @@ $(document).ready(function () {
         let paid = parseFloat($('#o_paid').val()) || 0;
         let due = total - paid;
         if (total <= 0) total = 0;
-        if (due <= 0) due = 0;
 
         $('#o_due').val(due.toFixed(2));
     }
