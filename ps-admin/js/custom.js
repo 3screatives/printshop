@@ -43,7 +43,7 @@ $(document).ready(function () {
             });
             statusSelect += `</select>`;
             rows += `
-                <tr style="background-color:${color};">
+                <tr>
                     <td>PS#25-${o.order_id}</td>
                     <td>${formattedDate}</td>
                     <td>${formattedDue}</td>
@@ -235,6 +235,7 @@ $(document).ready(function () {
                     $('#order_t_total').text('$' + o.after_tax);
                     $('#order_t_credits').text('$' + (o.credits || '0.00'));
                     $('#order_t_discount').text('$' + (o.discount || '0.00'));
+                    $('#order_t_rush').text('$' + (o.rush || '1'));
                     $('#order_t_amount_paid').text('$' + o.paid);
                     $('#order_t_amount_due').text('$' + o.due);
                     $('#order_t_comments').html((o.comment || '').replace(/\n/g, '<br>'));
