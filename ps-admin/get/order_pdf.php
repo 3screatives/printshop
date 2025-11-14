@@ -89,7 +89,7 @@ $content = '
     </tr>
 </table>
 
-<hr>
+<hr style="border:0; border-top:1px solid #ccc; width:100%;">
 
 <table cellpadding="5">
     <tr>
@@ -112,13 +112,13 @@ $content = '
 
 <hr>
 
-<table border="1" cellpadding="6" cellspacing="0">
+<table border="1" cellpadding="6" cellspacing="0" bordercolor="#cccccc;">
     <tr style="background-color:#f2f2f2;">
         <th width="8%" align="center"><b>Qty</b></th>
-        <th width="25%"><b>Material</b></th>
-        <th width="37%"><b>Details</b></th>
-        <th width="15%" align="center"><b>Size (W×H)</b></th>
-        <th width="15%" align="right"><b>Total ($)</b></th>
+        <th width="18%"><b>Material</b></th>
+        <th width="44%"><b>Details</b></th>
+        <th width="20%" align="center"><b>Size (W×H)</b></th>
+        <th width="10%" align="right"><b>Total ($)</b></th>
     </tr>
 ';
 
@@ -129,39 +129,40 @@ foreach ($order_items as $item) {
         <td>' . htmlspecialchars($item['mat_name']) . '</td>
         <td>' . htmlspecialchars($item['item_details']) . '</td>
         <td align="center">' . number_format($item['item_size_width'], 2) . ' × ' . number_format($item['item_size_height'], 2) . '</td>
-        <td align="right">' . number_format($item['item_total'], 2) . '</td>
+        <td align="right">$' . number_format($item['item_total'], 2) . '</td>
     </tr>';
 }
 
 $content .= '</table><br><br>';
 
 // Totals Section
+//<td width="60%"><b>Comments:</b><br>' . htmlspecialchars($order['order_comment']) . '</td>
 $content .= '
 <table cellspacing="0" cellpadding="6">
     <tr>
-        <td width="60%"><b>Comments:</b> ' . htmlspecialchars($order['order_comment']) . '</td>
-        <td width="25%" style="border:1px solid #ddd;">Sub Total</td>
-        <td width="15%" align="right" style="border:1px solid #ddd;">$' . number_format($order['order_before_tax'], 2) . '</td>
+        <td width="60%"><b>Thank you for business with us!</b></td>
+        <td width="30%" style="border:1px solid #ddd;">Sub Total</td>
+        <td width="10%" align="right" style="border:1px solid #ddd;">$' . number_format($order['order_before_tax'], 2) . '</td>
     </tr>
     <tr>
         <td></td>
-        <td width="25%" style="border:1px solid #ddd;">Tax</td>
-        <td width="15%" align="right" style="border:1px solid #ddd;">$' . number_format($order['order_tax'], 2) . '</td>
+        <td width="30%" style="border:1px solid #ddd;">Tax</td>
+        <td width="10%" align="right" style="border:1px solid #ddd;">$' . number_format($order['order_tax'], 2) . '</td>
     </tr>
     <tr>
         <td></td>
-        <td width="25%" style="border:1px solid #ddd;"><b>Total</b></td>
-        <td width="15%" align="right" style="border:1px solid #ddd;"><b>$' . number_format($order['order_after_tax'], 2) . '</b></td>
+        <td width="30%" style="border:1px solid #ddd;"><b>Total</b></td>
+        <td width="10%" align="right" style="border:1px solid #ddd;"><b>$' . number_format($order['order_after_tax'], 2) . '</b></td>
     </tr>
     <tr>
         <td></td>
-        <td width="25%" style="border:1px solid #ddd;">Amount Paid</td>
-        <td width="15%" align="right" style="border:1px solid #ddd;">$' . number_format($order['order_amount_paid'], 2) . '</td>
+        <td width="30%" style="border:1px solid #ddd;">Amount Paid</td>
+        <td width="10%" align="right" style="border:1px solid #ddd;">$' . number_format($order['order_amount_paid'], 2) . '</td>
     </tr>
     <tr>
         <td></td>
-        <td width="25%" style="border:1px solid #ddd;"><b>Amount Due</b></td>
-        <td width="15%" align="right" style="border:1px solid #ddd;"><b>$' . number_format($order['order_amount_due'], 2) . '</b></td>
+        <td width="30%" style="border:1px solid #ddd;"><b>Amount Due</b></td>
+        <td width="10%" align="right" style="border:1px solid #ddd;"><b>$' . number_format($order['order_amount_due'], 2) . '</b></td>
     </tr>
 </table>
 ';

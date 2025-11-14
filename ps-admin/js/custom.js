@@ -35,12 +35,23 @@ $(document).ready(function () {
             const formattedDate = formatOrderDate(o.order_date);
             const formattedDue = formatOrderDate(o.order_due);
 
-            let statusSelect = `<select class="form-select form-select-sm order-status" data-order-id="${o.order_id}">`;
+            let statusSelect = `
+                <select class="form-select form-select-sm order-status" data-order-id="${o.order_id}">
+            `;
+
             statusOptions.forEach(status => {
                 const selected = status.status_id === o.status_id ? "selected" : "";
-                const color = status.status_color || "#ffffff"; // fallback color
-                statusSelect += `<option value="${status.status_id}" data-color="${color}" style="background-color:${color};" ${selected}>${status.status_name}</option>`;
+                const color = status.status_color || "#ffffff";
+
+                statusSelect += `
+                <option value="${status.status_id}" 
+                        data-color="${color}" 
+                        style="background-color:${color};"
+                        ${selected}>
+                    ${status.status_name}
+                </option>`;
             });
+
             statusSelect += `</select>`;
             rows += `
                 <tr>
@@ -65,7 +76,27 @@ $(document).ready(function () {
         });
 
         $('#orderListMain tbody').html(rows);
+
+        $('.order-status').each(function () {
+            applySelectColor($(this));
+        });
     }
+
+    function applySelectColor(select) {
+        const selectedOption = select.find(':selected');
+        const color = selectedOption.data('color') || '#ffffff';
+        select.css('background-color', color);
+    }
+
+    // Apply color on change
+    $(document).on('change', '.order-status', function () {
+        applySelectColor($(this));
+    });
+
+    // Apply color on initial load (after rendering)
+    $('.order-status').each(function () {
+        applySelectColor($(this));
+    });
 
     let allOrders = []; // store all orders for filtering
 
