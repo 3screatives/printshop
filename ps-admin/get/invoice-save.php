@@ -56,6 +56,8 @@ $order_tax = floatval($data['order_tax'] ?? 0);
 $order_after_tax = floatval($data['order_after_tax'] ?? 0);
 $order_amount_paid = floatval($data['order_amount_paid'] ?? 0);
 $order_amount_due = floatval($data['order_amount_due'] ?? 0);
+$order_discount = floatval($data['order_discount'] ?? 0);
+$order_credits = floatval($data['order_credits'] ?? 0);
 $process_time = intval($data['process_time'] ?? 0);
 $payment_type_id = intval($data['payment_type_id'] ?? 0);
 $status_id = intval($data['status_id'] ?? 1);
@@ -67,27 +69,29 @@ $items = $data['items'] ?? [];
 if ($order_id == 0) {
     // Insert new order
     $sql_order = "INSERT INTO ps_orders (
-        order_date, order_due, user_id, order_before_tax, order_tax, order_after_tax,
-        order_amount_paid, order_amount_due, order_production_time, payment_type_id,
-        client_id, status_id, order_comment
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            order_date, order_due, user_id, order_before_tax, order_tax, order_after_tax,
+            order_amount_paid, order_amount_due, order_discount, order_credits,
+            order_production_time, payment_type_id, client_id, status_id, order_comment
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql_order);
     mysqli_stmt_bind_param(
         $stmt,
-        "ssidddddiiiis",
-        $order_date,
-        $order_due,
-        $user_id,
-        $order_before_tax,
-        $order_tax,
-        $order_after_tax,
-        $order_amount_paid,
-        $order_amount_due,
-        $process_time,
-        $payment_type_id,
-        $client_id,
-        $status_id,
-        $order_comments
+        "ssidddddddiiiis",
+        $orderData['order_date'],
+        $orderData['order_due'],
+        $orderData['user_id'],
+        $orderData['order_before_tax'],
+        $orderData['order_tax'],
+        $orderData['order_after_tax'],
+        $orderData['order_amount_paid'],
+        $orderData['order_amount_due'],
+        $orderData['order_discount'],
+        $orderData['order_credits'],
+        $orderData['order_production_time'],
+        $orderData['payment_type_id'],
+        $orderData['client_id'],
+        $orderData['status_id'],
+        $orderData['order_comments']
     );
     mysqli_stmt_execute($stmt);
 
@@ -101,26 +105,29 @@ if ($order_id == 0) {
 } else {
     // Update existing order
     $sql_update_order = "UPDATE ps_orders SET
-    order_date=?, order_due=?, order_before_tax=?, order_tax=?, order_after_tax=?,
-    order_amount_paid=?, order_amount_due=?, order_production_time=?, payment_type_id=?,
-    status_id=?, order_comment=? WHERE order_id=?";
+            order_date=?, order_due=?, order_before_tax=?, order_tax=?, order_after_tax=?,
+            order_amount_paid=?, order_amount_due=?, order_discount=?, order_credits=?,
+            order_production_time=?, payment_type_id=?, status_id=?, order_comment=?
+            WHERE order_id=?";
     $stmt = mysqli_prepare($conn, $sql_update_order);
 
     mysqli_stmt_bind_param(
         $stmt,
-        "ssdddddiiisi",
-        $order_date,
-        $order_due,
-        $order_before_tax,
-        $order_tax,
-        $order_after_tax,
-        $order_amount_paid,
-        $order_amount_due,
-        $process_time,
-        $payment_type_id,
-        $status_id,
-        $order_comments,
-        $order_id
+        "ssdddddddiiisi",
+        $orderData['order_date'],
+        $orderData['order_due'],
+        $orderData['order_before_tax'],
+        $orderData['order_tax'],
+        $orderData['order_after_tax'],
+        $orderData['order_amount_paid'],
+        $orderData['order_amount_due'],
+        $orderData['order_discount'],
+        $orderData['order_credits'],
+        $orderData['order_production_time'],
+        $orderData['payment_type_id'],
+        $orderData['status_id'],
+        $orderData['order_comments'],
+        $orderData['order_id']
     );
 
     mysqli_stmt_execute($stmt);
