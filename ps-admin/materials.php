@@ -39,7 +39,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" href="materials.php">
-                                    <i class="bi bi-circle"></i>
+                                    <i class="bi bi-record-circle-fill"></i>
                                 </a>
                             </li>
                         </ul>
