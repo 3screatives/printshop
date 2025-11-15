@@ -5,8 +5,8 @@ RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# Route /order/TYPE to order.php?type=TYPE
-RewriteRule ^order/([^/]+)/?$ order.php?type=$1 [L,QSA]
+# Route /order/SLUG to order.php?product=SLUG
+RewriteRule ^order/([^/]+)/?$ order.php?product=$1 [L,QSA]
 
 # Automatically add .php extension if file exists
 RewriteCond %{REQUEST_FILENAME}.php -f

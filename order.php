@@ -1,4 +1,39 @@
 <?php
+// Include DB functions
+include 'ps-admin/db_function.php';
+$conn = db_connect();
+
+// Get product slug from URL
+$slug = isset($_GET['product']) ? $_GET['product'] : '';
+
+if (empty($slug)) {
+    echo "<p>Product not found.</p>";
+    exit;
+}
+
+// Fetch category based on slug
+$sql = "SELECT cat_id, cat_name, cat_image FROM ps_material_categories WHERE slug = ?";
+$category = select_query($conn, $sql, "s", $slug);
+
+if (empty($category)) {
+    echo "<p>Product not found.</p>";
+    exit;
+}
+
+$category = $category[0];
+$cat_id = $category['cat_id'];
+$form_title = $category['cat_name'];
+$cat_image = !empty($category['cat_image']) ? 'img/' . $category['cat_image'] . '.jpg' : 'img/default.jpg';
+
+// Fetch assigned material for this category
+$material = select_query($conn, "SELECT * FROM ps_materials WHERE cat_id = ? LIMIT 1", "i", $cat_id);
+if (empty($material)) {
+    echo "<p>No material assigned to this category.</p>";
+    exit;
+}
+
+$material = $material[0];
+
 include 'include/head.php';
 include 'include/header.php';
 ?>
@@ -7,193 +42,136 @@ include 'include/header.php';
     <div class="container">
         <div class="sec-head">
             <div class="quick-links">
-                <a href="./">Home</a> <i class="bi bi-chevron-right"></i> <a href="shop">Shop</a> <i
-                    class="bi bi-chevron-right"></i> <?php echo 'Form Title'; ?>
+                <a href="./">Home</a> <i class="bi bi-chevron-right"></i>
+                <a href="shop">Shop</a> <i class="bi bi-chevron-right"></i>
+                <?php echo htmlspecialchars($form_title); ?>
             </div>
-            <h2><?php echo 'Form Title'; ?></h2>
+            <h2><?php echo htmlspecialchars($form_title); ?></h2>
         </div>
+
         <div class="row">
+            <!-- Product Image -->
             <div class="col-6">
-                <img src="img/product.jpg" alt="<?php echo 'Form Title'; ?>">
+                <img src="<?php echo $cat_image; ?>" alt="<?php echo htmlspecialchars($form_title); ?>" class="img-fluid">
             </div>
+
+            <!-- Order Form -->
             <div class="col-6">
                 <form id="calcForm">
-                    <div class="order-form-wrap">
-                        <div class="mb-3 row">
-                            <label class="col-sm-4 col-form-label">Material <span class="tc-red">*</span></label>
-                            <div class="col-sm-8">
-                                <select class="form-control" name="material_id" id="material_id" required>
-                                    <option value="">-- Select Material --</option>
-                                </select>
-                            </div>
-                        </div> <!-- Materials -->
+                    <!-- Hidden Fields -->
+                    <input type="hidden" name="material_id" value="<?php echo $material['mat_id']; ?>">
+                    <input type="hidden" name="cat_id" value="<?php echo $cat_id; ?>">
+                    <input type="hidden" name="mat_cost" value="<?php echo $material['mat_cost']; ?>">
+                    <input type="hidden" name="ink_cost" value="<?php echo $material['ink_cost']; ?>">
 
-                        <div class="mb-3 row">
-                            <label class="col-sm-4 col-form-label">Size <span class="tc-red">*</span></label>
-                            <div class="col-sm-8">
-                                <div class="d-flex gap-3">
-                                    <!-- Width Input -->
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" id="width" name="width" value="24">
-                                        <span class="input-group-text">in</span>
-                                    </div>
-
-                                    <!-- Height Input -->
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" id="height" name="height" value="36">
-                                        <span class="input-group-text">in</span>
-                                    </div>
+                    <!-- Size -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Size <span class="tc-red">*</span></label>
+                        <div class="col-sm-8">
+                            <div class="d-flex gap-3">
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="width" value="24" min="24" max="48">
+                                    <span class="input-group-text">in</span>
                                 </div>
-                                <div class="sec-disc mt-3">
-                                    <b>Width:</b> min 24 - max 48<br>
-                                    <b>Height:</b> min 24 - max 220
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="height" value="36" min="24" max="220">
+                                    <span class="input-group-text">in</span>
                                 </div>
                             </div>
-                        </div><!-- Size -->
-
-                        <div class="mb-3 row">
-                            <label class="col-sm-4 col-form-label">Quantity <span class="tc-red">*</span></label>
-                            <div class="col-sm-8">
-                                <input class="form-control" type="number" name="quantity" id="quantity" value="1"
-                                    required>
-                            </div>
-                        </div><!-- Quantity -->
-
-                        <div class="mb-3 row">
-                            <label class="col-sm-4 col-form-label">Sides <span class="tc-red">*</span></label>
-                            <div class="col-sm-8">
-                                <select name="sides" id="sides" class="form-control">
-                                    <option value="single">Single Side</option>
-                                    <option value="double">Double Side</option>
-                                </select>
-                            </div>
-                        </div><!-- Sides -->
-
-                        <div class="mb-3 row">
-                            <label class="col-sm-4 col-form-label">Grommets <span class="tc-red">*</span></label>
-                            <div class="col-sm-8">
-                                <input type="checkbox" name="grommets" id="grommets" value="1"> Add Grommets (+$5)
-                            </div>
-                        </div><!-- Grommets -->
-
-                        <div class="mb-3 row">
-                            <label for="order_grommets" class="col-sm-4 col-form-label">H-Frame <span
-                                    class="tc-red">*</span></label>
-                            <div class="col-sm-8">
-                                <select class="form-control toggle-custom-input" name="order_sides" id="order_sides">
-                                    <option value="0">Wire H-Frame</option>
-                                    <option value="1">No Wire H-Frame</option>
-                                </select>
-                            </div>
-                        </div><!-- H Frame -->
-
-                        <div class="mb-3 row">
-                            <label class="col-sm-4 col-form-label">Production Time <span class="tc-red">*</span></label>
-                            <div class="col-sm-8">
-                                <select name="production_time" id="production_time" class="form-control">
-                                    <option value="0">Normal (no extra)</option>
-                                    <option value="0.15">Rush (2-Day +15%)</option>
-                                    <option value="0.30">Same-Day +30%</option>
-                                </select>
-                            </div>
-                        </div><!-- Production Time -->
-
-                        <div class="mb-3 row">
-                            <div class="col-sm-4"></div>
-                            <div class="col-sm-8 text-end">
-                                <button type="button" class="thm-btn thm-btn-small" name="order_reset" id="order_reset">
-                                    <span>Reset Order</span>
-                                </button>
-                            </div>
-                        </div><!-- Reset Order -->
-
-                        <div class="mb-3 row">
-                            <div class="col-sm-12">
-                                <h4 class="fw-bold" id="result">Final Price: $0.00</h4>
-                                <div id="breakdown"></div>
-                            </div>
-                        </div><!-- Final Price -->
-
-                        <div class="mb-3 row">
-                            <div class="col-sm-4"></div>
-                            <div class="col-sm-8 text-end">
-                                <button type="button" class="thm-btn thm-btn-small" name="order_reset" id="order_reset">
-                                    <span>Upload File</span>
-                                </button>
-                                <button type="button" class="thm-btn thm-btn-small gray" name="order_reset"
-                                    id="order_reset">
-                                    <span>Create Design</span>
-                                </button>
-                            </div>
-                        </div><!-- Upload/Design -->
-
-                        <div class="mb-3 row">
-                            <div class="col-sm-12">
-                                <button type="button" class="thm-btn red w-100" name="order_reset" id="order_reset">
-                                    <span>Add to Cart</span>
-                                </button>
-                            </div>
-                        </div><!-- Add To Cart -->
-
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <p class="fs-7"><b>Note:</b> STMA Printing reserves the right to correct any pricing
-                                    errors displayed on the
-                                    website, including typographical mistakes or omissions. If necessary, the
-                                    buyer/client will be notified
-                                    of any revised pricing prior to order processing. Applicable sales tax is
-                                    additional. Shipping costs are
-                                    not included in the listed prices. Prices may vary between in-store and online
-                                    orders.</p>
-                            </div>
-                        </div><!-- Note -->
-
+                        </div>
                     </div>
+
+                    <!-- Quantity -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Quantity <span class="tc-red">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" name="quantity" value="1" min="1" required>
+                        </div>
+                    </div>
+
+                    <!-- Sides -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Sides <span class="tc-red">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="sides" class="form-control">
+                                <option value="single">Single Side</option>
+                                <option value="double">Double Side</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Grommets -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Grommets</label>
+                        <div class="col-sm-8">
+                            <input type="checkbox" name="grommets" value="1"> Add Grommets (+$5)
+                        </div>
+                    </div>
+
+                    <!-- H-Frame -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">H-Frame</label>
+                        <div class="col-sm-8">
+                            <select name="order_sides" class="form-control">
+                                <option value="0">Wire H-Frame</option>
+                                <option value="1">No Wire H-Frame</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Production Time -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Production Time</label>
+                        <div class="col-sm-8">
+                            <select name="production_time" class="form-control">
+                                <option value="0">Normal (no extra)</option>
+                                <option value="0.15">Rush (2-Day +15%)</option>
+                                <option value="0.30">Same-Day +30%</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Final Price -->
+                    <div class="mb-3 row">
+                        <div class="col-sm-12">
+                            <h4 class="fw-bold" id="result">Final Price: $0.00</h4>
+                            <div id="breakdown"></div>
+                        </div>
+                    </div>
+
+                    <!-- Add to Cart -->
+                    <div class="mb-3 row">
+                        <div class="col-sm-12">
+                            <button type="button" class="thm-btn red w-100" id="addToCart">
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Product Description -->
 <section class="product-details">
     <div class="container">
-        <div class="order-form-wrap">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="sec-head">
-                        <h2>Product Description<span class="tc-red">Your message, clearly displayed—where it matters
-                                most.</span></h2>
-                    </div>
-                </div>
+        <div class="sec-head">
+            <h2>Product Description</h2>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <p>High quality, customizable banners and signs for your business or event. Options include grommets, H-frames, and multiple sizes for your convenience.</p>
             </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <p>Looking for a way to grab attention and make a high impact? Look no further than custom vinyl
-                        banners. These banners are perfect for indoor or outdoor use and come with grommets and
-                        reinforced edges as an option for easy hanging. Get your custom banner printing done
-                        Locally!</p>
-                </div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-5">
-                    <ul>
-                        <li>High visual impact</li>
-                        <li>Highly Customizable</li>
-                        <li>Easy to install</li>
-                        <li>Durable</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-sm-12">
-                    <div class="call-action">
-                        <p>Looking for help with design? We offer <a class="thm-link blue"
-                                href="graphic-design.php">graphic
-                                design services</a> and can help you with all your graphic design needs.</p>
-
-                        <p>Let us help you with your next project! Submit a request for a <a class="thm-link red"
-                                href="get-a-quote.php">printing quote</a>.</p>
-                    </div>
-                </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-5">
+                <ul>
+                    <li>High visual impact</li>
+                    <li>Highly Customizable</li>
+                    <li>Easy to install</li>
+                    <li>Durable</li>
+                </ul>
             </div>
         </div>
     </div>

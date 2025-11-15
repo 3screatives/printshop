@@ -1,7 +1,4 @@
 <?php
-require_once 'config/db.php';
-require_once 'config/init.php';
-
 include 'include/head.php';
 include 'include/header.php';
 ?>
@@ -30,154 +27,53 @@ include 'include/header.php';
         <div class="sec-head">
             <h2><span class="tc-blue">Elevating Your Brand with</span> Premium Print Solutions</h2>
         </div>
-        <div class="content">
-            <div class="row">
-                <div class="col-3 mb-4">
-                    <div class="box">
-                        <div class="img-holder">
-                            <img class="bg" src="img/product-banner.jpg" alt="" />
-                        </div>
-                        <div class="info">
-                            <h3>
-                                Banner
-                                <span>starting at $10.00</span>
-                            </h3>
-                            <div class="d-inline">
-                                <a class="thm-btn thm-btn-small red" href="order/banner">
-                                    <span>Order Now</span>
-                                </a>
-                            </div>
-                        </div>
+        <?php
+        include 'ps-admin/db_function.php'; // Include your connection/query functions
+
+        $conn = db_connect();
+
+        // Fetch categories dynamically
+        $sql = "SELECT cat_id, cat_name, cat_image FROM ps_material_categories ORDER BY cat_id ASC";
+        $categories = select_query($conn, $sql);
+
+        if (!empty($categories)) {
+            echo '<div class="container"><div class="row">';
+
+            foreach ($categories as $row) {
+                // Fallback image if none is set
+                $imgSrc = !empty($row['cat_image']) ? 'img/product-' . $row['cat_image'] . '.jpg' : 'img/no-product.jpg';
+                $slug = strtolower(str_replace(' ', '-', $row['cat_name']));
+
+                echo '
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="box h-100">
+                <div class="img-holder">
+                    <img class="bg img-fluid" src="' . $imgSrc . '" alt="' . htmlspecialchars($row['cat_name']) . '" />
+                </div>
+                <div class="info mt-2">
+                    <h3>
+                        ' . htmlspecialchars($row['cat_name']) . '
+                        <span class="d-block">starting at $10.00</span>
+                    </h3>
+                    <div class="d-inline">
+                        <a class="btn btn-danger btn-sm" href="order/' . $slug . '">
+                            Order Now
+                        </a>
                     </div>
-                </div> <!-- Product End -->
-                <div class="col-3 mb-4">
-                    <div class="box">
-                        <div class="img-holder">
-                            <img class="bg" src="img/product-poster.jpg" alt="" />
-                        </div>
-                        <div class="info">
-                            <h3>
-                                Poster
-                                <span>starting at $10.00</span>
-                            </h3>
-                            <div class="d-inline">
-                                <a class="thm-btn thm-btn-small red" href="order/poster">
-                                    <span>Order Now</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- Product End -->
-                <div class="col-3 mb-4">
-                    <div class="box">
-                        <div class="img-holder">
-                            <img class="bg" src="img/product-flyers.jpg" alt="" />
-                        </div>
-                        <div class="info">
-                            <h3>
-                                Flyer
-                                <span>starting at $10.00</span>
-                            </h3>
-                            <div class="d-inline">
-                                <a class="thm-btn thm-btn-small red" href="order/flyers">
-                                    <span>Order Now</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- Product End -->
-                <div class="col-3 mb-4">
-                    <div class="box">
-                        <div class="img-holder">
-                            <img class="bg" src="img/product-businesscards.jpg" alt="" />
-                        </div>
-                        <div class="info">
-                            <h3>
-                                Business Card
-                                <span>starting at $10.00</span>
-                            </h3>
-                            <div class="d-inline">
-                                <a class="thm-btn thm-btn-small red" href="order/businesscards">
-                                    <span>Order Now</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- Product End -->
-                <div class="col-3 mb-4">
-                    <div class="box">
-                        <div class="img-holder">
-                            <img class="bg" src="img/product-booklets.jpg" alt="" />
-                        </div>
-                        <div class="info">
-                            <h3>
-                                Booklets
-                                <span>starting at $10.00</span>
-                            </h3>
-                            <div class="d-inline">
-                                <a class="thm-btn thm-btn-small red" href="order/booklets">
-                                    <span>Order Now</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- Product End -->
-                <div class="col-3 mb-4">
-                    <div class="box">
-                        <div class="img-holder">
-                            <img class="bg" src="img/product-postcards.jpg" alt="" />
-                        </div>
-                        <div class="info">
-                            <h3>
-                                Postcards
-                                <span>starting at $10.00</span>
-                            </h3>
-                            <div class="d-inline">
-                                <a class="thm-btn thm-btn-small red" href="order/postcards">
-                                    <span>Order Now</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- Product End -->
-                <div class="col-3 mb-4">
-                    <div class="box">
-                        <div class="img-holder">
-                            <img class="bg" src="img/product-tickets.jpg" alt="" />
-                        </div>
-                        <div class="info">
-                            <h3>
-                                Tickers
-                                <span>starting at $10.00</span>
-                            </h3>
-                            <div class="d-inline">
-                                <a class="thm-btn thm-btn-small red" href="order/tickets">
-                                    <span>Order Now</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- Product End -->
-                <div class="col-3 mb-4">
-                    <div class="box">
-                        <div class="img-holder">
-                            <img class="bg" src="img/product-badges.jpg" alt="" />
-                        </div>
-                        <div class="info">
-                            <h3>
-                                ID/Name Badges
-                                <span>starting at $10.00</span>
-                            </h3>
-                            <div class="d-inline">
-                                <a class="thm-btn thm-btn-small red" href="order/badges">
-                                    <span>Order Now</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- Product End -->
+                </div>
             </div>
         </div>
+        ';
+            }
+
+            echo '</div></div>';
+        } else {
+            echo '<p class="text-center">No categories found.</p>';
+        }
+
+        mysqli_close($conn);
+        ?>
+
     </div>
 </section>
 
