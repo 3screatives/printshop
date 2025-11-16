@@ -1,63 +1,49 @@
-//On Scroll Actions
-$(window).scroll(function () {
-    if ($(this).scrollTop() > 96) {
-        $("header").css("margin-top", "-96px");
-        $('.search-bar').addClass('short');
-    } else {
-        $("header").css("margin-top", "0px");
-        $('.search-bar').removeClass('short');
-    }
-});
-//Closed
-
-//Select Custom Input field
 $(document).ready(function () {
-    function toggleCustomInputs() {
-        $('.toggle-custom-input').each(function () {
-            const $select = $(this);
-            const target = $select.data('target');
 
-            if ($select.val() === 'custom') {
-                $(target).show();
-            } else {
-                $(target).hide();
-            }
-        });
+    function calculateFrontPrice() {
+        let matId = $("#material_id").val();
+        getMaterialPrice(matId);
     }
 
-    // Initial load
-    toggleCustomInputs();
+    // For static fields
+    $("#item_width, #item_height, #item_qty")
+        .on("change input", calculateFrontPrice);
 
-    // On change
-    $(document).on('change', '.toggle-custom-input', function () {
-        toggleCustomInputs();
-    });
+    // For dynamic <select id="material_id">
+    $(document).on("change", "#process_time", calculateFrontPrice);
+
+    calculateFrontPrice();
 });
-//Closed
 
+function getMaterialPrice(matId) {
 
-$(document).ready(function () {
-    // Load materials dynamically
-    $.get("calc/get_materials.php", function (data) {
-        $("#material_id").append(data);
+    const itemDetails = $('#item_details').val() || "";
+    const itemWidth = parseFloat($('#item_width').val()) || 0;
+    const itemHeight = parseFloat($('#item_height').val()) || 0;
+    const itemQty = parseFloat($('#item_qty').val()) || 1;
+    const orderProcess = parseFloat($('#process_time').val()) || 1;
+
+    $.ajax({
+        url: "ps-admin/get/material_price.php",
+        type: "POST",
+        data: {
+            material_id: matId,
+            details: itemDetails,
+            width: itemWidth,
+            height: itemHeight,
+            quantity: itemQty,
+            process_time: orderProcess
+        },
+        dataType: "json",
+        success: function (response) {
+
+            const unitPrice = parseFloat(response.final_cost) || 0;
+            const total = unitPrice * itemQty;
+
+            $("#unit_price").val(unitPrice.toFixed(2));
+            $("#total_price").val(total.toFixed(2));
+
+            $("#result").text("Final Price: $" + total.toFixed(2));
+        }
     });
-
-    function calculate() {
-        $.ajax({
-            url: "calc/calculate_price.php",
-            type: "POST",
-            data: $("#calcForm").serialize(),
-            dataType: "json",
-            success: function (response) {
-                console.log(response)
-                $("#result").html("Final Price: $" + response.final_price);
-                $("#breakdown").html(response.breakdown);
-            }
-        });
-    }
-
-    // Trigger calculation on input changes
-    $("#calcForm input, #calcForm select").on("input change", function () {
-        calculate();
-    });
-});
+}

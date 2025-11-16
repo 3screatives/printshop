@@ -111,6 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     echo json_encode([
         "final_price" => number_format($final_cost, 2, '.', ''),
-        "breakdown"   => $breakdown
+        // "breakdown"   => $breakdown
     ]);
 }
