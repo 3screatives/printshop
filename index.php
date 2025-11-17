@@ -77,20 +77,13 @@ include 'include/header.php';
                                 </h3>
 
                                 <!-- Hidden Material ID Form -->
-                                <form action="order/' . $slug . '" 
-                                    method="POST" 
-                                    id="goForm' . $row['cat_id'] . '" 
-                                    style="display:none;">
-                                    <input type="hidden" name="material_id" value="' . $material_id . '">
-                                        <input type="hidden" name="mat_name" value="' . htmlspecialchars($mat_name) . '">
-                                </form>
+                                <input type="hidden" name="material_id" value="' . $material_id . '">
+                                <input type="hidden" name="mat_name" value="' . htmlspecialchars($mat_name) . '">
 
                                 <div class="d-inline">
-                                    <button type="button"
-                                            class="btn btn-danger btn-sm"
-                                            onclick="document.getElementById(\'goForm' . $row['cat_id'] . '\').submit();">
-                                        Order Now
-                                    </button>
+                                    <a class="thm-btn red" href="order/' . $slug . '/' . $material_id . '">
+                                        <span>Order Now</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>

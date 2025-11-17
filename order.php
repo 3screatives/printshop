@@ -1,9 +1,24 @@
 <?php
 include 'include/head.php';
 include 'include/header.php';
+include 'ps-admin/db_function.php'; // Make sure this includes db_connect()
 
-$material_id = $_POST['material_id'] ?? 0;
-$mat_name = $_POST['mat_name'] ?? 'Unknown Material';
+$conn = db_connect(); // Connect to DB
+
+// Get material ID from URL (htaccess rewrite: /order/slug/5)
+$material_id = $_GET['mat_id'] ?? 0;
+
+// Fetch material info
+$mat_sql = "SELECT mat_id, mat_name FROM ps_materials WHERE mat_id = ? LIMIT 1";
+$mat_stmt = mysqli_prepare($conn, $mat_sql);
+mysqli_stmt_bind_param($mat_stmt, "i", $material_id);
+mysqli_stmt_execute($mat_stmt);
+mysqli_stmt_bind_result($mat_stmt, $mat_id_db, $mat_name);
+mysqli_stmt_fetch($mat_stmt);
+mysqli_stmt_close($mat_stmt);
+
+// Fallbacks
+if (!$mat_name) $mat_name = 'Unknown Material';
 ?>
 
 <section class="order-page">
@@ -12,15 +27,15 @@ $mat_name = $_POST['mat_name'] ?? 'Unknown Material';
             <div class="quick-links">
                 <a href="./">Home</a> <i class="bi bi-chevron-right"></i>
                 <a href="shop">Shop</a> <i class="bi bi-chevron-right"></i>
-                Product Title
+                <?php echo htmlspecialchars($mat_name); ?>
             </div>
-            <h2>Product Title</h2>
+            <h2><?php echo htmlspecialchars($mat_name); ?></h2>
         </div>
 
         <div class="row">
 
             <div class="col-6">
-                <img src="<?php echo $cat_image; ?>" class="img-fluid">
+                <img src="<?php echo $cat_image; ?>" class="img-fluid" alt="<?php echo htmlspecialchars($mat_name); ?>">
             </div>
 
             <div class="col-6">
@@ -38,13 +53,11 @@ $mat_name = $_POST['mat_name'] ?? 'Unknown Material';
                     <label class="col-sm-4 col-form-label">Size</label>
                     <div class="col-sm-8 d-flex gap-3">
                         <div class="input-group">
-                            <input type="number" class="form-control"
-                                name="item_width" id="item_width" value="24">
+                            <input type="number" class="form-control" name="item_width" id="item_width" value="24">
                             <span class="input-group-text">in</span>
                         </div>
                         <div class="input-group">
-                            <input type="number" class="form-control"
-                                name="item_height" id="item_height" value="36">
+                            <input type="number" class="form-control" name="item_height" id="item_height" value="36">
                             <span class="input-group-text">in</span>
                         </div>
                     </div>
@@ -54,8 +67,7 @@ $mat_name = $_POST['mat_name'] ?? 'Unknown Material';
                 <div class="mb-3 row">
                     <label class="col-sm-4 col-form-label">Quantity</label>
                     <div class="col-sm-8">
-                        <input type="number" class="form-control"
-                            name="item_qty" id="item_qty" value="1" min="1">
+                        <input type="number" class="form-control" name="item_qty" id="item_qty" value="1" min="1">
                     </div>
                 </div>
 
@@ -66,10 +78,6 @@ $mat_name = $_POST['mat_name'] ?? 'Unknown Material';
                 <div class="mb-3 row">
                     <label class="col-sm-4 col-form-label">Production Time</label>
                     <div class="col-sm-8">
-                        <!-- <select id="process_time" class="form-control">
-                            <option value="1">Normal</option>
-                            <option value="2">Rush</option>
-                        </select> -->
                         <select class="form-select" name="process_time" id="process_time">
                             <option value="1" selected>Standard (3-5 days)</option>
                             <option value="2">Rush (1-2 days)</option>

@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Allow existing files and directories through
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Route /order/SLUG to order.php?product=SLUG
+RewriteRule ^order/([^/]+)/?$ order.php?product=$1 [L,QSA]
+
+# Automatically add .php extension if file exists
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+?)/?$ $1.php [L,QSA]
