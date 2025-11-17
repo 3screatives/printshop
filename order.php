@@ -1,11 +1,10 @@
 <?php
 include 'include/head.php';
 include 'include/header.php';
-include 'ps-admin/db_function.php'; // Make sure this includes db_connect()
+include 'ps-admin/db_function.php';
 
-$conn = db_connect(); // Connect to DB
+$conn = db_connect();
 
-// Get material ID from URL (htaccess rewrite: /order/slug/5)
 $material_id = $_GET['mat_id'] ?? 0;
 
 // Fetch material info
@@ -44,7 +43,8 @@ if (!$mat_name) $mat_name = 'Unknown Material';
                     <label class="col-sm-4 col-form-label">Material</label>
                     <div class="col-sm-8">
                         <input type="hidden" id="material_id" value="<?php echo $material_id; ?>">
-                        <input class="form-control" type="text" id="material_name" value="<?php echo htmlspecialchars($mat_name); ?>" readonly>
+                        <input class="form-control" type="text" id="material_name"
+                            value="<?php echo htmlspecialchars($mat_name); ?>" readonly>
                     </div>
                 </div>
 
@@ -89,7 +89,7 @@ if (!$mat_name) $mat_name = 'Unknown Material';
                 <input type="hidden" name="unit_price" id="unit_price">
                 <input type="hidden" name="total_price" id="total_price">
 
-                <h4 class="fw-bold" id="result">Final Price: $0.00</h4>
+                <h4 class="fw-bold mt-6 mb-4" id="result">Final Price: $0.00</h4>
 
                 <button type="button" class="thm-btn red w-100" id="addToCart">
                     <span>Add to Cart</span>
