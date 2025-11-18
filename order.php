@@ -37,63 +37,70 @@ if (!$mat_name) $mat_name = 'Unknown Material';
                 <img src="<?php echo $cat_image; ?>" class="img-fluid" alt="<?php echo htmlspecialchars($mat_name); ?>">
             </div>
 
-            <div class="col-6">
-                <!-- MATERIAL -->
-                <div class="mb-3 row">
-                    <label class="col-sm-4 col-form-label">Material</label>
-                    <div class="col-sm-8">
-                        <input type="hidden" id="material_id" value="<?php echo $material_id; ?>">
-                        <input class="form-control" type="text" id="material_name"
-                            value="<?php echo htmlspecialchars($mat_name); ?>" readonly>
-                    </div>
-                </div>
-
-                <!-- SIZE -->
-                <div class="mb-3 row">
-                    <label class="col-sm-4 col-form-label">Size</label>
-                    <div class="col-sm-8 d-flex gap-3">
-                        <div class="input-group">
-                            <input type="number" class="form-control" name="item_width" id="item_width" value="24">
-                            <span class="input-group-text">in</span>
-                        </div>
-                        <div class="input-group">
-                            <input type="number" class="form-control" name="item_height" id="item_height" value="36">
-                            <span class="input-group-text">in</span>
+            <div class="col-5 offset-1">
+                <div class="order-form-wrap">
+                    <!-- MATERIAL -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Material</label>
+                        <div class="col-sm-8">
+                            <input type="hidden" id="material_id" value="<?php echo $material_id; ?>">
+                            <input class="form-control" type="text" id="material_name"
+                                value="<?php echo htmlspecialchars($mat_name); ?>" readonly>
                         </div>
                     </div>
-                </div>
 
-                <!-- QUANTITY -->
-                <div class="mb-3 row">
-                    <label class="col-sm-4 col-form-label">Quantity</label>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control" name="item_qty" id="item_qty" value="1" min="1">
+                    <!-- SIZE -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Size</label>
+                        <div class="col-sm-8 d-flex gap-3">
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="item_width" id="item_width" value="24">
+                                <span class="input-group-text">in</span>
+                            </div>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="item_height" id="item_height" value="36">
+                                <span class="input-group-text">in</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Hidden details (optional note/details) -->
-                <textarea name="item_details" id="item_details" class="d-none"></textarea>
-
-                <!-- PROCESS TIME -->
-                <div class="mb-3 row">
-                    <label class="col-sm-4 col-form-label">Production Time</label>
-                    <div class="col-sm-8">
-                        <select class="form-select" name="process_time" id="process_time">
-                            <option value="1" selected>Standard (3-5 days)</option>
-                            <option value="2">Rush (1-2 days)</option>
-                        </select>
+                    <!-- QUANTITY -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Quantity</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" name="item_qty" id="item_qty" value="1" min="1">
+                        </div>
                     </div>
+
+                    <!-- Hidden details (optional note/details) -->
+                    <textarea name="item_details" id="item_details" class="d-none"></textarea>
+
+                    <!-- PROCESS TIME -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Production Time</label>
+                        <div class="col-sm-8">
+                            <select class="form-select" name="process_time" id="process_time">
+                                <option value="1" selected>Standard (3-5 days)</option>
+                                <option value="2">Rush (1-2 days)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Price Outputs -->
+                    <input type="hidden" name="unit_price" id="unit_price">
+                    <input type="hidden" name="total_price" id="total_price">
+
+                    <div class="price-wrap">
+                        <h3 class="fw-bold mt-6 mb-4 text-end">
+                            <span class="fs-5 d-block thm-color mt-4 mb-3" style="color: #666666;">Price: <b id="unit_price">$0.00</b> /item</span>
+                            <b id="result">Final Price: $0.00</b>
+                        </h3>
+                    </div>
+
+                    <button type="button" class="thm-btn red w-100" id="addToCart">
+                        <span>Add to Cart</span>
+                    </button>
                 </div>
-
-                <!-- Price Outputs -->
-                <input type="hidden" name="unit_price" id="unit_price">
-                <input type="hidden" name="total_price" id="total_price">
-
-                <h4 class="fw-bold mt-6 mb-4" id="result">Final Price: $0.00</h4>
-
-                <button type="button" class="thm-btn red w-100" id="addToCart">
-                    <span>Add to Cart</span>
-                </button>
             </div>
         </div>
     </div>

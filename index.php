@@ -42,7 +42,7 @@ include 'include/header.php';
             foreach ($categories as $row) {
 
                 // Get first material ID for this category
-                $mat_sql = "SELECT mat_id, mat_name FROM ps_materials WHERE cat_id = ? LIMIT 1";
+                $mat_sql = "SELECT mat_id, mat_name FROM ps_materials WHERE cat_id = ?";
                 $mat_stmt = mysqli_prepare($conn, $mat_sql);
                 mysqli_stmt_bind_param($mat_stmt, "i", $row['cat_id']);
                 mysqli_stmt_execute($mat_stmt);

@@ -55,6 +55,7 @@ $(document).ready(function () {
                 $("#total_price").val(finalTotal.toFixed(2));
                 $("#o_rush").val(rushVal.toFixed(2));
 
+                $("#unit_price").text("$" + unitPrice.toFixed(2));
                 $("#result").text("Final Price: $" + finalTotal.toFixed(2));
             }
         });
