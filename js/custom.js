@@ -42,8 +42,7 @@ $(document).ready(function () {
                 // RUSH LOGIC
                 let val = parseInt($('#process_time').val()) || 1;
                 let rush = 0;
-                if (val === 2) rush = 0.3; // 30% rush
-                // future levels: else if (val === 3) rush = 0.4;
+                if (val === 2) rush = 0.3;
 
                 let rushVal = subtotal * rush;
                 if (rush > 0 && rushVal < 15) rushVal = 15;
