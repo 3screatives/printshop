@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2025 at 11:20 PM
+-- Generation Time: Nov 18, 2025 at 11:44 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -20,6 +20,42 @@ SET time_zone = "+00:00";
 --
 -- Database: `stma_printing`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `material_category`
+--
+
+CREATE TABLE `material_category` (
+  `cat_id` int(11) NOT NULL,
+  `cat_name` varchar(100) NOT NULL,
+  `cat_description` text DEFAULT NULL,
+  `cat_image` varchar(255) DEFAULT NULL,
+  `cat_slug` varchar(255) DEFAULT NULL,
+  `cat_group` varchar(100) NOT NULL DEFAULT '',
+  `cat_section` varchar(100) DEFAULT '',
+  `cat_order` int(11) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `material_category`
+--
+
+INSERT INTO `material_category` (`cat_id`, `cat_name`, `cat_description`, `cat_image`, `cat_slug`, `cat_group`, `cat_section`, `cat_order`) VALUES
+(1, 'Posters', '', 'poster', 'poster', 'Large Format', 'Signs & Banners', 1),
+(2, 'Yard/Lawn Signs', '', 'yard', 'yard', 'Large Format', 'Signs & Banners', 2),
+(3, 'Foam Board Signs', '', 'foamboard', 'foamboard', 'Large Format', 'Signs & Banners', 3),
+(4, 'Coroplast Signs', '', 'coroplast', 'coroplast', 'Large Format', 'Signs & Banners', 4),
+(5, 'Banners', '', 'banner', 'banner', 'Large Format', 'Signs & Banners', 5),
+(6, 'Storefront Window Vinyl', '', 'window-viny', 'window-viny', 'Large Format', 'Window Graphics', 1),
+(7, 'Storefront Window Vinyl Clear', '', 'window-vinyl-clear', 'window-vinyl-clear', 'Large Format', 'Window Graphics', 2),
+(8, 'Window Perforated Vinyl', '', 'window-perforated', 'window-perforated', 'Large Format', 'Window Graphics', 3),
+(9, 'X-Stands', '', 'x-stand', 'x-stand', 'Large Format', 'Banner Stands', 1),
+(10, 'Retractable Banner Stand', '', 'retractable-stand', 'retractable-stand', 'Large Format', 'Banner Stands', 2),
+(11, 'A-Signs', '', 'a-sign', 'a-sign', 'Large Format', 'Sidewalk Signs', 1),
+(12, 'Canvas Print', '', 'canvas', 'canvas', 'Large Format', 'Wall Art', 1),
+(13, 'Clear Acrylic Signs', '', 'clear-acrylic', 'clear-acrylic', 'Large Format', 'Wall Art', 2);
 
 -- --------------------------------------------------------
 
@@ -80,7 +116,7 @@ CREATE TABLE `ps_materials` (
 --
 
 INSERT INTO `ps_materials` (`mat_id`, `mat_vendor`, `mat_name`, `mat_details`, `mat_roll_size`, `mat_length`, `mat_size`, `mat_cost`, `ink_cost`, `mat_added_on`, `cat_id`) VALUES
-(1, 'Lexjet', 'Adhesive', '4WM66A - HP Prime Matte Air GP, 3.4 Mil', 54, 150, 1800, 217.070000, 0.003400, '2025-10-11', 4),
+(1, 'Lexjet', 'Adhesive', '4WM66A - HP Prime Matte Air GP, 3.4 Mil', 54, 150, 1800, 217.070000, 0.003400, '2025-10-11', 6),
 (2, 'Lexjet', 'Backlit', 'KBLGS60 - Kodak glossy backlit film', 60, 100, 1200, 300.000000, 0.003400, '2025-10-11', 10),
 (3, 'Grimco', 'Banner Matte', 'DTXB54164M - 13OZ DURATEX BANNER MATTE', 54, 164, 1968, 179.590000, 0.003400, '2025-10-11', 1),
 (4, 'Reece Supply', 'Banner Gloss', 'JFM160050 - SUPERPRINT PLUS GLOSS ULTRAFLEX 13OZ BRIGHT', 63, 164, 1968, 175.480000, 0.003400, '2025-10-11', 1),
@@ -270,6 +306,12 @@ INSERT INTO `ps_users` (`user_id`, `user_name`, `user_email`, `user_password`, `
 --
 
 --
+-- Indexes for table `material_category`
+--
+ALTER TABLE `material_category`
+  ADD PRIMARY KEY (`cat_id`);
+
+--
 -- Indexes for table `ps_clients`
 --
 ALTER TABLE `ps_clients`
@@ -318,6 +360,12 @@ ALTER TABLE `ps_users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `material_category`
+--
+ALTER TABLE `material_category`
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `ps_clients`
