@@ -1,23 +1,3 @@
-<?php
-include 'ps-admin/db_function.php';
-
-$conn = db_connect();
-
-$sql = "
-    SELECT cat_id, cat_name, cat_group
-    FROM ps_material_categories
-    ORDER BY cat_group ASC, cat_name ASC
-";
-
-$categories = select_query($conn, $sql);
-
-// Group by cat_group
-$groups = [];
-foreach ($categories as $cat) {
-    $groups[$cat['cat_group']][] = $cat;
-}
-?>
-
 <header>
     <div class="top-bar">
         <div class="container h-100">

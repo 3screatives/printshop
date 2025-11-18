@@ -3,18 +3,18 @@ include 'ps-admin/db_function.php';
 
 $conn = db_connect();
 
+// Fetch all categories with group and section
 $sql = "
-    SELECT cat_id, cat_name, cat_group
-    FROM ps_material_categories
-    ORDER BY cat_group ASC, cat_name ASC
+    SELECT cat_id, cat_name, cat_group, cat_section, cat_slug
+    FROM material_category
+    ORDER BY cat_group ASC, cat_section ASC, cat_order ASC
 ";
-
 $categories = select_query($conn, $sql);
 
-// Group by cat_group
-$groups = [];
+// Group categories by cat_group and cat_section
+$menu = [];
 foreach ($categories as $cat) {
-    $groups[$cat['cat_group']][] = $cat;
+    $menu[$cat['cat_group']][$cat['cat_section']][] = $cat;
 }
 ?>
 
@@ -46,6 +46,7 @@ foreach ($categories as $cat) {
             </div>
         </div>
     </div>
+
     <nav class="navbar navbar-expand-lg" style="padding: 0px;">
         <div class="container">
             <button data-mdb-button-init class="navbar-toggler px-0" type="button" data-mdb-collapse-init
@@ -63,36 +64,36 @@ foreach ($categories as $cat) {
                     </li>
 
                     <!-- Dynamic Product Menu -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            Products
-                        </a>
-
-                        <ul class="dropdown-menu">
-
-                            <?php foreach ($groups as $groupName => $items): ?>
-                                <li>
-                                    <h6 class="dropdown-header">
-                                        <?= htmlspecialchars($groupName) ?>
-                                    </h6>
-                                </li>
-
-                                <?php foreach ($items as $cat): ?>
-                                    <li>
-                                        <a class="dropdown-item"
-                                            href="order/<?php echo strtolower(str_replace(' ', '-', $cat['cat_name'])); ?>/<?php echo $cat['cat_id'] ?>">
-                                            <?= htmlspecialchars($cat['cat_name']) ?>
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
-
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                            <?php endforeach; ?>
-
-                        </ul>
-                    </li>
+                    <?php foreach ($menu as $groupName => $sections): ?>
+                        <li class="nav-item dropdown dropdown-hover position-static">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <?= htmlspecialchars($groupName) ?>
+                            </a>
+                            <div class="dropdown-menu w-100 mt-0">
+                                <div class="container">
+                                    <div class="row my-4">
+                                        <?php foreach ($sections as $sectionName => $items): ?>
+                                            <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
+                                                <div class="list-group list-group-flush">
+                                                    <?php if ($sectionName): ?>
+                                                        <p class="mb-0 list-group-item text-uppercase fw-bold">
+                                                            <?= htmlspecialchars($sectionName) ?>
+                                                        </p>
+                                                    <?php endif; ?>
+                                                    <?php foreach ($items as $cat): ?>
+                                                        <a href="order/<?= htmlspecialchars($cat['cat_slug']) ?>/<?= $cat['cat_id'] ?>"
+                                                            class="list-group-item list-group-item-action">
+                                                            <?= htmlspecialchars($cat['cat_name']) ?>
+                                                        </a>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>
 
                     <!-- Get a Quote -->
                     <li class="nav-item">
