@@ -33,7 +33,9 @@ include 'include/header.php';
         $conn = db_connect();
 
         // Fetch categories
-        $sql = "SELECT cat_id, cat_name, cat_image, cat_slug FROM ps_material_categories ORDER BY cat_id ASC";
+        $sql = "SELECT cat_id, cat_name, cat_image, cat_slug 
+        FROM ps_material_categories 
+        ORDER BY cat_id ASC";
         $categories = select_query($conn, $sql);
 
         if (!empty($categories)) {
@@ -41,53 +43,34 @@ include 'include/header.php';
 
             foreach ($categories as $row) {
 
-                // Get first material ID for this category
-                $mat_sql = "SELECT mat_id, mat_name FROM ps_materials WHERE cat_id = ?";
-                $mat_stmt = mysqli_prepare($conn, $mat_sql);
-                mysqli_stmt_bind_param($mat_stmt, "i", $row['cat_id']);
-                mysqli_stmt_execute($mat_stmt);
-                mysqli_stmt_bind_result($mat_stmt, $material_id, $mat_name);
-                mysqli_stmt_fetch($mat_stmt);
-                mysqli_stmt_close($mat_stmt);
-
-                // If null, fallback
-                if (empty($material_id)) {
-                    $material_id = 0;
-                    $mat_name = "Material Not Found";
-                }
-
-                if ($mat_name === null) {
-                    $mat_name = "Unknown Material";
-                }
-
                 // image fallback
-                $imgSrc = !empty($row['cat_image']) ? 'img/product-' . $row['cat_image'] . '.jpg' : 'img/no-product.jpg';
+                $imgSrc = !empty($row['cat_image'])
+                    ? 'img/product-' . $row['cat_image'] . '.jpg'
+                    : 'img/no-product.jpg';
+
                 $slug = $row['cat_slug'];
+                $cat_id = $row['cat_id'];
 
                 echo '
-                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                        <div class="box h-100">
-                            <div class="img-holder">
-                                <img class="bg img-fluid" src="' . $imgSrc . '" alt="' . htmlspecialchars($row['cat_name']) . '" />
-                            </div>
-                            <div class="info">
-                                <h3>
-                                    ' . htmlspecialchars($row['cat_name']) . '
-                                    <span class="d-block">starting at $10.00</span>
-                                </h3>
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="box h-100">
+                        <div class="img-holder">
+                            <img class="bg img-fluid" src="' . $imgSrc . '" alt="' . htmlspecialchars($row['cat_name']) . '" />
+                        </div>
+                        <div class="info">
+                            <h3>
+                                ' . htmlspecialchars($row['cat_name']) . '
+                                <span class="d-block">starting at $10.00</span>
+                            </h3>
 
-                                <!-- Hidden Material ID Form -->
-                                <input type="hidden" name="material_id" value="' . $material_id . '">
-                                <input type="hidden" name="mat_name" value="' . htmlspecialchars($mat_name) . '">
-
-                                <div class="d-inline">
-                                    <a class="thm-btn red" href="order/' . $slug . '/' . $material_id . '">
-                                        <span>Order Now</span>
-                                    </a>
-                                </div>
+                            <div class="d-inline">
+                                <a class="thm-btn red" href="order/' . $slug . '/' . $cat_id . '">
+                                    <span>Order Now</span>
+                                </a>
                             </div>
                         </div>
-                    </div>';
+                    </div>
+                </div>';
             }
 
             echo '</div></div>';

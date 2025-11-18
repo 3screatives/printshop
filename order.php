@@ -5,19 +5,22 @@ include 'ps-admin/db_function.php';
 
 $conn = db_connect();
 
-$material_id = $_GET['mat_id'] ?? 0;
+// Get category ID from URL
+$cat_id = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
 
-// Fetch material info
-$mat_sql = "SELECT mat_id, mat_name FROM ps_materials WHERE mat_id = ? LIMIT 1";
-$mat_stmt = mysqli_prepare($conn, $mat_sql);
-mysqli_stmt_bind_param($mat_stmt, "i", $material_id);
-mysqli_stmt_execute($mat_stmt);
-mysqli_stmt_bind_result($mat_stmt, $mat_id_db, $mat_name);
-mysqli_stmt_fetch($mat_stmt);
-mysqli_stmt_close($mat_stmt);
+// Fetch materials for this category
+$materials = select_query($conn, "SELECT mat_id, mat_name FROM ps_materials WHERE cat_id = ?", "i", $cat_id);
 
-// Fallbacks
-if (!$mat_name) $mat_name = 'Unknown Material';
+// Fetch category details
+$categoryResult = select_query($conn, "SELECT cat_name, cat_image FROM ps_material_categories WHERE cat_id = ?", "i", $cat_id);
+
+// Get the first row (or empty array if none)
+$category = $categoryResult[0] ?? ['cat_name' => '', 'cat_image' => ''];
+
+$cat_name = $category['cat_name'];
+$cat_image = $category['cat_image'];
+
+mysqli_close($conn);
 ?>
 
 <section class="order-page">
@@ -26,15 +29,14 @@ if (!$mat_name) $mat_name = 'Unknown Material';
             <div class="quick-links">
                 <a href="./">Home</a> <i class="bi bi-chevron-right"></i>
                 <a href="shop">Shop</a> <i class="bi bi-chevron-right"></i>
-                <?php echo htmlspecialchars($mat_name); ?>
+                <?php echo htmlspecialchars($cat_name); ?>
             </div>
-            <h2><?php echo htmlspecialchars($mat_name); ?></h2>
+            <h2><?php echo htmlspecialchars($cat_name); ?></h2>
         </div>
 
         <div class="row">
-
             <div class="col-6">
-                <img src="<?php echo $cat_image; ?>" class="img-fluid" alt="<?php echo htmlspecialchars($mat_name); ?>">
+                <img src="<?php echo htmlspecialchars($cat_image); ?>" class="img-fluid" alt="<?php echo htmlspecialchars($cat_name); ?>">
             </div>
 
             <div class="col-5 offset-1">
@@ -43,9 +45,16 @@ if (!$mat_name) $mat_name = 'Unknown Material';
                     <div class="mb-3 row">
                         <label class="col-sm-4 col-form-label">Material</label>
                         <div class="col-sm-8">
-                            <input type="hidden" id="material_id" value="<?php echo $material_id; ?>">
-                            <input class="form-control" type="text" id="material_name"
-                                value="<?php echo htmlspecialchars($mat_name); ?>" readonly>
+                            <select class="form-select" name="material_id" id="material_id">
+                                <option value="">-- Select Material --</option>
+                                <?php
+                                if ($materials) {
+                                    foreach ($materials as $mat) {
+                                        echo '<option value="' . htmlspecialchars($mat['mat_id']) . '">' . htmlspecialchars($mat['mat_name']) . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
 
@@ -72,7 +81,7 @@ if (!$mat_name) $mat_name = 'Unknown Material';
                         </div>
                     </div>
 
-                    <!-- Hidden details (optional note/details) -->
+                    <!-- Hidden details -->
                     <textarea name="item_details" id="item_details" class="d-none"></textarea>
 
                     <!-- PROCESS TIME -->
@@ -92,7 +101,9 @@ if (!$mat_name) $mat_name = 'Unknown Material';
 
                     <div class="price-wrap">
                         <h3 class="fw-bold mt-6 mb-4 text-end">
-                            <span class="fs-5 d-block thm-color mt-4 mb-3" style="color: #666666;">Price: <b id="unit_price">$0.00</b> /item</span>
+                            <span class="fs-5 d-block thm-color mt-4 mb-3" style="color: #666666;">
+                                Price: <b id="unit_price_display">$0.00</b> /item
+                            </span>
                             <b id="result">Final Price: $0.00</b>
                         </h3>
                     </div>
