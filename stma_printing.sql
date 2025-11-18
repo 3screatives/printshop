@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2025 at 05:03 AM
+-- Generation Time: Nov 18, 2025 at 11:20 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,7 +34,7 @@ CREATE TABLE `ps_clients` (
   `contact_name` varchar(150) NOT NULL,
   `contact_phone` varchar(20) DEFAULT NULL,
   `contact_email` varchar(100) DEFAULT NULL,
-  `client_since` date NOT NULL,
+  `client_since` date NOT NULL DEFAULT current_timestamp(),
   `client_stma_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -47,7 +47,13 @@ INSERT INTO `ps_clients` (`client_id`, `business_name`, `business_address`, `con
 (2, 'Beta Signs LLC', '42 Market Ave, Dallas, TX', 'Sarah Lee', '214-555-8787', 'sarah@betasigns.com', '2023-03-15', 1002),
 (3, 'Gamma Media', '77 Poster Ln, Miami, FL', 'Carlos Ruiz', '305-555-4321', 'carlos@gamma.com', '2021-07-05', 1003),
 (4, 'Delta Prints', '890 Banner Rd, New York, NY', 'Ava Brown', '917-555-5678', 'ava@delta.com', '2020-10-22', 1004),
-(5, 'Epsilon Visuals', '22 Wall St, Los Angeles, CA', 'Mike Green', '213-555-9988', 'mike@epsilon.com', '2024-01-05', 1005);
+(5, 'Epsilon Visuals', '22 Wall St, Los Angeles, CA', 'Mike Green', '213-555-9988', 'mike@epsilon.com', '2024-01-05', 1005),
+(7, 'New Company LLC', 'Somewhere here...', 'Sajjad Ali', '1234567890', 'abc@xyz.com', '2025-11-03', 1324),
+(9, 'Kwik Corner', '2730 Hillcrest Dr, Balcones Heights TX 78228', 'Srikanth', '', 'quickcorner2@gmail.com', '2025-11-10', 2730),
+(10, 'New Company LLC', 'here', 'Naail Ali', '7373812357', 'printing@mystma.com', '2025-11-12', 0),
+(11, 'Hightime Smoke & Vape', '5935 Rittman Rd', 'Jasad', '8303578201', 'jassadmomin@hotmail.com', '2025-11-12', 0),
+(12, 'Amazing Stop', '-', 'Kahir Charolia', '2106395078', '', '2025-11-12', 0),
+(14, 'Shipley Donuts', '7875 Kitty Hawk Rd, Converse, TX 78109', 'Zakir Mehmood', '210-840-2733', 'zakirmehmood2002@yahoo.com', '2025-11-12', 0);
 
 -- --------------------------------------------------------
 
@@ -103,24 +109,27 @@ INSERT INTO `ps_materials` (`mat_id`, `mat_vendor`, `mat_name`, `mat_details`, `
 CREATE TABLE `ps_material_categories` (
   `cat_id` int(11) NOT NULL,
   `cat_name` varchar(100) NOT NULL,
-  `cat_description` text DEFAULT NULL
+  `cat_description` text DEFAULT NULL,
+  `cat_image` varchar(255) DEFAULT NULL,
+  `cat_slug` varchar(255) DEFAULT NULL,
+  `cat_group` varchar(100) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ps_material_categories`
 --
 
-INSERT INTO `ps_material_categories` (`cat_id`, `cat_name`, `cat_description`) VALUES
-(1, 'Banner', 'Vinyl and mesh banners for indoor or outdoor use'),
-(2, 'Poster', 'Posters and photo paper prints'),
-(3, 'Yard Sign', 'Corrugated plastic yard signs'),
-(4, 'Window Sticker', 'Adhesive vinyl stickers for windows'),
-(5, 'Window Perforated', 'Perforated see-through window film'),
-(6, 'Indoor Sign', 'Foam board or styrene indoor signs'),
-(7, 'Pump Topper', 'Signs used on gas pump displays'),
-(8, 'Metal Sign', 'Durable aluminum signage'),
-(9, 'Acrylic Sign', 'Acrylic signs, clear or white'),
-(10, 'Backlit Sign', 'Film for lightbox or display backlit signs');
+INSERT INTO `ps_material_categories` (`cat_id`, `cat_name`, `cat_description`, `cat_image`, `cat_slug`, `cat_group`) VALUES
+(1, 'Banner', 'Vinyl and mesh banners for indoor or outdoor use', 'banner', 'banner', 'Large Format'),
+(2, 'Poster', 'Posters and photo paper prints', 'poster', 'poster', 'Large Format'),
+(3, 'Yard Sign', 'Corrugated plastic yard signs', 'yard', 'yard', 'Large Format'),
+(4, 'Window Sticker', 'Adhesive vinyl stickers for windows', 'window-sticker', 'window-sticker', 'Large Format'),
+(5, 'Window Perforated', 'Perforated see-through window film', 'window-perforated', 'window-perforated', 'Large Format'),
+(6, 'Indoor Sign', 'Foam board or styrene indoor signs', 'indoor', 'indoor', 'Large Format'),
+(7, 'Pump Topper', 'Signs used on gas pump displays', 'pump-topper', 'pump-topper', 'Large Format'),
+(8, 'Metal Sign', 'Durable aluminum signage', 'metal', 'metal', 'Large Format'),
+(9, 'Acrylic Sign', 'Acrylic signs, clear or white', 'acrylic', 'acrylic', 'Large Format'),
+(10, 'Backlit Sign', 'Film for lightbox or display backlit signs', 'backlit', 'backlit', 'Large Format');
 
 -- --------------------------------------------------------
 
@@ -130,14 +139,16 @@ INSERT INTO `ps_material_categories` (`cat_id`, `cat_name`, `cat_description`) V
 
 CREATE TABLE `ps_orders` (
   `order_id` int(11) NOT NULL,
-  `order_date` datetime NOT NULL,
-  `order_due` datetime DEFAULT NULL,
+  `order_date` date NOT NULL,
+  `order_due` date DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `order_before_tax` decimal(10,2) DEFAULT NULL,
   `order_tax` decimal(10,2) DEFAULT NULL,
   `order_after_tax` decimal(10,2) DEFAULT NULL,
   `order_amount_paid` decimal(10,2) DEFAULT NULL,
   `order_amount_due` decimal(10,2) DEFAULT NULL,
+  `order_discount` decimal(10,2) DEFAULT NULL,
+  `order_credits` decimal(10,2) DEFAULT NULL,
   `order_production_time` int(11) DEFAULT NULL,
   `payment_type_id` int(11) DEFAULT NULL,
   `client_id` int(11) DEFAULT NULL,
@@ -149,11 +160,14 @@ CREATE TABLE `ps_orders` (
 -- Dumping data for table `ps_orders`
 --
 
-INSERT INTO `ps_orders` (`order_id`, `order_date`, `order_due`, `user_id`, `order_before_tax`, `order_tax`, `order_after_tax`, `order_amount_paid`, `order_amount_due`, `order_production_time`, `payment_type_id`, `client_id`, `status_id`, `order_comment`) VALUES
-(1, '2024-06-01 10:00:00', '2024-06-03 17:00:00', 1, 120.00, 10.80, 130.80, 100.00, 30.80, 3, 1, 1, 2, 'Rush order'),
-(2, '2024-06-05 09:30:00', '2024-06-07 15:00:00', 2, 300.00, 27.00, 327.00, 327.00, 0.00, 5, 2, 2, 3, 'Standard delivery'),
-(3, '2024-06-10 12:00:00', '2024-06-12 17:00:00', 1, 450.00, 40.50, 490.50, 490.50, 0.00, 4, 1, 3, 4, 'Client requested proof'),
-(4, '2024-06-12 11:00:00', '2024-06-15 17:00:00', 2, 800.00, 72.00, 872.00, 600.00, 272.00, 6, 2, 4, 5, 'Large format print job');
+INSERT INTO `ps_orders` (`order_id`, `order_date`, `order_due`, `user_id`, `order_before_tax`, `order_tax`, `order_after_tax`, `order_amount_paid`, `order_amount_due`, `order_discount`, `order_credits`, `order_production_time`, `payment_type_id`, `client_id`, `status_id`, `order_comment`) VALUES
+(1, '2024-06-01', '2024-06-03', 1, 120.00, 10.80, 130.80, 100.00, 30.80, NULL, NULL, 1, 1, 1, 9, 'Rush order'),
+(2, '2024-06-05', '2024-06-07', 2, 300.00, 27.00, 327.00, 327.00, 0.00, NULL, NULL, 1, 2, 2, 10, 'Standard delivery'),
+(3, '2024-06-10', '2024-06-12', 1, 450.00, 40.50, 490.50, 490.50, 0.00, NULL, NULL, 1, 1, 3, 11, 'Client requested proof'),
+(24, '2025-11-12', '2025-11-17', 1, 33.00, 2.72, 35.72, 0.00, 35.72, NULL, NULL, 1, 1, 7, 12, 'Testing\nNew\nSomething'),
+(25, '2025-11-12', '2025-11-17', 1, 29.00, 2.39, 31.39, 0.00, 31.39, NULL, NULL, 1, 3, 11, 11, 'Re-design/Fix sizes'),
+(26, '2025-11-12', '2025-11-17', 1, 563.00, 46.45, 609.45, 0.00, 609.45, NULL, NULL, 1, 1, 12, 10, '- Designs have been made and sent to contact'),
+(31, '2025-11-12', '2025-11-17', 1, 24.00, 1.98, 25.98, 25.98, 0.00, NULL, NULL, 1, 1, 14, 9, '- Designs have been sent');
 
 -- --------------------------------------------------------
 
@@ -182,7 +196,19 @@ INSERT INTO `ps_order_items` (`item_id`, `order_id`, `material_id`, `item_detail
 (1, 1, 1, 'Poster Print 24x36', 2, 24.00, 36.00, 0, 60.00, 120.00),
 (2, 2, 2, 'Banner 48x72 with grommets', 1, 48.00, 72.00, 1, 300.00, 300.00),
 (3, 3, 3, 'Vinyl decal set', 3, 12.00, 12.00, 0, 150.00, 450.00),
-(4, 4, 4, 'Large wall print', 1, 96.00, 48.00, 0, 800.00, 800.00);
+(39, 24, 16, 'Sign', 1, 24.00, 36.00, 0, 14.00, 14.00),
+(40, 24, 1, 'Sticker', 1, 24.00, 36.00, 0, 19.00, 19.00),
+(41, 25, 1, 'Labels/Stickers', 1, 54.00, 54.00, 0, 29.00, 29.00),
+(42, 26, 1, 'Pizza Slice, Fountain Drink, $4.99', 1, 24.00, 36.00, 0, 19.00, 19.00),
+(43, 26, 1, 'Wings, Fries, Fountain Drink, $9.99', 1, 24.00, 36.00, 0, 19.00, 19.00),
+(44, 26, 1, 'Hunt Brothers Whole Cheese Pizza, $8.99', 1, 55.00, 45.00, 0, 47.00, 47.00),
+(45, 26, 1, 'Hunt Brothers Whole Pepperoni Pizza, $11.99', 1, 56.00, 45.00, 0, 48.00, 48.00),
+(46, 26, 1, 'Corn Dog, Burrito, Egg Roll, Fries (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00),
+(47, 26, 1, 'Egg & Cheese Sandwich, Hashbrowns, Coffee, $5.99 (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00),
+(48, 26, 1, 'Text, 1 sign per item: Beer, Wine, Soda, Lotto, Snack, Fountain Drinks, Coffee, Slushy', 8, 55.00, 10.00, 0, 27.00, 216.00),
+(49, 26, 1, 'No Back Pack Signs', 10, 8.00, 11.00, 0, 6.00, 60.00),
+(50, 26, 6, '1 Per Combo', 4, 6.00, 24.00, 0, 5.00, 20.00),
+(51, 31, 16, 'Drive Thru Sign', 1, 18.00, 18.00, 0, 6.00, 24.00);
 
 -- --------------------------------------------------------
 
@@ -193,25 +219,27 @@ INSERT INTO `ps_order_items` (`item_id`, `order_id`, `material_id`, `item_detail
 CREATE TABLE `ps_status` (
   `status_id` int(11) NOT NULL,
   `status_number` int(11) DEFAULT NULL,
-  `status_name` varchar(50) NOT NULL
+  `status_name` varchar(50) NOT NULL,
+  `status_color` varchar(20) DEFAULT '#ffffff'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ps_status`
 --
 
-INSERT INTO `ps_status` (`status_id`, `status_number`, `status_name`) VALUES
-(1, 1, 'Quote/Draft'),
-(2, 2, 'Order Confirmed'),
-(3, 3, 'Design Started'),
-(4, 4, 'Awaiting Approval'),
-(5, 5, 'Awaiting Material'),
-(6, 6, 'Ready to Print'),
-(7, 7, 'Ready for Pickup'),
-(8, 8, 'Payment Pending'),
-(9, 9, 'Order Completed'),
-(10, 10, 'No Response'),
-(11, 11, 'Canceled Orders');
+INSERT INTO `ps_status` (`status_id`, `status_number`, `status_name`, `status_color`) VALUES
+(1, 1, 'Quote/Draft', '#ffffff'),
+(2, 2, 'Order Confirmed', '#A8D5BA'),
+(3, 3, 'Design Started', '#F9D5E5'),
+(4, 4, 'Awaiting Approval', '#FFE5A1'),
+(5, 5, 'Awaiting Material', '#BFD7EA'),
+(6, 6, 'Ready to Print', '#FFD6BA'),
+(7, 7, 'Ready for Pickup', '#C5BAFF'),
+(8, 8, 'Payment Pending', '#FFC1C1'),
+(9, 9, 'Order Completed', '#D0F0C0'),
+(10, 10, 'No Response', '#E0E0E0'),
+(11, 11, 'Canceled Orders', '#F4C7C3'),
+(12, 12, 'Disputes', '#F7B7A3');
 
 -- --------------------------------------------------------
 
@@ -295,7 +323,7 @@ ALTER TABLE `ps_users`
 -- AUTO_INCREMENT for table `ps_clients`
 --
 ALTER TABLE `ps_clients`
-  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `ps_materials`
@@ -313,19 +341,19 @@ ALTER TABLE `ps_material_categories`
 -- AUTO_INCREMENT for table `ps_orders`
 --
 ALTER TABLE `ps_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `ps_order_items`
 --
 ALTER TABLE `ps_order_items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `ps_status`
 --
 ALTER TABLE `ps_status`
-  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `ps_users`

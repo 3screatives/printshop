@@ -1,9 +1,9 @@
 <?php
 include 'include/head.php';
 include 'include/header.php';
-include 'ps-admin/db_function.php';
+// include 'ps-admin/db_function.php';
 
-$conn = db_connect();
+// $conn = db_connect();
 
 // Get category ID from URL
 $cat_id = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
@@ -36,7 +36,8 @@ mysqli_close($conn);
 
         <div class="row">
             <div class="col-6">
-                <img src="<?php echo htmlspecialchars($cat_image); ?>" class="img-fluid" alt="<?php echo htmlspecialchars($cat_name); ?>">
+                <img src="<?php echo htmlspecialchars($cat_image); ?>" class="img-fluid"
+                    alt="<?php echo htmlspecialchars($cat_name); ?>">
             </div>
 
             <div class="col-5 offset-1">
@@ -67,7 +68,8 @@ mysqli_close($conn);
                                 <span class="input-group-text">in</span>
                             </div>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="item_height" id="item_height" value="36">
+                                <input type="number" class="form-control" name="item_height" id="item_height"
+                                    value="36">
                                 <span class="input-group-text">in</span>
                             </div>
                         </div>

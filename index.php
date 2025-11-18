@@ -28,9 +28,9 @@ include 'include/header.php';
             <h2><span class="tc-blue">Elevating Your Brand with</span> Premium Print Solutions</h2>
         </div>
         <?php
-        include 'ps-admin/db_function.php';
+        // include 'ps-admin/db_function.php';
 
-        $conn = db_connect();
+        // $conn = db_connect();
 
         // Fetch categories
         $sql = "SELECT cat_id, cat_name, cat_image, cat_slug 
