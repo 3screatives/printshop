@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2025 at 11:44 PM
+-- Generation Time: Nov 19, 2025 at 05:46 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,42 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `stma_printing`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `material_category`
---
-
-CREATE TABLE `material_category` (
-  `cat_id` int(11) NOT NULL,
-  `cat_name` varchar(100) NOT NULL,
-  `cat_description` text DEFAULT NULL,
-  `cat_image` varchar(255) DEFAULT NULL,
-  `cat_slug` varchar(255) DEFAULT NULL,
-  `cat_group` varchar(100) NOT NULL DEFAULT '',
-  `cat_section` varchar(100) DEFAULT '',
-  `cat_order` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `material_category`
---
-
-INSERT INTO `material_category` (`cat_id`, `cat_name`, `cat_description`, `cat_image`, `cat_slug`, `cat_group`, `cat_section`, `cat_order`) VALUES
-(1, 'Posters', '', 'poster', 'poster', 'Large Format', 'Signs & Banners', 1),
-(2, 'Yard/Lawn Signs', '', 'yard', 'yard', 'Large Format', 'Signs & Banners', 2),
-(3, 'Foam Board Signs', '', 'foamboard', 'foamboard', 'Large Format', 'Signs & Banners', 3),
-(4, 'Coroplast Signs', '', 'coroplast', 'coroplast', 'Large Format', 'Signs & Banners', 4),
-(5, 'Banners', '', 'banner', 'banner', 'Large Format', 'Signs & Banners', 5),
-(6, 'Storefront Window Vinyl', '', 'window-viny', 'window-viny', 'Large Format', 'Window Graphics', 1),
-(7, 'Storefront Window Vinyl Clear', '', 'window-vinyl-clear', 'window-vinyl-clear', 'Large Format', 'Window Graphics', 2),
-(8, 'Window Perforated Vinyl', '', 'window-perforated', 'window-perforated', 'Large Format', 'Window Graphics', 3),
-(9, 'X-Stands', '', 'x-stand', 'x-stand', 'Large Format', 'Banner Stands', 1),
-(10, 'Retractable Banner Stand', '', 'retractable-stand', 'retractable-stand', 'Large Format', 'Banner Stands', 2),
-(11, 'A-Signs', '', 'a-sign', 'a-sign', 'Large Format', 'Sidewalk Signs', 1),
-(12, 'Canvas Print', '', 'canvas', 'canvas', 'Large Format', 'Wall Art', 1),
-(13, 'Clear Acrylic Signs', '', 'clear-acrylic', 'clear-acrylic', 'Large Format', 'Wall Art', 2);
 
 -- --------------------------------------------------------
 
@@ -148,14 +112,47 @@ CREATE TABLE `ps_material_categories` (
   `cat_description` text DEFAULT NULL,
   `cat_image` varchar(255) DEFAULT NULL,
   `cat_slug` varchar(255) DEFAULT NULL,
-  `cat_group` varchar(100) NOT NULL DEFAULT ''
+  `cat_group` varchar(100) NOT NULL DEFAULT '',
+  `cat_section` varchar(100) DEFAULT '',
+  `cat_order` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ps_material_categories`
 --
 
-INSERT INTO `ps_material_categories` (`cat_id`, `cat_name`, `cat_description`, `cat_image`, `cat_slug`, `cat_group`) VALUES
+INSERT INTO `ps_material_categories` (`cat_id`, `cat_name`, `cat_description`, `cat_image`, `cat_slug`, `cat_group`, `cat_section`, `cat_order`) VALUES
+(1, 'Banner', 'Vinyl and mesh banners for indoor or outdoor use', 'banner', 'banner', 'Large Format', 'Signs & Banners', 1),
+(2, 'Poster', 'Posters and photo paper prints', 'poster', 'poster', 'Large Format', 'Signs & Banners', 2),
+(3, 'Yard Sign', 'Corrugated plastic yard signs', 'yard', 'yard', 'Large Format', 'Signs & Banners', 3),
+(4, 'Window Sticker', 'Adhesive vinyl stickers for windows', 'window-sticker', 'window-sticker', 'Large Format', 'Signs & Banners', 4),
+(5, 'Window Perforated', 'Perforated see-through window film', 'window-perforated', 'window-perforated', 'Large Format', 'Signs & Banners', 5),
+(6, 'Indoor Sign', 'Foam board or styrene indoor signs', 'indoor', 'indoor', 'Large Format', 'Window Graphics', 1),
+(7, 'Pump Topper', 'Signs used on gas pump displays', 'pump-topper', 'pump-topper', 'Large Format', 'Window Graphics', 2),
+(8, 'Metal Sign', 'Durable aluminum signage', 'metal', 'metal', 'Large Format', 'Window Graphics', 3),
+(9, 'Acrylic Sign', 'Acrylic signs, clear or white', 'acrylic', 'acrylic', 'Large Format', 'Banner Stands', 1),
+(10, 'Backlit Sign', 'Film for lightbox or display backlit signs', 'backlit', 'backlit', 'Large Format', 'Banner Stands', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ps_material_categories_bkp`
+--
+
+CREATE TABLE `ps_material_categories_bkp` (
+  `cat_id` int(11) NOT NULL,
+  `cat_name` varchar(100) NOT NULL,
+  `cat_description` text DEFAULT NULL,
+  `cat_image` varchar(255) DEFAULT NULL,
+  `cat_slug` varchar(255) DEFAULT NULL,
+  `cat_group` varchar(100) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ps_material_categories_bkp`
+--
+
+INSERT INTO `ps_material_categories_bkp` (`cat_id`, `cat_name`, `cat_description`, `cat_image`, `cat_slug`, `cat_group`) VALUES
 (1, 'Banner', 'Vinyl and mesh banners for indoor or outdoor use', 'banner', 'banner', 'Large Format'),
 (2, 'Poster', 'Posters and photo paper prints', 'poster', 'poster', 'Large Format'),
 (3, 'Yard Sign', 'Corrugated plastic yard signs', 'yard', 'yard', 'Large Format'),
@@ -306,12 +303,6 @@ INSERT INTO `ps_users` (`user_id`, `user_name`, `user_email`, `user_password`, `
 --
 
 --
--- Indexes for table `material_category`
---
-ALTER TABLE `material_category`
-  ADD PRIMARY KEY (`cat_id`);
-
---
 -- Indexes for table `ps_clients`
 --
 ALTER TABLE `ps_clients`
@@ -328,6 +319,12 @@ ALTER TABLE `ps_materials`
 -- Indexes for table `ps_material_categories`
 --
 ALTER TABLE `ps_material_categories`
+  ADD PRIMARY KEY (`cat_id`);
+
+--
+-- Indexes for table `ps_material_categories_bkp`
+--
+ALTER TABLE `ps_material_categories_bkp`
   ADD PRIMARY KEY (`cat_id`);
 
 --
@@ -362,12 +359,6 @@ ALTER TABLE `ps_users`
 --
 
 --
--- AUTO_INCREMENT for table `material_category`
---
-ALTER TABLE `material_category`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
 -- AUTO_INCREMENT for table `ps_clients`
 --
 ALTER TABLE `ps_clients`
@@ -383,6 +374,12 @@ ALTER TABLE `ps_materials`
 -- AUTO_INCREMENT for table `ps_material_categories`
 --
 ALTER TABLE `ps_material_categories`
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `ps_material_categories_bkp`
+--
+ALTER TABLE `ps_material_categories_bkp`
   MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
@@ -417,7 +414,7 @@ ALTER TABLE `ps_users`
 -- Constraints for table `ps_materials`
 --
 ALTER TABLE `ps_materials`
-  ADD CONSTRAINT `fk_material_category` FOREIGN KEY (`cat_id`) REFERENCES `ps_material_categories` (`cat_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_material_category` FOREIGN KEY (`cat_id`) REFERENCES `ps_material_categories_bkp` (`cat_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ps_orders`

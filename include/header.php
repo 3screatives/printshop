@@ -1,17 +1,14 @@
 <?php
 include 'ps-admin/db_function.php';
-
 $conn = db_connect();
 
-// Fetch all categories with group and section
 $sql = "
     SELECT cat_id, cat_name, cat_group, cat_section, cat_slug
-    FROM material_category
-    ORDER BY cat_group ASC, cat_section ASC, cat_order ASC
+    FROM ps_material_categories
+    ORDER BY cat_group ASC, cat_order ASC
 ";
 $categories = select_query($conn, $sql);
 
-// Group categories by cat_group and cat_section
 $menu = [];
 foreach ($categories as $cat) {
     $menu[$cat['cat_group']][$cat['cat_section']][] = $cat;
@@ -56,14 +53,8 @@ foreach ($categories as $cat) {
             </button>
 
             <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto ps-lg-0" style="padding-left: 0.15rem">
 
-                    <!-- Home -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-
-                    <!-- Dynamic Product Menu -->
                     <?php foreach ($menu as $groupName => $sections): ?>
                         <li class="nav-item dropdown dropdown-hover position-static">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
@@ -100,6 +91,32 @@ foreach ($categories as $cat) {
                         <a class="nav-link" href="./get-a-quote">Get a Quote</a>
                     </li>
 
+                </ul>
+                <ul class="navbar-nav h-100">
+                    <?php if (!empty($_SESSION['customer_id'])): ?>
+                        <li class="nav-item h-100">
+                            <a class="nav-link" href="./users/my-orders">My Orders</a>
+                        </li>
+                        <li class="nav-item dropdown dropdown-hover position-static user h-100">
+                            <a data-mdb-dropdown-init class="nav-link dropdown-toggle" href="#" id="userinfo" role="button"
+                                data-mdb-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person fs-5 me-2"></i>
+                                <?php echo htmlspecialchars($_SESSION['customer_name'] ?? ''); ?>
+                            </a>
+                            <div class="dropdown-menu mt-0" aria-labelledby="userinfo">
+                                <a href="dashboard.php" class="list-group-item list-group-item-action">Dashboard</a>
+                                <a href="profile.php" class="list-group-item list-group-item-action">Profile Settings</a>
+                                <a href="logout.php" class="list-group-item list-group-item-action">Logout</a>
+                            </div>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item h-100">
+                            <a class="nav-link" href="login.php">Login</a>
+                        </li>
+                        <li class="nav-item h-100">
+                            <a class="nav-link" href="register.php">Register</a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>

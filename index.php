@@ -34,7 +34,7 @@ include 'include/header.php';
 
         // Fetch categories
         $sql = "SELECT cat_id, cat_name, cat_image, cat_slug 
-        FROM material_category 
+        FROM ps_material_categories 
         ORDER BY cat_id ASC";
         $categories = select_query($conn, $sql);
 
