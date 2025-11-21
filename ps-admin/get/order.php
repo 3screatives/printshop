@@ -27,6 +27,7 @@ SELECT
     c.contact_phone,
     c.contact_email,
     c.client_stma_id,
+    c.tax_exempt_id,
     u.user_name,
     s.status_id,
     s.status_name,
@@ -83,6 +84,7 @@ if (!empty($data)) {
         "process_time" => $order['order_production_time'],
         "payment_type" => $order['payment_type_id'],  // or map manually if you have a separate table later
         "stmaID" => $order['client_stma_id'],
+        "taxExID" => $order['tax_exempt_id'],
     ];
 
     $response['items'] = [];

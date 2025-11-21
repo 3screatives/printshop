@@ -92,6 +92,7 @@
                 </div>
                 <div class="card-footer py-3">
                     <span class="text-muted text-sm me-3">STMA ID: <b id="stmaID"></b></span>
+                    <span class="text-muted text-sm me-3">Tax Exempt ID: <b id="taxExID"></b></span>
                 </div>
             </div>
         </div>

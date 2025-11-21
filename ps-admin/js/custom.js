@@ -272,6 +272,7 @@ $(document).ready(function () {
                     $('#order_t_comments').html((o.comment || '').replace(/\n/g, '<br>'));
 
                     $('#stmaID').text(o.stmaID ? o.stmaID : '-');
+                    $('#taxExID').text(o.taxExID ? o.taxExID : '-');
 
                     let rows = "";
                     response.items.forEach(item => {
