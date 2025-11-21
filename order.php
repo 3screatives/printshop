@@ -28,7 +28,7 @@ mysqli_close($conn);
         <div class="sec-head">
             <div class="quick-links">
                 <a href="./">Home</a> <i class="bi bi-chevron-right"></i>
-                <a href="shop">Shop</a> <i class="bi bi-chevron-right"></i>
+                <!-- <a href="shop">Shop</a> <i class="bi bi-chevron-right"></i> -->
                 <?php echo htmlspecialchars($cat_name); ?>
             </div>
             <h2><?php echo htmlspecialchars($cat_name); ?></h2>
@@ -36,7 +36,7 @@ mysqli_close($conn);
 
         <div class="row">
             <div class="col-6">
-                <img src="<?php echo htmlspecialchars($cat_image); ?>" class="img-fluid"
+                <img src="img/product-<?php echo htmlspecialchars($cat_image); ?>.jpg" class="img-fluid"
                     alt="<?php echo htmlspecialchars($cat_name); ?>">
             </div>
 
