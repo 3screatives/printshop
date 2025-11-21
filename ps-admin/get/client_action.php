@@ -11,16 +11,43 @@ if ($action == 'save') {
     $contact_name = $_POST['contact_name'];
     $contact_phone = $_POST['contact_phone'];
     $contact_email = $_POST['contact_email'];
-    // $client_since = $_POST['client_since'];
     $client_stma_id = $_POST['client_stma_id'];
+    $tax_exempt_id = $_POST['tax_exempt_id']; // NEW
 
     if (empty($client_id)) {
-        $sql = "INSERT INTO ps_clients (business_name, business_address, contact_name, contact_phone, contact_email, client_stma_id) VALUES (?, ?, ?, ?, ?, ?)";
-        $success = execute_query($conn, $sql, "sssssi", $business_name, $business_address, $contact_name, $contact_phone, $contact_email, $client_stma_id);
+        $sql = "INSERT INTO ps_clients 
+                (business_name, business_address, contact_name, contact_phone, contact_email, client_stma_id, tax_exempt_id) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $success = execute_query(
+            $conn,
+            $sql,
+            "sssssis",
+            $business_name,
+            $business_address,
+            $contact_name,
+            $contact_phone,
+            $contact_email,
+            $client_stma_id,
+            $tax_exempt_id
+        );
         echo $success ? "Client added successfully!" : "Error adding client.";
     } else {
-        $sql = "UPDATE ps_clients SET business_name=?, business_address=?, contact_name=?, contact_phone=?, contact_email=?, client_stma_id=? WHERE client_id=?";
-        $success = execute_query($conn, $sql, "sssssii", $business_name, $business_address, $contact_name, $contact_phone, $contact_email, $client_stma_id, $client_id);
+        $sql = "UPDATE ps_clients 
+                SET business_name=?, business_address=?, contact_name=?, contact_phone=?, contact_email=?, client_stma_id=?, tax_exempt_id=? 
+                WHERE client_id=?";
+        $success = execute_query(
+            $conn,
+            $sql,
+            "sssssisi",
+            $business_name,
+            $business_address,
+            $contact_name,
+            $contact_phone,
+            $contact_email,
+            $client_stma_id,
+            $tax_exempt_id,
+            $client_id
+        );
         echo $success ? "Client updated successfully!" : "Error updating client.";
     }
 } elseif ($action == 'fetch') {
@@ -35,6 +62,7 @@ if ($action == 'save') {
                 <td>{$row['contact_name']}</td>
                 <td>{$row['contact_phone']}</td>
                 <td>{$row['contact_email']}</td>
+                <td>{$row['tax_exempt_id']}</td> <!-- NEW COLUMN -->
                 <td>" . (!empty($row['client_since']) ? date('M d, Y', strtotime($row['client_since'])) : '-') . "</td>
                 <td>
                     <button class='btn btn-outline-primary btn-sm me-2 editClient' data-id='{$row['client_id']}'>
@@ -47,7 +75,7 @@ if ($action == 'save') {
             </tr>";
         }
     } else {
-        echo "<tr><td colspan='9' class='text-center'>No clients found</td></tr>";
+        echo "<tr><td colspan='10' class='text-center'>No clients found</td></tr>";
     }
 } elseif ($action == 'get') {
     $client_id = $_POST['client_id'];

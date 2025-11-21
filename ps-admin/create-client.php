@@ -32,6 +32,10 @@
                         <label>Client STMA ID</label>
                         <input type="number" name="client_stma_id" id="client_stma_id" class="form-control">
                     </div>
+                    <div class="col-md-12">
+                        <label>Tax Exempt ID</label>
+                        <input type="number" name="tax_exempt_id" id="tax_exempt_id" class="form-control">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

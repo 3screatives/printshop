@@ -400,3 +400,7 @@ textarea {
     display: block;
     padding-left: 10px;
 }
+
+td {
+    word-wrap: break-word
+}

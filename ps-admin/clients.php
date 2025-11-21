@@ -97,13 +97,14 @@
                             <table class="table" id="clientsTable">
                                 <thead>
                                     <tr>
-                                        <th width="10%">Client #</th>
+                                        <th width="10%">C. ID</th>
                                         <th width="10%">STMA ID</th>
-                                        <th width="15%">B. Name</th>
-                                        <th width="20%">B. Address</th>
+                                        <th width="10%">Name</th>
+                                        <th width="10%">Address</th>
                                         <th width="10%">Name</th>
                                         <th width="10%">Phone</th>
-                                        <th width="10%">EMail</th>
+                                        <th width="10%">E-Mail</th>
+                                        <th width="10%">Tax ID</th>
                                         <th width="10%">Since</th>
                                         <th width="10%" class="text-center">Action</th>
                                     </tr>
