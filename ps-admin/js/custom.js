@@ -843,10 +843,13 @@ $(document).ready(function () {
 
     $("#clientForm").submit(function (e) {
         e.preventDefault();
+
+        console.log("Submitting:", $(this).serialize());
+
         $.post("get/client_action.php", $(this).serialize() + "&action=save", function (res) {
             alert(res);
             $("#clientModal").modal("hide");
-            loadClients();
+            setTimeout(loadClients, 300);
         });
     });
 
@@ -858,15 +861,21 @@ $(document).ready(function () {
 
     $(document).on("click", ".editClient", function () {
         var id = $(this).data("id");
+
         $.post("get/client_action.php", { action: "get", client_id: id }, function (data) {
             var client = JSON.parse(data);
-            $("#client_id").val(client.client_id);
+
+            $("#n_client_id").val(client.client_id);
             $("#mbusiness_name").val(client.business_name);
             $("#mbusiness_address").val(client.business_address);
             $("#contact_name").val(client.contact_name);
             $("#contact_phone").val(client.contact_phone);
             $("#contact_email").val(client.contact_email);
             $("#client_stma_id").val(client.client_stma_id);
+            $("#tax_exempt_id").val(client.tax_exempt_id);
+
+            console.log("Loaded client_id:", client.client_id);
+
             $(".modal-title").text("Edit Client");
             $("#clientModal").modal("show");
         });

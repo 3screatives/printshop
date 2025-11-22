@@ -1,13 +1,13 @@
 <div class="modal fade" id="clientModal">
     <div class="modal-dialog modal-lg">
         <form id="clientForm">
+            <input type="hidden" name="n_client_id" id="n_client_id">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title">Add Client</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body row g-3">
-                    <input type="hidden" name="client_id" id="client_id">
                     <div class="col-md-6">
                         <label>Business Name</label>
                         <input type="text" name="mbusiness_name" id="mbusiness_name" class="form-control" required>

@@ -5,7 +5,7 @@ $conn = db_connect();
 $action = $_POST['action'] ?? '';
 
 if ($action == 'save') {
-    $client_id = $_POST['client_id'];
+    $client_id = $_POST['n_client_id'];
     $business_name = $_POST['mbusiness_name'];
     $business_address = $_POST['mbusiness_address'];
     $contact_name = $_POST['contact_name'];
