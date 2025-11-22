@@ -826,7 +826,6 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Delete failed:', error);
                 alert('Server error deleting order.');
             }
         });
@@ -843,8 +842,6 @@ $(document).ready(function () {
 
     $("#clientForm").submit(function (e) {
         e.preventDefault();
-
-        console.log("Submitting:", $(this).serialize());
 
         $.post("get/client_action.php", $(this).serialize() + "&action=save", function (res) {
             alert(res);
@@ -873,8 +870,6 @@ $(document).ready(function () {
             $("#contact_email").val(client.contact_email);
             $("#client_stma_id").val(client.client_stma_id);
             $("#tax_exempt_id").val(client.tax_exempt_id);
-
-            console.log("Loaded client_id:", client.client_id);
 
             $(".modal-title").text("Edit Client");
             $("#clientModal").modal("show");
@@ -924,7 +919,6 @@ $(document).ready(function () {
     }
 
     $(document).on("click", ".editMaterial", function () {
-        console.log("Edit material clicked");
         var id = $(this).data("id");
         $.post("get/material_action.php", { action: "get", mat_id: id }, function (data) {
             var mat = JSON.parse(data);
