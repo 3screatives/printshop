@@ -52,6 +52,7 @@
                                         <span id="c_name"></span>
                                         <span id="c_phone"></span>
                                         <span id="c_email"></span>
+                                        <input type="hidden" id="taxEx" name="taxEx" value="">
                                     </td>
                                 </tr>
                             </table>

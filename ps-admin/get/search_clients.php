@@ -10,7 +10,7 @@ if ($term === '') {
     exit;
 }
 
-$sql = "SELECT client_id, business_name, business_address, contact_name, contact_phone, contact_email 
+$sql = "SELECT client_id, business_name, business_address, contact_name, contact_phone, contact_email, tax_exempt 
         FROM ps_clients 
         WHERE business_name LIKE CONCAT('%', ?, '%') 
         OR contact_name LIKE CONCAT('%', ?, '%')

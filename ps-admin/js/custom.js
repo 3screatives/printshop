@@ -602,9 +602,17 @@ $(document).ready(function () {
         let subtotalAfterDiscount = subtotal - discountAmount - creditAmount;
 
         // Calculate tax on discounted subtotal
+        let isExempt = $('#taxEx').val().trim() === "1";  // 1 = exempt, 0 = taxable
         let tax = subtotalAfterDiscount * 0.0825;
         if (tax <= 0) tax = 0;
-        $('#o_tax').val(tax.toFixed(2));
+
+        if (!isExempt) {
+            console.log("Applying tax");
+            $('#o_tax').val(tax.toFixed(2));  // apply tax
+        } else {
+            console.log("No tax applied");
+            $('#o_tax').val('0.00');          // no tax
+        }
 
         // Calculate total
         let total = subtotalAfterDiscount + rushVal + tax;
@@ -711,7 +719,9 @@ $(document).ready(function () {
                                 data-address="${client.business_address || ''}"
                                 data-cname="${client.contact_name || ''}"
                                 data-phone="${client.contact_phone || ''}"
-                                data-email="${client.contact_email || ''}">
+                                data-email="${client.contact_email || ''}"
+                                data-taxex="${client.tax_exempt || ''}"
+                                >
                                 ${client.business_name + ' (' + client.contact_name + ')'}
                             </button>`;
                         $suggestions.append(item);
@@ -729,6 +739,7 @@ $(document).ready(function () {
             $("#c_name").text($this.data("cname"));
             $("#c_phone").text($this.data("phone"));
             $("#c_email").text($this.data("email"));
+            $("#taxEx").val($this.data("taxex") || '');
             $suggestions.empty().hide();
         });
 
