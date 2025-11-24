@@ -39,15 +39,6 @@
                                             <div id="suggestions"></div>
                                         </div>
                                         <input type="hidden" name="client_id" id="client_id" value="">
-                                        <!-- <textarea name="c_address" rows="2" id="c_address"
-                                            class="form-control form-control-sm mb-1"
-                                            placeholder="Client Address"></textarea>
-                                        <input type="text" name="c_name" id="c_name"
-                                            class="form-control form-control-sm mb-1" placeholder="Client Name">
-                                        <input type="tel" name="c_phone" id="c_phone"
-                                            class="form-control form-control-sm mb-1" placeholder="Client Phone">
-                                        <input type="email" name="c_email" id="c_email"
-                                            class="form-control form-control-sm" placeholder="Client Email"> -->
                                         <span id="c_address"></span>
                                         <span id="c_name"></span>
                                         <span id="c_phone"></span>

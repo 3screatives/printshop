@@ -713,17 +713,17 @@ $(document).ready(function () {
                     $suggestions.show();
                     data.forEach(function (client) {
                         const item = `
-                            <button type="button" class="list-group-item list-group-item-action"
-                                data-id="${client.client_id}"
-                                data-name="${client.business_name}"
-                                data-address="${client.business_address || ''}"
-                                data-cname="${client.contact_name || ''}"
-                                data-phone="${client.contact_phone || ''}"
-                                data-email="${client.contact_email || ''}"
-                                data-taxex="${client.tax_exempt || ''}"
-                                >
-                                ${client.business_name + ' (' + client.contact_name + ')'}
-                            </button>`;
+                        <button type="button" class="list-group-item list-group-item-action"
+                            data-id="${client.client_id}"
+                            data-name="${client.business_name}"
+                            data-address="${client.business_address || ''}"
+                            data-cname="${client.contact_name || ''}"
+                            data-phone="${client.contact_phone || ''}"
+                            data-email="${client.contact_email || ''}"
+                            data-taxex="${client.tax_exempt || ''}"
+                            >
+                            ${client.business_name + ' (' + client.contact_name + ')'}
+                        </button>`;
                         $suggestions.append(item);
                     });
                 }
