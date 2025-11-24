@@ -60,12 +60,13 @@ mysqli_close($conn);
                         <label class="col-sm-4 col-form-label">Size</label>
                         <div class="col-sm-8 d-flex gap-3">
                             <div class="input-group">
-                                <input type="number" class="form-control" name="item_width" id="item_width" value="24" min="24">
+                                <input type="number" class="form-control" name="item_width" id="item_width" value="24"
+                                    min="24">
                                 <span class="input-group-text">in</span>
                             </div>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="item_height" id="item_height"
-                                    value="36" min="36">
+                                <input type="number" class="form-control" name="item_height" id="item_height" value="36"
+                                    min="36">
                                 <span class="input-group-text">in</span>
                             </div>
                         </div>
