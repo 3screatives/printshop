@@ -28,10 +28,6 @@ include 'include/header.php';
             <h2><span class="tc-blue">Elevating Your Brand with</span> Premium Print Solutions</h2>
         </div>
         <?php
-        // include 'ps-admin/db_function.php';
-
-        // $conn = db_connect();
-
         // Fetch categories
         $sql = "SELECT cat_id, cat_name, cat_image, cat_slug 
         FROM ps_material_categories 
@@ -55,7 +51,7 @@ include 'include/header.php';
                 <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
                     <div class="box h-100">
                         <div class="img-holder">
-                            <img class="bg img-fluid" src="img/product-' . $imgSrc . '.jpg" alt="' . htmlspecialchars($row['cat_name']) . '" />
+                            <img class="bg img-fluid" src="' . $imgSrc . '" alt="' . htmlspecialchars($row['cat_name']) . '" />
                         </div>
                         <div class="info">
                             <h3>

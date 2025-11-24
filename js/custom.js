@@ -1,5 +1,16 @@
-$(document).ready(function () {
+//On Scroll Actions
+$(window).scroll(function () {
+    if ($(this).scrollTop() > 96) {
+        $("header").css("margin-top", "-96px");
+        $('.search-bar').addClass('short');
+    } else {
+        $("header").css("margin-top", "0px");
+        $('.search-bar').removeClass('short');
+    }
+});
+//Closed
 
+$(document).ready(function () {
     // Recalculate price when inputs change
     $("#item_width, #item_height, #item_qty, #material_id, #process_time")
         .on("change input", calculateFrontPrice);

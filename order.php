@@ -1,9 +1,6 @@
 <?php
 include 'include/head.php';
 include 'include/header.php';
-// include 'ps-admin/db_function.php';
-
-// $conn = db_connect();
 
 // Get category ID from URL
 $cat_id = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
@@ -28,7 +25,6 @@ mysqli_close($conn);
         <div class="sec-head">
             <div class="quick-links">
                 <a href="./">Home</a> <i class="bi bi-chevron-right"></i>
-                <!-- <a href="shop">Shop</a> <i class="bi bi-chevron-right"></i> -->
                 <?php echo htmlspecialchars($cat_name); ?>
             </div>
             <h2><?php echo htmlspecialchars($cat_name); ?></h2>
@@ -64,12 +60,12 @@ mysqli_close($conn);
                         <label class="col-sm-4 col-form-label">Size</label>
                         <div class="col-sm-8 d-flex gap-3">
                             <div class="input-group">
-                                <input type="number" class="form-control" name="item_width" id="item_width" value="24">
+                                <input type="number" class="form-control" name="item_width" id="item_width" value="24" min="24">
                                 <span class="input-group-text">in</span>
                             </div>
                             <div class="input-group">
                                 <input type="number" class="form-control" name="item_height" id="item_height"
-                                    value="36">
+                                    value="36" min="36">
                                 <span class="input-group-text">in</span>
                             </div>
                         </div>
@@ -83,8 +79,24 @@ mysqli_close($conn);
                         </div>
                     </div>
 
-                    <!-- Hidden details -->
-                    <textarea name="item_details" id="item_details" class="d-none"></textarea>
+                    <!-- GROMMETS -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Grommets</label>
+                        <div class="col-sm-8">
+                            <select class="form-select" name="item_grommets" id="item_grommets">
+                                <option value="0" selected>No Grommets</option>
+                                <option value="1">With Grommets</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- DETAILS -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Details</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" name="item_details" id="item_details"></textarea>
+                        </div>
+                    </div>
 
                     <!-- PROCESS TIME -->
                     <div class="mb-3 row">
