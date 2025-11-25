@@ -13,38 +13,42 @@ if ($action == 'save') {
     $contact_email = $_POST['contact_email'];
     $client_stma_id = $_POST['client_stma_id'];
     $tax_exempt_id = $_POST['tax_exempt_id']; // NEW
+    $tax_exempt = (!empty($tax_exempt_id) && $tax_exempt_id != "0") ? 1 : 0;
+
 
     if (empty($client_id)) {
         $sql = "INSERT INTO ps_clients 
-                (business_name, business_address, contact_name, contact_phone, contact_email, client_stma_id, tax_exempt_id) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        (business_name, business_address, contact_name, contact_phone, contact_email, client_stma_id, tax_exempt, tax_exempt_id) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $success = execute_query(
             $conn,
             $sql,
-            "sssssis",
+            "sssssiis",   // <-- 8 params
             $business_name,
             $business_address,
             $contact_name,
             $contact_phone,
             $contact_email,
             $client_stma_id,
+            $tax_exempt,
             $tax_exempt_id
         );
         echo $success ? "Client added successfully!" : "Error adding client.";
     } else {
         $sql = "UPDATE ps_clients 
-                SET business_name=?, business_address=?, contact_name=?, contact_phone=?, contact_email=?, client_stma_id=?, tax_exempt_id=? 
-                WHERE client_id=?";
+        SET business_name=?, business_address=?, contact_name=?, contact_phone=?, contact_email=?, client_stma_id=?, tax_exempt=?, tax_exempt_id=? 
+        WHERE client_id=?";
         $success = execute_query(
             $conn,
             $sql,
-            "sssssisi",
+            "sssssiiii",   // <-- 9 params
             $business_name,
             $business_address,
             $contact_name,
             $contact_phone,
             $contact_email,
             $client_stma_id,
+            $tax_exempt,
             $tax_exempt_id,
             $client_id
         );

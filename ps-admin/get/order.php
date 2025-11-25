@@ -90,7 +90,8 @@ if (!empty($data)) {
     $response['items'] = [];
 
     foreach ($data as $row) {
-        if (!empty($row['item_id'])) {
+        // if (!empty($row['item_id'])) {
+        if (isset($row['item_id']) && $row['item_id'] > 0) {
             $response['items'][] = [
                 "item_id" => $row['item_id'],
                 "quantity" => $row['item_quantity'],

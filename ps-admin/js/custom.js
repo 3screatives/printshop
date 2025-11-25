@@ -335,6 +335,9 @@ $(document).ready(function () {
             $tbody.empty();
         }
         count = 0;
+        $('.create-order h5').text('New Order');
+        // $('#submitOrder').text('Submit Invoice').data('order-id', o.order_id);
+        $('#submitOrder').text('Submit Invoice').removeData('order-id');
     });
 
     $(document).on('click', '.edit-order', function () {
