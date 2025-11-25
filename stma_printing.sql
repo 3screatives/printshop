@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2025 at 08:17 PM
+-- Generation Time: Nov 25, 2025 at 06:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,12 +50,13 @@ INSERT INTO `ps_clients` (`client_id`, `business_name`, `business_address`, `con
 (3, 'Gamma Media', '77 Poster Ln, Miami, FL', 'Carlos Ruiz', '305-555-4321', 'carlos@gamma.com', '2021-07-05', 1003, 0, 0),
 (4, 'Delta Prints', '890 Banner Rd, New York, NY', 'Ava Brown', '917-555-5678', 'ava@delta.com', '2020-10-22', 1004, 0, 0),
 (5, 'Epsilon Visuals', '22 Wall St, Los Angeles, CA', 'Mike Green', '213-555-9988', 'mike@epsilon.com', '2024-01-05', 1005, 0, 0),
-(7, 'New Company LLC', 'Somewhere here...', 'Sajjad Ali', '1234567890', 'abc@xyz.com', '2025-11-03', 1324, 0, 321654987),
+(7, 'New Company LLC', 'Somewhere here...', 'Sajjad Ali', '1234567890', 'abc@xyz.com', '2025-11-03', 1324, 1, 321654987),
 (9, 'Kwik Corner', '2730 Hillcrest Dr, Balcones Heights TX 78228', 'Srikanth', '', 'quickcorner2@gmail.com', '2025-11-10', 2730, 0, 0),
 (10, 'New Company LLC', 'here', 'Naail Ali', '7373812357', 'printing@mystma.com', '2025-11-12', 0, 0, 0),
 (11, 'Hightime Smoke & Vape', '5935 Rittman Rd', 'Jasad', '8303578201', 'jassadmomin@hotmail.com', '2025-11-12', 0, 0, 0),
-(12, 'Amazing Stop', '-', 'Kahir Charolia', '2106395078', '', '2025-11-12', 0, 0, 123456789),
-(14, 'Shipley Donuts', '7875 Kitty Hawk Rd, Converse, TX 78109', 'Zakir Mehmood', '210-840-2733', 'zakirmehmood2002@yahoo.com', '2025-11-12', 0, 0, 0);
+(12, 'Amazing Stop', '-', 'Kahir Charolia', '2106395078', '', '2025-11-12', 0, 1, 123456789),
+(14, 'Shipley Donuts', '7875 Kitty Hawk Rd, Converse, TX 78109', 'Zakir Mehmood', '210-840-2733', 'zakirmehmood2002@yahoo.com', '2025-11-12', 0, 0, 0),
+(25, 'New Company LLC', 'Home', 'Ruhaan Ali', '1234567890', 'abc@comp.com', '2025-11-24', 3214, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -82,25 +83,25 @@ CREATE TABLE `ps_materials` (
 --
 
 INSERT INTO `ps_materials` (`mat_id`, `mat_vendor`, `mat_name`, `mat_details`, `mat_roll_size`, `mat_length`, `mat_size`, `mat_cost`, `ink_cost`, `mat_added_on`, `cat_id`) VALUES
-(1, 'Lexjet', 'Adhesive', '4WM66A - HP Prime Matte Air GP, 3.4 Mil', 54, 150, 1800, 217.070000, 0.003400, '2025-10-11', 6),
+(1, 'Lexjet', 'Adhesive', '4WM66A - HP Prime Matte Air GP, 3.4 Mil', 54, 150, 1800, 217.070000, 0.003400, '2025-10-11', 4),
 (2, 'Lexjet', 'Backlit', 'KBLGS60 - Kodak glossy backlit film', 60, 100, 1200, 300.000000, 0.003400, '2025-10-11', 10),
 (3, 'Grimco', 'Banner Matte', 'DTXB54164M - 13OZ DURATEX BANNER MATTE', 54, 164, 1968, 179.590000, 0.003400, '2025-10-11', 1),
 (4, 'Reece Supply', 'Banner Gloss', 'JFM160050 - SUPERPRINT PLUS GLOSS ULTRAFLEX 13OZ BRIGHT', 63, 164, 1968, 175.480000, 0.003400, '2025-10-11', 1),
 (5, '', 'Print Only', 'N/A', 0, 0, 0, 0.000000, 0.003400, '2025-10-11', NULL),
-(6, 'Lexjet', 'Clear Adhesive', 'GF 206-54 - Clear Gloss Vinyl, Removeable', 54, 150, 1800, 230.000000, 0.003400, '2025-10-11', NULL),
+(6, 'Lexjet', 'Clear Adhesive', 'GF 206-54 - Clear Gloss Vinyl, Removeable', 54, 150, 1800, 230.000000, 0.003400, '2025-10-11', 4),
 (7, 'Grimco', 'Coroplast', 'CP84W - Corrugated Plastic Panels 48\" x 96\", White', 48, 96, 1152, 8.630000, 0.003400, '2025-10-11', 3),
-(8, 'Grimco', 'Floor Sticker', '', 54, 150, 1800, 0.000000, 0.003400, '2025-10-11', NULL),
+(8, 'Grimco', 'Floor Sticker', '', 54, 150, 1800, 0.000000, 0.003400, '2025-10-11', 6),
 (9, 'Reece Supply', 'Foam Board', 'Pn 122718 - 3/16 White Foam Board', 48, 96, 1152, 15.130000, 0.003400, '2025-10-11', 6),
 (10, 'Lexjet', 'Regular Paper', '', 36, 200, 2400, 0.000000, 0.003400, '2025-10-11', 2),
 (11, 'Lexjet', 'Polypropylene', 'ERWP36200 - LexJet Heavyweight WR Polypropylene - 36in x 200ft', 36, 200, 2400, 106.250000, 0.003400, '2025-10-11', 2),
-(12, 'Grimco', 'Polystyrene 020', 'UH020W4896A - White Styrene Matte 020 Thick', 48, 96, 1152, 8.840000, 0.003400, '2025-10-11', 6),
-(13, 'Grimco', 'Polystyrene 040', 'HIPS48X96X040W - Duratex Polystyrene Sheets - Double White', 48, 96, 1152, 18.840000, 0.003400, '2025-10-11', 6),
-(14, 'Lexjet', 'Static Cling', '207-5415 - GF-207 Clear', 54, 150, 1800, 260.090000, 0.003400, '2025-10-11', NULL),
+(12, 'Grimco', 'Polystyrene 020', 'UH020W4896A - White Styrene Matte 020 Thick', 48, 96, 1152, 8.840000, 0.003400, '2025-10-11', 7),
+(13, 'Grimco', 'Polystyrene 040', 'HIPS48X96X040W - Duratex Polystyrene Sheets - Double White', 48, 96, 1152, 18.840000, 0.003400, '2025-10-11', 7),
+(14, 'Lexjet', 'Static Cling', '207-5415 - GF-207 Clear', 54, 150, 1800, 260.090000, 0.003400, '2025-10-11', 4),
 (15, 'Reece Supply', 'Window Perforated', 'Pn 55599 - UltraVision Window Perf 60/40 UV 6.3 Mil', 54, 164, 1968, 326.830000, 0.003400, '2025-10-11', 5),
 (16, 'Grimco', 'Aluminum', 'MM843MWDP - MAXMETAL™ 4\' x 8\', White DP, EACH', 48, 96, 1152, 48.910000, 0.003400, '2025-10-11', 8),
 (17, 'Grimco', 'Acrylic - Clear', 'CC4896316C - Duratex Cast Acrylic 48\" x 96\", Clear, 3/16\"', 48, 96, 1152, 106.970000, 0.003400, '2025-10-11', 9),
 (18, 'Grimco', 'Acrylic - White', 'CC4896316W7328 - Duratex Cast Acrylic 48\" x 96\", White 7328, 3/16\"', 48, 96, 1152, 113.680000, 0.003400, '2025-10-11', 9),
-(19, 'Lexjet', 'Polyester', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 0.003400, '2025-10-11', NULL);
+(19, 'Lexjet', 'Polyester', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 0.003400, '2025-10-11', 2);
 
 -- --------------------------------------------------------
 
@@ -170,9 +171,8 @@ INSERT INTO `ps_orders` (`order_id`, `order_date`, `order_due`, `user_id`, `orde
 (3, '2024-06-10', '2024-06-12', 1, 450.00, 40.50, 490.50, 490.50, 0.00, NULL, NULL, 1, 1, 3, 11, 'Client requested proof'),
 (24, '2025-11-12', '2025-11-17', 1, 33.00, 2.72, 35.72, 0.00, 35.72, NULL, NULL, 1, 1, 7, 12, 'Testing\nNew\nSomething'),
 (25, '2025-11-12', '2025-11-17', 1, 29.00, 2.39, 31.39, 0.00, 31.39, NULL, NULL, 1, 3, 11, 11, 'Re-design/Fix sizes'),
-(26, '2025-11-12', '2025-11-17', 1, 563.00, 46.45, 609.45, 0.00, 609.45, 0.00, 0.00, 1, 1, 12, 1, '- Designs have been made and sent to contact\n- check DB change'),
-(31, '2025-11-12', '2025-11-17', 1, 24.00, 1.98, 25.98, 25.98, 0.00, NULL, NULL, 1, 1, 14, 9, '- Designs have been sent'),
-(32, '2025-11-22', '2025-11-27', 1, 81.00, 6.01, 78.91, 78.91, 0.00, 10.00, 0.00, 1, 2, 7, 1, '- will page at office\n- additional discount\n- paid advance');
+(26, '2025-11-12', '2025-11-17', 1, 563.00, 46.45, 609.45, 0.00, 609.45, 0.00, 0.00, 1, 1, 12, 5, '- Designs have been made and sent to contact\n- check DB change'),
+(31, '2025-11-12', '2025-11-17', 1, 24.00, 1.98, 25.98, 25.98, 0.00, NULL, NULL, 1, 1, 14, 9, '- Designs have been sent');
 
 -- --------------------------------------------------------
 
@@ -192,6 +192,28 @@ CREATE TABLE `ps_order_items` (
   `item_price` decimal(10,2) NOT NULL,
   `item_total` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ps_order_items`
+--
+
+INSERT INTO `ps_order_items` (`item_id`, `order_id`, `material_id`, `item_details`, `item_quantity`, `item_size_width`, `item_size_height`, `item_grommets`, `item_price`, `item_total`) VALUES
+(1, 1, 1, 'Poster Print 24x36', 2, 24.00, 36.00, 0, 60.00, 120.00),
+(2, 2, 2, 'Banner 48x72 with grommets', 1, 48.00, 72.00, 1, 300.00, 300.00),
+(3, 3, 3, 'Vinyl decal set', 3, 12.00, 12.00, 0, 150.00, 450.00),
+(39, 24, 16, 'Sign', 1, 24.00, 36.00, 0, 14.00, 14.00),
+(40, 24, 1, 'Sticker', 1, 24.00, 36.00, 0, 19.00, 19.00),
+(41, 25, 1, 'Labels/Stickers', 1, 54.00, 54.00, 0, 29.00, 29.00),
+(42, 26, 1, 'Pizza Slice, Fountain Drink, $4.99', 1, 24.00, 36.00, 0, 19.00, 19.00),
+(43, 26, 1, 'Wings, Fries, Fountain Drink, $9.99', 1, 24.00, 36.00, 0, 19.00, 19.00),
+(44, 26, 1, 'Hunt Brothers Whole Cheese Pizza, $8.99', 1, 55.00, 45.00, 0, 47.00, 47.00),
+(45, 26, 1, 'Hunt Brothers Whole Pepperoni Pizza, $11.99', 1, 56.00, 45.00, 0, 48.00, 48.00),
+(46, 26, 1, 'Corn Dog, Burrito, Egg Roll, Fries (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00),
+(47, 26, 1, 'Egg & Cheese Sandwich, Hashbrowns, Coffee, $5.99 (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00),
+(48, 26, 1, 'Text, 1 sign per item: Beer, Wine, Soda, Lotto, Snack, Fountain Drinks, Coffee, Slushy', 8, 55.00, 10.00, 0, 27.00, 216.00),
+(49, 26, 1, 'No Back Pack Signs', 10, 8.00, 11.00, 0, 6.00, 60.00),
+(50, 26, 6, '1 Per Combo', 4, 6.00, 24.00, 0, 5.00, 20.00),
+(51, 31, 16, 'Drive Thru Sign', 1, 18.00, 18.00, 0, 6.00, 24.00);
 
 -- --------------------------------------------------------
 
@@ -310,7 +332,7 @@ ALTER TABLE `ps_users`
 -- AUTO_INCREMENT for table `ps_clients`
 --
 ALTER TABLE `ps_clients`
-  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `ps_materials`
@@ -328,13 +350,13 @@ ALTER TABLE `ps_material_categories`
 -- AUTO_INCREMENT for table `ps_orders`
 --
 ALTER TABLE `ps_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `ps_order_items`
 --
 ALTER TABLE `ps_order_items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `ps_status`
