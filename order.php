@@ -17,6 +17,8 @@ $category = $categoryResult[0] ?? ['cat_name' => '', 'cat_image' => ''];
 $cat_name = $category['cat_name'];
 $cat_image = $category['cat_image'];
 
+$grommetCategories = [1, 3];
+
 mysqli_close($conn);
 ?>
 
@@ -81,15 +83,17 @@ mysqli_close($conn);
                     </div>
 
                     <!-- GROMMETS -->
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label">Grommets</label>
-                        <div class="col-sm-8">
-                            <select class="form-select" name="item_grommets" id="item_grommets">
-                                <option value="0" selected>No Grommets</option>
-                                <option value="1">With Grommets</option>
-                            </select>
+                    <?php if (in_array($cat_id, $grommetCategories)): ?>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label">Grommets</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" name="item_grommets" id="item_grommets">
+                                    <option value="0" selected>No Grommets</option>
+                                    <option value="1">With Grommets</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
 
                     <!-- DETAILS -->
                     <div class="mb-3 row">
