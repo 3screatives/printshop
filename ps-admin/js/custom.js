@@ -606,14 +606,13 @@ $(document).ready(function () {
 
         // Calculate tax on discounted subtotal
         let isExempt = $('#taxEx').val().trim() === "1";  // 1 = exempt, 0 = taxable
-        let tax = subtotalAfterDiscount * 0.0825;
-        if (tax <= 0) tax = 0;
+        let tax = 0;
 
         if (!isExempt) {
-            console.log("Applying tax");
+            tax = subtotalAfterDiscount * 0.0825; // 8.25% tax
+            if (tax <= 0) tax = 0;
             $('#o_tax').val(tax.toFixed(2));  // apply tax
         } else {
-            console.log("No tax applied");
             $('#o_tax').val('0.00');          // no tax
         }
 
@@ -744,6 +743,7 @@ $(document).ready(function () {
             $("#c_email").text($this.data("email"));
             $("#taxEx").val($this.data("taxex") || '');
             $suggestions.empty().hide();
+            calculateTotal();
         });
 
         // Hide suggestions when clicking outside or moving to another field
@@ -958,6 +958,31 @@ $(document).ready(function () {
                 alert(res);
                 loadMaterials();
             });
+        }
+    });
+
+    document.getElementById("o_comments").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault(); // stop normal Enter behavior
+            
+            let textarea = this;
+            let cursorPos = textarea.selectionStart;
+            let value = textarea.value;
+
+            // Insert newline + new bullet
+            let newValue = value.substring(0, cursorPos) + "\n• " + value.substring(cursorPos);
+
+            textarea.value = newValue;
+
+            // Move cursor after the bullet
+            textarea.selectionStart = textarea.selectionEnd = cursorPos + 3;
+        }
+    });
+
+    // Add a bullet automatically if textarea is empty
+    document.getElementById("o_comments").addEventListener("focus", function() {
+        if (this.value.trim() === "") {
+            this.value = "• ";
         }
     });
 

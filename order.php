@@ -6,7 +6,16 @@ include 'include/header.php';
 $cat_id = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
 
 // Fetch materials for this category
-$materials = select_query($conn, "SELECT mat_id, mat_name FROM ps_materials WHERE cat_id = ?", "i", $cat_id);
+$materials = select_query(
+    $conn,
+    "SELECT m.mat_id, m.mat_name
+     FROM ps_materials m
+     INNER JOIN ps_material_categories_map mc ON m.mat_id = mc.mat_id
+     WHERE mc.cat_id = ?
+     ORDER BY m.mat_name ASC",
+    "i",
+    $cat_id
+);
 
 // Fetch category details
 $categoryResult = select_query($conn, "SELECT cat_name, cat_image FROM ps_material_categories WHERE cat_id = ?", "i", $cat_id);
