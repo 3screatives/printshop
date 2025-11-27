@@ -20,12 +20,13 @@ if ($action == 'save') {
     if (empty($mat_id)) {
         // Insert new material
         $sql = "INSERT INTO ps_materials 
-        (mat_vendor, mat_name, mat_details, mat_roll_size, mat_length, mat_size, mat_cost, ink_cost, mat_added_on, cat_id) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        (mat_vendor, mat_name, mat_details, mat_roll_size, mat_length, mat_size, mat_cost, ink_cost, mat_added_on) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         $success = execute_query(
             $conn,
             $sql,
-            "ssssssddsi",
+            "ssssssdds",
             $mat_vendor,
             $mat_name,
             $mat_details,
@@ -34,19 +35,36 @@ if ($action == 'save') {
             $mat_size,
             $mat_cost,
             $ink_cost,
-            $mat_added_on,
-            $cat_id
+            $mat_added_on
         );
+
+        if ($success) {
+            $new_id = mysqli_insert_id($conn);
+
+            // Insert categories (multiple)
+            if (!empty($_POST['cat_ids'])) {
+                foreach ($_POST['cat_ids'] as $cat_id) {
+                    execute_query(
+                        $conn,
+                        "INSERT INTO ps_material_categories_map (mat_id, cat_id) VALUES (?, ?)",
+                        "ii",
+                        $new_id,
+                        $cat_id
+                    );
+                }
+            }
+        }
+
         echo $success ? "Material added successfully!" : "Error adding material.";
     } else {
-        // Update existing material
         $sql = "UPDATE ps_materials 
-                SET mat_vendor=?, mat_name=?, mat_details=?, mat_roll_size=?, mat_length=?, mat_size=?, mat_cost=?, ink_cost=?, cat_id=? 
-                WHERE mat_id=?";
+            SET mat_vendor=?, mat_name=?, mat_details=?, mat_roll_size=?, mat_length=?, mat_size=?, mat_cost=?, ink_cost=? 
+            WHERE mat_id=?";
+
         $success = execute_query(
             $conn,
             $sql,
-            "ssssssddii",
+            "sssssssdi",
             $mat_vendor,
             $mat_name,
             $mat_details,
@@ -55,9 +73,27 @@ if ($action == 'save') {
             $mat_size,
             $mat_cost,
             $ink_cost,
-            $cat_id,
             $mat_id
         );
+
+        if ($success) {
+            // Clear old category mapping
+            execute_query($conn, "DELETE FROM ps_material_categories_map WHERE mat_id=?", "i", $mat_id);
+
+            // Insert new selected categories
+            if (!empty($_POST['cat_ids'])) {
+                foreach ($_POST['cat_ids'] as $cat_id) {
+                    execute_query(
+                        $conn,
+                        "INSERT INTO ps_material_categories_map (mat_id, cat_id) VALUES (?, ?)",
+                        "ii",
+                        $mat_id,
+                        $cat_id
+                    );
+                }
+            }
+        }
+
         echo $success ? "Material updated successfully!" : "Error updating material.";
     }
 } elseif ($action == 'fetch') {
@@ -75,7 +111,17 @@ if ($action == 'save') {
                 <td>\${$row['mat_cost']}</td>
                 <td>\${$row['ink_cost']}</td>
                 <td>" . (!empty($row['mat_added_on']) ? date('M d, Y', strtotime($row['mat_added_on'])) : '-') . "</td>
-                <td>{$row['cat_id']}</td>
+                " .
+                $cats = select_query(
+                    $conn,
+                    "SELECT c.cat_name FROM ps_material_categories_map m 
+     JOIN ps_material_categories c ON c.cat_id=m.cat_id 
+     WHERE m.mat_id={$row['mat_id']}"
+                );
+
+            $catNames = implode(", ", array_column($cats, 'cat_name'))
+                . "
+                <td>{$catNames}</td>
                 <td>
                     <button class='btn btn-outline-primary btn-sm me-2 editMaterial' data-id='{$row['mat_id']}'>
                         <span class='bi bi-pencil'></span>
