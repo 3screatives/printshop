@@ -935,9 +935,11 @@ $(document).ready(function () {
 
     $(document).on("click", ".editMaterial", function () {
         var id = $(this).data("id");
-        loadCategories();
+
         $.post("get/material_action.php", { action: "get", mat_id: id }, function (data) {
+
             var mat = JSON.parse(data);
+
             $("#mat_id").val(mat.mat_id);
             $("#mat_vendor").val(mat.mat_vendor);
             $("#mat_name").val(mat.mat_name);
@@ -947,12 +949,13 @@ $(document).ready(function () {
             $("#mat_size").val(mat.mat_size);
             $("#mat_cost").val(mat.mat_cost);
             $("#ink_cost").val(mat.ink_cost);
-            // $("#cat_id").val(mat.cat_id);
 
-            // Pre-select categories
-            if (mat.categories) {
-                $("#cat_ids").val(mat.categories).change();
-            }
+            // Load categories then pre-select
+            loadCategories(function () {
+                if (mat.categories) {
+                    $("#cat_ids").val(mat.categories).change();
+                }
+            });
 
             $(".modal-title").text("Edit Material");
             $("#materialModal").modal("show");
@@ -969,9 +972,10 @@ $(document).ready(function () {
         }
     });
 
-    function loadCategories() {
-        $.post("get/category_list.php", {}, function(data) {
+    function loadCategories(callback) {
+        $.post("get/category_list.php", { action: "fetch" }, function (data) {
             $("#cat_ids").html(data);
+            if (callback) callback();
         });
     }
 
