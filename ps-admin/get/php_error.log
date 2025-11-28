@@ -8,3 +8,8 @@ Stack trace:
 #0 C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php(94): mysqli_stmt_bind_param(false, 'ssidddddddiiiis', '2025-11-14', '2025-11-19', 1, 45, 2.52, 33.02, 10, 23.02, 10, 10, 1, 1, 7, 1, '')
 #1 {main}
   thrown in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php on line 94
+[28-Nov-2025 01:37:24 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`stma_printing`.`ps_orders`, CONSTRAINT `fk_orders_user` FOREIGN KEY (`user_id`) REFERENCES `ps_users` (`user_id`) ON DELETE CASCADE) in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php:96
+Stack trace:
+#0 C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php(96): mysqli_stmt_execute(Object(mysqli_stmt))
+#1 {main}
+  thrown in C:\xampp\htdocs\printshop\ps-admin\get\invoice-save.php on line 96

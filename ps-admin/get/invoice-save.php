@@ -4,6 +4,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/php_error.log');
+
+session_start();
+
 header('Content-Type: application/json');
 
 include('../db_function.php');
@@ -48,7 +51,7 @@ if ($dayOfWeek == 6) {
     $order_due = date('Y-m-d', strtotime($order_due . ' +1 day'));
 }
 
-$user_id = intval($data['user_id'] ?? 0);
+$user_id = intval($_SESSION['user_id'] ?? 0);
 $order_id = intval($data['order_id'] ?? 0);
 $client_id = intval($data['client_id'] ?? 0); // ✅ add this line
 $order_before_tax = floatval($data['order_before_tax'] ?? 0);

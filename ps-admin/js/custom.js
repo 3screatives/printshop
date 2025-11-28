@@ -772,7 +772,7 @@ $(document).ready(function () {
         });
 
         let orderData = {
-            user_id: 1,
+            // user_id: $('#user_id').val() || 0,
             order_id: $('#order_id').val() || 0,
             client_id: $('#client_id').val(),
             order_date: $('#order_today_date').val(),

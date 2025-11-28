@@ -116,8 +116,9 @@ $content = '
     <tr style="background-color:#f2f2f2;">
         <th width="8%" align="center"><b>Qty</b></th>
         <th width="18%"><b>Material</b></th>
-        <th width="44%"><b>Details</b></th>
+        <th width="34%"><b>Details</b></th>
         <th width="20%" align="center"><b>Size (W×H)</b></th>
+        <th width="10%" align="right"><b>Price ($)</b></th>
         <th width="10%" align="right"><b>Total ($)</b></th>
     </tr>
 ';
@@ -129,6 +130,7 @@ foreach ($order_items as $item) {
         <td>' . htmlspecialchars($item['mat_name']) . '</td>
         <td>' . htmlspecialchars($item['item_details']) . '</td>
         <td align="center">' . number_format($item['item_size_width'], 2) . ' × ' . number_format($item['item_size_height'], 2) . '</td>
+        <td align="right">$' . number_format($item['item_price'], 2) . '</td>
         <td align="right">$' . number_format($item['item_total'], 2) . '</td>
     </tr>';
 }
