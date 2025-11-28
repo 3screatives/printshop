@@ -222,7 +222,7 @@ $(document).ready(function () {
     // View Order Details
     $(document).on('click', '.view-order', function () {
         var orderID = $(this).data('order-id');
-        $(".download-pdf").attr("data-oid", orderID);
+        $(".download-pdf").data("oid", orderID);
         $.ajax({
             url: 'get/order.php',
             method: 'GET',
