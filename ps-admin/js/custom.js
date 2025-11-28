@@ -140,9 +140,7 @@ $(document).ready(function () {
         renderOrders(filtered);
     }
 
-    // ================================
-    // LIVE SEARCH & FILTERS
-    // ================================
+    // Search & filter live updates
     $(document).on('input', '#orderSearch', function () {
         applyFilters();
     });
@@ -157,66 +155,58 @@ $(document).ready(function () {
         loadOrders();
     });
 
-
-    // ================================
-    // TABLE STATUS CHANGE
-    // ================================
+    // Handle order status change ** UPDATE **
     $(document).on('change', '.order-status', function () {
         const $dropdown = $(this);
         const orderId = $dropdown.data('order-id');
         const newStatus = $dropdown.val();
-        const oldStatus = $dropdown.data('prev-status') ?? null;
+        const oldStatus = $dropdown.data('prev-status') ?? $dropdown.data('old-status') ?? null;
 
         $dropdown.data('prev-status', newStatus);
-
-        updateOrderStatus(orderId, newStatus, $dropdown);
-    });
-
-
-    // ================================
-    // UPDATE FUNCTION
-    // ================================
-    function updateOrderStatus(orderId, newStatus, $dropdown) {
-        const oldStatus = $dropdown.data('prev-status') ?? null;
 
         $.ajax({
             url: 'get/update_order_status.php',
             method: 'POST',
             data: { order_id: orderId, status_id: newStatus },
             dataType: 'json',
-
             success: function (res) {
+                console.log(res.success);
                 if (res.success) {
-                    // Update in-memory orders list
-                    const idx = allOrders.findIndex(o => o.order_id == orderId);
-                    if (idx !== -1) allOrders[idx].status_id = newStatus;
+                    showUndoBanner(orderId, newStatus, oldStatus, $dropdown);
 
-                    // Re-render table
-                    applyFilters();
-                    console.log();
+                    // const $mainDropdown = $(`.order-status[data-order-id="${orderId}"]`).not($dropdown);
+                    // if ($mainDropdown.length) {
+                    //     $mainDropdown.val(newStatus);
+                    //     $mainDropdown.data('prev-status', newStatus);
+                    // }
+                    const $allDropdowns = $(`.order-status[data-order-id="${orderId}"]`);
+                    $allDropdowns.each(function () {
+                        $(this).val(newStatus);
+                        $(this).data('prev-status', newStatus);
+                        applySelectColor($(this));
+                    });
 
-                    // Sync table dropdowns
-                    const $tableDropdowns = $(`.order-status[data-order-id="${orderId}"]`);
-                    $tableDropdowns.val(newStatus).data('prev-status', newStatus);
-
-                    showUndoBanner();
+                    loadOrders();
                 } else {
-                    alert("Failed to update status. Reverting.");
-                    if (oldStatus !== null) $dropdown.val(oldStatus);
+                    alert('Failed to update order status on server. Reverting UI.');
+                    if (oldStatus !== null) {
+                        $dropdown.val(oldStatus);
+                        $dropdown.data('prev-status', oldStatus);
+                    }
                 }
             },
-
-            error: function () {
-                alert("Error updating status. Reverting.");
-                if (oldStatus !== null) $dropdown.val(oldStatus);
+            error: function (xhr, status, err) {
+                alert('Error updating order status. Reverting UI.');
+                if (oldStatus !== null) {
+                    $dropdown.val(oldStatus);
+                    $dropdown.data('prev-status', oldStatus);
+                }
             }
         });
-    }
+    });
+    // CLose - Handle order Status change
 
-
-    // ================================
-    // SHOW SUCCESS BANNER
-    // ================================
+    // Show undo banner
     function showUndoBanner() {
         $('.undo-banner').remove();
 
@@ -236,68 +226,66 @@ $(document).ready(function () {
             $banner.fadeOut(300, function () { $(this).remove(); });
         }, 3000);
     }
+    // Close - Show undo banner
 
-
-    // ================================
-    // VIEW ORDER DETAILS
-    // ================================
+    // View Order Details
     $(document).on('click', '.view-order', function () {
-        const orderID = $(this).data('order-id');
+        var orderID = $(this).data('order-id');
         $(".download-pdf").data("oid", orderID);
-
         $.ajax({
             url: 'get/order.php',
             method: 'GET',
             data: { order_id: orderID },
             dataType: 'json',
-
             success: function (response) {
-                if (!response.order) {
-                    alert(response.error || 'Something went wrong');
-                    return;
-                }
+                if (response.order) {
+                    const o = response.order;
+                    $('.edit-order').data('order-id', o.order_id);
+                    $('#orderID').text(o.order_id);
+                    $('#orderDue').text(o.order_due);
 
-                const o = response.order;
+                    $('.order-details').show();
 
-                // Set general info
-                $('.edit-order').attr('data-order-id', o.order_id);
-                $('#orderID').text(o.order_id);
-                $('#orderDue').text(o.order_due);
-                $('.order-details').show();
+                    $('#business_name').text(o.business_name);
+                    $('#business_address').text(o.business_address);
+                    $('#client_name').text(o.client_name);
+                    $('#client_phone').text(o.client_phone);
+                    $('#client_email').text(o.client_email);
 
-                $('#business_name').text(o.business_name);
-                $('#business_address').text(o.business_address);
-                $('#client_name').text(o.client_name);
-                $('#client_phone').text(o.client_phone);
-                $('#client_email').text(o.client_email);
+                    const $statusSelect = $('#order_status_select');
+                    $statusSelect.data('order-id', o.order_id);
+                    $statusSelect.empty();
 
-                // Payment method
-                const paymentText = {
-                    1: 'Credit/Debit Card',
-                    2: 'Cash',
-                    3: 'Account'
-                }[o.payment_type] || '—';
-                $('#payment_method').text(paymentText);
+                    statusOptions.forEach(status => {
+                        const selected = String(status.status_id) === String(o.status_id) ? "selected" : "";
+                        $statusSelect.append(`<option value="${status.status_id}" ${selected}>${status.status_name}</option>`);
+                    });
 
-                // Totals
-                $('#order_sub_total').text('$' + o.before_tax);
-                $('#order_t_tax').text('$' + o.tax);
-                $('#order_t_total').text('$' + o.after_tax);
-                $('#order_t_credits').text('$' + (o.credits || '0.00'));
-                $('#order_t_discount').text((o.discount || '0') + '%');
-                $('#order_t_rush').text('$' + (o.rush || '0'));
-                $('#order_t_amount_paid').text('$' + o.paid);
-                $('#order_t_amount_due').text('$' + o.due);
-                $('#order_t_comments').html((o.comment || '').replace(/\n/g, '<br>'));
+                    // $('#payment_method').text(o.payment_type);
+                    let paymentText = {
+                        1: 'Credit/Debit Card',
+                        2: 'Cash',
+                        3: 'Account'
+                    }[o.payment_type] || '—';
 
-                $('#stmaID').text(o.stmaID || '-');
-                $('#taxExID').text(o.taxExID || '-');
+                    $('#payment_method').text(paymentText);
 
-                // Items
-                let rows = '';
-                response.items.forEach(item => {
-                    rows += `
-                    <tr>
+                    $('#order_sub_total').text('$' + o.before_tax);
+                    $('#order_t_tax').text('$' + o.tax);
+                    $('#order_t_total').text('$' + o.after_tax);
+                    $('#order_t_credits').text('$' + (o.credits || '0.00'));
+                    $('#order_t_discount').text((o.discount || '0') + '%');
+                    $('#order_t_rush').text('$' + (o.rush || '0'));
+                    $('#order_t_amount_paid').text('$' + o.paid);
+                    $('#order_t_amount_due').text('$' + o.due);
+                    $('#order_t_comments').html((o.comment || '').replace(/\n/g, '<br>'));
+
+                    $('#stmaID').text(o.stmaID ? o.stmaID : '-');
+                    $('#taxExID').text(o.taxExID ? o.taxExID : '-');
+
+                    let rows = "";
+                    response.items.forEach(item => {
+                        rows += `<tr>
                         <td class="text-center">${item.quantity}</td>
                         <td>${item.material}</td>
                         <td>${item.details}</td>
@@ -305,41 +293,17 @@ $(document).ready(function () {
                         <td class="text-end">$${item.price}</td>
                         <td class="text-end">$${item.total}</td>
                     </tr>`;
-                });
-                $('#order_items tbody').html(rows);
-
-                // ================================
-                // MODAL STATUS SELECT
-                // ================================
-                const $statusSelect = $('#order_status_select');
-
-                // Remove previous event listeners
-                $statusSelect.off('change');
-
-                // Set correct order ID
-                $statusSelect.attr('data-order-id', o.order_id);
-                $statusSelect.removeClass('order-status').addClass('modal-order-status');
-                $statusSelect.empty();
-
-                // Populate dropdown
-                statusOptions.forEach(status => {
-                    const selected = String(status.status_id) === String(o.status_id) ? "selected" : "";
-                    $statusSelect.append(`<option value="${status.status_id}" ${selected}>${status.status_name}</option>`);
-                });
-
-                // Rebind change event to update only this order
-                $statusSelect.on('change', function () {
-                    updateOrderStatus(o.order_id, $(this).val(), $(this));
-                });
-
+                    });
+                    $('#order_items tbody').html(rows);
+                } else {
+                    alert(response.error || 'Something went wrong');
+                }
             },
-
             error: function () {
                 alert('Failed to load order');
             }
         });
     });
-
 
     $('.close').on('click', function () {
         $('.order-details').hide();
