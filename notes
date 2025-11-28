@@ -1,1 +1,5 @@
-- pdf generate same order detalis without refresh, need fixing...
+- username in all pages, not showing
+- checkboxes for individual items within order list to check if items are designed/printed/paid.
+- fix tax calculation, ((subtotal-discount)+rush - credits) => $tax
+- view order -> update status, doesnt change color > select ** WORKING **
+- edit/add invoice, ask if changes has been made save/discard
