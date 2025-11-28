@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2025 at 02:27 PM
+-- Generation Time: Nov 28, 2025 at 01:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -100,7 +100,8 @@ INSERT INTO `ps_materials` (`mat_id`, `mat_vendor`, `mat_name`, `mat_details`, `
 (16, 'Grimco', 'Aluminum', 'MM843MWDP - MAXMETAL™ 4\' x 8\', White DP, EACH', 48, 96, 1152, 48.910000, 0.003400, '2025-10-11'),
 (17, 'Grimco', 'Acrylic - Clear', 'CC4896316C - Duratex Cast Acrylic 48\" x 96\", Clear, 3/16\"', 48, 96, 1152, 106.970000, 0.003400, '2025-10-11'),
 (18, 'Grimco', 'Acrylic - White', 'CC4896316W7328 - Duratex Cast Acrylic 48\" x 96\", White 7328, 3/16\"', 48, 96, 1152, 113.680000, 0.003400, '2025-10-11'),
-(19, 'Lexjet', 'Polyester', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 0.003400, '2025-10-11');
+(19, 'Lexjet', 'Polyester', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 0.003400, '2025-10-11'),
+(20, 'Home', 'Test Material', 'Nothing', 54, 100, 1200, 100.000000, 0.100000, '2025-11-27');
 
 -- --------------------------------------------------------
 
@@ -171,7 +172,10 @@ INSERT INTO `ps_material_categories_map` (`id`, `mat_id`, `cat_id`) VALUES
 (17, 18, 9),
 (18, 19, 2),
 (19, 12, 6),
-(20, 13, 6);
+(20, 13, 6),
+(21, 20, 2),
+(22, 20, 5),
+(23, 20, 4);
 
 -- --------------------------------------------------------
 
@@ -209,7 +213,8 @@ INSERT INTO `ps_orders` (`order_id`, `order_date`, `order_due`, `user_id`, `orde
 (24, '2025-11-12', '2025-11-17', 1, 33.00, 2.72, 35.72, 0.00, 35.72, NULL, NULL, 1, 1, 7, 9, 'Testing\nNew\nSomething'),
 (25, '2025-11-12', '2025-11-17', 1, 29.00, 2.39, 31.39, 0.00, 31.39, 0.00, 0.00, 1, 3, 11, 1, '• Re-design/Fix sizes\n• testing bullets'),
 (26, '2025-11-12', '2025-11-17', 1, 563.00, 46.45, 609.45, 0.00, 609.45, 0.00, 0.00, 1, 1, 12, 7, '- Designs have been made and sent to contact\n- check DB change'),
-(31, '2025-11-12', '2025-11-17', 1, 24.00, 1.98, 25.98, 25.98, 0.00, 0.00, 0.00, 1, 1, 14, 1, '- Designs have been sent\n• designed, approved 11/25\n• status changing');
+(31, '2025-11-12', '2025-11-17', 1, 24.00, 1.98, 25.98, 25.98, 0.00, 0.00, 0.00, 1, 1, 14, 1, '- Designs have been sent\n• designed, approved 11/25\n• status changing'),
+(35, '2025-11-28', '2025-12-03', 1, 83.00, 0.00, 83.00, 0.00, 83.00, 0.00, 0.00, 1, 1, 7, 5, '• Comments\n• Check update');
 
 -- --------------------------------------------------------
 
@@ -250,7 +255,8 @@ INSERT INTO `ps_order_items` (`item_id`, `order_id`, `material_id`, `item_detail
 (48, 26, 1, 'Text, 1 sign per item: Beer, Wine, Soda, Lotto, Snack, Fountain Drinks, Coffee, Slushy', 8, 55.00, 10.00, 0, 27.00, 216.00),
 (49, 26, 1, 'No Back Pack Signs', 10, 8.00, 11.00, 0, 6.00, 60.00),
 (50, 26, 6, '1 Per Combo', 4, 6.00, 24.00, 0, 5.00, 20.00),
-(51, 31, 16, 'Drive Thru Sign', 1, 18.00, 18.00, 0, 6.00, 24.00);
+(51, 31, 16, 'Drive Thru Sign', 1, 18.00, 18.00, 0, 6.00, 24.00),
+(52, 35, 1, '', 1, 96.00, 48.00, 0, 83.00, 83.00);
 
 -- --------------------------------------------------------
 
@@ -382,7 +388,7 @@ ALTER TABLE `ps_clients`
 -- AUTO_INCREMENT for table `ps_materials`
 --
 ALTER TABLE `ps_materials`
-  MODIFY `mat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `mat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `ps_material_categories`
@@ -394,19 +400,19 @@ ALTER TABLE `ps_material_categories`
 -- AUTO_INCREMENT for table `ps_material_categories_map`
 --
 ALTER TABLE `ps_material_categories_map`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `ps_orders`
 --
 ALTER TABLE `ps_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `ps_order_items`
 --
 ALTER TABLE `ps_order_items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `ps_status`
