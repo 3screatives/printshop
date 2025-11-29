@@ -170,15 +170,9 @@ $(document).ready(function () {
             data: { order_id: orderId, status_id: newStatus },
             dataType: 'json',
             success: function (res) {
-                console.log(res.success);
                 if (res.success) {
                     showUndoBanner(orderId, newStatus, oldStatus, $dropdown);
 
-                    // const $mainDropdown = $(`.order-status[data-order-id="${orderId}"]`).not($dropdown);
-                    // if ($mainDropdown.length) {
-                    //     $mainDropdown.val(newStatus);
-                    //     $mainDropdown.data('prev-status', newStatus);
-                    // }
                     const $allDropdowns = $(`.order-status[data-order-id="${orderId}"]`);
                     $allDropdowns.each(function () {
                         $(this).val(newStatus);
@@ -314,11 +308,22 @@ $(document).ready(function () {
     const todayDate = new Date().toISOString().split('T')[0];
     $('#order_today_date').val(todayDate);
 
+    let formChanged = false;
+    // Detect any change inside the form
+    $(document).on("input change", ".create-order form :input", function () {
+        formChanged = true;
+    });
+
     $(document).on('click', '#newOrder', function () {
         $('.create-order').show();
     });
 
     $('.close').on('click', function () {
+        if (formChanged) {
+            const confirmClose = confirm("You have unsaved changes. If you close, all data will be lost. Continue?");
+            if (!confirmClose) return; // User cancelled — DO NOT CLOSE
+        }
+
         $('.create-order').hide();
 
         const $form = $('.create-order form');
@@ -345,8 +350,9 @@ $(document).ready(function () {
         }
         count = 0;
         $('.create-order h5').text('New Order');
-        // $('#submitOrder').text('Submit Invoice').data('order-id', o.order_id);
         $('#submitOrder').text('Submit Invoice').removeData('order-id');
+
+        formChanged = false;
     });
 
     $(document).on('click', '.edit-order', function () {
@@ -808,6 +814,8 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.status === 'success') {
                     alert(response.message);
+
+                    formChanged = false;
 
                     // Reset form if new order, or just reload if edit
                     if (orderData.order_id === 0) {
