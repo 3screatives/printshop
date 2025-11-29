@@ -155,7 +155,7 @@ $(document).ready(function () {
         loadOrders();
     });
 
-    // Handle order status change
+    // Handle order status change ** UPDATE **
     $(document).on('change', '.order-status', function () {
         const $dropdown = $(this);
         const orderId = $dropdown.data('order-id');
@@ -170,14 +170,18 @@ $(document).ready(function () {
             data: { order_id: orderId, status_id: newStatus },
             dataType: 'json',
             success: function (res) {
+                console.log(res.success);
                 if (res.success) {
                     showUndoBanner(orderId, newStatus, oldStatus, $dropdown);
 
-                    const $mainDropdown = $(`.order-status[data-order-id="${orderId}"]`).not($dropdown);
-                    if ($mainDropdown.length) {
-                        $mainDropdown.val(newStatus);
-                        $mainDropdown.data('prev-status', newStatus);
-                    }
+                    const $allDropdowns = $(`.order-status[data-order-id="${orderId}"]`);
+                    $allDropdowns.each(function () {
+                        $(this).val(newStatus);
+                        $(this).data('prev-status', newStatus);
+                        applySelectColor($(this));
+                    });
+
+                    loadOrders();
                 } else {
                     alert('Failed to update order status on server. Reverting UI.');
                     if (oldStatus !== null) {
@@ -231,7 +235,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.order) {
                     const o = response.order;
-                    $('.edit-order').attr('data-order-id', o.order_id);
+                    $('.edit-order').data('order-id', o.order_id);
                     $('#orderID').text(o.order_id);
                     $('#orderDue').text(o.order_due);
 
@@ -244,7 +248,7 @@ $(document).ready(function () {
                     $('#client_email').text(o.client_email);
 
                     const $statusSelect = $('#order_status_select');
-                    $statusSelect.attr('data-order-id', o.order_id);
+                    $statusSelect.data('order-id', o.order_id);
                     $statusSelect.empty();
 
                     statusOptions.forEach(status => {
@@ -979,10 +983,10 @@ $(document).ready(function () {
         });
     }
 
-    document.getElementById("o_comments").addEventListener("keydown", function(e) {
+    document.getElementById("o_comments").addEventListener("keydown", function (e) {
         if (e.key === "Enter") {
             e.preventDefault(); // stop normal Enter behavior
-            
+
             let textarea = this;
             let cursorPos = textarea.selectionStart;
             let value = textarea.value;
@@ -998,7 +1002,7 @@ $(document).ready(function () {
     });
 
     // Add a bullet automatically if textarea is empty
-    document.getElementById("o_comments").addEventListener("focus", function() {
+    document.getElementById("o_comments").addEventListener("focus", function () {
         if (this.value.trim() === "") {
             this.value = "• ";
         }
