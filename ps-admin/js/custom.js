@@ -155,7 +155,7 @@ $(document).ready(function () {
         loadOrders();
     });
 
-    // Handle order status change ** UPDATE **
+    // Handle order status change
     $(document).on('change', '.order-status', function () {
         const $dropdown = $(this);
         const orderId = $dropdown.data('order-id');
@@ -173,14 +173,11 @@ $(document).ready(function () {
                 if (res.success) {
                     showUndoBanner(orderId, newStatus, oldStatus, $dropdown);
 
-                    const $allDropdowns = $(`.order-status[data-order-id="${orderId}"]`);
-                    $allDropdowns.each(function () {
-                        $(this).val(newStatus);
-                        $(this).data('prev-status', newStatus);
-                        applySelectColor($(this));
-                    });
-
-                    loadOrders();
+                    const $mainDropdown = $(`.order-status[data-order-id="${orderId}"]`).not($dropdown);
+                    if ($mainDropdown.length) {
+                        $mainDropdown.val(newStatus);
+                        $mainDropdown.data('prev-status', newStatus);
+                    }
                 } else {
                     alert('Failed to update order status on server. Reverting UI.');
                     if (oldStatus !== null) {
@@ -234,7 +231,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.order) {
                     const o = response.order;
-                    $('.edit-order').data('order-id', o.order_id);
+                    $('.edit-order').attr('data-order-id', o.order_id);
                     $('#orderID').text(o.order_id);
                     $('#orderDue').text(o.order_due);
 
@@ -247,7 +244,7 @@ $(document).ready(function () {
                     $('#client_email').text(o.client_email);
 
                     const $statusSelect = $('#order_status_select');
-                    $statusSelect.data('order-id', o.order_id);
+                    $statusSelect.attr('data-order-id', o.order_id);
                     $statusSelect.empty();
 
                     statusOptions.forEach(status => {
@@ -308,22 +305,11 @@ $(document).ready(function () {
     const todayDate = new Date().toISOString().split('T')[0];
     $('#order_today_date').val(todayDate);
 
-    let formChanged = false;
-    // Detect any change inside the form
-    $(document).on("input change", ".create-order form :input", function () {
-        formChanged = true;
-    });
-
     $(document).on('click', '#newOrder', function () {
         $('.create-order').show();
     });
 
     $('.close').on('click', function () {
-        if (formChanged) {
-            const confirmClose = confirm("You have unsaved changes. If you close, all data will be lost. Continue?");
-            if (!confirmClose) return; // User cancelled — DO NOT CLOSE
-        }
-
         $('.create-order').hide();
 
         const $form = $('.create-order form');
@@ -350,9 +336,8 @@ $(document).ready(function () {
         }
         count = 0;
         $('.create-order h5').text('New Order');
+        // $('#submitOrder').text('Submit Invoice').data('order-id', o.order_id);
         $('#submitOrder').text('Submit Invoice').removeData('order-id');
-
-        formChanged = false;
     });
 
     $(document).on('click', '.edit-order', function () {
@@ -815,8 +800,6 @@ $(document).ready(function () {
                 if (response.status === 'success') {
                     alert(response.message);
 
-                    formChanged = false;
-
                     // Reset form if new order, or just reload if edit
                     if (orderData.order_id === 0) {
                         $('#order_id').val(0);
@@ -996,10 +979,10 @@ $(document).ready(function () {
         });
     }
 
-    document.getElementById("o_comments").addEventListener("keydown", function (e) {
+    document.getElementById("o_comments").addEventListener("keydown", function(e) {
         if (e.key === "Enter") {
             e.preventDefault(); // stop normal Enter behavior
-
+            
             let textarea = this;
             let cursorPos = textarea.selectionStart;
             let value = textarea.value;
@@ -1015,7 +998,7 @@ $(document).ready(function () {
     });
 
     // Add a bullet automatically if textarea is empty
-    document.getElementById("o_comments").addEventListener("focus", function () {
+    document.getElementById("o_comments").addEventListener("focus", function() {
         if (this.value.trim() === "") {
             this.value = "• ";
         }
