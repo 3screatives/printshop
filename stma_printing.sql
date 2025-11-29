@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2025 at 01:55 AM
+-- Generation Time: Nov 29, 2025 at 08:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -210,11 +210,11 @@ INSERT INTO `ps_orders` (`order_id`, `order_date`, `order_due`, `user_id`, `orde
 (1, '2024-06-01', '2024-06-03', 1, 120.00, 10.80, 130.80, 100.00, 30.80, NULL, NULL, 1, 1, 1, 9, 'Rush order'),
 (2, '2024-06-05', '2024-06-07', 2, 300.00, 27.00, 327.00, 327.00, 0.00, NULL, NULL, 1, 2, 2, 9, 'Standard delivery'),
 (3, '2024-06-10', '2024-06-12', 1, 450.00, 40.50, 490.50, 490.50, 0.00, NULL, NULL, 1, 1, 3, 9, 'Client requested proof'),
-(24, '2025-11-12', '2025-11-17', 1, 33.00, 2.72, 35.72, 0.00, 35.72, NULL, NULL, 1, 1, 7, 9, 'Testing\nNew\nSomething'),
-(25, '2025-11-12', '2025-11-17', 1, 29.00, 2.39, 31.39, 0.00, 31.39, 0.00, 0.00, 1, 3, 11, 1, '• Re-design/Fix sizes\n• testing bullets'),
-(26, '2025-11-12', '2025-11-17', 1, 563.00, 46.45, 609.45, 0.00, 609.45, 0.00, 0.00, 1, 1, 12, 7, '- Designs have been made and sent to contact\n- check DB change'),
-(31, '2025-11-12', '2025-11-17', 1, 24.00, 1.98, 25.98, 25.98, 0.00, 0.00, 0.00, 1, 1, 14, 1, '- Designs have been sent\n• designed, approved 11/25\n• status changing'),
-(35, '2025-11-28', '2025-12-03', 1, 83.00, 0.00, 83.00, 0.00, 83.00, 0.00, 0.00, 1, 1, 7, 5, '• Comments\n• Check update');
+(24, '2025-11-12', '2025-11-17', 1, 33.00, 2.72, 35.72, 0.00, 35.72, NULL, NULL, 1, 1, 7, 7, 'Testing\nNew\nSomething'),
+(25, '2025-11-12', '2025-11-17', 1, 29.00, 2.39, 31.39, 0.00, 31.39, 0.00, 0.00, 1, 3, 11, 8, '• Re-design/Fix sizes\n• testing bullets'),
+(26, '2025-11-12', '2025-11-17', 1, 563.00, 46.45, 609.45, 0.00, 609.45, 0.00, 0.00, 1, 1, 12, 8, '- Designs have been made and sent to contact\n- check DB change'),
+(31, '2025-11-12', '2025-11-17', 1, 24.00, 1.98, 25.98, 25.98, 0.00, 0.00, 0.00, 1, 1, 14, 9, '- Designs have been sent\n• designed, approved 11/25\n• status changing'),
+(35, '2025-11-28', '2025-12-03', 1, 83.00, 0.00, 83.00, 0.00, 83.00, 0.00, 0.00, 1, 1, 7, 4, '• Comments\n• Check update');
 
 -- --------------------------------------------------------
 
@@ -232,31 +232,33 @@ CREATE TABLE `ps_order_items` (
   `item_size_height` decimal(10,2) DEFAULT NULL,
   `item_grommets` tinyint(1) DEFAULT 0,
   `item_price` decimal(10,2) NOT NULL,
-  `item_total` decimal(10,2) NOT NULL
+  `item_total` decimal(10,2) NOT NULL,
+  `item_is_design` tinyint(1) NOT NULL DEFAULT 0,
+  `item_is_printed` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ps_order_items`
 --
 
-INSERT INTO `ps_order_items` (`item_id`, `order_id`, `material_id`, `item_details`, `item_quantity`, `item_size_width`, `item_size_height`, `item_grommets`, `item_price`, `item_total`) VALUES
-(1, 1, 1, 'Poster Print 24x36', 2, 24.00, 36.00, 0, 60.00, 120.00),
-(2, 2, 2, 'Banner 48x72 with grommets', 1, 48.00, 72.00, 1, 300.00, 300.00),
-(3, 3, 3, 'Vinyl decal set', 3, 12.00, 12.00, 0, 150.00, 450.00),
-(39, 24, 16, 'Sign', 1, 24.00, 36.00, 0, 14.00, 14.00),
-(40, 24, 1, 'Sticker', 1, 24.00, 36.00, 0, 19.00, 19.00),
-(41, 25, 1, 'Labels/Stickers', 1, 54.00, 54.00, 0, 29.00, 29.00),
-(42, 26, 1, 'Pizza Slice, Fountain Drink, $4.99', 1, 24.00, 36.00, 0, 19.00, 19.00),
-(43, 26, 1, 'Wings, Fries, Fountain Drink, $9.99', 1, 24.00, 36.00, 0, 19.00, 19.00),
-(44, 26, 1, 'Hunt Brothers Whole Cheese Pizza, $8.99', 1, 55.00, 45.00, 0, 47.00, 47.00),
-(45, 26, 1, 'Hunt Brothers Whole Pepperoni Pizza, $11.99', 1, 56.00, 45.00, 0, 48.00, 48.00),
-(46, 26, 1, 'Corn Dog, Burrito, Egg Roll, Fries (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00),
-(47, 26, 1, 'Egg & Cheese Sandwich, Hashbrowns, Coffee, $5.99 (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00),
-(48, 26, 1, 'Text, 1 sign per item: Beer, Wine, Soda, Lotto, Snack, Fountain Drinks, Coffee, Slushy', 8, 55.00, 10.00, 0, 27.00, 216.00),
-(49, 26, 1, 'No Back Pack Signs', 10, 8.00, 11.00, 0, 6.00, 60.00),
-(50, 26, 6, '1 Per Combo', 4, 6.00, 24.00, 0, 5.00, 20.00),
-(51, 31, 16, 'Drive Thru Sign', 1, 18.00, 18.00, 0, 6.00, 24.00),
-(52, 35, 1, '', 1, 96.00, 48.00, 0, 83.00, 83.00);
+INSERT INTO `ps_order_items` (`item_id`, `order_id`, `material_id`, `item_details`, `item_quantity`, `item_size_width`, `item_size_height`, `item_grommets`, `item_price`, `item_total`, `item_is_design`, `item_is_printed`) VALUES
+(1, 1, 1, 'Poster Print 24x36', 2, 24.00, 36.00, 0, 60.00, 120.00, 0, 0),
+(2, 2, 2, 'Banner 48x72 with grommets', 1, 48.00, 72.00, 1, 300.00, 300.00, 0, 0),
+(3, 3, 3, 'Vinyl decal set', 3, 12.00, 12.00, 0, 150.00, 450.00, 0, 0),
+(39, 24, 16, 'Sign', 1, 24.00, 36.00, 0, 14.00, 14.00, 0, 0),
+(40, 24, 1, 'Sticker', 1, 24.00, 36.00, 0, 19.00, 19.00, 0, 0),
+(41, 25, 1, 'Labels/Stickers', 1, 54.00, 54.00, 0, 29.00, 29.00, 0, 0),
+(42, 26, 1, 'Pizza Slice, Fountain Drink, $4.99', 1, 24.00, 36.00, 0, 19.00, 19.00, 0, 0),
+(43, 26, 1, 'Wings, Fries, Fountain Drink, $9.99', 1, 24.00, 36.00, 0, 19.00, 19.00, 0, 0),
+(44, 26, 1, 'Hunt Brothers Whole Cheese Pizza, $8.99', 1, 55.00, 45.00, 0, 47.00, 47.00, 0, 0),
+(45, 26, 1, 'Hunt Brothers Whole Pepperoni Pizza, $11.99', 1, 56.00, 45.00, 0, 48.00, 48.00, 0, 0),
+(46, 26, 1, 'Corn Dog, Burrito, Egg Roll, Fries (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00, 0, 0),
+(47, 26, 1, 'Egg & Cheese Sandwich, Hashbrowns, Coffee, $5.99 (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00, 0, 0),
+(48, 26, 1, 'Text, 1 sign per item: Beer, Wine, Soda, Lotto, Snack, Fountain Drinks, Coffee, Slushy', 8, 55.00, 10.00, 0, 27.00, 216.00, 0, 0),
+(49, 26, 1, 'No Back Pack Signs', 10, 8.00, 11.00, 0, 6.00, 60.00, 0, 0),
+(50, 26, 6, '1 Per Combo', 4, 6.00, 24.00, 0, 5.00, 20.00, 0, 0),
+(51, 31, 16, 'Drive Thru Sign', 1, 18.00, 18.00, 0, 6.00, 24.00, 0, 0),
+(52, 35, 1, '', 1, 96.00, 48.00, 0, 83.00, 83.00, 0, 0);
 
 -- --------------------------------------------------------
 

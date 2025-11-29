@@ -39,6 +39,8 @@
                         <table class="table table-bordered" id="order_items">
                             <thead class="table-light">
                                 <tr>
+                                    <th>Design?</th>
+                                    <th>Printed?</th>
                                     <th width="6%" class="text-center">Qty</th>
                                     <th width="18%">Material</th>
                                     <th width="30%">Details</th>

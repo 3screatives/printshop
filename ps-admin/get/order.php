@@ -41,6 +41,8 @@ SELECT
     i.item_size_width,
     i.item_size_height,
     i.item_grommets,
+    i.item_is_design,
+    i.item_is_printed,
     i.item_price,
     i.item_total
 FROM ps_orders o
@@ -101,6 +103,8 @@ if (!empty($data)) {
                 "size_width" => number_format($row['item_size_width'], 2),
                 "size_height" => number_format($row['item_size_height'], 2),
                 "grommets" => $row['item_grommets'],
+                "is_design" => $row['item_is_design'],
+                "is_printed" => $row['item_is_printed'],
                 "price" => number_format($row['item_price'], 2),
                 "total" => number_format($row['item_total'], 2)
             ];

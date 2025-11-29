@@ -281,6 +281,8 @@ $(document).ready(function () {
                     let rows = "";
                     response.items.forEach(item => {
                         rows += `<tr>
+                        <td class="text-center"><input class="form-check-input" type="checkbox" name="item_is_design[]" ${item.is_design == 1 ? 'checked' : ''}></td>
+                        <td class="text-center"><input class="form-check-input" type="checkbox" name="item_is_printed[]" ${item.is_printed == 1 ? 'checked' : ''}></td>
                         <td class="text-center">${item.quantity}</td>
                         <td>${item.material}</td>
                         <td>${item.details}</td>
@@ -391,6 +393,8 @@ $(document).ready(function () {
 
                         const rowHtml = `
                         <tr class="itemRow" data-row="${id}">
+                        <td class="text-center"><input class="form-check-input" type="checkbox" name="item_is_design[]" ${item.is_design == 1 ? 'checked' : ''}></td>
+                        <td class="text-center"><input class="form-check-input" type="checkbox" name="item_is_printed[]" ${item.is_printed == 1 ? 'checked' : ''}></td>
                             <td class="position-relative">
                                 <div class="custom-dropdown">
                                     <input type="text" class="form-control form-control-sm mat-search"
@@ -448,6 +452,8 @@ $(document).ready(function () {
 
         let itemHtml = `
     <tr class="calculate itemRow" data-row="${rowId}">
+        <td class="text-center"><input class="form-check form-check-sm" type="checkbox" name="item_is_design[]"></td>
+        <td class="text-center"><input class="form-check form-check-sm" type="checkbox" name="item_is_printed[]"></td>
         <td class="position-relative">
             <div class="custom-dropdown">
                 <input type="text" class="form-control form-control-sm mat-search"
@@ -584,7 +590,7 @@ $(document).ready(function () {
 
     function calculateTotal() {
         let subtotal = 0;
-        let rush = 0
+        let rush = 0;
 
         // Sum all item totals
         $('input[name="order_item_total[]"]').each(function () {
@@ -596,39 +602,38 @@ $(document).ready(function () {
 
         let val = parseInt($('#process_time').val()) || 1;
         if (val === 2) rush = 0.3;
-        // else if (val === 3) rush = 0.4;
+
         let rushVal = subtotal * rush;
         if (rush > 0 && rushVal < 15) rushVal = 15;
-
         $('#o_rush').val(rushVal.toFixed(2));
 
-        // Apply discount first
+        // Discount + credits
         let discountPercent = parseFloat($('#o_discount').val()) || 0;
         let creditAmount = parseFloat($('#o_credits').val()) || 0;
         let discountAmount = subtotal * (discountPercent / 100);
-        let subtotalAfterDiscount = subtotal - discountAmount - creditAmount;
 
-        // Calculate tax on discounted subtotal
-        let isExempt = $('#taxEx').val().trim() === "1";  // 1 = exempt, 0 = taxable
+        // ((subtotal - discount) + rush) - credits
+        let taxableBase = (subtotal - discountAmount + rushVal) - creditAmount;
+
+        if (taxableBase < 0) taxableBase = 0; // prevent negative tax base
+
+        let isExempt = $('#taxEx').val().trim() === "1";
         let tax = 0;
 
         if (!isExempt) {
-            tax = subtotalAfterDiscount * 0.0825; // 8.25% tax
-            if (tax <= 0) tax = 0;
-            $('#o_tax').val(tax.toFixed(2));  // apply tax
+            tax = taxableBase * 0.0825;
+            $('#o_tax').val(tax.toFixed(2));
         } else {
-            $('#o_tax').val('0.00');          // no tax
+            $('#o_tax').val('0.00');
         }
 
         // Calculate total
-        let total = subtotalAfterDiscount + rushVal + tax;
-
+        let total = taxableBase + tax;
         $('#o_total').val(total.toFixed(2));
 
         // Calculate due
         let paid = parseFloat($('#o_paid').val()) || 0;
         let due = total - paid;
-        if (total <= 0) total = 0;
 
         $('#o_due').val(due.toFixed(2));
     }
