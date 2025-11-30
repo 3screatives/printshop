@@ -11,6 +11,7 @@
     --color-border: #ebebeb;
     --color-overlay: rgba(0, 0, 0, 0.8);
     --color-red: #ad2828;
+    --color-green: #28a745;
 }
 
 *,
@@ -403,4 +404,15 @@ textarea {
 
 td {
     word-wrap: break-word
+}
+
+tr.design td {
+    color: var(--color-green);
+}
+tr.print td {
+    color: var(--color-blue);
+}
+tr.done td {
+    color: var(--color-blue);
+    text-decoration: line-through;
 }

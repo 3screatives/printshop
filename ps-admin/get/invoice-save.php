@@ -150,16 +150,19 @@ foreach ($items as $item) {
     $item_price = floatval($item['item_price'] ?? 0);
     $item_total = floatval($item['item_total'] ?? 0);
 
+    $item_is_design  = intval($item['item_is_design'] ?? 0);
+    $item_is_printed = intval($item['item_is_printed'] ?? 0);
+
     if ($item_id > 0) {
         // Update existing item
         $sql_item_update = "UPDATE ps_order_items 
                             SET material_id=?, item_details=?, item_quantity=?, item_size_width=?, 
-                                item_size_height=?, item_price=?, item_total=? 
+                                item_size_height=?, item_price=?, item_total=?, item_is_design=?, item_is_printed=? 
                             WHERE item_id=?";
         $stmt = mysqli_prepare($conn, $sql_item_update);
         mysqli_stmt_bind_param(
             $stmt,
-            "isiddddi",
+            "isiddddiii",
             $material_id,
             $item_details,
             $item_quantity,
@@ -167,6 +170,8 @@ foreach ($items as $item) {
             $item_size_height,
             $item_price,
             $item_total,
+            $item_is_design,
+            $item_is_printed,
             $item_id
         );
         mysqli_stmt_execute($stmt);
@@ -175,12 +180,12 @@ foreach ($items as $item) {
         // Insert new item
         $sql_item_insert = "INSERT INTO ps_order_items (
             order_id, material_id, item_details, item_quantity, item_size_width,
-            item_size_height, item_price, item_total
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            item_size_height, item_price, item_total, item_is_design, item_is_printed
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($conn, $sql_item_insert);
         mysqli_stmt_bind_param(
             $stmt,
-            "iisiiddd",
+            "iisiidddii",
             $order_id,
             $material_id,
             $item_details,
@@ -188,7 +193,9 @@ foreach ($items as $item) {
             $item_size_width,
             $item_size_height,
             $item_price,
-            $item_total
+            $item_total,
+            $item_is_design,
+            $item_is_printed
         );
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);

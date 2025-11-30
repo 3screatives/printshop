@@ -50,8 +50,8 @@
                             <table class="table table-bordered" id="orderItems">
                                 <thead class="table-light">
                                     <tr>
-                                        <th></th>
-                                        <th></th>
+                                        <th>Design</th>
+                                        <th>Printed</th>
                                         <th width="18%">Material</th>
                                         <th width="27%">Details</th>
                                         <th width="20%">Size (inches)</th>

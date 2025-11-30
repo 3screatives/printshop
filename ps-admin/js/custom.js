@@ -280,7 +280,15 @@ $(document).ready(function () {
 
                     let rows = "";
                     response.items.forEach(item => {
-                        rows += `<tr>
+                        let rowClass = "";
+                        if (item.is_design == 1 && item.is_printed == 1) {
+                            rowClass = "done";
+                        } else if (item.is_design == 1) {
+                            rowClass = "design";
+                        } else if (item.is_printed == 1) {
+                            rowClass = "print";
+                        }
+                        rows += `<tr class="${rowClass}">
                         <td class="text-center"><input class="form-check-input" type="checkbox" name="item_is_design[]" ${item.is_design == 1 ? 'checked' : ''}></td>
                         <td class="text-center"><input class="form-check-input" type="checkbox" name="item_is_printed[]" ${item.is_printed == 1 ? 'checked' : ''}></td>
                         <td class="text-center">${item.quantity}</td>
