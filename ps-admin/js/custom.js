@@ -288,7 +288,7 @@ $(document).ready(function () {
                         } else if (item.is_printed == 1) {
                             rowClass = "print";
                         }
-                        rows += `<tr class="${rowClass}">
+                        rows += `<tr class="${rowClass}" data-item-id="${item.item_id}">
                         <td class="text-center"><input class="form-check-input" type="checkbox" name="item_is_design[]" ${item.is_design == 1 ? 'checked' : ''}></td>
                         <td class="text-center"><input class="form-check-input" type="checkbox" name="item_is_printed[]" ${item.is_printed == 1 ? 'checked' : ''}></td>
                         <td class="text-center">${item.quantity}</td>
@@ -1019,6 +1019,51 @@ $(document).ready(function () {
         if (this.value.trim() === "") {
             this.value = "• ";
         }
+    });
+
+    // Delegate to tbody for dynamic rows
+    $('#order_items').on('change', 'input[name="item_is_design[]"], input[name="item_is_printed[]"]', function() {
+        const $row = $(this).closest('tr');
+        const index = $row.index(); // row index
+        const isDesign = $row.find('input[name="item_is_design[]"]').is(':checked') ? 1 : 0;
+        const isPrinted = $row.find('input[name="item_is_printed[]"]').is(':checked') ? 1 : 0;
+        
+        // Get item_id (assuming you have it stored as data attribute)
+        const itemId = $row.data('item-id');
+        const orderId = $('#orderID').text(); // current order id
+
+        if (!itemId) return; // safety
+
+        // Update DB via AJAX
+        $.ajax({
+            url: 'get/update_item.php',
+            method: 'POST',
+            data: {
+                item_id: itemId,
+                order_id: orderId,
+                item_is_design: isDesign,
+                item_is_printed: isPrinted
+            },
+            success: function(res) {
+                if(res.status === 'success') {
+                    // Update row class
+                    if(isDesign && isPrinted){
+                        $row.removeClass('design print').addClass('done');
+                    } else if(isDesign){
+                        $row.removeClass('done print').addClass('design');
+                    } else if(isPrinted){
+                        $row.removeClass('done design').addClass('print');
+                    } else {
+                        $row.removeClass('done design print');
+                    }
+                } else {
+                    alert('Failed to update item: ' + res.message);
+                }
+            },
+            error: function() {
+                alert('Error updating item.');
+            }
+        });
     });
 
 });
