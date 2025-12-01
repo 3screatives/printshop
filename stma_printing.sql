@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2025 at 08:17 PM
+-- Generation Time: Dec 01, 2025 at 04:38 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -245,20 +245,20 @@ INSERT INTO `ps_order_items` (`item_id`, `order_id`, `material_id`, `item_detail
 (1, 1, 1, 'Poster Print 24x36', 2, 24.00, 36.00, 0, 60.00, 120.00, 0, 0),
 (2, 2, 2, 'Banner 48x72 with grommets', 1, 48.00, 72.00, 1, 300.00, 300.00, 0, 0),
 (3, 3, 3, 'Vinyl decal set', 3, 12.00, 12.00, 0, 150.00, 450.00, 0, 0),
-(39, 24, 16, 'Sign', 1, 24.00, 36.00, 0, 14.00, 14.00, 0, 0),
+(39, 24, 16, 'Sign', 1, 24.00, 36.00, 0, 14.00, 14.00, 1, 0),
 (40, 24, 1, 'Sticker', 1, 24.00, 36.00, 0, 19.00, 19.00, 0, 0),
 (41, 25, 1, 'Labels/Stickers', 1, 54.00, 54.00, 0, 29.00, 29.00, 0, 0),
-(42, 26, 1, 'Pizza Slice, Fountain Drink, $4.99', 1, 24.00, 36.00, 0, 19.00, 19.00, 0, 0),
-(43, 26, 1, 'Wings, Fries, Fountain Drink, $9.99', 1, 24.00, 36.00, 0, 19.00, 19.00, 0, 0),
-(44, 26, 1, 'Hunt Brothers Whole Cheese Pizza, $8.99', 1, 55.00, 45.00, 0, 47.00, 47.00, 0, 0),
-(45, 26, 1, 'Hunt Brothers Whole Pepperoni Pizza, $11.99', 1, 56.00, 45.00, 0, 48.00, 48.00, 0, 0),
+(42, 26, 1, 'Pizza Slice, Fountain Drink, $4.99', 1, 24.00, 36.00, 0, 19.00, 19.00, 0, 1),
+(43, 26, 1, 'Wings, Fries, Fountain Drink, $9.99', 1, 24.00, 36.00, 0, 19.00, 19.00, 1, 1),
+(44, 26, 1, 'Hunt Brothers Whole Cheese Pizza, $8.99', 1, 55.00, 45.00, 0, 47.00, 47.00, 1, 1),
+(45, 26, 1, 'Hunt Brothers Whole Pepperoni Pizza, $11.99', 1, 56.00, 45.00, 0, 48.00, 48.00, 1, 0),
 (46, 26, 1, 'Corn Dog, Burrito, Egg Roll, Fries (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00, 0, 0),
-(47, 26, 1, 'Egg & Cheese Sandwich, Hashbrowns, Coffee, $5.99 (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00, 0, 0),
+(47, 26, 1, 'Egg & Cheese Sandwich, Hashbrowns, Coffee, $5.99 (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00, 1, 0),
 (48, 26, 1, 'Text, 1 sign per item: Beer, Wine, Soda, Lotto, Snack, Fountain Drinks, Coffee, Slushy', 8, 55.00, 10.00, 0, 27.00, 216.00, 0, 0),
-(49, 26, 1, 'No Back Pack Signs', 10, 8.00, 11.00, 0, 6.00, 60.00, 0, 0),
-(50, 26, 6, '1 Per Combo', 4, 6.00, 24.00, 0, 5.00, 20.00, 0, 0),
+(49, 26, 1, 'No Back Pack Signs', 10, 8.00, 11.00, 0, 6.00, 60.00, 1, 0),
+(50, 26, 6, '1 Per Combo', 4, 6.00, 24.00, 0, 5.00, 20.00, 1, 1),
 (51, 31, 16, 'Drive Thru Sign', 1, 18.00, 18.00, 0, 6.00, 24.00, 0, 0),
-(52, 35, 1, '', 1, 96.00, 48.00, 0, 83.00, 83.00, 0, 0);
+(52, 35, 1, '', 1, 96.00, 48.00, 0, 83.00, 83.00, 1, 1);
 
 -- --------------------------------------------------------
 
