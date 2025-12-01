@@ -124,12 +124,14 @@ $(document).ready(function () {
             const business = (o?.client_name || '').toLowerCase();
             const contact = (o?.contact_name || '').toLowerCase();
             const amount = (parseFloat(o?.order_after_tax || 0)).toFixed(2);
+            const material = (o?.materials || '').toLowerCase();
 
             const matchesSearch =
                 orderNum.includes(searchTerm) ||
                 business.includes(searchTerm) ||
                 contact.includes(searchTerm) ||
-                amount.includes(searchTerm);
+                amount.includes(searchTerm) ||
+                material.includes(searchTerm);
 
             const matchesStatus =
                 !selectedStatus || String(o?.status_id || '') === String(selectedStatus);
@@ -139,6 +141,7 @@ $(document).ready(function () {
 
         renderOrders(filtered);
     }
+
 
     // Search & filter live updates
     $(document).on('input', '#orderSearch', function () {
@@ -1022,12 +1025,12 @@ $(document).ready(function () {
     });
 
     // Delegate to tbody for dynamic rows
-    $('#order_items').on('change', 'input[name="item_is_design[]"], input[name="item_is_printed[]"]', function() {
+    $('#order_items').on('change', 'input[name="item_is_design[]"], input[name="item_is_printed[]"]', function () {
         const $row = $(this).closest('tr');
         const index = $row.index(); // row index
         const isDesign = $row.find('input[name="item_is_design[]"]').is(':checked') ? 1 : 0;
         const isPrinted = $row.find('input[name="item_is_printed[]"]').is(':checked') ? 1 : 0;
-        
+
         // Get item_id (assuming you have it stored as data attribute)
         const itemId = $row.data('item-id');
         const orderId = $('#orderID').text(); // current order id
@@ -1044,14 +1047,14 @@ $(document).ready(function () {
                 item_is_design: isDesign,
                 item_is_printed: isPrinted
             },
-            success: function(res) {
-                if(res.status === 'success') {
+            success: function (res) {
+                if (res.status === 'success') {
                     // Update row class
-                    if(isDesign && isPrinted){
+                    if (isDesign && isPrinted) {
                         $row.removeClass('design print').addClass('done');
-                    } else if(isDesign){
+                    } else if (isDesign) {
                         $row.removeClass('done print').addClass('design');
-                    } else if(isPrinted){
+                    } else if (isPrinted) {
                         $row.removeClass('done design').addClass('print');
                     } else {
                         $row.removeClass('done design print');
@@ -1060,7 +1063,7 @@ $(document).ready(function () {
                     alert('Failed to update item: ' + res.message);
                 }
             },
-            error: function() {
+            error: function () {
                 alert('Error updating item.');
             }
         });
