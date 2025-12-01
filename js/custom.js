@@ -12,7 +12,7 @@ $(window).scroll(function () {
 
 $(document).ready(function () {
     // Recalculate price when inputs change
-    $("#item_width, #item_height, #item_qty, #material_id, #process_time")
+    $("#item_width, #item_height, #item_qty, #material_id, #process_time, #item_grommets")
         .on("change input", calculateFrontPrice);
 
     calculateFrontPrice();
@@ -33,6 +33,7 @@ $(document).ready(function () {
         const itemWidth = parseFloat($('#item_width').val()) || 0;
         const itemHeight = parseFloat($('#item_height').val()) || 0;
         const itemQty = parseFloat($('#item_qty').val()) || 1;
+        const itemGrommets = parseFloat($('#item_grommets').val()) || 0;
 
         $.ajax({
             url: "ps-admin/get/material_price.php",
@@ -41,14 +42,17 @@ $(document).ready(function () {
                 material_id: matId,
                 details: itemDetails,
                 width: itemWidth,
-                height: itemHeight,
-                quantity: itemQty
+                height: itemHeight
+                // quantity: itemQty
             },
             dataType: "json",
             success: function (response) {
 
                 let unitPrice = parseFloat(response.final_cost) || 0;
                 let subtotal = unitPrice * itemQty;
+
+                let grommetCost = (itemGrommets === 1) ? (4 * itemQty) : 0;
+                subtotal += grommetCost;
 
                 // RUSH LOGIC
                 let val = parseInt($('#process_time').val()) || 1;
@@ -58,7 +62,7 @@ $(document).ready(function () {
                 let rushVal = subtotal * rush;
                 if (rush > 0 && rushVal < 15) rushVal = 15;
 
-                let finalTotal = subtotal + rushVal;
+                let finalTotal = subtotal + rushVal + itemGrommets;
 
                 // Update fields
                 $("#unit_price").val(unitPrice.toFixed(2));

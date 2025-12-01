@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $material_id     = intval($_POST['material_id']);
     $width           = floatval($_POST['width']);
     $height          = floatval($_POST['height']);
-    $quantity        = intval($_POST['quantity']);
+    // $quantity        = intval($_POST['quantity']);
     $sides           = $_POST['sides'] ?? "single";
     // $process_time   = intval($_POST['process_time']);
 
