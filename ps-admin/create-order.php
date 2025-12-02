@@ -50,15 +50,15 @@
                             <table class="table table-bordered" id="orderItems">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Design</th>
-                                        <th>Printed</th>
-                                        <th width="18%">Material</th>
-                                        <th width="27%">Details</th>
-                                        <th width="20%">Size (inches)</th>
+                                        <th width="6%">Design</th>
+                                        <th width="6%">Printed</th>
+                                        <th width="12%">Material</th>
+                                        <th width="26%">Details</th>
+                                        <th width="15%">Size (inches)</th>
                                         <th width="6%" class="text-center">Qty</th>
                                         <th width="12%">Price</th>
                                         <th width="12%">Total</th>
-                                        <th width="5%">Remove</th>
+                                        <th width="5%"></th>
                                     </tr>
                                 </thead>
                                 <tbody>

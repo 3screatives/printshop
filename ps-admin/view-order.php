@@ -39,14 +39,14 @@
                         <table class="table table-bordered" id="order_items">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Design</th>
-                                    <th>Printed</th>
-                                    <th width="6%" class="text-center">Qty</th>
-                                    <th width="18%">Material</th>
+                                    <th width="6%">Design</th>
+                                    <th width="6%">Printed</th>
+                                    <th width="4%" class="text-center">Qty</th>
+                                    <th width="14%">Material</th>
                                     <th width="30%">Details</th>
-                                    <th width="22%">Size (inches)</th>
-                                    <th width="12%">Price</th>
-                                    <th width="12%">Total</th>
+                                    <th width="20%">Size (inches)</th>
+                                    <th width="10%">Price</th>
+                                    <th width="10%">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
