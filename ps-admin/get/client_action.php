@@ -68,7 +68,7 @@ if ($action == 'save') {
                 <td>{$row['contact_email']}</td>
                 <td>{$row['tax_exempt_id']}</td> <!-- NEW COLUMN -->
                 <td>" . (!empty($row['client_since']) ? date('M d, Y', strtotime($row['client_since'])) : '-') . "</td>
-                <td>
+                <td class='text-center'>
                     <button class='btn btn-outline-primary btn-sm me-2 editClient' data-id='{$row['client_id']}'>
                         <span class='bi bi-pencil'></span>
                     </button>

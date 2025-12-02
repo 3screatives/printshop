@@ -114,7 +114,7 @@ if ($action == 'save') {
                 $row['mat_id']
             );
 
-            $catNames = implode(",</br>", array_column($cats, 'cat_name'));
+            $catNames = implode(", ", array_column($cats, 'cat_name'));
 
             echo "<tr>
                 <td>{$row['mat_id']}</td>
@@ -128,7 +128,7 @@ if ($action == 'save') {
                 <td>$" . $row['ink_cost'] . "</td>
                 <td>" . (!empty($row['mat_added_on']) ? date('M d, Y', strtotime($row['mat_added_on'])) : '-') . "</td>
                 <td>{$catNames}</td>
-                <td>
+                <td class='text-center'>
                     <button class='btn btn-outline-primary btn-sm me-2 editMaterial' data-id='{$row['mat_id']}'>
                         <span class='bi bi-pencil'></span>
                     </button>

@@ -8,9 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $material_id     = intval($_POST['material_id']);
     $width           = floatval($_POST['width']);
     $height          = floatval($_POST['height']);
-    // $quantity        = intval($_POST['quantity']);
     $sides           = $_POST['sides'] ?? "single";
-    // $process_time   = intval($_POST['process_time']);
 
     // ✅ Get material data using select_query()
     $sql = "SELECT mat_id, mat_vendor, mat_name, mat_details, mat_roll_size, mat_length, 

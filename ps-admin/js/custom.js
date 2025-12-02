@@ -59,6 +59,7 @@ $(document).ready(function () {
                     <td>${formattedDate}</td>
                     <td>${formattedDue}</td>
                     <td>${o.client_name ?? '—'} <i style="color: #999999;">(${o.contact_name})</i></td>
+                    <td>${o.contact_phone}</td>
                     <td>$${parseFloat(o.order_after_tax || 0).toFixed(2)}</td>
                     <td>${statusSelect}</td>
                     <td class="text-center">

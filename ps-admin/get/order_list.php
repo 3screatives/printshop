@@ -12,6 +12,7 @@ $sql = "
         o.order_after_tax,
         c.business_name AS client_name,
         c.contact_name AS contact_name,
+        c.contact_phone,
         s.status_name,
         s.status_id,
         GROUP_CONCAT(m.mat_name SEPARATOR ', ') AS materials

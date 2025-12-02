@@ -201,9 +201,12 @@ main {
     color: var(--color-black);
     vertical-align: middle !important;
 
-    white-space: normal;    /* allow wrapping */
-    overflow: visible;      /* allow text to expand */
-    text-overflow: unset;   /* disable ellipsis */
+    white-space: normal;
+    /* allow wrapping */
+    overflow: visible;
+    /* allow text to expand */
+    text-overflow: unset;
+    /* disable ellipsis */
 }
 
 .table td a {
@@ -416,9 +419,11 @@ td {
 tr.design td {
     color: var(--color-green);
 }
+
 tr.print td {
     color: var(--color-blue);
 }
+
 tr.done td {
     color: var(--color-blue);
     text-decoration: line-through;
