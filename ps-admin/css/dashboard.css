@@ -189,14 +189,21 @@ main {
     background-color: var(--color-lightGrey);
 }
 
+.table {
+    width: 100%;
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
 .table td {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     border-bottom: 1px solid var(--color-border);
     color: var(--color-black);
     vertical-align: middle !important;
-    white-space: nowrap;
-    /* overflow: hidden; */
-    text-overflow: ellipsis;
+
+    white-space: normal;    /* allow wrapping */
+    overflow: visible;      /* allow text to expand */
+    text-overflow: unset;   /* disable ellipsis */
 }
 
 .table td a {

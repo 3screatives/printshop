@@ -1,5 +1,4 @@
 - username in all pages, not showing
 - edit/add invoice, ask if changes has been made save/discard
 - Member Credit system
-- add material to applyFilters() > order_list.php > innerjoin
 - add date to comment box on each update.

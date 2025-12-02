@@ -114,7 +114,7 @@ if ($action == 'save') {
                 $row['mat_id']
             );
 
-            $catNames = implode(", ", array_column($cats, 'cat_name'));
+            $catNames = implode(",</br>", array_column($cats, 'cat_name'));
 
             echo "<tr>
                 <td>{$row['mat_id']}</td>
@@ -124,8 +124,8 @@ if ($action == 'save') {
                 <td>{$row['mat_roll_size']}</td>
                 <td>{$row['mat_length']}</td>
                 <td>{$row['mat_size']}</td>
-                <td>\${$row['mat_cost']}</td>
-                <td>\${$row['ink_cost']}</td>
+                <td>$" . round($row['mat_cost'], 2) . "</td>
+                <td>$" . $row['ink_cost'] . "</td>
                 <td>" . (!empty($row['mat_added_on']) ? date('M d, Y', strtotime($row['mat_added_on'])) : '-') . "</td>
                 <td>{$catNames}</td>
                 <td>

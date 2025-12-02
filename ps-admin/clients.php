@@ -51,7 +51,7 @@
                         </div>
                         <div class="d-flex align-items-center">
                             <div class="user me-3">
-                                Welcome,<b>&nbsp; Username</b>
+                                Welcome,<b>&nbsp; <?php echo htmlspecialchars($_SESSION['user_name']); ?></b>
                             </div>
                             <a href="#" id="newOrder" class="btn btn-primary btn-sm mx-1">
                                 <span class=" pe-2">
@@ -80,14 +80,14 @@
                         <table class="table" id="clientsTable">
                             <thead>
                                 <tr>
-                                    <th width="10%">C. ID</th>
-                                    <th width="10%">STMA ID</th>
-                                    <th width="10%">Name</th>
-                                    <th width="10%">Address</th>
-                                    <th width="10%">Name</th>
+                                    <th width="5%">C. ID</th>
+                                    <th width="5%">STMA ID</th>
+                                    <th width="12%">B. Name</th>
+                                    <th width="20%">Address</th>
+                                    <th width="10%">C. Name</th>
                                     <th width="10%">Phone</th>
                                     <th width="10%">E-Mail</th>
-                                    <th width="10%">Tax ID</th>
+                                    <th width="8%">Tax ID</th>
                                     <th width="10%">Since</th>
                                     <th width="10%" class="text-center">Action</th>
                                 </tr>
