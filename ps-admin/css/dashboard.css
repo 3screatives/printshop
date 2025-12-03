@@ -428,3 +428,7 @@ tr.done td {
     color: var(--color-blue);
     text-decoration: line-through;
 }
+
+.client-filter:hover {
+    text-decoration: underline;
+}

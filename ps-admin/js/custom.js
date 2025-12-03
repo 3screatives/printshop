@@ -58,7 +58,14 @@ $(document).ready(function () {
                     <td>PS#25-${o.order_id}</td>
                     <td>${formattedDate}</td>
                     <td>${formattedDue}</td>
-                    <td>${o.client_name ?? '—'} <i style="color: #999999;">(${o.contact_name})</i></td>
+                    <td>
+                        <span class="client-filter" 
+                            style="cursor:pointer;" 
+                            data-client="${o.client_name}">
+                            ${o.client_name ?? '—'}
+                        </span>
+                        <i style="color: #999999;">(${o.contact_name})</i>
+                    </td>
                     <td>${o.contact_phone}</td>
                     <td>$${parseFloat(o.order_after_tax || 0).toFixed(2)}</td>
                     <td>${statusSelect}</td>
@@ -82,6 +89,13 @@ $(document).ready(function () {
             applySelectColor($(this));
         });
     }
+
+    $(document).on('click', '.client-filter', function () {
+        const client = $(this).data('client') || '';
+        $('#orderSearch').val(client);
+
+        applyFilters();
+    });
 
     function applySelectColor(select) {
         const selectedOption = select.find(':selected');
