@@ -188,7 +188,6 @@ $(document).ready(function () {
             data: { order_id: orderId, status_id: newStatus },
             dataType: 'json',
             success: function (res) {
-                console.log(res.success);
                 if (res.success) {
                     showUndoBanner(orderId, newStatus, oldStatus, $dropdown);
 
@@ -295,6 +294,7 @@ $(document).ready(function () {
 
                     $('#stmaID').text(o.stmaID ? o.stmaID : '-');
                     $('#taxExID').text(o.taxExID ? o.taxExID : '-');
+                    $('#user_info').text(o.userName ? o.userName : '-')
 
                     let rows = "";
                     response.items.forEach(item => {

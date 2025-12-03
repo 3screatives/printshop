@@ -87,6 +87,7 @@ if (!empty($data)) {
         "payment_type" => $order['payment_type_id'],  // or map manually if you have a separate table later
         "stmaID" => $order['client_stma_id'],
         "taxExID" => $order['tax_exempt_id'],
+        "userName" => $order['user_name'],
     ];
 
     $response['items'] = [];

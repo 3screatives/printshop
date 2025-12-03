@@ -92,9 +92,18 @@
                         </table>
                     </div>
                 </div>
-                <div class="card-footer py-3">
-                    <span class="text-muted text-sm me-3">STMA ID: <b id="stmaID"></b></span>
-                    <span class="text-muted text-sm me-3">Tax Exempt ID: <b id="taxExID"></b></span>
+                <div class="card-footer py-3 d-flex">
+                    <span class="text-muted text-sm me-3">
+                        STMA ID: <b id="stmaID"></b>
+                    </span>
+                    <span class="text-muted text-sm me-3">
+                        Tax Exempt ID: <b id="taxExID"></b>
+                    </span>
+
+                    <span class="ms-auto">
+                        Posted By:
+                        <b id="user_info"></b>
+                    </span>
                 </div>
             </div>
         </div>
