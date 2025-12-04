@@ -88,17 +88,17 @@
                     </div>
                 </div>
                 <div class="data-record p-3">
-                    <table class="table" id="orderListMain">
+                    <table class="table table-hover" id="orderListMain">
                         <thead>
                             <tr>
-                                <th style="min-width: 116px;">Order #</th>
-                                <th style="min-width: 136px;">Order Date</th>
-                                <th style="min-width: 136px;">Order Due</th>
+                                <th width="116px">Order #</th>
+                                <th width="136px">Order Date</th>
+                                <th width="136px">Order Due</th>
                                 <th>Client Name</th>
-                                <th style="min-width: 164px;">Contact</th>
-                                <th style="min-width: 116px;">Amount</th>
-                                <th style="min-width: 164px;">Status</th>
-                                <th style="min-width: 164px;" class="text-center">Action</th>
+                                <th width="164px">Contact</th>
+                                <th width="116px">Amount</th>
+                                <th width="164px">Status</th>
+                                <th width="164px" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
