@@ -3,3 +3,4 @@
 - add date to comment box on each update.
 - fix pricing, add mat type to calculate accordingly
 - add h-frame to front-end website and cost is $3.00
+- on edit item status of printed and design, reset to null fix

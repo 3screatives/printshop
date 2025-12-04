@@ -29,12 +29,12 @@
                 <div class="mt-auto"></div>
                 <ul class="navbar-nav user-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="users/manage_users.php">
                             <i class="bi bi-person-square"></i>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="db/logout.php">
+                        <a class="nav-link" href="get/logout.php">
                             <i class="bi bi-box-arrow-left"></i>
                         </a>
                     </li>
