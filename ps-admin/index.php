@@ -91,14 +91,14 @@
                     <table class="table" id="orderListMain">
                         <thead>
                             <tr>
-                                <th width="10%">Order #</th>
-                                <th width="10%">Order Date</th>
-                                <th width="10%">Order Due</th>
-                                <th width="30%">Client Name</th>
-                                <th width="30%">Contact</th>
-                                <th width="10%">Amount</th>
-                                <th width="20%">Status</th>
-                                <th width="20%" class="text-center">Action</th>
+                                <th style="min-width: 116px;">Order #</th>
+                                <th style="min-width: 136px;">Order Date</th>
+                                <th style="min-width: 136px;">Order Due</th>
+                                <th>Client Name</th>
+                                <th style="min-width: 164px;">Contact</th>
+                                <th style="min-width: 116px;">Amount</th>
+                                <th style="min-width: 164px;">Status</th>
+                                <th style="min-width: 164px;" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>

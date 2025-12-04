@@ -429,6 +429,7 @@ tr.done td {
     text-decoration: line-through;
 }
 
-.client-filter:hover {
+.client-filter:hover,
+.copy-phone:hover {
     text-decoration: underline;
 }

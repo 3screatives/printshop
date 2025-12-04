@@ -16,6 +16,11 @@ $(document).ready(function () {
             alert('Failed to load status options');
         });
 
+    function formatUSPhone(phone) {
+        phone = phone.replace(/\D/g, "");
+        return phone.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+    }
+
     function renderOrders(orders) {
         let rows = '';
 
@@ -66,7 +71,7 @@ $(document).ready(function () {
                         </span>
                         <i style="color: #999999;">(${o.contact_name})</i>
                     </td>
-                    <td>${o.contact_phone}</td>
+                    <td class="copy-phone" data-phone="${o.contact_phone}" style="cursor:pointer;">${formatUSPhone(o.contact_phone)}</td>
                     <td>$${parseFloat(o.order_after_tax || 0).toFixed(2)}</td>
                     <td>${statusSelect}</td>
                     <td class="text-center">
@@ -89,6 +94,15 @@ $(document).ready(function () {
             applySelectColor($(this));
         });
     }
+
+    $(document).on("click", ".copy-phone", function () {
+        const rawPhone = $(this).data("phone"); // ensure digits only
+
+        navigator.clipboard.writeText(rawPhone).then(() => {
+            // console.log("Copied:", rawPhone);
+            showUndoBanner("Copied: " + rawPhone);
+        });
+    });
 
     $(document).on('click', '.client-filter', function () {
         const client = $(this).data('client') || '';
@@ -189,7 +203,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (res) {
                 if (res.success) {
-                    showUndoBanner(orderId, newStatus, oldStatus, $dropdown);
+                    showUndoBanner("Status Updated Successfully!");
 
                     const $allDropdowns = $(`.order-status[data-order-id="${orderId}"]`);
                     $allDropdowns.each(function () {
@@ -219,7 +233,7 @@ $(document).ready(function () {
     // CLose - Handle order Status change
 
     // Show undo banner
-    function showUndoBanner() {
+    function showUndoBanner(showText) {
         $('.undo-banner').remove();
 
         const $banner = $(`
@@ -228,7 +242,7 @@ $(document).ready(function () {
             background:#343a40; color:#fff; padding:6px 12px; border-radius:6px;
             box-shadow:0 6px 18px rgba(0,0,0,0.2); z-index:99999;
             display:flex; align-items:center; font-size:14px;">
-            <span>Status Updated Successfully!</span>
+            <span>${showText}</span>
         </div>
     `);
 

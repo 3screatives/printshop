@@ -73,24 +73,25 @@
                     </div>
                 </div>
                 <div class="search-bar p-3 border-bottom">
-                    <input type="text" class="form-control" name="" id="" placeholder="search order here...">
+                    <input type="text" class="form-control form-control-sm flex-grow-1" name="" id=""
+                        placeholder="search order here...">
                 </div>
                 <div class="data-record p-3">
                     <table class="table" id="materialsTable">
                         <thead>
                             <tr>
-                                <th width="4%">Mat #</th>
-                                <th width="6%">Vendor</th>
-                                <th width="10%">Name</th>
-                                <th width="22%">Details</th>
-                                <th width="5%">Roll Size</th>
-                                <th width="5%">Length</th>
-                                <th width="5%">Size</th>
-                                <th width="7%">Cost</th>
-                                <th width="8%">Ink</th>
-                                <th width="8%">Added On</th>
-                                <th width="15%">Cat ID</th>
-                                <th width="5%" class="text-center">Action</th>
+                                <th width="64px">Mat #</th>
+                                <th width="164px">Vendor</th>
+                                <th width="196px">Name</th>
+                                <th>Details</th>
+                                <th width="96px">Roll Size</th>
+                                <th width="96px">Length</th>
+                                <th width="96px">Size</th>
+                                <th width="116px">Cost</th>
+                                <th width="116px">Ink</th>
+                                <th width="136px">Added On</th>
+                                <th width="396px">Cat ID</th>
+                                <th width="136px" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>

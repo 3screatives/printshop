@@ -73,21 +73,22 @@
                     </div>
                 </div>
                 <div class="search-bar p-3 border-bottom">
-                    <input type="text" class="form-control" name="" id="" placeholder="search order here...">
+                    <input type="text" class="form-control form-control-sm flex-grow-1" name="" id=""
+                        placeholder="search order here...">
                 </div>
                 <div class="data-record p-3">
                     <table class="table" id="clientsTable">
                         <thead>
                             <tr>
-                                <th width="5%">C. ID</th>
-                                <th width="5%">STMA ID</th>
-                                <th width="12%">B. Name</th>
-                                <th width="25%">Address</th>
-                                <th width="10%">C. Name</th>
-                                <th width="10%">Phone</th>
-                                <th width="10%">E-Mail</th>
-                                <th width="8%">Tax ID</th>
-                                <th width="10%">Since</th>
+                                <th width="64px">C. ID</th>
+                                <th width="96px">STMA ID</th>
+                                <th width="164px">B. Name</th>
+                                <th>Address</th>
+                                <th width="164px">C. Name</th>
+                                <th width="164px">Phone</th>
+                                <th width="316px">E-Mail</th>
+                                <th width="136px">Tax ID</th>
+                                <th width="116px">Since</th>
                                 <th width="5%" class="text-center">Action</th>
                             </tr>
                         </thead>
