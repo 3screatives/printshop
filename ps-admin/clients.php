@@ -89,7 +89,7 @@
                                 <th width="316px">E-Mail</th>
                                 <th width="136px">Tax ID</th>
                                 <th width="116px">Since</th>
-                                <th width="5%" class="text-center">Action</th>
+                                <th width="96px" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
