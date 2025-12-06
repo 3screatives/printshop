@@ -433,8 +433,8 @@ $(document).ready(function () {
 
                         const rowHtml = `
                         <tr class="itemRow" data-row="${id}">
-                        <td class="text-center"><input class="form-check-input" type="checkbox" name="item_is_design[]" ${item.is_design == 1 ? 'checked' : ''}></td>
-                        <td class="text-center"><input class="form-check-input" type="checkbox" name="item_is_printed[]" ${item.is_printed == 1 ? 'checked' : ''}></td>
+                        <td class="text-center"><input type="hidden" name="item_is_design[]" value="0"><input class="form-check-input" type="checkbox" name="item_is_design[]" value="1" ${item.is_design == 1 ? 'checked' : ''}></td>
+                        <td class="text-center"><input type="hidden" name="item_is_printed[]" value="0"><input class="form-check-input" type="checkbox" name="item_is_printed[]" value="1" ${item.is_printed == 1 ? 'checked' : ''}></td>
                             <td class="position-relative">
                                 <div class="custom-dropdown">
                                     <input type="text" class="form-control form-control-sm mat-search"
@@ -816,7 +816,9 @@ $(document).ready(function () {
                 item_size_width: $(this).find('input[name="order_item_width[]"]').val(),
                 item_size_height: $(this).find('input[name="order_item_height[]"]').val(),
                 item_price: $(this).find('input[name="order_item_price[]"]').val(),
-                item_total: $(this).find('input[name="order_item_total[]"]').val()
+                item_total: $(this).find('input[name="order_item_total[]"]').val(),
+                item_is_design: $(this).find('input[name="item_is_design[]"]').is(':checked') ? 1 : 0,
+                item_is_printed: $(this).find('input[name="item_is_printed[]"]').is(':checked') ? 1 : 0
             });
         });
 
