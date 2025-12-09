@@ -1,6 +1,5 @@
 - edit/add invoice, ask if changes has been made save/discard
 - Member Credit system
 - add date to comment box on each update.
-- fix pricing, add mat type to calculate accordingly
-- price multiplier for materials
+- use mat -> size to set limit on other side
 - add h-frame to front-end website and cost is $3.00 - Front End
