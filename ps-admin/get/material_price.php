@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // FETCH MATERIAL DATA
     // --------------------------
     $sql = "SELECT mat_id, mat_vendor, mat_name, mat_details, mat_roll_size,
-                   mat_length, mat_size, mat_cost, ink_cost, mat_added_on
+                   mat_length, mat_size, mat_cost, mat_cost_multiplier, ink_cost, mat_added_on
             FROM ps_materials 
             WHERE mat_id = ?";
     $materials = select_query($conn, $sql, "i", $material_id);
@@ -39,6 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mat_size      = floatval($mat['mat_size']);       // total length per cost
     $mat_cost      = floatval($mat['mat_cost']);       // cost per mat_size
     $ink_cost      = floatval($mat['ink_cost']);
+
+    $mat_cost_multiplier = floatval($mat['mat_cost_multiplier']);
+    $mat_cost = $mat_cost * $mat_cost_multiplier;   // <-- APPLY MULTIPLIER
 
     // System constants
     $running_cost  = 0.4;

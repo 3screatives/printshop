@@ -503,7 +503,6 @@ $(document).ready(function () {
                 <input type="hidden" name="order_material_id[]">
                 <input type="hidden" name="item_row_id[]" value="${rowId}">
             </div>
-            <div class="errorBox text-danger small mt-1"></div>
         </td>
         <td><textarea name="order_item_details[]" class="form-control form-control-sm" rows="1"></textarea></td>
         <td><div class="input-group">
@@ -618,8 +617,9 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (response) {
-                 if (response.breakdown) {
-                    $row.find('.errorBox').html(response.breakdown);
+                if (response.breakdown) {
+                    $('.errorBox').html(response.breakdown);
+                    $row.addClass('bg-red-light');
 
                     $row.find('input[name="order_item_price[]"]').val("0.00");
                     $row.find('input[name="order_item_total[]"]').val("0.00");
@@ -627,7 +627,9 @@ $(document).ready(function () {
                     calculateTotal();
                     return;
                 }
-                $row.find('.errorBox').html("");
+                $('.errorBox').html("");
+                $row.removeClass('bg-red-light');
+
 
                 const unitPrice = parseFloat(response.final_cost) || 0;
                 const qty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;

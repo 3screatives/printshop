@@ -31,7 +31,9 @@
                         <div class="table-responsive">
                             <table class="table borderless find-client">
                                 <tr>
-                                    <td width="70%"></td>
+                                    <td width="70%">
+                                        <div class="errorBox text-danger"></div>
+                                    </td>
                                     <td width="30%" class="position-relative">
                                         <div>
                                             <input type="text" class="form-control form-control-sm mb-1" id="c_business"

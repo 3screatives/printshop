@@ -52,6 +52,10 @@ body {
     background-color: var(--color-red);
 }
 
+.bg-red-light td {
+    background-color: rgb(252, 198, 198);
+}
+
 .bg-blue {
     background-color: var(--color-blue);
 }
