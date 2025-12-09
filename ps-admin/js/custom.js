@@ -1046,21 +1046,33 @@ $(document).ready(function () {
 
     document.getElementById("o_comments").addEventListener("keydown", function (e) {
         if (e.key === "Enter") {
-            e.preventDefault(); // stop normal Enter behavior
+            e.preventDefault();
 
             let textarea = this;
             let cursorPos = textarea.selectionStart;
             let value = textarea.value;
 
-            // Insert newline + new bullet
-            let newValue = value.substring(0, cursorPos) + "\n• " + value.substring(cursorPos);
+            let today = new Date();
+            let dateString = today.toLocaleDateString("en-US");
 
-            textarea.value = newValue;
+            let lastNewline = value.lastIndexOf("\n", cursorPos - 1);
+            if (lastNewline === -1) lastNewline = 0;
 
-            // Move cursor after the bullet
-            textarea.selectionStart = textarea.selectionEnd = cursorPos + 3;
+            let beforeLine = value.substring(0, lastNewline);
+            let currentLine = value.substring(lastNewline, cursorPos);
+            let after = value.substring(cursorPos);
+
+            let updatedLine = currentLine + " – " + dateString;
+
+            let newLine = "\n• ";
+
+            textarea.value = beforeLine + updatedLine + newLine + after;
+
+            let newCursorPos = (beforeLine + updatedLine + newLine).length;
+            textarea.selectionStart = textarea.selectionEnd = newCursorPos;
         }
     });
+
 
     // Add a bullet automatically if textarea is empty
     document.getElementById("o_comments").addEventListener("focus", function () {
