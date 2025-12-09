@@ -10,7 +10,7 @@ if ($action == 'save') {
     $mat_name = $_POST['mat_name'] ?? '';
     $mat_details = $_POST['mat_details'] ?? '';
     $mat_roll_size = $_POST['mat_roll_size'] ?? '';
-    $mat_length = $_POST['mat_length'] ?? '';
+    $mat_cost_multiplier = $_POST['mat_cost_multiplier'] ?? '';
     $mat_size = $_POST['mat_size'] ?? '';
     $mat_cost = $_POST['mat_cost'] ?? '';
     $ink_cost = $_POST['ink_cost'] ?? '';
@@ -20,7 +20,7 @@ if ($action == 'save') {
     if (empty($mat_id)) {
         // Insert new material
         $sql = "INSERT INTO ps_materials 
-        (mat_vendor, mat_name, mat_details, mat_roll_size, mat_length, mat_size, mat_cost, ink_cost, mat_added_on) 
+        (mat_vendor, mat_name, mat_details, mat_roll_size, mat_cost_multiplier, mat_size, mat_cost, ink_cost, mat_added_on) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $success = execute_query(
@@ -31,7 +31,7 @@ if ($action == 'save') {
             $mat_name,
             $mat_details,
             $mat_roll_size,
-            $mat_length,
+            $mat_cost_multiplier,
             $mat_size,
             $mat_cost,
             $ink_cost,
@@ -58,7 +58,7 @@ if ($action == 'save') {
         echo $success ? "Material added successfully!" : "Error adding material.";
     } else {
         $sql = "UPDATE ps_materials 
-            SET mat_vendor=?, mat_name=?, mat_details=?, mat_roll_size=?, mat_length=?, mat_size=?, mat_cost=?, ink_cost=? 
+            SET mat_vendor=?, mat_name=?, mat_details=?, mat_roll_size=?, mat_cost_multiplier=?, mat_size=?, mat_cost=?, ink_cost=? 
             WHERE mat_id=?";
 
         $success = execute_query(
@@ -69,7 +69,7 @@ if ($action == 'save') {
             $mat_name,
             $mat_details,
             $mat_roll_size,
-            $mat_length,
+            $mat_cost_multiplier,
             $mat_size,
             $mat_cost,
             $ink_cost,
@@ -122,9 +122,9 @@ if ($action == 'save') {
                 <td>{$row['mat_name']}</td>
                 <td>{$row['mat_details']}</td>
                 <td>{$row['mat_roll_size']}</td>
-                <td>{$row['mat_length']}</td>
                 <td>{$row['mat_size']}</td>
                 <td>$" . round($row['mat_cost'], 2) . "</td>
+                <td>{$row['mat_cost_multiplier']}</td>
                 <td>$" . $row['ink_cost'] . "</td>
                 <td>" . (!empty($row['mat_added_on']) ? date('M d, Y', strtotime($row['mat_added_on'])) : '-') . "</td>
                 <td>{$catNames}</td>

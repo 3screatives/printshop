@@ -63,8 +63,8 @@
 
                         <!-- Length -->
                         <div class="col-md-4">
-                            <label for="mat_length" class="form-label">Length</label>
-                            <input type="text" name="mat_length" id="mat_length" class="form-control">
+                            <label for="mat_cost_multiplier" class="form-label">Multiplier</label>
+                            <input type="text" name="mat_cost_multiplier" id="mat_cost_multiplier" class="form-control">
                         </div>
 
                         <!-- Size -->
@@ -82,7 +82,8 @@
                         <!-- Ink Cost -->
                         <div class="col-md-6">
                             <label for="ink_cost" class="form-label">Ink Cost ($)</label>
-                            <input type="number" step="0.01" name="ink_cost" id="ink_cost" class="form-control" value="0.003400">
+                            <input type="number" step="0.01" name="ink_cost" id="ink_cost" class="form-control"
+                                value="0.003400">
                         </div>
 
                         <!-- Categories -->

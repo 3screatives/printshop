@@ -1010,7 +1010,7 @@ $(document).ready(function () {
             $("#mat_name").val(mat.mat_name);
             $("#mat_details").val(mat.mat_details);
             $("#mat_roll_size").val(mat.mat_roll_size);
-            $("#mat_length").val(mat.mat_length);
+            $("#mat_cost_multiplier").val(mat.mat_cost_multiplier);
             $("#mat_size").val(mat.mat_size);
             $("#mat_cost").val(mat.mat_cost);
             $("#ink_cost").val(mat.ink_cost);
