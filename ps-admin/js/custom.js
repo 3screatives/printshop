@@ -630,7 +630,6 @@ $(document).ready(function () {
                 $('.errorBox').html("");
                 $row.removeClass('bg-red-light');
 
-
                 const unitPrice = parseFloat(response.final_cost) || 0;
                 const qty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
                 const total = unitPrice * qty;
@@ -1045,56 +1044,56 @@ $(document).ready(function () {
     }
 
     const commentBox = document.getElementById("o_comments");
-        let shouldInsertBullet = false;
+    let shouldInsertBullet = false;
 
-        commentBox.addEventListener("keydown", function (e) {
-            if (e.key === "Enter") {
-                e.preventDefault();
+    commentBox.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
 
+            let textarea = this;
+            let cursorPos = textarea.selectionStart;
+            let value = textarea.value;
+
+            // Format date as MM/DD/YY
+            let today = new Date();
+            let mm = String(today.getMonth() + 1).padStart(2, "0");
+            let dd = String(today.getDate()).padStart(2, "0");
+            let yy = String(today.getFullYear()).slice(-2);
+            let dateString = `${mm}/${dd}/${yy}`;
+
+            let lastNewline = value.lastIndexOf("\n", cursorPos - 1);
+            if (lastNewline === -1) lastNewline = 0;
+
+            let beforeLine = value.substring(0, lastNewline);
+            let currentLine = value.substring(lastNewline, cursorPos);
+            let after = value.substring(cursorPos);
+
+            let updatedLine = currentLine + " – " + dateString;
+
+            let newLine = "\n";
+
+            textarea.value = beforeLine + updatedLine + newLine + after;
+
+            let newCursorPos = (beforeLine + updatedLine + newLine).length;
+            textarea.selectionStart = textarea.selectionEnd = newCursorPos;
+
+            shouldInsertBullet = true;
+
+            return;
+        }
+        if (shouldInsertBullet) {
+            if (e.key.length === 1) {
                 let textarea = this;
                 let cursorPos = textarea.selectionStart;
                 let value = textarea.value;
 
-                // Format date as MM/DD/YY
-                let today = new Date();
-                let mm = String(today.getMonth() + 1).padStart(2, "0");
-                let dd = String(today.getDate()).padStart(2, "0");
-                let yy = String(today.getFullYear()).slice(-2);
-                let dateString = `${mm}/${dd}/${yy}`;
+                textarea.value = value.substring(0, cursorPos) + "• " + value.substring(cursorPos);
+                textarea.selectionStart = textarea.selectionEnd = cursorPos + 2;
 
-                let lastNewline = value.lastIndexOf("\n", cursorPos - 1);
-                if (lastNewline === -1) lastNewline = 0;
-
-                let beforeLine = value.substring(0, lastNewline);
-                let currentLine = value.substring(lastNewline, cursorPos);
-                let after = value.substring(cursorPos);
-
-                let updatedLine = currentLine + " – " + dateString;
-
-                let newLine = "\n";
-
-                textarea.value = beforeLine + updatedLine + newLine + after;
-
-                let newCursorPos = (beforeLine + updatedLine + newLine).length;
-                textarea.selectionStart = textarea.selectionEnd = newCursorPos;
-
-                shouldInsertBullet = true;
-
-                return;
+                shouldInsertBullet = false; // prevent multiple bullets
             }
-            if (shouldInsertBullet) {
-                if (e.key.length === 1) {
-                    let textarea = this;
-                    let cursorPos = textarea.selectionStart;
-                    let value = textarea.value;
-
-                    textarea.value = value.substring(0, cursorPos) + "• " + value.substring(cursorPos);
-                    textarea.selectionStart = textarea.selectionEnd = cursorPos + 2;
-
-                    shouldInsertBullet = false; // prevent multiple bullets
-                }
-            }
-        });
+        }
+    });
 
 
     // Add a bullet automatically if textarea is empty
