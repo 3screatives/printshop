@@ -62,7 +62,7 @@
                             <span class=" pe-2">
                                 <i class="bi bi-plus"></i>
                             </span>
-                            <span>New Member</span>
+                            <span>New client</span>
                         </a>
                         <a href="#" id="newMaterial" class="btn btn-outline-primary btn-sm mx-1">
                             <span class="pe-2">
@@ -94,10 +94,10 @@
                                 <th width="116px">Order #</th>
                                 <th width="136px">Order Date</th>
                                 <th width="136px">Order Due</th>
-                                <th>Client Name</th>
+                                <th width="364px">Client Name</th>
                                 <th width="164px">Contact</th>
                                 <th width="116px">Amount</th>
-                                <th width="164px">Status</th>
+                                <th width="196px">Status</th>
                                 <th width="164px" class="text-center">Action</th>
                             </tr>
                         </thead>

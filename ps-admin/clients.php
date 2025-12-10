@@ -62,7 +62,7 @@
                             <span class=" pe-2">
                                 <i class="bi bi-plus"></i>
                             </span>
-                            <span>New Member</span>
+                            <span>New client</span>
                         </a>
                         <a href="#" id="newMaterial" class="btn btn-outline-primary btn-sm mx-1">
                             <span class="pe-2">
@@ -83,10 +83,10 @@
                                 <th width="64px">C. ID</th>
                                 <th width="96px">STMA ID</th>
                                 <th width="164px">B. Name</th>
-                                <th>Address</th>
+                                <th width="316px">Address</th>
                                 <th width="164px">C. Name</th>
                                 <th width="164px">Phone</th>
-                                <th width="316px">E-Mail</th>
+                                <th width="264px">E-Mail</th>
                                 <th width="136px">Tax ID</th>
                                 <th width="116px">Since</th>
                                 <th width="96px" class="text-center">Action</th>

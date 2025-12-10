@@ -62,7 +62,7 @@
                             <span class=" pe-2">
                                 <i class="bi bi-plus"></i>
                             </span>
-                            <span>New Member</span>
+                            <span>New client</span>
                         </a>
                         <a href="#" id="newMaterial" class="btn btn-outline-primary btn-sm mx-1">
                             <span class="pe-2">
@@ -83,14 +83,14 @@
                                 <th width="64px">Mat #</th>
                                 <th width="164px">Vendor</th>
                                 <th width="196px">Name</th>
-                                <th>Details</th>
+                                <th width="436px">Details</th>
                                 <th width="96px">Roll Size</th>
                                 <th width="96px">Size</th>
                                 <th width="116px">Cost</th>
                                 <th width="96px">Multiplier</th>
                                 <th width="116px">Ink</th>
                                 <th width="136px">Added On</th>
-                                <th width="396px">Cat ID</th>
+                                <th width="264px">Cat ID</th>
                                 <th width="136px" class="text-center">Action</th>
                             </tr>
                         </thead>

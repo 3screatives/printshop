@@ -27,6 +27,7 @@ $cat_name = $category['cat_name'];
 $cat_image = $category['cat_image'];
 
 $grommetCategories = [1, 3];
+$hframeCategories = [3];
 
 mysqli_close($conn);
 ?>
@@ -99,6 +100,19 @@ mysqli_close($conn);
                                 <select class="form-select" name="item_grommets" id="item_grommets">
                                     <option value="0" selected>No Grommets</option>
                                     <option value="1">With Grommets</option>
+                                </select>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- HFrames -->
+                    <?php if (in_array($cat_id, $hframeCategories)): ?>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label">H-Frame</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" name="item_hframes" id="item_hframes">
+                                    <option value="0" selected>No H-Frame</option>
+                                    <option value="1">With H-Frame</option>
                                 </select>
                             </div>
                         </div>
