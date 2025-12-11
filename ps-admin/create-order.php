@@ -52,10 +52,10 @@
                             <table class="table table-bordered" id="orderItems">
                                 <thead class="table-light">
                                     <tr>
-                                        <th width="6%">Design</th>
-                                        <th width="6%">Printed</th>
+                                        <th width="4%" class="text-center"><i class="bi bi-brush"></i></th>
+                                        <th width="4%" class="text-center"><i class="bi bi-printer"></i></th>
                                         <th width="12%">Material</th>
-                                        <th width="26%">Details</th>
+                                        <th width="30%">Details</th>
                                         <th width="15%">Size (inches)</th>
                                         <th width="6%" class="text-center">Qty</th>
                                         <th width="12%">Price</th>

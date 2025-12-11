@@ -329,6 +329,7 @@ $(document).ready(function () {
                         <td>${item.size_width} x ${item.size_height}</td>
                         <td class="text-end">$${item.price}</td>
                         <td class="text-end">$${item.total}</td>
+                        <td class=""></td>
                     </tr>`;
                     });
                     $('#order_items tbody').html(rows);
@@ -492,8 +493,8 @@ $(document).ready(function () {
 
         let itemHtml = `
     <tr class="calculate itemRow" data-row="${rowId}">
-        <td class="text-center"><input class="form-check form-check-sm" type="checkbox" name="item_is_design[]"></td>
-        <td class="text-center"><input class="form-check form-check-sm" type="checkbox" name="item_is_printed[]"></td>
+        <td class="text-center"><input class="form-check form-check-sm mx-auto" type="checkbox" name="item_is_design[]"></td>
+        <td class="text-center"><input class="form-check form-check-sm mx-auto" type="checkbox" name="item_is_printed[]"></td>
         <td class="position-relative">
             <div class="custom-dropdown">
                 <input type="text" class="form-control form-control-sm mat-search"
@@ -637,6 +638,8 @@ $(document).ready(function () {
                 $row.find('input[name="order_item_price[]"]').val(unitPrice.toFixed(2));
                 $row.find('input[name="order_item_total[]"]').val(total.toFixed(2));
                 calculateTotal();
+
+                console.log(response.total_cost_sq_ft);
             }
         });
     }
