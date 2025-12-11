@@ -1,2 +1,3 @@
 - edit/add invoice, ask if changes has been made save/discard
 - Member Credit system
+- date in comments should be add once only , noloop on keydown

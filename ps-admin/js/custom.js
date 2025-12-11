@@ -1057,44 +1057,59 @@ $(document).ready(function () {
             let cursorPos = textarea.selectionStart;
             let value = textarea.value;
 
-            // Format date as MM/DD/YY
+            // Today's date
             let today = new Date();
             let mm = String(today.getMonth() + 1).padStart(2, "0");
             let dd = String(today.getDate()).padStart(2, "0");
             let yy = String(today.getFullYear()).slice(-2);
             let dateString = `${mm}/${dd}/${yy}`;
 
+            // Find current line
             let lastNewline = value.lastIndexOf("\n", cursorPos - 1);
             if (lastNewline === -1) lastNewline = 0;
 
             let beforeLine = value.substring(0, lastNewline);
-            let currentLine = value.substring(lastNewline, cursorPos);
+            let currentLineFull = value.substring(lastNewline, cursorPos);
+            let currentLineTrimmed = currentLineFull.trim();
             let after = value.substring(cursorPos);
 
-            let updatedLine = currentLine + " – " + dateString;
+            // Detect ANY date on the line
+            const datePattern = /\b\d{2}\/\d{2}\/\d{2}\b/;
+            const hasDateAlready = datePattern.test(currentLineFull);
 
-            let newLine = "\n";
+            let updatedLine = currentLineFull;
 
-            textarea.value = beforeLine + updatedLine + newLine + after;
+            // 👉 RULE #1: If the line is empty → no date
+            if (currentLineTrimmed === "") {
+                updatedLine = currentLineFull; // leave blank
+            }
+            // 👉 RULE #2: If line already has a date → DO NOT add another
+            else if (!hasDateAlready) {
+                updatedLine = currentLineFull + " – " + dateString;
+            }
 
-            let newCursorPos = (beforeLine + updatedLine + newLine).length;
+            // Insert updated text
+            textarea.value = beforeLine + updatedLine + "\n" + after;
+
+            // Move caret
+            let newCursorPos = (beforeLine + updatedLine + "\n").length;
             textarea.selectionStart = textarea.selectionEnd = newCursorPos;
 
             shouldInsertBullet = true;
-
             return;
         }
-        if (shouldInsertBullet) {
-            if (e.key.length === 1) {
-                let textarea = this;
-                let cursorPos = textarea.selectionStart;
-                let value = textarea.value;
 
-                textarea.value = value.substring(0, cursorPos) + "• " + value.substring(cursorPos);
-                textarea.selectionStart = textarea.selectionEnd = cursorPos + 2;
+        // Insert bullet after typing first character on the new line
+        if (shouldInsertBullet && e.key.length === 1) {
+            let textarea = this;
+            let cursorPos = textarea.selectionStart;
+            let value = textarea.value;
 
-                shouldInsertBullet = false; // prevent multiple bullets
-            }
+            textarea.value =
+                value.substring(0, cursorPos) + "• " + value.substring(cursorPos);
+
+            textarea.selectionStart = textarea.selectionEnd = cursorPos + 2;
+            shouldInsertBullet = false;
         }
     });
 
