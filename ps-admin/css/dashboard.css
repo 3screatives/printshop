@@ -441,3 +441,16 @@ tr.done td {
 .copy-phone:hover {
     text-decoration: underline;
 }
+
+.comment-entry {
+    border-bottom: 1px solid var(--color-border);
+    padding: 4px 0;
+}
+.comment-date {
+    font-size: 0.75rem;
+    color: var(--color-grey);
+}
+
+.show-button {
+    display: none;
+}

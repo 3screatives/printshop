@@ -203,5 +203,22 @@ foreach ($items as $item) {
     }
 }
 
+// === SAVE ORDER COMMENT IN ps_order_comments ===
+if (!empty($order_comments) && $order_comments !== 'None') {
+
+    $sql_comment = "INSERT INTO ps_order_comments (order_id, comment_text) VALUES (?, ?)";
+
+    $stmt = mysqli_prepare($conn, $sql_comment);
+    mysqli_stmt_bind_param($stmt, "is", $order_id, $order_comments);
+    mysqli_stmt_execute($stmt);
+
+    if (mysqli_stmt_error($stmt)) {
+        echo json_encode(['status' => 'error', 'message' => mysqli_stmt_error($stmt)]);
+        exit;
+    }
+
+    mysqli_stmt_close($stmt);
+}
+
 echo json_encode(['status' => 'success', 'message' => 'Order saved successfully!', 'order_id' => $order_id]);
 mysqli_close($conn);

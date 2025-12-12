@@ -257,7 +257,10 @@ $(document).ready(function () {
     // View Order Details
     $(document).on('click', '.view-order', function () {
         var orderID = $(this).data('order-id');
+        $('#add_comment_btn').data('order-id', orderID);
         $(".download-pdf").data("oid", orderID);
+        $('.show-button').show();
+
         $.ajax({
             url: 'get/order.php',
             method: 'GET',
@@ -304,7 +307,24 @@ $(document).ready(function () {
                     $('#order_t_rush').text('$' + (o.rush || '0'));
                     $('#order_t_amount_paid').text('$' + o.paid);
                     $('#order_t_amount_due').text('$' + o.due);
-                    $('#order_t_comments').html((o.comment || '').replace(/\n/g, '<br>'));
+                    // $('#order_t_comments').html((o.comment || '').replace(/\n/g, '<br>'));
+                    // Load order comments from new table
+                    if (response.comments && response.comments.length > 0) {
+                        let html = "";
+                        console.log(response.comments);
+                        response.comments.forEach(c => {
+                            html += `
+                                <li class="comment-entry w-100">
+                                    <span class="comment-text d-block">${c.comment || ''}</span>
+                                    <i class="comment-date" style="color: var(--color-grey);">${c.created_at}</i>
+                                </li>
+                            `;
+                        });
+
+                        $('#order_t_comments').html(html);
+                    } else {
+                        $('#order_t_comments').html('<em>No comments</em>');
+                    }
 
                     $('#stmaID').text(o.stmaID ? o.stmaID : '-');
                     $('#taxExID').text(o.taxExID ? o.taxExID : '-');
@@ -389,6 +409,8 @@ $(document).ready(function () {
 
     $(document).on('click', '.edit-order', function () {
         const orderID = $(this).data('order-id');
+        $('#add_comment_btn').data('order-id', orderID);
+        $('.show-button').show();
 
         $.ajax({
             url: 'get/order.php',
@@ -423,7 +445,21 @@ $(document).ready(function () {
                     $('#o_paid').val(o.paid);
                     $('#o_due').val(o.due);
 
-                    $('#o_comments').val(o.comment || '');
+                    // $('#o_comments').val(o.comment || '');
+                    if (response.comments && response.comments.length > 0) {
+                        let html = "";
+                        response.comments.forEach(c => {
+                            html += `
+                                <li class="comment-entry w-100">
+                                    <span class="comment-text d-block">${c.comment || ''}</span>
+                                    <i class="comment-date" style="color: var(--color-grey);">${c.created_at}</i>
+                                </li>
+                            `;
+                        });
+                        $('#order_comments_list').html(html); // your UL ID must be this
+                    } else {
+                        $('#order_comments_list').html('<li><em>No comments</em></li>');
+                    }
 
                     $('#orderItems tbody').empty();
 
@@ -853,7 +889,7 @@ $(document).ready(function () {
             order_amount_due: $('#o_due').val(),
             payment_type_id: $('#payment_t_method').val() || 1,
             status_id: $('#o_status').val() || 1,
-            order_comments: $('#o_comments').val(),
+            order_comments: $('#new_order_comment').val(),
             items: items
         };
 
@@ -1046,81 +1082,6 @@ $(document).ready(function () {
         });
     }
 
-    const commentBox = document.getElementById("o_comments");
-    let shouldInsertBullet = false;
-
-    commentBox.addEventListener("keydown", function (e) {
-        if (e.key === "Enter") {
-            e.preventDefault();
-
-            let textarea = this;
-            let cursorPos = textarea.selectionStart;
-            let value = textarea.value;
-
-            // Today's date
-            let today = new Date();
-            let mm = String(today.getMonth() + 1).padStart(2, "0");
-            let dd = String(today.getDate()).padStart(2, "0");
-            let yy = String(today.getFullYear()).slice(-2);
-            let dateString = `${mm}/${dd}/${yy}`;
-
-            // Find current line
-            let lastNewline = value.lastIndexOf("\n", cursorPos - 1);
-            if (lastNewline === -1) lastNewline = 0;
-
-            let beforeLine = value.substring(0, lastNewline);
-            let currentLineFull = value.substring(lastNewline, cursorPos);
-            let currentLineTrimmed = currentLineFull.trim();
-            let after = value.substring(cursorPos);
-
-            // Detect ANY date on the line
-            const datePattern = /\b\d{2}\/\d{2}\/\d{2}\b/;
-            const hasDateAlready = datePattern.test(currentLineFull);
-
-            let updatedLine = currentLineFull;
-
-            // 👉 RULE #1: If the line is empty → no date
-            if (currentLineTrimmed === "") {
-                updatedLine = currentLineFull; // leave blank
-            }
-            // 👉 RULE #2: If line already has a date → DO NOT add another
-            else if (!hasDateAlready) {
-                updatedLine = currentLineFull + " – " + dateString;
-            }
-
-            // Insert updated text
-            textarea.value = beforeLine + updatedLine + "\n" + after;
-
-            // Move caret
-            let newCursorPos = (beforeLine + updatedLine + "\n").length;
-            textarea.selectionStart = textarea.selectionEnd = newCursorPos;
-
-            shouldInsertBullet = true;
-            return;
-        }
-
-        // Insert bullet after typing first character on the new line
-        if (shouldInsertBullet && e.key.length === 1) {
-            let textarea = this;
-            let cursorPos = textarea.selectionStart;
-            let value = textarea.value;
-
-            textarea.value =
-                value.substring(0, cursorPos) + "• " + value.substring(cursorPos);
-
-            textarea.selectionStart = textarea.selectionEnd = cursorPos + 2;
-            shouldInsertBullet = false;
-        }
-    });
-
-
-    // Add a bullet automatically if textarea is empty
-    document.getElementById("o_comments").addEventListener("focus", function () {
-        if (this.value.trim() === "") {
-            this.value = "• ";
-        }
-    });
-
     // Delegate to tbody for dynamic rows
     $('#order_items').on('change', 'input[name="item_is_design[]"], input[name="item_is_printed[]"]', function () {
         const $row = $(this).closest('tr');
@@ -1162,6 +1123,50 @@ $(document).ready(function () {
             },
             error: function () {
                 alert('Error updating item.');
+            }
+        });
+    });
+
+    // Add comment via AJAX inside the open modal
+    $(document).on('click', '#add_comment_btn', function () {
+        const orderID = $(this).data('order-id');
+        const commentText = $('#new_order_comment').val().trim();
+
+        // if (!commentText) {
+        //     alert('Please enter a comment.');
+        //     return;
+        // }
+
+        $.ajax({
+            url: 'get/add-comment.php',
+            type: 'POST',
+            data: { order_id: orderID, comment: commentText },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    // Remove placeholder "No comments" if exists
+                    $('#order_t_comments em').remove();
+
+                    // Append new comment to the end of the list
+                    const newCommentHtml = `
+                        <li class="comment-entry w-100">
+                            <span class="comment-text d-block">${commentText || ''}</span>
+                            <i class="comment-date" style="color: var(--color-grey);">${response.created_at}</i>
+                        </li>
+                    `;
+                    $('#order_t_comments').append(newCommentHtml);
+
+                    // Clear textarea
+                    $('#new_order_comment').val('');
+
+                    // Scroll to bottom of comments (optional)
+                    $('#order_t_comments').scrollTop($('#order_t_comments')[0].scrollHeight);
+                } else {
+                    alert(response.message || 'Failed to add comment.');
+                }
+            },
+            error: function () {
+                alert('Error adding comment.');
             }
         });
     });

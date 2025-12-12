@@ -111,6 +111,24 @@ if (!empty($data)) {
             ];
         }
     }
+    // === GET ORDER COMMENTS ===
+    $sql_comments = "SELECT comment_id, comment_text, created_at 
+                 FROM ps_order_comments 
+                 WHERE order_id = ? 
+                 ORDER BY created_at ASC";  // oldest first (or DESC for newest first)
+
+    $comments = select_query($conn, $sql_comments, "i", $order_id);
+
+    // Attach to response
+    $response['comments'] = [];
+
+    foreach ($comments as $c) {
+        $response['comments'][] = [
+            "comment_id"  => $c['comment_id'],
+            "comment"     => $c['comment_text'],
+            "created_at"  => date("m/d/Y h:i A", strtotime($c['created_at']))
+        ];
+    }
 } else {
     $response['error'] = "Order not found";
 }

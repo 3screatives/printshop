@@ -59,9 +59,36 @@
                                 <td width="12%" style="text-align: right;" id="order_sub_total"></td>
                             </tr>
                             <tr>
-                                <td width="66%" rowspan="7" style="vertical-align: top !important;"><b>Comments:</b>
-                                    <span id="order_t_comments" class="d-block"></span>
+                                <td width="66%" rowspan="7" style="vertical-align: top !important; position: relative; padding: 0;">
+                                    <b style="display:block; padding:8px;">Comments:</b>
+
+                                    <!-- Scrollable comment list -->
+                                    <div id="comments_container" style="
+                                        max-height: 160px; /* adjust as needed */
+                                        overflow-y: auto;
+                                        padding: 0 8px 8px;
+                                        box-sizing: border-box;
+                                    ">
+                                        <ul id="order_t_comments" class="list-unstyled mb-0"></ul>
+                                    </div>
+
+                                    <!-- Fixed input at bottom -->
+                                    <div class="add-comment d-flex align-items-center p-2" style="
+                                        position: absolute;
+                                        bottom: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        background: #fff; /* match table background */
+                                        box-sizing: border-box;
+                                        border-top: 1px solid #ccc;
+                                    ">
+                                        <input id="new_order_comment" class="form-control" placeholder="Add a comment...">
+                                        <button id="add_comment_btn" class="btn btn-outline-primary ms-2" data-order-id="">
+                                            <span class="bi bi-plus"></span>
+                                        </button>
+                                    </div>
                                 </td>
+
                                 <td width="22%">Rush Charges</td>
                                 <td width="12%" style="text-align: right;" id="order_t_rush"></td>
                             </tr>
