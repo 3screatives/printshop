@@ -445,7 +445,7 @@ $(document).ready(function () {
                     $('#o_paid').val(o.paid);
                     $('#o_due').val(o.due);
 
-                    // $('#o_comments').val(o.comment || '');
+                    $('#new_order_comment').val();
                     if (response.comments && response.comments.length > 0) {
                         let html = "";
                         response.comments.forEach(c => {
