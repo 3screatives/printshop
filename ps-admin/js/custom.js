@@ -1132,41 +1132,36 @@ $(document).ready(function () {
         const orderID = $(this).data('order-id');
         const commentText = $('#new_order_comment').val().trim();
 
-        // if (!commentText) {
-        //     alert('Please enter a comment.');
-        //     return;
-        // }
+        if (!orderID) {
+            alert('Order ID missing.');
+            return;
+        }
+
+        if (!commentText) {
+            alert('Please enter a comment.');
+            return;
+        }
 
         $.ajax({
             url: 'get/add-comment.php',
             type: 'POST',
             data: { order_id: orderID, comment: commentText },
             dataType: 'json',
-            success: function (response) {
+            success(response) {
                 if (response.status === 'success') {
-                    // Remove placeholder "No comments" if exists
-                    $('#order_t_comments em').remove();
+                    $('#order_comments_list em').remove();
 
-                    // Append new comment to the end of the list
-                    const newCommentHtml = `
+                    $('#order_comments_list').append(`
                         <li class="comment-entry w-100">
-                            <span class="comment-text d-block">${commentText || ''}</span>
-                            <i class="comment-date" style="color: var(--color-grey);">${response.created_at}</i>
+                            <span class="comment-text d-block">${commentText}</span>
+                            <i class="comment-date">${response.created_at}</i>
                         </li>
-                    `;
-                    $('#order_t_comments').append(newCommentHtml);
+                    `);
 
-                    // Clear textarea
                     $('#new_order_comment').val('');
-
-                    // Scroll to bottom of comments (optional)
-                    $('#order_t_comments').scrollTop($('#order_t_comments')[0].scrollHeight);
                 } else {
-                    alert(response.message || 'Failed to add comment.');
+                    alert(response.message);
                 }
-            },
-            error: function () {
-                alert('Error adding comment.');
             }
         });
     });
