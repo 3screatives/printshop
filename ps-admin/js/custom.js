@@ -257,7 +257,7 @@ $(document).ready(function () {
     // View Order Details
     $(document).on('click', '.view-order', function () {
         var orderID = $(this).data('order-id');
-        $('#add_comment_btn').data('order-id', orderID);
+        $('.add-comment-btn').data('order-id', orderID);
         $(".download-pdf").data("oid", orderID);
         $('.show-button').show();
 
@@ -311,7 +311,6 @@ $(document).ready(function () {
                     // Load order comments from new table
                     if (response.comments && response.comments.length > 0) {
                         let html = "";
-                        console.log(response.comments);
                         response.comments.forEach(c => {
                             html += `
                                 <li class="comment-entry w-100">
@@ -321,9 +320,9 @@ $(document).ready(function () {
                             `;
                         });
 
-                        $('#order_t_comments').html(html);
+                        $('.order-comments-list').html(html);
                     } else {
-                        $('#order_t_comments').html('<em>No comments</em>');
+                        $('.order-comments-list').html('<em>No comments</em>');
                     }
 
                     $('#stmaID').text(o.stmaID ? o.stmaID : '-');
@@ -405,11 +404,14 @@ $(document).ready(function () {
         $('.create-order h5').text('New Order');
         // $('#submitOrder').text('Submit Invoice').data('order-id', o.order_id);
         $('#submitOrder').text('Submit Invoice').removeData('order-id');
+
+        $('.show-button').hide();
+        $('.order-comments-list').html('');
     });
 
     $(document).on('click', '.edit-order', function () {
         const orderID = $(this).data('order-id');
-        $('#add_comment_btn').data('order-id', orderID);
+        $('.add-comment-btn').data('order-id', orderID);
         $('.show-button').show();
 
         $.ajax({
@@ -445,7 +447,7 @@ $(document).ready(function () {
                     $('#o_paid').val(o.paid);
                     $('#o_due').val(o.due);
 
-                    $('#new_order_comment').val();
+                    // $('#new_order_comment').val();
                     if (response.comments && response.comments.length > 0) {
                         let html = "";
                         response.comments.forEach(c => {
@@ -456,9 +458,9 @@ $(document).ready(function () {
                                 </li>
                             `;
                         });
-                        $('#order_comments_list').html(html); // your UL ID must be this
+                        $('.order-comments-list').html(html); // your UL ID must be this
                     } else {
-                        $('#order_comments_list').html('<li><em>No comments</em></li>');
+                        $('.order-comments-list').html('<li><em>No comments</em></li>');
                     }
 
                     $('#orderItems tbody').empty();
@@ -874,6 +876,14 @@ $(document).ready(function () {
             });
         });
 
+        const overlay = $(this).closest('.overlay.create-order');
+        const commentInput = overlay.find('.order-comment-input');
+
+        let orderComment = '';
+        if (commentInput.length) {
+            orderComment = commentInput.val().trim();
+        }
+
         let orderData = {
             // user_id: $('#user_id').val() || 0,
             order_id: $('#order_id').val() || 0,
@@ -889,7 +899,7 @@ $(document).ready(function () {
             order_amount_due: $('#o_due').val(),
             payment_type_id: $('#payment_t_method').val() || 1,
             status_id: $('#o_status').val() || 1,
-            order_comments: $('#new_order_comment').val(),
+            order_comments: orderComment,
             items: items
         };
 
@@ -1128,9 +1138,41 @@ $(document).ready(function () {
     });
 
     // Add comment via AJAX inside the open modal
-    $(document).on('click', '#add_comment_btn', function () {
+    $(document).on('keydown', '.order-comment-input', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+
+            const wrapper = $(this).closest('.add-comment');
+            const button = wrapper.find('.add-comment-btn');
+
+            if (button.length) {
+                button.trigger('click');
+            }
+        }
+    });
+
+    $(document).on('click', '.add-comment-btn', function (e) {
+        e.preventDefault();
+
+        const wrapper = $(this).closest('.add-comment');
+
+        if (!wrapper.length) {
+            console.error('Add-comment wrapper not found');
+            return;
+        }
+
         const orderID = $(this).data('order-id');
-        const commentText = $('#new_order_comment').val().trim();
+        const input = wrapper.find('.order-comment-input');
+
+        if (!input.length) {
+            console.error('Comment input not found');
+            return;
+        }
+
+        const commentText = input.val().trim();
+
+        console.log('Adding comment to order ID:', orderID);
+        console.log('Comment text:', commentText);
 
         if (!orderID) {
             alert('Order ID missing.');
@@ -1149,16 +1191,16 @@ $(document).ready(function () {
             dataType: 'json',
             success(response) {
                 if (response.status === 'success') {
-                    $('#order_comments_list em').remove();
+                    $('.order-comments-list em').remove();
 
-                    $('#order_comments_list').append(`
+                    $('.order-comments-list').append(`
                         <li class="comment-entry w-100">
                             <span class="comment-text d-block">${commentText}</span>
                             <i class="comment-date">${response.created_at}</i>
                         </li>
                     `);
 
-                    $('#new_order_comment').val('');
+                    input.val('');
                 } else {
                     alert(response.message);
                 }

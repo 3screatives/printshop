@@ -108,7 +108,7 @@
                                         padding: 0 8px 8px;
                                         box-sizing: border-box;
                                     ">
-                                            <ul id="order_comments_list" class="list-unstyled mb-0"></ul>
+                                            <ul class="order-comments-list list-unstyled mb-0"></ul>
                                         </div>
 
                                         <!-- Fixed input at bottom -->
@@ -121,8 +121,8 @@
                                         box-sizing: border-box;
                                         border-top: 1px solid #ccc;
                                     ">
-                                            <input id="new_order_comment" name="new_order_comment" class="form-control" placeholder="Add a comment...">
-                                            <button id="add_comment_btn" class="btn btn-outline-primary ms-2 show-button" data-order-id="">
+                                            <input type="text" name="order-comment-input" class="order-comment-input form-control" placeholder="Add a comment...">
+                                            <button type="button" class="add-comment-btn btn btn-outline-primary ms-2 show-button" data-order-id="">
                                                 <span class="bi bi-plus"></span>
                                             </button>
                                         </div>

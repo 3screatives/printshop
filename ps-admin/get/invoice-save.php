@@ -108,7 +108,7 @@ if ($order_id == 0) {
     // Update existing order
     $sql_update_order = "UPDATE ps_orders SET
     order_date=?, order_due=?, order_before_tax=?, order_tax=?, order_after_tax=?,
-    order_amount_paid=?, order_amount_due=?, order_discount=?, order_credits=?, order_production_time=?, payment_type_id=?,
+    order_amount_paid=?, order_amount_due=?, order_discount=?, order_credits=?, order_production_time=?, payment_type_id=?
     WHERE order_id=?";
     $stmt = mysqli_prepare($conn, $sql_update_order);
 
@@ -201,7 +201,8 @@ foreach ($items as $item) {
 }
 
 // === SAVE ORDER COMMENT IN ps_order_comments ===
-if (!empty($order_comments) && $order_comments !== 'None') {
+$order_comments = trim($data['order_comments'] ?? '');
+if (!empty($order_comments)) {
 
     $sql_comment = "INSERT INTO ps_order_comments (order_id, comment_text) VALUES (?, ?)";
 
