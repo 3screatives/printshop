@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2025 at 04:38 AM
+-- Generation Time: Dec 15, 2025 at 02:31 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -73,6 +73,7 @@ CREATE TABLE `ps_materials` (
   `mat_length` int(11) NOT NULL,
   `mat_size` int(11) NOT NULL,
   `mat_cost` decimal(10,6) NOT NULL,
+  `mat_cost_multiplier` int(11) NOT NULL,
   `ink_cost` decimal(10,6) NOT NULL,
   `mat_added_on` date NOT NULL DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -81,27 +82,27 @@ CREATE TABLE `ps_materials` (
 -- Dumping data for table `ps_materials`
 --
 
-INSERT INTO `ps_materials` (`mat_id`, `mat_vendor`, `mat_name`, `mat_details`, `mat_roll_size`, `mat_length`, `mat_size`, `mat_cost`, `ink_cost`, `mat_added_on`) VALUES
-(1, 'Lexjet', 'Adhesive', '4WM66A - HP Prime Matte Air GP, 3.4 Mil', 54, 150, 1800, 217.070000, 0.003400, '2025-10-11'),
-(2, 'Lexjet', 'Backlit', 'KBLGS60 - Kodak glossy backlit film', 60, 100, 1200, 300.000000, 0.003400, '2025-10-11'),
-(3, 'Grimco', 'Banner Matte', 'DTXB54164M - 13OZ DURATEX BANNER MATTE', 54, 164, 1968, 179.590000, 0.003400, '2025-10-11'),
-(4, 'Reece Supply', 'Banner Gloss', 'JFM160050 - SUPERPRINT PLUS GLOSS ULTRAFLEX 13OZ BRIGHT', 63, 164, 1968, 175.480000, 0.003400, '2025-10-11'),
-(5, '', 'Print Only', 'N/A', 0, 0, 0, 0.000000, 0.003400, '2025-10-11'),
-(6, 'Lexjet', 'Clear Adhesive', 'GF 206-54 - Clear Gloss Vinyl, Removeable', 54, 150, 1800, 230.000000, 0.003400, '2025-10-11'),
-(7, 'Grimco', 'Coroplast', 'CP84W - Corrugated Plastic Panels 48\" x 96\", White', 48, 96, 1152, 8.630000, 0.003400, '2025-10-11'),
-(8, 'Grimco', 'Floor Sticker', '', 54, 150, 1800, 0.000000, 0.003400, '2025-10-11'),
-(9, 'Reece Supply', 'Foam Board', 'Pn 122718 - 3/16 White Foam Board', 48, 96, 1152, 15.130000, 0.003400, '2025-10-11'),
-(10, 'Lexjet', 'Regular Paper', '', 36, 200, 2400, 0.000000, 0.003400, '2025-10-11'),
-(11, 'Lexjet', 'Polypropylene', 'ERWP36200 - LexJet Heavyweight WR Polypropylene - 36in x 200ft', 36, 200, 2400, 106.250000, 0.003400, '2025-10-11'),
-(12, 'Grimco', 'Polystyrene 020', 'UH020W4896A - White Styrene Matte 020 Thick', 48, 96, 1152, 8.840000, 0.003400, '2025-10-11'),
-(13, 'Grimco', 'Polystyrene 040', 'HIPS48X96X040W - Duratex Polystyrene Sheets - Double White', 48, 96, 1152, 18.840000, 0.003400, '2025-10-11'),
-(14, 'Lexjet', 'Static Cling', '207-5415 - GF-207 Clear', 54, 150, 1800, 260.090000, 0.003400, '2025-10-11'),
-(15, 'Reece Supply', 'Window Perforated', 'Pn 55599 - UltraVision Window Perf 60/40 UV 6.3 Mil', 54, 164, 1968, 326.830000, 0.003400, '2025-10-11'),
-(16, 'Grimco', 'Aluminum', 'MM843MWDP - MAXMETAL™ 4\' x 8\', White DP, EACH', 48, 96, 1152, 48.910000, 0.003400, '2025-10-11'),
-(17, 'Grimco', 'Acrylic - Clear', 'CC4896316C - Duratex Cast Acrylic 48\" x 96\", Clear, 3/16\"', 48, 96, 1152, 106.970000, 0.003400, '2025-10-11'),
-(18, 'Grimco', 'Acrylic - White', 'CC4896316W7328 - Duratex Cast Acrylic 48\" x 96\", White 7328, 3/16\"', 48, 96, 1152, 113.680000, 0.003400, '2025-10-11'),
-(19, 'Lexjet', 'Polyester', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 0.003400, '2025-10-11'),
-(20, 'Home', 'Test Material', 'Nothing', 54, 100, 1200, 100.000000, 0.100000, '2025-11-27');
+INSERT INTO `ps_materials` (`mat_id`, `mat_vendor`, `mat_name`, `mat_details`, `mat_roll_size`, `mat_length`, `mat_size`, `mat_cost`, `mat_cost_multiplier`, `ink_cost`, `mat_added_on`) VALUES
+(1, 'Lexjet', 'Adhesive', '4WM66A - HP Prime Matte Air GP, 3.4 Mil', 54, 150, 1800, 217.070000, 1, 0.003400, '2025-10-11'),
+(2, 'Lexjet', 'Backlit', 'KBLGS60 - Kodak glossy backlit film', 60, 100, 1200, 300.000000, 1, 0.003400, '2025-10-11'),
+(3, 'Grimco', 'Banner Matte', 'DTXB54164M - 13OZ DURATEX BANNER MATTE', 54, 164, 1968, 179.590000, 1, 0.003400, '2025-10-11'),
+(4, 'Reece Supply', 'Banner Gloss', 'JFM160050 - SUPERPRINT PLUS GLOSS ULTRAFLEX 13OZ BRIGHT', 63, 164, 1968, 175.480000, 1, 0.003400, '2025-10-11'),
+(5, '', 'Print Only', 'N/A', 0, 0, 0, 0.000000, 1, 0.003400, '2025-10-11'),
+(6, 'Lexjet', 'Clear Adhesive', 'GF 206-54 - Clear Gloss Vinyl, Removeable', 54, 150, 1800, 230.000000, 1, 0.003400, '2025-10-11'),
+(7, 'Grimco', 'Coroplast', 'CP84W - Corrugated Plastic Panels 48\" x 96\", White', 48, 96, 1152, 8.630000, 3, 0.003400, '2025-10-11'),
+(8, 'Grimco', 'Floor Sticker', '', 54, 150, 1800, 0.000000, 1, 0.003400, '2025-10-11'),
+(9, 'Reece Supply', 'Foam Board', 'Pn 122718 - 3/16 White Foam Board', 48, 96, 1152, 15.130000, 1, 0.003400, '2025-10-11'),
+(10, 'Lexjet', 'Regular Paper', '', 36, 200, 2400, 0.000000, 1, 0.003400, '2025-10-11'),
+(11, 'Lexjet', 'Polypropylene', 'ERWP36200 - LexJet Heavyweight WR Polypropylene - 36in x 200ft', 36, 200, 2400, 106.250000, 1, 0.003400, '2025-10-11'),
+(12, 'Grimco', 'Polystyrene 020', 'UH020W4896A - White Styrene Matte 020 Thick', 48, 96, 1152, 8.840000, 1, 0.003400, '2025-10-11'),
+(13, 'Grimco', 'Polystyrene 040', 'HIPS48X96X040W - Duratex Polystyrene Sheets - Double White', 48, 96, 1152, 18.840000, 1, 0.003400, '2025-10-11'),
+(14, 'Lexjet', 'Static Cling', '207-5415 - GF-207 Clear', 54, 150, 1800, 260.090000, 1, 0.003400, '2025-10-11'),
+(15, 'Reece Supply', 'Window Perforated', 'Pn 55599 - UltraVision Window Perf 60/40 UV 6.3 Mil', 54, 164, 1968, 326.830000, 1, 0.003400, '2025-10-11'),
+(16, 'Grimco', 'Aluminum', 'MM843MWDP - MAXMETAL™ 4\' x 8\', White DP, EACH', 48, 96, 1152, 48.910000, 1, 0.003400, '2025-10-11'),
+(17, 'Grimco', 'Acrylic - Clear', 'CC4896316C - Duratex Cast Acrylic 48\" x 96\", Clear, 3/16\"', 48, 96, 1152, 106.970000, 1, 0.003400, '2025-10-11'),
+(18, 'Grimco', 'Acrylic - White', 'CC4896316W7328 - Duratex Cast Acrylic 48\" x 96\", White 7328, 3/16\"', 48, 96, 1152, 113.680000, 1, 0.003400, '2025-10-11'),
+(19, 'Lexjet', 'Polyester', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 1, 0.003400, '2025-10-11'),
+(20, 'Home', 'Test Material', 'Nothing', 60, 120, 120, 172.190000, 1, 0.003400, '2025-11-27');
 
 -- --------------------------------------------------------
 
@@ -173,9 +174,9 @@ INSERT INTO `ps_material_categories_map` (`id`, `mat_id`, `cat_id`) VALUES
 (18, 19, 2),
 (19, 12, 6),
 (20, 13, 6),
-(21, 20, 2),
-(22, 20, 5),
-(23, 20, 4);
+(24, 20, 2),
+(25, 20, 5),
+(26, 20, 4);
 
 -- --------------------------------------------------------
 
@@ -198,23 +199,52 @@ CREATE TABLE `ps_orders` (
   `order_production_time` int(11) DEFAULT NULL,
   `payment_type_id` int(11) DEFAULT NULL,
   `client_id` int(11) DEFAULT NULL,
-  `status_id` int(11) DEFAULT NULL,
-  `order_comment` text NOT NULL
+  `status_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ps_orders`
 --
 
-INSERT INTO `ps_orders` (`order_id`, `order_date`, `order_due`, `user_id`, `order_before_tax`, `order_tax`, `order_after_tax`, `order_amount_paid`, `order_amount_due`, `order_discount`, `order_credits`, `order_production_time`, `payment_type_id`, `client_id`, `status_id`, `order_comment`) VALUES
-(1, '2024-06-01', '2024-06-03', 1, 120.00, 10.80, 130.80, 100.00, 30.80, NULL, NULL, 1, 1, 1, 9, 'Rush order'),
-(2, '2024-06-05', '2024-06-07', 2, 300.00, 27.00, 327.00, 327.00, 0.00, NULL, NULL, 1, 2, 2, 9, 'Standard delivery'),
-(3, '2024-06-10', '2024-06-12', 1, 450.00, 40.50, 490.50, 490.50, 0.00, NULL, NULL, 1, 1, 3, 9, 'Client requested proof'),
-(24, '2025-11-12', '2025-11-17', 1, 33.00, 2.72, 35.72, 0.00, 35.72, NULL, NULL, 1, 1, 7, 7, 'Testing\nNew\nSomething'),
-(25, '2025-11-12', '2025-11-17', 1, 29.00, 2.39, 31.39, 0.00, 31.39, 0.00, 0.00, 1, 3, 11, 8, '• Re-design/Fix sizes\n• testing bullets'),
-(26, '2025-11-12', '2025-11-17', 1, 563.00, 46.45, 609.45, 0.00, 609.45, 0.00, 0.00, 1, 1, 12, 8, '- Designs have been made and sent to contact\n- check DB change'),
-(31, '2025-11-12', '2025-11-17', 1, 24.00, 1.98, 25.98, 25.98, 0.00, 0.00, 0.00, 1, 1, 14, 9, '- Designs have been sent\n• designed, approved 11/25\n• status changing'),
-(35, '2025-11-28', '2025-12-03', 1, 83.00, 0.00, 83.00, 0.00, 83.00, 0.00, 0.00, 1, 1, 7, 4, '• Comments\n• Check update');
+INSERT INTO `ps_orders` (`order_id`, `order_date`, `order_due`, `user_id`, `order_before_tax`, `order_tax`, `order_after_tax`, `order_amount_paid`, `order_amount_due`, `order_discount`, `order_credits`, `order_production_time`, `payment_type_id`, `client_id`, `status_id`) VALUES
+(1, '2024-06-01', '2024-06-06', 1, 120.00, 10.80, 130.80, 100.00, 30.80, 0.00, 0.00, 1, 1, 1, 9),
+(2, '2024-06-05', '2024-06-07', 2, 300.00, 27.00, 327.00, 327.00, 0.00, NULL, NULL, 1, 2, 2, 9),
+(3, '2024-06-10', '2024-06-12', 1, 450.00, 40.50, 490.50, 490.50, 0.00, NULL, NULL, 1, 1, 3, 9),
+(24, '2025-11-12', '2025-11-17', 1, 33.00, 2.72, 35.72, 0.00, 35.72, NULL, NULL, 1, 1, 7, 7),
+(25, '2025-11-12', '2025-11-17', 1, 29.00, 2.39, 31.39, 0.00, 31.39, 0.00, 0.00, 1, 3, 11, 8),
+(26, '2025-11-12', '2025-11-17', 1, 563.00, 46.45, 609.45, 0.00, 609.45, 0.00, 0.00, 1, 1, 12, 8),
+(31, '2025-11-12', '2025-11-17', 1, 24.00, 1.98, 25.98, 25.98, 0.00, 0.00, 0.00, 1, 1, 14, 9),
+(35, '2025-11-28', '2025-12-03', 1, 83.00, 0.00, 83.00, 0.00, 83.00, 0.00, 0.00, 1, 1, 7, 4),
+(36, '2025-12-06', '2025-12-11', 1, 19.00, 0.00, 19.00, 0.00, 19.00, 0.00, 0.00, 1, 2, 7, 2),
+(37, '2025-12-12', '2025-12-17', 1, 82.00, 0.00, 82.00, 0.00, 82.00, 0.00, 0.00, 1, 2, 7, 1),
+(38, '2025-12-12', '2025-12-17', 1, 64.00, 0.00, 64.00, 0.00, 64.00, 0.00, 0.00, 1, 1, 7, 1),
+(39, '2025-12-14', '2025-12-19', 1, 109.00, 8.99, 117.99, 0.00, 117.99, 0.00, 0.00, 1, 2, 25, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ps_order_comments`
+--
+
+CREATE TABLE `ps_order_comments` (
+  `comment_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `comment_text` text NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ps_order_comments`
+--
+
+INSERT INTO `ps_order_comments` (`comment_id`, `order_id`, `comment_text`, `created_at`) VALUES
+(1, 36, 'hello this is new comment section', '2025-12-11 21:59:29'),
+(11, 36, 'this is fine', '2025-12-11 23:24:56'),
+(12, 37, 'hello this is new comment section', '2025-12-11 23:28:57'),
+(13, 37, 'somwthing', '2025-12-11 23:32:33'),
+(14, 37, 'working?', '2025-12-11 23:42:25'),
+(15, 38, 'somwthing', '2025-12-11 23:53:52'),
+(16, 37, 'hello', '2025-12-14 02:59:54');
 
 -- --------------------------------------------------------
 
@@ -242,7 +272,7 @@ CREATE TABLE `ps_order_items` (
 --
 
 INSERT INTO `ps_order_items` (`item_id`, `order_id`, `material_id`, `item_details`, `item_quantity`, `item_size_width`, `item_size_height`, `item_grommets`, `item_price`, `item_total`, `item_is_design`, `item_is_printed`) VALUES
-(1, 1, 1, 'Poster Print 24x36', 2, 24.00, 36.00, 0, 60.00, 120.00, 0, 0),
+(1, 1, 1, 'Poster Print 24x36', 2, 24.00, 36.00, 0, 60.00, 120.00, 1, 0),
 (2, 2, 2, 'Banner 48x72 with grommets', 1, 48.00, 72.00, 1, 300.00, 300.00, 0, 0),
 (3, 3, 3, 'Vinyl decal set', 3, 12.00, 12.00, 0, 150.00, 450.00, 0, 0),
 (39, 24, 16, 'Sign', 1, 24.00, 36.00, 0, 14.00, 14.00, 1, 0),
@@ -258,7 +288,11 @@ INSERT INTO `ps_order_items` (`item_id`, `order_id`, `material_id`, `item_detail
 (49, 26, 1, 'No Back Pack Signs', 10, 8.00, 11.00, 0, 6.00, 60.00, 1, 0),
 (50, 26, 6, '1 Per Combo', 4, 6.00, 24.00, 0, 5.00, 20.00, 1, 1),
 (51, 31, 16, 'Drive Thru Sign', 1, 18.00, 18.00, 0, 6.00, 24.00, 0, 0),
-(52, 35, 1, '', 1, 96.00, 48.00, 0, 83.00, 83.00, 1, 1);
+(52, 35, 1, '', 1, 96.00, 48.00, 0, 83.00, 83.00, 1, 0),
+(53, 36, 1, 'sticker', 1, 24.00, 36.00, 0, 19.00, 19.00, 1, 1),
+(54, 37, 1, '', 1, 96.00, 48.00, 0, 82.00, 82.00, 0, 0),
+(55, 38, 16, '', 1, 96.00, 48.00, 0, 64.00, 64.00, 0, 0),
+(56, 39, 2, '', 1, 96.00, 48.00, 0, 109.00, 109.00, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -311,9 +345,9 @@ CREATE TABLE `ps_users` (
 --
 
 INSERT INTO `ps_users` (`user_id`, `user_name`, `user_email`, `user_password`, `user_type`, `user_creation_date`) VALUES
-(1, 'Admin User', 'admin@stma.com', 'admin123', 'admin', '2024-01-01'),
-(2, 'Manager One', 'manager1@stma.com', 'managerpass', 'manager', '2024-02-10'),
-(3, 'Viewer One', 'viewer1@stma.com', 'viewerpass', 'viewer', '2024-03-05');
+(1, 'Admin', 'admin@stmaprinting.com', 'admin7861', 'admin', '2024-01-01'),
+(2, 'Sajjad Ali', 'sajjad@stmaprinting.com', 'user123', 'manager', '2024-02-10'),
+(3, 'Naail Ali', 'naail@stmaprinting.com', 'user123', 'manager', '2024-03-05');
 
 --
 -- Indexes for dumped tables
@@ -354,6 +388,13 @@ ALTER TABLE `ps_orders`
   ADD KEY `fk_orders_user` (`user_id`),
   ADD KEY `fk_orders_client` (`client_id`),
   ADD KEY `fk_orders_status` (`status_id`);
+
+--
+-- Indexes for table `ps_order_comments`
+--
+ALTER TABLE `ps_order_comments`
+  ADD PRIMARY KEY (`comment_id`),
+  ADD KEY `fk_order_comments_order` (`order_id`);
 
 --
 -- Indexes for table `ps_order_items`
@@ -402,19 +443,25 @@ ALTER TABLE `ps_material_categories`
 -- AUTO_INCREMENT for table `ps_material_categories_map`
 --
 ALTER TABLE `ps_material_categories_map`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `ps_orders`
 --
 ALTER TABLE `ps_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT for table `ps_order_comments`
+--
+ALTER TABLE `ps_order_comments`
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `ps_order_items`
 --
 ALTER TABLE `ps_order_items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `ps_status`
@@ -446,6 +493,12 @@ ALTER TABLE `ps_orders`
   ADD CONSTRAINT `fk_orders_client` FOREIGN KEY (`client_id`) REFERENCES `ps_clients` (`client_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_orders_status` FOREIGN KEY (`status_id`) REFERENCES `ps_status` (`status_id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_orders_user` FOREIGN KEY (`user_id`) REFERENCES `ps_users` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `ps_order_comments`
+--
+ALTER TABLE `ps_order_comments`
+  ADD CONSTRAINT `fk_order_comments_order` FOREIGN KEY (`order_id`) REFERENCES `ps_orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ps_order_items`
