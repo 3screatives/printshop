@@ -1193,7 +1193,7 @@ $(document).ready(function () {
                 if (response.status === 'success') {
                     $('.order-comments-list em').remove();
 
-                    $('.order-comments-list').append(`
+                    $('.order-comments-list').prepend(`
                         <li class="comment-entry w-100">
                             <span class="comment-text d-block">${commentText}</span>
                             <i class="comment-date">${response.created_at}</i>

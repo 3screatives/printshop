@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2025 at 02:31 AM
+-- Generation Time: Dec 16, 2025 at 05:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -37,26 +37,28 @@ CREATE TABLE `ps_clients` (
   `client_since` date NOT NULL DEFAULT current_timestamp(),
   `client_stma_id` int(11) DEFAULT NULL,
   `tax_exempt` tinyint(1) NOT NULL DEFAULT 0,
-  `tax_exempt_id` int(11) DEFAULT NULL
+  `tax_exempt_id` int(11) DEFAULT NULL,
+  `is_employee` tinyint(1) NOT NULL DEFAULT 0,
+  `is_cost_price` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ps_clients`
 --
 
-INSERT INTO `ps_clients` (`client_id`, `business_name`, `business_address`, `contact_name`, `contact_phone`, `contact_email`, `client_since`, `client_stma_id`, `tax_exempt`, `tax_exempt_id`) VALUES
-(1, 'Alpha Print Co', '123 Main St, Chicago, IL', 'John Doe', '312-555-1212', 'john@alpha.com', '2022-01-10', 1001, 0, 0),
-(2, 'Beta Signs LLC', '42 Market Ave, Dallas, TX', 'Sarah Lee', '214-555-8787', 'sarah@betasigns.com', '2023-03-15', 1002, 0, 0),
-(3, 'Gamma Media', '77 Poster Ln, Miami, FL', 'Carlos Ruiz', '305-555-4321', 'carlos@gamma.com', '2021-07-05', 1003, 0, 0),
-(4, 'Delta Prints', '890 Banner Rd, New York, NY', 'Ava Brown', '917-555-5678', 'ava@delta.com', '2020-10-22', 1004, 0, 0),
-(5, 'Epsilon Visuals', '22 Wall St, Los Angeles, CA', 'Mike Green', '213-555-9988', 'mike@epsilon.com', '2024-01-05', 1005, 0, 0),
-(7, 'New Company LLC', 'Somewhere here...', 'Sajjad Ali', '1234567890', 'abc@xyz.com', '2025-11-03', 1324, 1, 321654987),
-(9, 'Kwik Corner', '2730 Hillcrest Dr, Balcones Heights TX 78228', 'Srikanth', '', 'quickcorner2@gmail.com', '2025-11-10', 2730, 0, 0),
-(10, 'New Company LLC', 'here', 'Naail Ali', '7373812357', 'printing@mystma.com', '2025-11-12', 0, 0, 0),
-(11, 'Hightime Smoke & Vape', '5935 Rittman Rd', 'Jasad', '8303578201', 'jassadmomin@hotmail.com', '2025-11-12', 0, 0, 0),
-(12, 'Amazing Stop', '-', 'Kahir Charolia', '2106395078', '', '2025-11-12', 0, 1, 123456789),
-(14, 'Shipley Donuts', '7875 Kitty Hawk Rd, Converse, TX 78109', 'Zakir Mehmood', '210-840-2733', 'zakirmehmood2002@yahoo.com', '2025-11-12', 0, 0, 0),
-(25, 'New Company LLC', 'Home', 'Ruhaan Ali', '1234567890', 'abc@comp.com', '2025-11-24', 3214, 0, 0);
+INSERT INTO `ps_clients` (`client_id`, `business_name`, `business_address`, `contact_name`, `contact_phone`, `contact_email`, `client_since`, `client_stma_id`, `tax_exempt`, `tax_exempt_id`, `is_employee`, `is_cost_price`) VALUES
+(1, 'Alpha Print Co', '123 Main St, Chicago, IL', 'John Doe', '312-555-1212', 'john@alpha.com', '2022-01-10', 1001, 0, 0, 0, 0),
+(2, 'Beta Signs LLC', '42 Market Ave, Dallas, TX', 'Sarah Lee', '214-555-8787', 'sarah@betasigns.com', '2023-03-15', 1002, 0, 0, 0, 0),
+(3, 'Gamma Media', '77 Poster Ln, Miami, FL', 'Carlos Ruiz', '305-555-4321', 'carlos@gamma.com', '2021-07-05', 1003, 0, 0, 0, 0),
+(4, 'Delta Prints', '890 Banner Rd, New York, NY', 'Ava Brown', '917-555-5678', 'ava@delta.com', '2020-10-22', 1004, 0, 0, 0, 0),
+(5, 'Epsilon Visuals', '22 Wall St, Los Angeles, CA', 'Mike Green', '213-555-9988', 'mike@epsilon.com', '2024-01-05', 1005, 0, 0, 0, 0),
+(7, 'New Company LLC', 'Somewhere here...', 'Sajjad Ali', '1234567890', 'abc@xyz.com', '2025-11-03', 1324, 1, 321654987, 1, 0),
+(9, 'Kwik Corner', '2730 Hillcrest Dr, Balcones Heights TX 78228', 'Srikanth', '', 'quickcorner2@gmail.com', '2025-11-10', 2730, 0, 0, 0, 0),
+(10, 'New Company LLC', 'here', 'Naail Ali', '7373812357', 'printing@mystma.com', '2025-11-12', 0, 0, 0, 1, 0),
+(11, 'Hightime Smoke & Vape', '5935 Rittman Rd', 'Jasad', '8303578201', 'jassadmomin@hotmail.com', '2025-11-12', 0, 0, 0, 0, 0),
+(12, 'Amazing Stop', '-', 'Kahir Charolia', '2106395078', '', '2025-11-12', 0, 1, 123456789, 0, 0),
+(14, 'Shipley Donuts', '7875 Kitty Hawk Rd, Converse, TX 78109', 'Zakir Mehmood', '210-840-2733', 'zakirmehmood2002@yahoo.com', '2025-11-12', 0, 0, 0, 0, 0),
+(25, 'New Company LLC', 'Home', 'Ruhaan Ali', '1234567890', 'abc@comp.com', '2025-11-24', 3214, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -216,9 +218,9 @@ INSERT INTO `ps_orders` (`order_id`, `order_date`, `order_due`, `user_id`, `orde
 (31, '2025-11-12', '2025-11-17', 1, 24.00, 1.98, 25.98, 25.98, 0.00, 0.00, 0.00, 1, 1, 14, 9),
 (35, '2025-11-28', '2025-12-03', 1, 83.00, 0.00, 83.00, 0.00, 83.00, 0.00, 0.00, 1, 1, 7, 4),
 (36, '2025-12-06', '2025-12-11', 1, 19.00, 0.00, 19.00, 0.00, 19.00, 0.00, 0.00, 1, 2, 7, 2),
-(37, '2025-12-12', '2025-12-17', 1, 82.00, 0.00, 82.00, 0.00, 82.00, 0.00, 0.00, 1, 2, 7, 1),
-(38, '2025-12-12', '2025-12-17', 1, 64.00, 0.00, 64.00, 0.00, 64.00, 0.00, 0.00, 1, 1, 7, 1),
-(39, '2025-12-14', '2025-12-19', 1, 109.00, 8.99, 117.99, 0.00, 117.99, 0.00, 0.00, 1, 2, 25, 1);
+(40, '2025-12-15', '2025-12-22', 1, 64.00, 5.28, 69.28, 0.00, 69.28, 0.00, 0.00, 1, 1, 11, 1),
+(42, '2025-12-15', '2025-12-22', 1, 109.00, 8.99, 117.99, 0.00, 117.99, 0.00, 0.00, 1, 1, 2, 1),
+(43, '2025-12-15', '2025-12-22', 1, 105.00, 8.66, 113.66, 0.00, 113.66, 0.00, 0.00, 1, 3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -240,11 +242,11 @@ CREATE TABLE `ps_order_comments` (
 INSERT INTO `ps_order_comments` (`comment_id`, `order_id`, `comment_text`, `created_at`) VALUES
 (1, 36, 'hello this is new comment section', '2025-12-11 21:59:29'),
 (11, 36, 'this is fine', '2025-12-11 23:24:56'),
-(12, 37, 'hello this is new comment section', '2025-12-11 23:28:57'),
-(13, 37, 'somwthing', '2025-12-11 23:32:33'),
-(14, 37, 'working?', '2025-12-11 23:42:25'),
-(15, 38, 'somwthing', '2025-12-11 23:53:52'),
-(16, 37, 'hello', '2025-12-14 02:59:54');
+(17, 40, 'new comments', '2025-12-14 22:39:33'),
+(18, 40, 'New', '2025-12-14 22:50:12'),
+(19, 40, 'view order', '2025-12-14 23:35:35'),
+(20, 40, 'edit', '2025-12-14 23:49:10'),
+(23, 43, 'new project', '2025-12-15 00:20:09');
 
 -- --------------------------------------------------------
 
@@ -290,9 +292,9 @@ INSERT INTO `ps_order_items` (`item_id`, `order_id`, `material_id`, `item_detail
 (51, 31, 16, 'Drive Thru Sign', 1, 18.00, 18.00, 0, 6.00, 24.00, 0, 0),
 (52, 35, 1, '', 1, 96.00, 48.00, 0, 83.00, 83.00, 1, 0),
 (53, 36, 1, 'sticker', 1, 24.00, 36.00, 0, 19.00, 19.00, 1, 1),
-(54, 37, 1, '', 1, 96.00, 48.00, 0, 82.00, 82.00, 0, 0),
-(55, 38, 16, '', 1, 96.00, 48.00, 0, 64.00, 64.00, 0, 0),
-(56, 39, 2, '', 1, 96.00, 48.00, 0, 109.00, 109.00, 0, 0);
+(57, 40, 16, '', 1, 96.00, 48.00, 0, 64.00, 64.00, 0, 0),
+(59, 42, 2, '', 1, 96.00, 48.00, 0, 109.00, 109.00, 0, 0),
+(60, 43, 3, '', 1, 120.00, 54.00, 0, 105.00, 105.00, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -449,19 +451,19 @@ ALTER TABLE `ps_material_categories_map`
 -- AUTO_INCREMENT for table `ps_orders`
 --
 ALTER TABLE `ps_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `ps_order_comments`
 --
 ALTER TABLE `ps_order_comments`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `ps_order_items`
 --
 ALTER TABLE `ps_order_items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `ps_status`

@@ -113,7 +113,7 @@ if (!empty($data)) {
     $sql_comments = "SELECT comment_id, comment_text, created_at 
                  FROM ps_order_comments 
                  WHERE order_id = ? 
-                 ORDER BY created_at ASC";  // oldest first (or DESC for newest first)
+                 ORDER BY created_at DESC";  // oldest first (or DESC for newest first)
 
     $comments = select_query($conn, $sql_comments, "i", $order_id);
 
