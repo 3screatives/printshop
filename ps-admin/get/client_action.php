@@ -14,34 +14,17 @@ if ($action == 'save') {
     $client_stma_id = $_POST['client_stma_id'];
     $tax_exempt_id = $_POST['tax_exempt_id']; // NEW
     $tax_exempt = (!empty($tax_exempt_id) && $tax_exempt_id != "0") ? 1 : 0;
+    $is_employee = $_POST['is_employee'];
 
 
     if (empty($client_id)) {
         $sql = "INSERT INTO ps_clients 
-        (business_name, business_address, contact_name, contact_phone, contact_email, client_stma_id, tax_exempt, tax_exempt_id) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        (business_name, business_address, contact_name, contact_phone, contact_email, client_stma_id, tax_exempt, tax_exempt_id, is_employee) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $success = execute_query(
             $conn,
             $sql,
-            "sssssiis",   // <-- 8 params
-            $business_name,
-            $business_address,
-            $contact_name,
-            $contact_phone,
-            $contact_email,
-            $client_stma_id,
-            $tax_exempt,
-            $tax_exempt_id
-        );
-        echo $success ? "Client added successfully!" : "Error adding client.";
-    } else {
-        $sql = "UPDATE ps_clients 
-        SET business_name=?, business_address=?, contact_name=?, contact_phone=?, contact_email=?, client_stma_id=?, tax_exempt=?, tax_exempt_id=? 
-        WHERE client_id=?";
-        $success = execute_query(
-            $conn,
-            $sql,
-            "sssssiiii",   // <-- 9 params
+            "sssssiisi",   // <-- 9 params
             $business_name,
             $business_address,
             $contact_name,
@@ -50,6 +33,26 @@ if ($action == 'save') {
             $client_stma_id,
             $tax_exempt,
             $tax_exempt_id,
+            $is_employee
+        );
+        echo $success ? "Client added successfully!" : "Error adding client.";
+    } else {
+        $sql = "UPDATE ps_clients 
+        SET business_name=?, business_address=?, contact_name=?, contact_phone=?, contact_email=?, client_stma_id=?, tax_exempt=?, tax_exempt_id=?, is_employee=?
+        WHERE client_id=?";
+        $success = execute_query(
+            $conn,
+            $sql,
+            "sssssiiiii",   // <-- 10 params
+            $business_name,
+            $business_address,
+            $contact_name,
+            $contact_phone,
+            $contact_email,
+            $client_stma_id,
+            $tax_exempt,
+            $tax_exempt_id,
+            $is_employee,
             $client_id
         );
         echo $success ? "Client updated successfully!" : "Error updating client.";
@@ -58,15 +61,19 @@ if ($action == 'save') {
     $clients = select_query($conn, "SELECT * FROM ps_clients ORDER BY client_id DESC");
     if ($clients) {
         foreach ($clients as $row) {
+            $employeeIcon = ($row['is_employee'] == 1)
+                ? ' <i class="bi bi-person-check-fill" style="font-size: 16px;"></i>'
+                : '';
+
             echo "<tr>
                 <td>{$row['client_id']}</td>
                 <td>{$row['client_stma_id']}</td>
                 <td>{$row['business_name']}</td>
                 <td>{$row['business_address']}</td>
-                <td>{$row['contact_name']}</td>
+                <td>{$row['contact_name']}{$employeeIcon}</td>
                 <td>{$row['contact_phone']}</td>
                 <td>{$row['contact_email']}</td>
-                <td>{$row['tax_exempt_id']}</td> <!-- NEW COLUMN -->
+                <td>{$row['tax_exempt_id']}</td>
                 <td>" . (!empty($row['client_since']) ? date('M d, Y', strtotime($row['client_since'])) : '-') . "</td>
                 <td class='text-center'>
                     <button class='btn btn-outline-primary btn-sm me-2 editClient' data-id='{$row['client_id']}'>

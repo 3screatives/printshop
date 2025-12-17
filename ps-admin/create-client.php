@@ -32,9 +32,16 @@
                         <label>Client STMA ID</label>
                         <input type="number" name="client_stma_id" id="client_stma_id" class="form-control">
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label>Tax Exempt ID</label>
                         <input type="number" name="tax_exempt_id" id="tax_exempt_id" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Is Employee at STMA?</label>
+                        <select name="is_employee" id="is_employee" class="form-control">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
