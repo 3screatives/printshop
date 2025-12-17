@@ -826,6 +826,7 @@ $(document).ready(function () {
                             data-phone="${client.contact_phone || ''}"
                             data-email="${client.contact_email || ''}"
                             data-taxex="${client.tax_exempt || ''}"
+                            data-employee="${client.is_employee || ''}"
                             >
                             ${client.business_name + ' (' + client.contact_name + ')'}
                         </button>`;
@@ -839,13 +840,19 @@ $(document).ready(function () {
         $suggestions.on("click", ".list-group-item-action", function () {
             const $this = $(this);
             $("#client_id").val($this.data("id"));
-            $("#c_business").val($this.data("name"));
+            $("#c_business").val($this.data("name")).attr('data-isemployee', $this.data('employee'));
             $("#c_address").text($this.data("address"));
             $("#c_name").text($this.data("cname"));
             $("#c_phone").text($this.data("phone"));
             $("#c_email").text($this.data("email"));
             $("#taxEx").val($this.data("taxex") || '');
+            if ($this.data('employee') == 1) {
+                $('#o_discount').val(20);
+            } else {
+                $('#o_discount').val('');
+            }
             $suggestions.empty().hide();
+
             calculateTotal();
         });
 
