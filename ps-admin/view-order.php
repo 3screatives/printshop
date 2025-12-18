@@ -39,8 +39,8 @@
                         <table class="table table-bordered" id="order_items">
                             <thead class="table-light">
                                 <tr>
-                                    <th width="4%" class="text-center"><i class="bi bi-brush"></i></th>
-                                    <th width="4%" class="text-center"><i class="bi bi-printer"></i></th>
+                                    <th width="4%" class="text-center"><i class="bi bi-brush toggle-design-all" style="cursor:pointer;"></i></th>
+                                    <th width="4%" class="text-center"><i class="bi bi-printer toggle-print-all" style="cursor:pointer;"></i></th>
                                     <th width="4%" class="text-center">Qty</th>
                                     <th width="14%">Material</th>
                                     <th width="34%">Details</th>
