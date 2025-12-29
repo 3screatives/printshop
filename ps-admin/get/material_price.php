@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $height      = floatval($_POST['height']);  // inches
     $sides       = $_POST['sides'] ?? "single";
     $quantity    = intval($_POST['quantity']);
+    $is_cost_price = isset($_POST['is_cost_price']) ? (int)$_POST['is_cost_price'] : 0;
 
     // --------------------------
     // FETCH MATERIAL DATA
@@ -139,8 +140,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // --------------------------
     // MARKUP
     // --------------------------
-    $markup_amount = ($cost_before_markup * $markup_factor) - $cost_before_markup;
-    $total_cost = $cost_before_markup + $markup_amount;
+    // $markup_amount = ($cost_before_markup * $markup_factor) - $cost_before_markup;
+    // $total_cost = $cost_before_markup + $markup_amount;
+    // $final_cost = ceil($total_cost);
+    // --------------------------
+    // MARKUP (SKIP IF COST PRICE)
+    // --------------------------
+    if ($is_cost_price == 1) {
+        $markup_amount = 0;
+        $total_cost = $cost_before_markup;
+    } else {
+        $markup_amount = ($cost_before_markup * $markup_factor) - $cost_before_markup;
+        $total_cost = $cost_before_markup + $markup_amount;
+    }
     $final_cost = ceil($total_cost);
 
     // --------------------------
