@@ -40,14 +40,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // --------------------------
     if (strtolower($mat['mat_type']) === 'digital') {
 
-        $mat_cost = floatval($mat['mat_cost']);
-        $ink_cost = floatval($mat['ink_cost']);
+        // $width  = floatval($_POST['width']);
+        // $height = floatval($_POST['height']);
+        // $quantity = intval($_POST['quantity']);
 
-        $running_cost_per_sq_ft = 0.026;     // overhead/labor per sq ft
-        $markup_factor          = 3.00;     // e.g. 3x for profit and overhead
+        $area_sq_in = $width * $height;
+        $area_sq_ft = $area_sq_in / 144;
 
-        $print_cost = $mat_cost + $ink_cost + $running_cost_per_sq_ft;
-        $total_cost = $print_cost * $markup_factor;
+        $mat_cost_per_sq_ft = floatval($mat['mat_cost']);
+        $ink_cost_per_sq_ft = floatval($mat['ink_cost']);
+
+        $running_cost_per_sq_ft = 0.026;
+        $markup_factor = 3.00;
+
+        $base_cost_per_sq_ft =
+            $mat_cost_per_sq_ft +
+            $ink_cost_per_sq_ft +
+            $running_cost_per_sq_ft;
+
+        $total_cost =
+            $base_cost_per_sq_ft *
+            $area_sq_ft *
+            $quantity *
+            $markup_factor;
 
         $discount_rate = 0;
         if ($quantity >= 5000) {
@@ -62,16 +77,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $final_cost = $total_cost - ($total_cost * $discount_rate);
 
-        // $final_cost = $mat_cost + $ink_cost;
-
         echo json_encode([
-            "final_cost"  => round($final_cost, 2),
-            "final_price" => number_format($final_cost, 2),
-
-            "material_cost" => round($mat_cost, 2),
-            "ink_cost"      => round($ink_cost, 2),
-
-            "note" => "Digital material pricing applied (flat cost)"
+            "final_cost"   => round($final_cost, 2),
+            "final_price"  => number_format($final_cost, 2),
+            "sq_ft"        => round($area_sq_ft, 4),
+            "unit_cost"    => round($base_cost_per_sq_ft, 4),
+            "note"         => "Digital pricing calculated per square inch (converted to sq ft)"
         ]);
         exit;
     }
