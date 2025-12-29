@@ -687,11 +687,11 @@ $(document).ready(function () {
                 const qty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
                 const total = unitPrice * qty;
 
+                console.log(response.material_cost, response.ink_cost, response.final_cost);
+
                 $row.find('input[name="order_item_price[]"]').val(unitPrice.toFixed(2));
                 $row.find('input[name="order_item_total[]"]').val(total.toFixed(2));
                 calculateTotal();
-
-                console.log(response.total_cost_sq_ft);
             }
         });
     }

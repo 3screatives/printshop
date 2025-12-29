@@ -38,7 +38,7 @@
 
                     <div class="row g-3">
                         <!-- Vendor -->
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="mat_vendor" class="form-label">Vendor</label>
                             <input type="text" name="mat_vendor" id="mat_vendor" class="form-control">
                         </div>
@@ -47,6 +47,16 @@
                         <div class="col-md-6">
                             <label for="mat_name" class="form-label">Material Name</label>
                             <input type="text" name="mat_name" id="mat_name" class="form-control">
+                        </div>
+
+                        <!-- Material Type -->
+                        <div class="col-md-6">
+                            <label for="mat_type" class="form-label">Material Type</label>
+                            <select id="mat_type" name="mat_type" class="form-select mt-2">
+                                <option value="">Select Material Type</option>
+                                <option value="large">Large Format</option>
+                                <option value="digital">Digital</option>
+                            </select>
                         </div>
 
                         <!-- Details -->
@@ -76,13 +86,13 @@
                         <!-- Material Cost -->
                         <div class="col-md-6">
                             <label for="mat_cost" class="form-label">Material Cost ($)</label>
-                            <input type="number" step="0.01" name="mat_cost" id="mat_cost" class="form-control">
+                            <input type="number" step="0.0001" name="mat_cost" id="mat_cost" class="form-control">
                         </div>
 
                         <!-- Ink Cost -->
                         <div class="col-md-6">
                             <label for="ink_cost" class="form-label">Ink Cost ($)</label>
-                            <input type="number" step="0.0010" name="ink_cost" id="ink_cost" class="form-control"
+                            <input type="number" step="0.0001" name="ink_cost" id="ink_cost" class="form-control"
                                 value="0.003400">
                         </div>
 

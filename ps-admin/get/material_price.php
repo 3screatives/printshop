@@ -13,11 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $width       = floatval($_POST['width']);   // inches
     $height      = floatval($_POST['height']);  // inches
     $sides       = $_POST['sides'] ?? "single";
+    $quantity    = intval($_POST['quantity']);
 
     // --------------------------
     // FETCH MATERIAL DATA
     // --------------------------
-    $sql = "SELECT mat_id, mat_vendor, mat_name, mat_details, mat_roll_size,
+    $sql = "SELECT mat_id, mat_vendor, mat_name, mat_type, mat_details, mat_roll_size,
                    mat_length, mat_size, mat_cost, mat_cost_multiplier, ink_cost, mat_added_on
             FROM ps_materials 
             WHERE mat_id = ?";
@@ -34,13 +35,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mat = $materials[0];
 
     // --------------------------
+    // DIGITAL MATERIAL OVERRIDE
+    // --------------------------
+    if (strtolower($mat['mat_type']) === 'digital') {
+
+        $mat_cost = floatval($mat['mat_cost']);
+        $ink_cost = floatval($mat['ink_cost']);
+
+        $running_cost_per_sq_ft = 0.026;     // overhead/labor per sq ft
+        $markup_factor          = 3.00;     // e.g. 3x for profit and overhead
+
+        $print_cost = $mat_cost + $ink_cost + $running_cost_per_sq_ft;
+        $total_cost = $print_cost * $markup_factor;
+
+        $discount_rate = 0;
+        if ($quantity >= 5000) {
+            $discount_rate = 0.28;
+        } elseif ($quantity >= 2500) {
+            $discount_rate = 0.14;
+        } elseif ($quantity >= 1000) {
+            $discount_rate = 0.10;
+        } elseif ($quantity >= 500) {
+            $discount_rate = 0.06;
+        }
+
+        $final_cost = $total_cost - ($total_cost * $discount_rate);
+
+        // $final_cost = $mat_cost + $ink_cost;
+
+        echo json_encode([
+            "final_cost"  => round($final_cost, 2),
+            "final_price" => number_format($final_cost, 2),
+
+            "material_cost" => round($mat_cost, 2),
+            "ink_cost"      => round($ink_cost, 2),
+
+            "note" => "Digital material pricing applied (flat cost)"
+        ]);
+        exit;
+    }
+
+    // --------------------------
     // MATERIAL & INK DATA
     // --------------------------
-    $roll_width           = floatval($mat['mat_roll_size']);  // inches
-    $roll_length          = floatval($mat['mat_size']);       // inches
-    $mat_cost             = floatval($mat['mat_cost']);       // cost for the roll_length
-    $ink_cost_per_sq_in   = floatval($mat['ink_cost']);       // per sq in
-    $mat_cost_multiplier  = floatval($mat['mat_cost_multiplier']);
+    $roll_width           = floatval($mat['mat_roll_size']);        // inches
+    $roll_length          = floatval($mat['mat_size']);             // inches
+    $mat_cost             = floatval($mat['mat_cost']);             // cost for the roll_length
+    $ink_cost_per_sq_in   = floatval($mat['ink_cost']);             // per sq in
+    $mat_cost_multiplier  = floatval($mat['mat_cost_multiplier']);  // multiplier
 
     // Apply material multiplier
     $mat_cost = $mat_cost * $mat_cost_multiplier;
@@ -48,8 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // --------------------------
     // SYSTEM CONSTANTS
     // --------------------------
-    $running_cost_per_sq_ft = 0.04; // overhead/labor per sq ft
-    $markup_factor          = 3.0; // e.g., 3x for profit and overhead
+    $running_cost_per_sq_ft = 0.04;     // overhead/labor per sq ft
+    $markup_factor          = 3.00;     // e.g. 3x for profit and overhead
 
     // --------------------------
     // VALIDATION: FIT ROLL WIDTH
