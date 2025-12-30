@@ -8,6 +8,7 @@ if ($action == 'save') {
     $mat_id = $_POST['mat_id'] ?? '';
     $mat_vendor = $_POST['mat_vendor'] ?? '';
     $mat_name = $_POST['mat_name'] ?? '';
+    $mat_type = $_POST['mat_type'] ?? '';
     $mat_details = $_POST['mat_details'] ?? '';
     $mat_roll_size = $_POST['mat_roll_size'] ?? '';
     $mat_cost_multiplier = $_POST['mat_cost_multiplier'] ?? '';
@@ -20,15 +21,16 @@ if ($action == 'save') {
     if (empty($mat_id)) {
         // Insert new material
         $sql = "INSERT INTO ps_materials 
-        (mat_vendor, mat_name, mat_details, mat_roll_size, mat_cost_multiplier, mat_size, mat_cost, ink_cost, mat_added_on) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        (mat_vendor, mat_name, mat_type, mat_details, mat_roll_size, mat_cost_multiplier, mat_size, mat_cost, ink_cost, mat_added_on) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $success = execute_query(
             $conn,
             $sql,
-            "ssssssdds",
+            "sssssssdds",
             $mat_vendor,
             $mat_name,
+            $mat_type,
             $mat_details,
             $mat_roll_size,
             $mat_cost_multiplier,
@@ -58,15 +60,16 @@ if ($action == 'save') {
         echo $success ? "Material added successfully!" : "Error adding material.";
     } else {
         $sql = "UPDATE ps_materials 
-            SET mat_vendor=?, mat_name=?, mat_details=?, mat_roll_size=?, mat_cost_multiplier=?, mat_size=?, mat_cost=?, ink_cost=? 
+            SET mat_vendor=?, mat_name=?, mat_type=?, mat_details=?, mat_roll_size=?, mat_cost_multiplier=?, mat_size=?, mat_cost=?, ink_cost=? 
             WHERE mat_id=?";
 
         $success = execute_query(
             $conn,
             $sql,
-            "sssssssdi",
+            "ssssssssdi",
             $mat_vendor,
             $mat_name,
+            $mat_type,
             $mat_details,
             $mat_roll_size,
             $mat_cost_multiplier,
@@ -120,6 +123,7 @@ if ($action == 'save') {
                 <td>{$row['mat_id']}</td>
                 <td>{$row['mat_vendor']}</td>
                 <td>{$row['mat_name']}</td>
+                <td>{$row['mat_type']}</td>
                 <td>{$row['mat_details']}</td>
                 <td>{$row['mat_roll_size']}</td>
                 <td>{$row['mat_size']}</td>

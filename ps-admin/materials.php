@@ -81,8 +81,9 @@
                         <thead>
                             <tr>
                                 <th width="64px">Mat #</th>
-                                <th width="164px">Vendor</th>
-                                <th width="196px">Name</th>
+                                <th width="116px">Vendor</th>
+                                <th width="136px">Name</th>
+                                <th width="116px">Type</th>
                                 <th width="436px">Details</th>
                                 <th width="96px">Roll Size</th>
                                 <th width="96px">Size</th>
