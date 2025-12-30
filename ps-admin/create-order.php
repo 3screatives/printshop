@@ -57,8 +57,8 @@
                                         <th width="12%">Material</th>
                                         <th width="5%">Mode</th>
                                         <th width="25%">Details</th>
-                                        <th width="15%">Size (inches)</th>
-                                        <th width="6%" class="text-center">Qty</th>
+                                        <th width="13%">Size (inches)</th>
+                                        <th width="8%" class="text-center">Qty</th>
                                         <th width="12%">Price</th>
                                         <th width="12%">Total</th>
                                         <th width="5%"></th>
