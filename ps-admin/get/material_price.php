@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $ink_cost_per_sq_ft +
             $running_cost_per_sq_ft;
 
-        // ✅ UNIT PRICE (per item, no quantity)
+        // UNIT PRICE (per item, no quantity)
         $unit_price =
             $base_cost_per_sq_ft *
             $area_sq_ft *
@@ -145,12 +145,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cost_before_markup = $base_cost_per_sq_ft_adjusted * $area_sq_ft;
     $total_cost_sq_ft = $material_cost_per_sq_ft + $ink_cost_per_sq_ft_adjusted + $running_cost_per_sq_ft + $base_cost_per_sq_ft_adjusted;
 
-    // --------------------------
-    // MARKUP
-    // --------------------------
-    // $markup_amount = ($cost_before_markup * $markup_factor) - $cost_before_markup;
-    // $total_cost = $cost_before_markup + $markup_amount;
-    // $final_cost = ceil($total_cost);
     // --------------------------
     // MARKUP (SKIP IF COST PRICE)
     // --------------------------
