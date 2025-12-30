@@ -40,10 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // --------------------------
     if (strtolower($mat['mat_type']) === 'digital') {
 
-        // $width  = floatval($_POST['width']);
-        // $height = floatval($_POST['height']);
-        // $quantity = intval($_POST['quantity']);
-
         $area_sq_in = $width * $height;
         $area_sq_ft = $area_sq_in / 144;
 
@@ -58,31 +54,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $ink_cost_per_sq_ft +
             $running_cost_per_sq_ft;
 
-        $total_cost =
+        // ✅ UNIT PRICE (per item, no quantity)
+        $unit_price =
             $base_cost_per_sq_ft *
             $area_sq_ft *
-            $quantity *
             $markup_factor;
 
+        // Quantity-based discount (still allowed)
         $discount_rate = 0;
         if ($quantity >= 5000) {
-            $discount_rate = 0.28;
+            $discount_rate = 0.35;
         } elseif ($quantity >= 2500) {
-            $discount_rate = 0.14;
+            $discount_rate = 0.25;
         } elseif ($quantity >= 1000) {
-            $discount_rate = 0.10;
+            $discount_rate = 0.15;
         } elseif ($quantity >= 500) {
-            $discount_rate = 0.06;
+            $discount_rate = 0.50;
         }
 
-        $final_cost = $total_cost - ($total_cost * $discount_rate);
+        // Apply discount to UNIT PRICE
+        $final_unit_price = $unit_price - ($unit_price * $discount_rate);
 
         echo json_encode([
-            "final_cost"   => round($final_cost, 2),
-            "final_price"  => number_format($final_cost, 2),
-            "sq_ft"        => round($area_sq_ft, 4),
-            "unit_cost"    => round($base_cost_per_sq_ft, 4),
-            "note"         => "Digital pricing calculated per square inch (converted to sq ft)"
+            "final_cost"  => round($final_unit_price, 2), // unit price
+            "sq_ft"       => round($area_sq_ft, 4),
+            "unit_cost"   => round($base_cost_per_sq_ft, 4),
+            "note"        => "Unit price calculated; quantity handled in JS"
         ]);
         exit;
     }
