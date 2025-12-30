@@ -55,7 +55,8 @@
                                         <th width="4%" class="text-center"><i class="bi bi-brush"></i></th>
                                         <th width="4%" class="text-center"><i class="bi bi-printer"></i></th>
                                         <th width="12%">Material</th>
-                                        <th width="30%">Details</th>
+                                        <th width="5%">Mode</th>
+                                        <th width="25%">Details</th>
                                         <th width="15%">Size (inches)</th>
                                         <th width="6%" class="text-center">Qty</th>
                                         <th width="12%">Price</th>
@@ -98,7 +99,8 @@
                                         <ul id="order_comments_list" class="list-unstyled"></ul>
                                         <input name="o_comments" id="o_comments" class="form-control" style="width: 100%;">
                                     </td> -->
-                                    <td width="66%" rowspan="7" style="vertical-align: top !important; position: relative; padding: 0;">
+                                    <td width="66%" rowspan="7"
+                                        style="vertical-align: top !important; position: relative; padding: 0;">
                                         <b style="display:block; padding:8px;">Comments:</b>
 
                                         <!-- Scrollable comment list -->
@@ -121,8 +123,11 @@
                                         box-sizing: border-box;
                                         border-top: 1px solid #ccc;
                                     ">
-                                            <input type="text" name="order-comment-input" class="order-comment-input form-control" placeholder="Add a comment...">
-                                            <button type="button" class="add-comment-btn btn btn-outline-primary ms-2 show-button" data-order-id="">
+                                            <input type="text" name="order-comment-input"
+                                                class="order-comment-input form-control" placeholder="Add a comment...">
+                                            <button type="button"
+                                                class="add-comment-btn btn btn-outline-primary ms-2 show-button"
+                                                data-order-id="">
                                                 <span class="bi bi-plus"></span>
                                             </button>
                                         </div>

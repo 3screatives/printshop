@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $height      = floatval($_POST['height']);  // inches
     $sides       = $_POST['sides'] ?? "single";
     $quantity    = intval($_POST['quantity']);
+    $color       = intval($_POST['color']);
     $is_cost_price = isset($_POST['is_cost_price']) ? (int)$_POST['is_cost_price'] : 0;
 
     // --------------------------
@@ -46,6 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mat_cost_per_sq_ft = floatval($mat['mat_cost']);
         $ink_cost_per_sq_ft = floatval($mat['ink_cost']);
 
+        if ($color === 1) {
+            $ink_cost_per_sq_ft = max(0, $ink_cost_per_sq_ft - 0.033);
+        }
+
         $running_cost_per_sq_ft = 0.026;
         $markup_factor = 3.00;
 
@@ -69,14 +74,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($quantity >= 1000) {
             $discount_rate = 0.15;
         } elseif ($quantity >= 500) {
-            $discount_rate = 0.50;
+            $discount_rate = 0.05;
         }
 
         // Apply discount to UNIT PRICE
         $final_unit_price = $unit_price - ($unit_price * $discount_rate);
 
         echo json_encode([
-            "final_cost"  => round($final_unit_price, 2), // unit price
+            "final_cost"  => round($final_unit_price, 4), // unit price
             "sq_ft"       => round($area_sq_ft, 4),
             "unit_cost"   => round($base_cost_per_sq_ft, 4),
             "note"        => "Unit price calculated; quantity handled in JS"

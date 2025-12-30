@@ -557,6 +557,7 @@ $(document).ready(function () {
                 <input type="hidden" name="item_row_id[]" value="${rowId}">
             </div>
         </td>
+        <td><input class="form-check form-check-sm mx-auto" type="checkbox" name="item_color_black[]"></td>
         <td><textarea name="order_item_details[]" class="form-control form-control-sm" rows="1"></textarea></td>
         <td><div class="input-group">
             <input dir="rtl" type="number" name="order_item_width[]" class="form-control form-control-sm" placeholder="Width">
@@ -614,7 +615,7 @@ $(document).ready(function () {
     });
 
     $(document).on('change input',
-        'input[name="order_item_width[]"], input[name="order_item_height[]"], input[name="order_item_qty[]"]',
+        'input[name="order_item_width[]"], input[name="order_item_height[]"], input[name="order_item_qty[]"], input[name="item_color_black[]"]',
         function () {
             const $row = $(this).closest('.itemRow');
             const rowId = $row.data('row');
@@ -632,7 +633,7 @@ $(document).ready(function () {
     });
 
     $(document).on('input change',
-        'input[name="order_item_qty[]"], input[name="order_item_price[]"], input[name="order_item_width[]"], input[name="order_item_height[]"]',
+        'input[name="order_item_qty[]"], input[name="order_item_price[]"], input[name="order_item_width[]"], input[name="order_item_height[]"], input[name="item_color_black[]"]',
         function () {
             const $row = $(this).closest('.itemRow');
 
@@ -655,6 +656,7 @@ $(document).ready(function () {
         const itemWidth = parseFloat($row.find('input[name="order_item_width[]"]').val()) || 0;
         const itemHeight = parseFloat($row.find('input[name="order_item_height[]"]').val()) || 0;
         const itemQty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
+        const printBlack = $row.find('input[name="item_color_black[]"]').is(':checked') ? 1 : 0;
         const orderProcess = parseFloat($('#process_time').val()) || 1;
 
         $.ajax({
@@ -666,6 +668,7 @@ $(document).ready(function () {
                 width: itemWidth,
                 height: itemHeight,
                 quantity: itemQty,
+                color: printBlack,
                 process_time: orderProcess
             },
             dataType: "json",
@@ -686,8 +689,6 @@ $(document).ready(function () {
                 const unitPrice = parseFloat(response.final_cost) || 0;
                 const qty = parseFloat($row.find('input[name="order_item_qty[]"]').val()) || 1;
                 const total = unitPrice * qty;
-
-                console.log(response.material_cost, response.ink_cost, response.final_cost);
 
                 $row.find('input[name="order_item_price[]"]').val(unitPrice.toFixed(2));
                 $row.find('input[name="order_item_total[]"]').val(total.toFixed(2));
