@@ -1,6 +1,8 @@
 <?php
 $allowed_ips = [
-    '172.16.1.179'
+    '127.0.0.1',
+    '::1',          // IPv6 localhost
+    '192.168.1.96'
 ];
 
 $is_admin = isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';

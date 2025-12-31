@@ -11,7 +11,7 @@ $(window).scroll(function () {
 //Closed
 
 $(document).ready(function () {
-    // Recalculate price when inputs change
+
     $("#item_width, #item_height, #item_qty, #material_id, #process_time, #item_grommets, #item_hframes")
         .on("change input", calculateFrontPrice);
 
@@ -20,7 +20,6 @@ $(document).ready(function () {
     function calculateFrontPrice() {
         let matId = $("#material_id").val();
 
-        // Update image based on selected material
         let selectedImage = $("#material_id option:selected").data("image");
         $("#material_image").attr("src", selectedImage);
 
@@ -28,47 +27,40 @@ $(document).ready(function () {
     }
 
     function getMaterialPrice(matId) {
-        const itemDetails = $('#item_details').val() || "";
+
         const itemWidth = parseFloat($('#item_width').val()) || 0;
         const itemHeight = parseFloat($('#item_height').val()) || 0;
-        const itemQty = parseFloat($('#item_qty').val()) || 1;
-        const itemGrommets = parseFloat($('#item_grommets').val()) || 0;
-        const itemHframes = parseFloat($('#item_hframes').val()) || 0;
+        const itemQty = parseInt($('#item_qty').val()) || 1;
+        const itemGrommets = parseInt($('#item_grommets').val()) || 0;
+        const itemHframes = parseInt($('#item_hframes').val()) || 0;
 
         $.ajax({
             url: "ps-admin/get/material_price.php",
             type: "POST",
+            dataType: "json",
             data: {
                 material_id: matId,
-                details: itemDetails,
                 width: itemWidth,
-                height: itemHeight
+                height: itemHeight,
+                quantity: itemQty,
+                sides: $('#item_sides').val() || 'single',
+                color: $('#item_color').val() || 0,
+                is_cost_price: 0
             },
-            dataType: "json",
             success: function (response) {
 
                 let unitPrice = parseFloat(response.final_cost) || 0;
                 let subtotal = unitPrice * itemQty;
 
-                // GROMMETS
-                let grommetCost = (itemGrommets === 1) ? (4 * itemQty) : 0;
-                subtotal += grommetCost;
+                if (itemGrommets === 1) subtotal += (4 * itemQty);
+                if (itemHframes === 1) subtotal += (3 * itemQty);
 
-                // H-FRAMES
-                let hframeCost = (itemHframes === 1) ? (3 * itemQty) : 0;
-                subtotal += hframeCost;
-
-                // RUSH LOGIC
-                let val = parseInt($('#process_time').val()) || 1;
-                let rush = val === 2 ? 0.3 : 0;
-
+                let rush = ($('#process_time').val() == 2) ? 0.3 : 0;
                 let rushVal = subtotal * rush;
                 if (rush > 0 && rushVal < 15) rushVal = 15;
 
-                // FINAL TOTAL — FIXED
                 let finalTotal = subtotal + rushVal;
 
-                // Update fields
                 $("#unit_price").val(unitPrice.toFixed(2));
                 $("#total_price").val(finalTotal.toFixed(2));
                 $("#o_rush").val(rushVal.toFixed(2));
@@ -78,5 +70,4 @@ $(document).ready(function () {
             }
         });
     }
-
 });

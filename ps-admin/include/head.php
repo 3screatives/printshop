@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once '../admin_access.php';
+require_once __DIR__ . '/../admin_access.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
