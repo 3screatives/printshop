@@ -4,3 +4,5 @@
 - under order view > show pop if order is paid or unpaid or remain printing.
 - cant complete if design and print is not checked.
 - add size based calculation for digital print.
+- move to no-response 7 days after sent for approval & move to cancelled 30 days after sent to no-response (Server-side)
+-
