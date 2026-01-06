@@ -673,6 +673,8 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (response) {
+                console.log(response);
+                
                 if (response.breakdown) {
                     $('.errorBox').html(response.breakdown);
                     $row.addClass('bg-red-light');

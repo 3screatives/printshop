@@ -13,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $width       = floatval($_POST['width']);   // inches
     $height      = floatval($_POST['height']);  // inches
     $sides       = $_POST['sides'] ?? "single";
-    $quantity = intval($_POST['quantity'] ?? 1);
-    $color    = intval($_POST['color'] ?? 0);
+    $quantity    = intval($_POST['quantity']);
+    $color       = intval($_POST['color']);
     $is_cost_price = isset($_POST['is_cost_price']) ? (int)$_POST['is_cost_price'] : 0;
 
     // --------------------------
@@ -41,41 +41,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // --------------------------
     if (strtolower($mat['mat_type']) === 'digital') {
 
-        // Base costs (per item, flat)
-        $mat_cost  = floatval($mat['mat_cost']);
-        $ink_cost  = floatval($mat['ink_cost']);
+        $area_sq_in = $width * $height;
+        $area_sq_ft = $area_sq_in / 144;
 
-        // Black-only discount
+        $mat_cost_per_sq_ft = floatval($mat['mat_cost']);
+        $ink_cost_per_sq_ft = floatval($mat['ink_cost']);
+
         if ($color === 1) {
-            $ink_cost = max(0, $ink_cost - 0.033);
+            $ink_cost_per_sq_ft = max(0, $ink_cost_per_sq_ft - 0.033);
         }
 
-        $running_cost = 0.026;
-        $markup_factor = 2.00;
+        $running_cost_per_sq_ft = 0.026;
+        $markup_factor = 3.00;
 
-        // UNIT COST (no size, no area)
-        $base_unit_cost =
-            $mat_cost +
-            $ink_cost +
-            $running_cost;
+        $base_cost_per_sq_ft =
+            $mat_cost_per_sq_ft +
+            $ink_cost_per_sq_ft +
+            $running_cost_per_sq_ft;
 
-        // UNIT PRICE (per item)
-        $unit_price = $base_unit_cost * $markup_factor;
+        // UNIT PRICE (per item, no quantity)
+        $unit_price =
+            $base_cost_per_sq_ft *
+            $area_sq_ft *
+            $markup_factor;
 
-        // Quantity discount
+        // Quantity-based discount (still allowed)
         $discount_rate = 0;
-        if ($quantity >= 5000)      $discount_rate = 0.35;
-        elseif ($quantity >= 2500)  $discount_rate = 0.25;
-        elseif ($quantity >= 1000)  $discount_rate = 0.15;
-        elseif ($quantity >= 500)   $discount_rate = 0.05;
+        if ($quantity >= 5000) {
+            $discount_rate = 0.35;
+        } elseif ($quantity >= 2500) {
+            $discount_rate = 0.25;
+        } elseif ($quantity >= 1000) {
+            $discount_rate = 0.15;
+        } elseif ($quantity >= 500) {
+            $discount_rate = 0.05;
+        }
 
-        $final_unit_price = $unit_price * (1 - $discount_rate);
+        // Apply discount to UNIT PRICE
+        $final_unit_price = $unit_price - ($unit_price * $discount_rate);
 
-        header('Content-Type: application/json');
         echo json_encode([
-            "final_cost" => round($final_unit_price, 4), // unit price
-            "unit_cost"  => round($base_unit_cost, 4),
-            "note"       => "Flat digital pricing (no area calculation)"
+            "final_cost"  => round($final_unit_price, 4), // unit price
+            "sq_ft"       => round($area_sq_ft, 4),
+            "unit_cost"   => round($base_cost_per_sq_ft, 4),
+            "note"        => "Unit price calculated; quantity handled in JS"
         ]);
         exit;
     }

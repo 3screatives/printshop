@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 30, 2025 at 11:56 PM
+-- Generation Time: Jan 06, 2026 at 07:00 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -105,7 +105,6 @@ INSERT INTO `ps_materials` (`mat_id`, `mat_vendor`, `mat_name`, `mat_type`, `mat
 (18, 'Grimco', 'Acrylic - White', 'large', 'CC4896316W7328 - Duratex Cast Acrylic 48\" x 96\", White 7328, 3/16\"', 60, 120, 120, 184.370000, 1, 0.003400, '2025-10-11'),
 (19, 'Lexjet', 'Polyester', 'large', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 1, 0.003400, '2025-10-11'),
 (22, 'Test', 'Regular Paper', 'digital', 'None', 12, 18, 18, 0.001800, 1, 0.043000, '2025-12-29'),
-(23, 'STMA Printing', 'Business Cards', 'digital', '', 9, 11, 11, 0.260000, 1, 0.043000, '2025-12-30'),
 (24, 'Paper', 'Cardstock', 'digital', '', 9, 11, 11, 0.040000, 1, 0.043000, '2025-12-30');
 
 -- --------------------------------------------------------
@@ -139,7 +138,18 @@ INSERT INTO `ps_material_categories` (`cat_id`, `cat_name`, `cat_description`, `
 (7, 'Pump Topper', 'Signs used on gas pump displays', 'pump-topper', 'pump-topper', 'Large Format', 'Window Graphics', 2),
 (8, 'Metal Sign', 'Durable aluminum signage', 'metal', 'metal', 'Large Format', 'Window Graphics', 3),
 (9, 'Acrylic Sign', 'Acrylic signs, clear or white', 'acrylic', 'acrylic', 'Large Format', 'Banner Stands', 1),
-(10, 'Backlit Sign', 'Film for lightbox or display backlit signs', 'backlit', 'backlit', 'Large Format', 'Banner Stands', 2);
+(10, 'Backlit Sign', 'Film for lightbox or display backlit signs', 'backlit', 'backlit', 'Large Format', 'Banner Stands', 2),
+(11, 'Business Cards', '', '', 'business-cards', 'Digital Format', 'Marketing Material', 1),
+(12, 'Flyers', '', '', 'flyers', 'Digital Format', 'Marketing Material', 2),
+(13, 'Brochures', '', '', 'brochures', 'Digital Format', 'Marketing Material', 3),
+(14, 'Postcards', '', '', 'postcards', 'Digital Format', 'Marketing Material', 4),
+(15, 'Door Hanger', '', '', 'door-hanger', 'Digital Format', 'Marketing Material', 5),
+(16, 'Menu Cards', '', '', 'menu-cards', 'Digital Format', 'Marketing Material', 7),
+(17, 'Event Tickets', '', '', 'event-tickets', 'Digital Format', 'Marketing Material', 6),
+(18, 'Saddle Booklet', '', '', 'saddle-booklet', 'Digital Format', 'Booklet', 1),
+(19, '4\"x6\" 4up Labels', '', '', '4x6-4up-label', 'Digital Format', 'Stickers & Labels', 1),
+(20, 'Custom Cut Stickers', '', '', 'custom-cut-stickers', 'Digital Format', 'Stickers & Labels', 3),
+(21, '.75\"x1.5\" Labels', '', '', '0.75x1.5-labels', 'Digital Format', 'Stickers & Labels', 2);
 
 -- --------------------------------------------------------
 
@@ -177,7 +187,9 @@ INSERT INTO `ps_material_categories_map` (`id`, `mat_id`, `cat_id`) VALUES
 (64, 3, 1),
 (69, 7, 3),
 (70, 9, 6),
-(71, 10, 2);
+(71, 10, 2),
+(74, 24, 11),
+(75, 22, 12);
 
 -- --------------------------------------------------------
 
@@ -222,7 +234,7 @@ INSERT INTO `ps_orders` (`order_id`, `order_date`, `order_due`, `user_id`, `orde
 (40, '2025-12-11', '2025-12-16', 3, 475.00, 43.83, 575.08, 250.00, 325.08, 15.00, 15.00, 2, 2, 10, 7),
 (41, '2025-12-12', '2025-12-17', 2, 82.00, 0.00, 82.00, 0.00, 82.00, 0.00, 0.00, 1, 1, 7, 1),
 (42, '2025-12-15', '2025-12-22', 2, 67.00, 5.53, 72.53, 0.00, 72.53, 0.00, 0.00, 1, 3, 10, 1),
-(45, '2025-12-17', '2025-12-22', 3, 475.00, 31.35, 411.35, 0.00, 411.35, 20.00, 0.00, 1, 1, 10, 1);
+(45, '2025-12-17', '2025-12-22', 3, 475.00, 31.35, 411.35, 0.00, 411.35, 20.00, 0.00, 1, 1, 10, 12);
 
 -- --------------------------------------------------------
 
@@ -492,13 +504,13 @@ ALTER TABLE `ps_materials`
 -- AUTO_INCREMENT for table `ps_material_categories`
 --
 ALTER TABLE `ps_material_categories`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `ps_material_categories_map`
 --
 ALTER TABLE `ps_material_categories_map`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `ps_orders`
