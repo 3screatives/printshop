@@ -77,7 +77,7 @@
                         placeholder="search order here...">
                 </div>
                 <div class="data-record p-3">
-                    <table class="table" id="materialsTable">
+                    <table class="table table-hover" id="materialsTable">
                         <thead>
                             <tr>
                                 <th width="64px">Mat #</th>
