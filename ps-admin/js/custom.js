@@ -1080,6 +1080,7 @@ $(document).ready(function () {
             $("#mat_id").val(mat.mat_id);
             $("#mat_vendor").val(mat.mat_vendor);
             $("#mat_name").val(mat.mat_name);
+            $("#mat_type").val(mat.mat_type).trigger("change");
             $("#mat_details").val(mat.mat_details);
             $("#mat_roll_size").val(mat.mat_roll_size);
             $("#mat_cost_multiplier").val(mat.mat_cost_multiplier);

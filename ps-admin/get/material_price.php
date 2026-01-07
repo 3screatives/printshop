@@ -37,6 +37,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mat = $materials[0];
 
     // --------------------------
+    // MATERIAL & INK DATA
+    // --------------------------
+    $roll_width           = floatval($mat['mat_roll_size']);        // inches
+    $roll_length          = floatval($mat['mat_size']);             // inches
+    $mat_cost             = floatval($mat['mat_cost']);             // cost for the roll_length
+    $ink_cost_per_sq_in   = floatval($mat['ink_cost']);             // per sq in
+    $mat_cost_multiplier  = floatval($mat['mat_cost_multiplier']);  // multiplier
+
+    // --------------------------
     // DIGITAL MATERIAL OVERRIDE
     // --------------------------
     if (strtolower($mat['mat_type']) === 'digital') {
@@ -51,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $running_cost = 0.026;
-        $markup_factor = 2.00;
+        $markup_factor = $mat_cost_multiplier;
 
         // UNIT COST (no size, no area)
         $base_unit_cost =
@@ -73,30 +82,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         header('Content-Type: application/json');
         echo json_encode([
-            "final_cost" => round($final_unit_price, 4), // unit price
+            "final_cost" => round($final_unit_price, 4),
             "unit_cost"  => round($base_unit_cost, 4),
             "note"       => "Flat digital pricing (no area calculation)"
         ]);
         exit;
     }
 
-    // --------------------------
-    // MATERIAL & INK DATA
-    // --------------------------
-    $roll_width           = floatval($mat['mat_roll_size']);        // inches
-    $roll_length          = floatval($mat['mat_size']);             // inches
-    $mat_cost             = floatval($mat['mat_cost']);             // cost for the roll_length
-    $ink_cost_per_sq_in   = floatval($mat['ink_cost']);             // per sq in
-    $mat_cost_multiplier  = floatval($mat['mat_cost_multiplier']);  // multiplier
-
     // Apply material multiplier
-    $mat_cost = $mat_cost * $mat_cost_multiplier;
+    // $mat_cost = $mat_cost * $mat_cost_multiplier;
 
     // --------------------------
     // SYSTEM CONSTANTS
     // --------------------------
-    $running_cost_per_sq_ft = 0.04;     // overhead/labor per sq ft
-    $markup_factor          = 3.00;     // e.g. 3x for profit and overhead
+    $running_cost_per_sq_ft = 0.04;
+    $markup_factor          = $mat_cost_multiplier;
 
     // --------------------------
     // VALIDATION: FIT ROLL WIDTH

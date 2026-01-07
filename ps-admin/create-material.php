@@ -48,8 +48,9 @@
 
                         <!-- Length -->
                         <div class="col-md-4">
-                            <label for="mat_cost_multiplier" class="form-label">Multiplier</label>
-                            <input type="text" name="mat_cost_multiplier" id="mat_cost_multiplier" class="form-control">
+                            <label for="mat_cost_multiplier" class="form-label">Markup</label>
+                            <input type="text" name="mat_cost_multiplier" id="mat_cost_multiplier" class="form-control"
+                                value="3.00">
                         </div>
 
                         <!-- Size -->

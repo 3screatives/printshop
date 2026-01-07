@@ -88,7 +88,7 @@
                                 <th width="96px">Roll Size</th>
                                 <th width="96px">Size</th>
                                 <th width="116px">Cost</th>
-                                <th width="96px">Multiplier</th>
+                                <th width="96px">Markup</th>
                                 <th width="116px">Ink</th>
                                 <th width="136px">Added On</th>
                                 <th width="264px">Cat ID</th>
