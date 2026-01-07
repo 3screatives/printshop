@@ -70,4 +70,12 @@ $(document).ready(function () {
             }
         });
     }
+
+    $("#material_id").on("change", function () {
+        const imageKey = $("#material_id option:selected").data("image");
+
+        if (imageKey) {
+            $("#item_image").attr("src", "img/product-" + imageKey + ".jpg");
+        }
+    });
 });

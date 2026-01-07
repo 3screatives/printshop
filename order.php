@@ -44,7 +44,7 @@ mysqli_close($conn);
 
         <div class="row">
             <div class="col-6">
-                <img src="img/product-<?php echo htmlspecialchars($cat_image); ?>.jpg" class="img-fluid"
+                <img id="item_image" src="img/product-<?php echo htmlspecialchars($cat_image); ?>.jpg" class="img-fluid"
                     alt="<?php echo htmlspecialchars($cat_name); ?>">
             </div>
 
@@ -59,7 +59,7 @@ mysqli_close($conn);
                                 <?php
                                 if ($materials) {
                                     foreach ($materials as $mat) {
-                                        echo '<option value="' . htmlspecialchars($mat['mat_id']) . '">' . htmlspecialchars($mat['mat_name']) . '</option>';
+                                        echo '<option value="' . htmlspecialchars($mat['mat_id']) . '" data-image="' . htmlspecialchars($cat_image) . '">' . htmlspecialchars($mat['mat_name']) . '</option>';
                                     }
                                 }
                                 ?>
