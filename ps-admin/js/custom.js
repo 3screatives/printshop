@@ -386,6 +386,7 @@ $(document).ready(function () {
     $('#order_today_date').val(todayDate);
 
     $(document).on('click', '#newOrder', function () {
+        $('.errorBox').html('');
         $('.create-order').show();
     });
 
@@ -673,7 +674,6 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (response) {
-                console.log(response.cost_multiplier, response.cost_new, response.final_price);
 
                 if (response.breakdown) {
                     $('.errorBox').html(response.breakdown);

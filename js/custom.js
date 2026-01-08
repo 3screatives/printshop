@@ -48,6 +48,22 @@ $(document).ready(function () {
                 is_cost_price: 0
             },
             success: function (response) {
+                if (response.sizeError) {
+                    $('.errorBox').html(response.sizeError);
+
+                    $('[name="item_width"], [name="item_height"]').removeClass('border-red');
+
+                    if (response.field === 'both') {
+                        $('[name="item_width"], [name="item_height"]').addClass('border-red');
+                    } else if (response.field) {
+                        $(`[name="item_${response.field}"]`).addClass('border-red');
+                    }
+                    return;
+                }
+                $('.errorBox').html('');
+                $('.order-form-wrap')
+                    .find('input[name="item_width"], input[name="item_height"]')
+                    .removeClass('border-red');
 
                 let unitPrice = parseFloat(response.final_cost) || 0;
                 let subtotal = unitPrice * itemQty;

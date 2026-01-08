@@ -146,6 +146,9 @@ h2 {
     color: var(--color-grey);
 }
 
+.border-red {
+    border: 1px solid var(--color-red);
+}
 
 .close {
     width: 36px;
@@ -751,4 +754,9 @@ footer {
 .cart-item.head li {
     height: 64px;
     font-weight: bold;
+}
+
+.errorBox {
+    font-size: 14px;
+    color: var(--color-red);
 }

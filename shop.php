@@ -67,6 +67,7 @@ mysqli_close($conn);
                         </div>
                     </div>
 
+
                     <!-- SIZE -->
                     <div class="mb-3 row">
                         <label class="col-sm-4 col-form-label">Size</label>
@@ -82,6 +83,7 @@ mysqli_close($conn);
                                 <span class="input-group-text">in</span>
                             </div>
                         </div>
+                        <div class="errorBox mt-2 text-end"></div>
                     </div>
 
                     <!-- QUANTITY -->

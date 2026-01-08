@@ -28,8 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($materials)) {
         echo json_encode([
+            "error"       => true,
             "final_price" => "0.00",
-            "breakdown"   => "<p>Invalid material selected.</p>"
+            "breakdown"   => "Invalid material selected."
         ]);
         exit;
     }
@@ -102,10 +103,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // VALIDATION: FIT ROLL WIDTH
     // --------------------------
     $short_side = min($width, $height);
-    if ($short_side > $roll_width) {
+    $long_side  = max($width, $height);
+
+    $exceeds_width  = $short_side > $roll_width;
+    $exceeds_length = $long_side > $roll_length;
+
+    if ($exceeds_width || $exceeds_length) {
+
+        // determine field to highlight
+        if ($exceeds_width && $exceeds_length) {
+            $field = 'both';
+            $message = "Print size exceeds both roll width and roll length. Cannot proceed.";
+        } elseif ($exceeds_width) {
+            $field = ($width < $height) ? 'width' : 'height';
+            $message = "Print size exceeds roll width. Cannot proceed.";
+        } else {
+            $field = ($width > $height) ? 'width' : 'height';
+            $message = "Print size exceeds roll length. Cannot proceed.";
+        }
+
         echo json_encode([
+            "error"       => true,
             "final_price" => "0.00",
-            "breakdown"   => "<p>Print size exceeds roll width. Cannot print.</p>"
+            "breakdown"   => $message,
+            "sizeError"   => $message,
+            "field"       => $field
         ]);
         exit;
     }
