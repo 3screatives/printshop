@@ -12,8 +12,8 @@ $sql = "
         COUNT(DISTINCT m.mat_type) AS type_count,
         MIN(m.mat_type) AS mat_type
     FROM ps_material_categories c
-    JOIN ps_material_categories_map cm ON cm.cat_id = c.cat_id
-    JOIN ps_materials m ON m.mat_id = cm.mat_id
+    LEFT JOIN ps_material_categories_map cm ON cm.cat_id = c.cat_id
+    LEFT JOIN ps_materials m ON m.mat_id = cm.mat_id
     GROUP BY c.cat_id
     ORDER BY c.cat_group ASC, c.cat_order ASC
 ";
@@ -23,9 +23,13 @@ $menu = [];
 
 foreach ($categories as $cat) {
 
-    // resolve final mat_type
     if ((int)$cat['type_count'] > 1) {
         $cat['mat_type'] = 'mixed';
+    } elseif (empty($cat['mat_type'])) {
+        // fallback based on group (safe in your data)
+        $cat['mat_type'] = (stripos($cat['cat_group'], 'Digital') !== false)
+            ? 'digital'
+            : 'large';
     }
 
     $menu[$cat['cat_group']][$cat['cat_section']][] = $cat;

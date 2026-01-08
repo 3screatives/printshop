@@ -8,7 +8,7 @@ $cat_id = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
 // Fetch materials for this category
 $materials = select_query(
     $conn,
-    "SELECT m.mat_id, m.mat_name
+    "SELECT m.mat_id, m.mat_name, m.mat_type
      FROM ps_materials m
      INNER JOIN ps_material_categories_map mc ON m.mat_id = mc.mat_id
      WHERE mc.cat_id = ?
@@ -16,6 +16,26 @@ $materials = select_query(
     "i",
     $cat_id
 );
+
+$matType = '';
+
+if (!empty($materials)) {
+    $types = array_unique(array_column($materials, 'mat_type'));
+
+    if (count($types) === 1) {
+        $matType = $types[0]; // digital OR large
+    } else {
+        $matType = 'mixed'; // optional fallback
+    }
+}
+
+$typeLabel = '';
+
+if ($matType === 'digital') {
+    $typeLabel = 'Digital';
+} elseif ($matType === 'large') {
+    $typeLabel = 'Large Format';
+}
 
 // Fetch category details
 $categoryResult = select_query($conn, "SELECT cat_name, cat_image FROM ps_material_categories WHERE cat_id = ?", "i", $cat_id);
@@ -36,10 +56,18 @@ mysqli_close($conn);
     <div class="container">
         <div class="sec-head">
             <div class="quick-links">
-                <a href="./">Home</a> <i class="bi bi-chevron-right"></i>
-                <?php echo htmlspecialchars($cat_name); ?>
+                <a href="./">Home</a>
+                <i class="bi bi-chevron-right"></i>
+
+                <?php if ($typeLabel): ?>
+                    <span><?= htmlspecialchars($typeLabel) ?></span>
+                    <i class="bi bi-chevron-right"></i>
+                <?php endif; ?>
+
+                <?= htmlspecialchars($cat_name) ?>
             </div>
-            <h2><?php echo htmlspecialchars($cat_name); ?></h2>
+
+            <h2><?= htmlspecialchars($cat_name) ?></h2>
         </div>
 
         <div class="row">

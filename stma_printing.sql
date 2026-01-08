@@ -85,27 +85,27 @@ CREATE TABLE `ps_materials` (
 --
 
 INSERT INTO `ps_materials` (`mat_id`, `mat_vendor`, `mat_name`, `mat_type`, `mat_details`, `mat_roll_size`, `mat_length`, `mat_size`, `mat_cost`, `mat_cost_multiplier`, `ink_cost`, `mat_added_on`) VALUES
-(1, 'Lexjet', 'Adhesive', 'large', '4WM66A - HP Prime Matte Air GP, 3.4 Mil', 54, 150, 1800, 217.070000, 1, 0.003400, '2025-10-11'),
-(2, 'Lexjet', 'Backlit', 'large', 'KBLGS60 - Kodak glossy backlit film', 60, 100, 1200, 300.000000, 1, 0.003400, '2025-10-11'),
-(3, 'Clampitt', 'Banner Matte', 'large', '8600537	Maxbanner Matte, 13oz	54\"x164\'', 54, 164, 1968, 124.200000, 1, 0.003400, '2025-10-11'),
-(4, 'Clampitt', 'Banner Gloss', 'large', '86005371	Maxbanner Gloss, 13oz	54\"x164\'', 54, 164, 1968, 124.200000, 1, 0.003400, '2025-10-11'),
-(5, '', 'Print Only', 'large', 'N/A', 0, 0, 0, 1.000000, 1, 0.003400, '2025-10-11'),
-(6, 'Lexjet', 'Clear Adhesive', 'large', 'GF 206-54 - Clear Gloss Vinyl, Removeable', 54, 150, 1800, 230.000000, 1, 0.003400, '2025-10-11'),
-(7, 'Clampitt', 'Coroplast', 'large', '58263908	Centrlplas 60x120-4mm	60\"x120\"', 60, 120, 120, 13.250000, 2, 0.003400, '2025-10-11'),
-(8, 'Grimco', 'Floor Sticker', 'large', 'OLFL-30954, Briteline Floor Film Overlaminate - OLFL309 54 \" x 150 \'', 54, 150, 1800, 368.990000, 1, 0.003400, '2025-10-11'),
-(9, 'Reece Supply', 'Foam Board', 'large', 'Pn 122718 - 3/16 White Foam Board', 48, 96, 96, 15.130000, 2, 0.003400, '2025-10-11'),
-(10, 'Lexjet', 'Bond Paper', 'large', 'Canon Economy Bond Paper (75gsm)', 36, 200, 2400, 55.000000, 1, 0.003400, '2025-10-11'),
-(11, 'Lexjet', 'Polypropylene', 'large', 'ERWP36200 - LexJet Heavyweight WR Polypropylene - 36in x 200ft', 36, 200, 2400, 106.250000, 1, 0.003400, '2025-10-11'),
-(12, 'Grimco', 'Polystyrene 020', 'large', 'HIPS60XC0X020W, Duratex Polystyrene Sheets - Double White 60\" x 120\", .020\"', 60, 120, 120, 15.380000, 2, 0.003400, '2025-10-11'),
-(13, 'Grimco', 'Polystyrene 040', 'large', 'HIPS60XC0X040W, Duratex Polystyrene Sheets - Double White 60\" x 120\", .040\"', 60, 96, 120, 30.750000, 2, 0.003400, '2025-10-11'),
-(14, 'Lexjet', 'Static Cling', 'large', '207-5415 - GF-207 Clear', 54, 150, 1800, 260.090000, 1, 0.003400, '2025-10-11'),
-(15, 'Reece Supply', 'Window Perforated', 'large', 'Pn 55599 - UltraVision Window Perf 60/40 UV 6.3 Mil', 54, 164, 1968, 326.830000, 1, 0.003400, '2025-10-11'),
-(16, 'Grimco', 'Aluminum', 'large', 'MM843MWDP - MAXMETAL™ 4\' x 8\', White DP, EACH', 60, 120, 120, 86.320000, 1, 0.003400, '2025-10-11'),
-(17, 'Grimco', 'Acrylic - Clear', 'large', 'CC4896316C - Duratex Cast Acrylic 48\" x 96\", Clear, 3/16\"', 60, 120, 120, 172.190000, 1, 0.003400, '2025-10-11'),
-(18, 'Grimco', 'Acrylic - White', 'large', 'CC4896316W7328 - Duratex Cast Acrylic 48\" x 96\", White 7328, 3/16\"', 60, 120, 120, 184.370000, 1, 0.003400, '2025-10-11'),
-(19, 'Lexjet', 'Polyester', 'large', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 1, 0.003400, '2025-10-11'),
-(22, 'Test', 'Regular Paper', 'digital', 'None', 12, 18, 18, 0.001800, 1, 0.043000, '2025-12-29'),
-(24, 'Paper', 'Cardstock', 'digital', '', 9, 11, 11, 0.040000, 1, 0.043000, '2025-12-30');
+(1, 'Lexjet', 'Adhesive', 'large', '4WM66A - HP Prime Matte Air GP, 3.4 Mil', 54, 150, 1800, 217.070000, 3.00, 0.003400, '2025-10-11'),
+(2, 'Lexjet', 'Backlit', 'large', 'KBLGS60 - Kodak glossy backlit film', 60, 100, 1200, 300.000000, 3.00, 0.003400, '2025-10-11'),
+(3, 'Clampitt', 'Banner Matte', 'large', '8600537	Maxbanner Matte, 13oz	54\"x164\'', 54, 164, 1968, 124.200000, 3.00, 0.003400, '2025-10-11'),
+(4, 'Clampitt', 'Banner Gloss', 'large', '86005371	Maxbanner Gloss, 13oz	54\"x164\'', 54, 164, 1968, 124.200000, 3.00, 0.003400, '2025-10-11'),
+(5, '', 'Print Only', 'large', 'N/A', 0, 0, 0, 1.000000, 3.00, 0.003400, '2025-10-11'),
+(6, 'Lexjet', 'Clear Adhesive', 'large', 'GF 206-54 - Clear Gloss Vinyl, Removeable', 54, 150, 1800, 230.000000, 3.00, 0.003400, '2025-10-11'),
+(7, 'Clampitt', 'Coroplast', 'large', '58263908	Centrlplas 60x120-4mm	60\"x120\"', 60, 120, 120, 13.250000, 6.00, 0.003400, '2025-10-11'),
+(8, 'Grimco', 'Floor Sticker', 'large', 'OLFL-30954, Briteline Floor Film Overlaminate - OLFL309 54 \" x 150 \'', 54, 150, 1800, 368.990000, 3.00, 0.003400, '2025-10-11'),
+(9, 'Reece Supply', 'Foam Board', 'large', 'Pn 122718 - 3/16 White Foam Board', 48, 96, 96, 15.130000, 6.00, 0.003400, '2025-10-11'),
+(10, 'Lexjet', 'Bond Paper', 'large', 'Canon Economy Bond Paper (75gsm)', 36, 200, 2400, 109.610000, 1.50, 0.003400, '2025-10-11'),
+(11, 'Lexjet', 'Polypropylene', 'large', 'ERWP36200 - LexJet Heavyweight WR Polypropylene - 36in x 200ft', 36, 200, 2400, 106.250000, 3.00, 0.003400, '2025-10-11'),
+(12, 'Grimco', 'Polystyrene 020', 'large', 'HIPS60XC0X020W, Duratex Polystyrene Sheets - Double White 60\" x 120\", .020\"', 60, 120, 120, 15.380000, 4.00, 0.003400, '2025-10-11'),
+(13, 'Grimco', 'Polystyrene 040', 'large', 'HIPS60XC0X040W, Duratex Polystyrene Sheets - Double White 60\" x 120\", .040\"', 60, 96, 120, 30.750000, 4.00, 0.003400, '2025-10-11'),
+(14, 'Lexjet', 'Static Cling', 'large', '207-5415 - GF-207 Clear', 54, 150, 1800, 260.090000, 3.00, 0.003400, '2025-10-11'),
+(15, 'Reece Supply', 'Window Perforated', 'large', 'Pn 55599 - UltraVision Window Perf 60/40 UV 6.3 Mil', 54, 164, 1968, 326.830000, 3.00, 0.003400, '2025-10-11'),
+(16, 'Grimco', 'Aluminum', 'large', 'MM843MWDP - MAXMETAL™ 4\' x 8\', White DP, EACH', 60, 120, 120, 86.320000, 3.00, 0.003400, '2025-10-11'),
+(17, 'Grimco', 'Acrylic - Clear', 'large', 'CC4896316C - Duratex Cast Acrylic 48\" x 96\", Clear, 3/16\"', 60, 120, 120, 172.190000, 3.00, 0.003400, '2025-10-11'),
+(18, 'Grimco', 'Acrylic - White', 'large', 'CC4896316W7328 - Duratex Cast Acrylic 48\" x 96\", White 7328, 3/16\"', 60, 120, 120, 184.370000, 3.00, 0.003400, '2025-10-11'),
+(19, 'Lexjet', 'Polyester', 'large', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 3.00, 0.003400, '2025-10-11'),
+(22, 'Test', 'Regular Paper', 'digital', 'None', 12, 18, 18, 0.001800, 3.00, 0.043000, '2025-12-29'),
+(24, 'Paper', 'Cardstock', 'digital', '', 9, 11, 11, 0.040000, 3.00, 0.043000, '2025-12-30');
 
 -- --------------------------------------------------------
 
