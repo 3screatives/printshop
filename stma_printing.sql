@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2026 at 07:00 AM
+-- Generation Time: Jan 08, 2026 at 11:24 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -75,7 +75,7 @@ CREATE TABLE `ps_materials` (
   `mat_length` int(11) NOT NULL,
   `mat_size` int(11) NOT NULL,
   `mat_cost` decimal(10,6) NOT NULL,
-  `mat_cost_multiplier` int(11) NOT NULL,
+  `mat_cost_multiplier` decimal(5,2) NOT NULL,
   `ink_cost` decimal(10,6) NOT NULL,
   `mat_added_on` date NOT NULL DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -104,8 +104,8 @@ INSERT INTO `ps_materials` (`mat_id`, `mat_vendor`, `mat_name`, `mat_type`, `mat
 (17, 'Grimco', 'Acrylic - Clear', 'large', 'CC4896316C - Duratex Cast Acrylic 48\" x 96\", Clear, 3/16\"', 60, 120, 120, 172.190000, 3.00, 0.003400, '2025-10-11'),
 (18, 'Grimco', 'Acrylic - White', 'large', 'CC4896316W7328 - Duratex Cast Acrylic 48\" x 96\", White 7328, 3/16\"', 60, 120, 120, 184.370000, 3.00, 0.003400, '2025-10-11'),
 (19, 'Lexjet', 'Polyester', 'large', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 3.00, 0.003400, '2025-10-11'),
-(22, 'Test', 'Regular Paper', 'digital', 'None', 12, 18, 18, 0.001800, 3.00, 0.043000, '2025-12-29'),
-(24, 'Paper', 'Cardstock', 'digital', '', 9, 11, 11, 0.040000, 3.00, 0.043000, '2025-12-30');
+(22, 'Test', 'Regular Paper', 'digital', 'None', 12, 18, 18, 0.001800, 1.00, 0.043000, '2025-12-29'),
+(24, 'Paper', 'Cardstock', 'digital', '', 9, 11, 11, 0.040000, 1.00, 0.043000, '2025-12-30');
 
 -- --------------------------------------------------------
 
@@ -139,16 +139,16 @@ INSERT INTO `ps_material_categories` (`cat_id`, `cat_name`, `cat_description`, `
 (8, 'Metal Sign', 'Durable aluminum signage', 'metal', 'metal', 'Large Format', 'Window Graphics', 3),
 (9, 'Acrylic Sign', 'Acrylic signs, clear or white', 'acrylic', 'acrylic', 'Large Format', 'Banner Stands', 1),
 (10, 'Backlit Sign', 'Film for lightbox or display backlit signs', 'backlit', 'backlit', 'Large Format', 'Banner Stands', 2),
-(11, 'Business Cards', '', '', 'business-cards', 'Digital Format', 'Marketing Material', 1),
-(12, 'Flyers', '', '', 'flyers', 'Digital Format', 'Marketing Material', 2),
-(13, 'Brochures', '', '', 'brochures', 'Digital Format', 'Marketing Material', 3),
-(14, 'Postcards', '', '', 'postcards', 'Digital Format', 'Marketing Material', 4),
-(15, 'Door Hanger', '', '', 'door-hanger', 'Digital Format', 'Marketing Material', 5),
-(16, 'Menu Cards', '', '', 'menu-cards', 'Digital Format', 'Marketing Material', 7),
-(17, 'Event Tickets', '', '', 'event-tickets', 'Digital Format', 'Marketing Material', 6),
-(18, 'Saddle Booklet', '', '', 'saddle-booklet', 'Digital Format', 'Booklet', 1),
+(11, 'Business Cards', '', 'businesscards', 'business-cards', 'Digital Format', 'Marketing Material', 1),
+(12, 'Flyers', '', 'flyers', 'flyers', 'Digital Format', 'Marketing Material', 2),
+(13, 'Brochures', '', 'brochures', 'brochures', 'Digital Format', 'Marketing Material', 3),
+(14, 'Postcards', '', 'postcards', 'postcards', 'Digital Format', 'Marketing Material', 4),
+(15, 'Door Hanger', '', 'door-hanger', 'door-hanger', 'Digital Format', 'Marketing Material', 5),
+(16, 'Menu Cards', '', 'menu-cards', 'menu-cards', 'Digital Format', 'Marketing Material', 7),
+(17, 'Event Tickets', '', 'event-tickets', 'event-tickets', 'Digital Format', 'Marketing Material', 6),
+(18, 'Saddle Booklet', '', 'saddle-booklet', 'saddle-booklet', 'Digital Format', 'Booklet', 1),
 (19, '4\"x6\" 4up Labels', '', '', '4x6-4up-label', 'Digital Format', 'Stickers & Labels', 1),
-(20, 'Custom Cut Stickers', '', '', 'custom-cut-stickers', 'Digital Format', 'Stickers & Labels', 3),
+(20, 'Custom Cut Stickers', '', 'custom-cut-stickers', 'custom-cut-stickers', 'Digital Format', 'Stickers & Labels', 3),
 (21, '.75\"x1.5\" Labels', '', '', '0.75x1.5-labels', 'Digital Format', 'Stickers & Labels', 2);
 
 -- --------------------------------------------------------
@@ -188,8 +188,8 @@ INSERT INTO `ps_material_categories_map` (`id`, `mat_id`, `cat_id`) VALUES
 (69, 7, 3),
 (70, 9, 6),
 (71, 10, 2),
-(74, 24, 11),
-(75, 22, 12);
+(76, 24, 11),
+(77, 22, 12);
 
 -- --------------------------------------------------------
 
@@ -510,7 +510,7 @@ ALTER TABLE `ps_material_categories`
 -- AUTO_INCREMENT for table `ps_material_categories_map`
 --
 ALTER TABLE `ps_material_categories_map`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `ps_orders`
