@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 08, 2026 at 11:24 PM
+-- Generation Time: Jan 09, 2026 at 11:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -57,7 +57,7 @@ INSERT INTO `ps_clients` (`client_id`, `business_name`, `business_address`, `con
 (10, 'New Company LLC', 'here', 'Naail Ali', '7373812357', 'printing@mystma.com', '2025-11-12', 1231, 0, 0, 1, 0),
 (11, 'Hightime Smoke & Vape', '5935 Rittman Rd', 'Jasad', '8303578201', 'jassadmomin@hotmail.com', '2025-11-12', 0, 0, 0, 0, 0),
 (12, 'Amazing Stop', '-', 'Kahir Charolia', '2106395078', '', '2025-11-12', 0, 1, 123456789, 0, 0),
-(14, 'Shipley Donuts', '7875 Kitty Hawk Rd, Converse, TX 78109', 'Zakir Mehmood', '2108402733', 'zakirmehmood2002@yahoo.com', '2025-11-12', 0, 0, 0, 0, 0);
+(14, 'New Company LLC', 'here', 'Sajjad Ali', '1234567890', 'email@domain.com', '2025-11-12', 1231, 0, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -129,27 +129,47 @@ CREATE TABLE `ps_material_categories` (
 --
 
 INSERT INTO `ps_material_categories` (`cat_id`, `cat_name`, `cat_description`, `cat_image`, `cat_slug`, `cat_group`, `cat_section`, `cat_order`) VALUES
-(1, 'Banner', 'Vinyl and mesh banners for indoor or outdoor use', 'banner', 'banner', 'Large Format', 'Signs & Banners', 1),
-(2, 'Poster', 'Posters and photo paper prints', 'poster', 'poster', 'Large Format', 'Signs & Banners', 2),
-(3, 'Yard Sign', 'Corrugated plastic yard signs', 'yard', 'yard', 'Large Format', 'Signs & Banners', 3),
-(4, 'Window Sticker', 'Adhesive vinyl stickers for windows', 'window-sticker', 'window-sticker', 'Large Format', 'Signs & Banners', 4),
-(5, 'Window Perforated', 'Perforated see-through window film', 'window-perforated', 'window-perforated', 'Large Format', 'Signs & Banners', 5),
-(6, 'Indoor Sign', 'Foam board or styrene indoor signs', 'indoor', 'indoor', 'Large Format', 'Window Graphics', 1),
-(7, 'Pump Topper', 'Signs used on gas pump displays', 'pump-topper', 'pump-topper', 'Large Format', 'Window Graphics', 2),
-(8, 'Metal Sign', 'Durable aluminum signage', 'metal', 'metal', 'Large Format', 'Window Graphics', 3),
-(9, 'Acrylic Sign', 'Acrylic signs, clear or white', 'acrylic', 'acrylic', 'Large Format', 'Banner Stands', 1),
-(10, 'Backlit Sign', 'Film for lightbox or display backlit signs', 'backlit', 'backlit', 'Large Format', 'Banner Stands', 2),
-(11, 'Business Cards', '', 'businesscards', 'business-cards', 'Digital Format', 'Marketing Material', 1),
-(12, 'Flyers', '', 'flyers', 'flyers', 'Digital Format', 'Marketing Material', 2),
-(13, 'Brochures', '', 'brochures', 'brochures', 'Digital Format', 'Marketing Material', 3),
-(14, 'Postcards', '', 'postcards', 'postcards', 'Digital Format', 'Marketing Material', 4),
-(15, 'Door Hanger', '', 'door-hanger', 'door-hanger', 'Digital Format', 'Marketing Material', 5),
-(16, 'Menu Cards', '', 'menu-cards', 'menu-cards', 'Digital Format', 'Marketing Material', 7),
-(17, 'Event Tickets', '', 'event-tickets', 'event-tickets', 'Digital Format', 'Marketing Material', 6),
-(18, 'Saddle Booklet', '', 'saddle-booklet', 'saddle-booklet', 'Digital Format', 'Booklet', 1),
-(19, '4\"x6\" 4up Labels', '', '', '4x6-4up-label', 'Digital Format', 'Stickers & Labels', 1),
-(20, 'Custom Cut Stickers', '', 'custom-cut-stickers', 'custom-cut-stickers', 'Digital Format', 'Stickers & Labels', 3),
-(21, '.75\"x1.5\" Labels', '', '', '0.75x1.5-labels', 'Digital Format', 'Stickers & Labels', 2);
+(1, 'Business Cards', '', 'business-cards', 'business-cards', 'Digital Print', 'Business & Office', 1),
+(2, 'Envelopes', '', 'envelopes', 'envelopes', 'Digital Print', 'Business & Office', 2),
+(3, 'Handbooks', '', 'handbooks', 'handbooks', 'Digital Print', 'Business & Office', 3),
+(4, 'Letterhead', '', 'letterhead', 'letterhead', 'Digital Print', 'Business & Office', 4),
+(5, 'Presentation Sheets', '', 'presentation-sheets', 'presentation-sheets', 'Digital Print', 'Business & Office', 5),
+(6, 'Binder Tags', '', 'binder-tags', 'binder-tags', 'Digital Print', 'Labels & Stickers', 1),
+(7, 'Hang Tags', '', 'hang-tags', 'hang-tags', 'Digital Print', 'Labels & Stickers', 2),
+(8, 'Product Labels', '', 'product-labels', 'product-labels', 'Digital Print', 'Labels & Stickers', 3),
+(9, 'Tabs', '', 'tabs', 'tabs', 'Digital Print', 'Labels & Stickers', 4),
+(10, 'Booklets', '', 'booklets', 'booklets', 'Digital Print', 'Marketing & Promotions', 1),
+(11, 'Brochures', '', 'brochures', 'brochures', 'Digital Print', 'Marketing & Promotions', 2),
+(12, 'Calendars', '', 'calendars', 'calendars', 'Digital Print', 'Marketing & Promotions', 3),
+(13, 'Door Hangers', '', 'door-hangers', 'door-hangers', 'Digital Print', 'Marketing & Promotions', 4),
+(14, 'Flyers', '', 'flyers', 'flyers', 'Digital Print', 'Marketing & Promotions', 5),
+(15, 'Inserts', '', 'inserts', 'inserts', 'Digital Print', 'Marketing & Promotions', 6),
+(16, 'Menu Cards', '', 'menu-cards', 'menu-cards', 'Digital Print', 'Marketing & Promotions', 7),
+(17, 'Post Cards', '', 'post-cards', 'post-cards', 'Digital Print', 'Marketing & Promotions', 8),
+(18, 'Photo Prints', '', 'photo-prints', 'photo-prints', 'Digital Print', 'Photo & Presentation', 1),
+(19, 'Proof Prints', '', 'proof-prints', 'proof-prints', 'Digital Print', 'Photo & Presentation', 2),
+(20, 'Price Tags', '', 'price-tags', 'price-tags', 'Digital Print', 'Retail Print', 1),
+(21, 'Shelf Strips', '', 'shelf-strips', 'shelf-strips', 'Digital Print', 'Retail Print', 2),
+(22, 'Lobby Signs', '', 'lobby-signs', 'lobby-signs', 'Large Format', 'Acrylic & Premium', 1),
+(23, 'Point-of-Sale Displays', '', 'point-of-sale-displays', 'point-of-sale-displays', 'Large Format', 'Acrylic & Premium', 2),
+(24, 'Lightbox Inserts', '', 'lightbox-inserts', 'lightbox-inserts', 'Large Format', 'Backlit & Illuminated', 1),
+(25, 'Outdoor Large Lightboxes', '', 'outdoor-large-lightboxes', 'outdoor-large-lightboxes', 'Large Format', 'Backlit & Illuminated', 2),
+(26, 'Event Displays', '', 'event-displays', 'event-displays', 'Large Format', 'Banners & Displays', 1),
+(27, 'Indoor Banners', '', 'indoor-banners', 'indoor-banners', 'Large Format', 'Banners & Displays', 2),
+(28, 'Outdoor Banners', '', 'outdoor-banners', 'outdoor-banners', 'Large Format', 'Banners & Displays', 3),
+(29, 'Trade Show Graphics', '', 'trade-show-graphics', 'trade-show-graphics', 'Large Format', 'Banners & Displays', 4),
+(30, 'Foam Board Signs', '', 'foam-board-signs', 'foam-board-signs', 'Large Format', 'Boards & Panels', 1),
+(31, 'Presentation Boards', '', 'presentation-boards', 'presentation-boards', 'Large Format', 'Boards & Panels', 2),
+(32, 'Retail Floor Graphics', '', 'retail-floor-graphics', 'retail-floor-graphics', 'Large Format', 'Floor Graphics', 1),
+(33, 'Large Format Photos', '', 'large-format-photos', 'large-format-photos', 'Large Format', 'Posters & Large Paper', 1),
+(34, 'Large Format Posters', '', 'large-format-posters', 'large-format-posters', 'Large Format', 'Posters & Large Paper', 2),
+(35, 'Canopy Stickers', '', 'canopy-stickers', 'canopy-stickers', 'Large Format', 'Signs', 1),
+(36, 'Parking & Directional Signs', '', 'parking-directional-signs', 'parking-directional-signs', 'Large Format', 'Signs', 2),
+(37, 'Pump Toppers', '', 'pump-toppers', 'pump-toppers', 'Large Format', 'Signs', 3),
+(38, 'Safety & Compliance Signs', '', 'safety-compliance-signs', 'safety-compliance-signs', 'Large Format', 'Signs', 4),
+(39, 'Yard Signs', '', 'yard-signs', 'yard-signs', 'Large Format', 'Signs', 5),
+(40, 'Window Decals', '', 'window-decals', 'window-decals', 'Large Format', 'Window & Glass', 1),
+(41, 'Window Perf Graphics', '', 'window-perf-graphics', 'window-perf-graphics', 'Large Format', 'Window & Glass', 2);
 
 -- --------------------------------------------------------
 
@@ -162,34 +182,6 @@ CREATE TABLE `ps_material_categories_map` (
   `mat_id` int(11) NOT NULL,
   `cat_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `ps_material_categories_map`
---
-
-INSERT INTO `ps_material_categories_map` (`id`, `mat_id`, `cat_id`) VALUES
-(1, 1, 4),
-(2, 2, 10),
-(5, 6, 4),
-(10, 11, 2),
-(13, 14, 4),
-(14, 15, 5),
-(18, 19, 2),
-(28, 16, 8),
-(44, 17, 9),
-(45, 18, 9),
-(52, 13, 6),
-(53, 13, 7),
-(54, 12, 6),
-(55, 12, 7),
-(62, 8, 6),
-(63, 4, 1),
-(64, 3, 1),
-(69, 7, 3),
-(70, 9, 6),
-(71, 10, 2),
-(76, 24, 11),
-(77, 22, 12);
 
 -- --------------------------------------------------------
 
@@ -257,7 +249,8 @@ INSERT INTO `ps_order_comments` (`comment_id`, `order_id`, `comment_text`, `crea
 (14, 42, 'hello new order', '2025-12-16 08:58:12'),
 (15, 42, 'Check comments', '2025-12-16 08:58:18'),
 (16, 42, 'test', '2025-12-17 17:38:30'),
-(17, 42, 'test', '2025-12-17 17:38:32');
+(17, 42, 'test', '2025-12-17 17:38:32'),
+(18, 31, 'hello new order', '2026-01-09 09:27:59');
 
 -- --------------------------------------------------------
 
@@ -504,7 +497,7 @@ ALTER TABLE `ps_materials`
 -- AUTO_INCREMENT for table `ps_material_categories`
 --
 ALTER TABLE `ps_material_categories`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `ps_material_categories_map`
@@ -522,7 +515,7 @@ ALTER TABLE `ps_orders`
 -- AUTO_INCREMENT for table `ps_order_comments`
 --
 ALTER TABLE `ps_order_comments`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `ps_order_items`

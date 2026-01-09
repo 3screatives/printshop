@@ -46,7 +46,7 @@
             <div class="main-content w-100 h-100 shadow-l-1 border-radius-1">
                 <div class="content-head px-4 py-3 border-bottom d-flex justify-content-between">
                     <div class="heading">
-                        <h3 class="text-bold">Orders</h3>
+                        <h3 class="text-bold">Clients</h3>
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="user me-3">
