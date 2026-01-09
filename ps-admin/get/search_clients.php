@@ -10,11 +10,14 @@ if ($term === '') {
     exit;
 }
 
-$sql = "SELECT client_id, business_name, business_address, contact_name, contact_phone, contact_email, tax_exempt, is_employee 
+$sql = "SELECT client_id, business_name, business_address, contact_name, contact_phone, contact_email, client_stma_id, tax_exempt, is_employee 
         FROM ps_clients 
         WHERE business_name LIKE CONCAT('%', ?, '%') 
-        OR contact_name LIKE CONCAT('%', ?, '%')
+           OR contact_name LIKE CONCAT('%', ?, '%')
+           OR client_stma_id LIKE CONCAT('%', ?, '%')
         LIMIT 10";
 
-$results = select_query($conn, $sql, "ss", $term, $term);
+// Bind all three placeholders
+$results = select_query($conn, $sql, "sss", $term, $term, $term);
+
 echo json_encode($results);

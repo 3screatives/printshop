@@ -48,6 +48,7 @@ $cat_image = $category['cat_image'];
 
 $grommetCategories = [1, 3];
 $hframeCategories = [3];
+$sidesCategories = [3];
 
 mysqli_close($conn);
 ?>
@@ -121,6 +122,19 @@ mysqli_close($conn);
                             <input type="number" class="form-control" name="item_qty" id="item_qty" value="1" min="1">
                         </div>
                     </div>
+
+                    <!-- Sides -->
+                    <?php if (in_array($cat_id, $sidesCategories)): ?>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label">Sides</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" name="item_sides" id="item_sides">
+                                    <option value="0" selected>Single Sided</option>
+                                    <option value="1">Double Sided</option>
+                                </select>
+                            </div>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- GROMMETS -->
                     <?php if (in_array($cat_id, $grommetCategories)): ?>

@@ -9,16 +9,20 @@
                 </div>
                 <div class="modal-body row g-3">
                     <div class="col-md-6">
-                        <label>Business Name</label>
-                        <input type="text" name="mbusiness_name" id="mbusiness_name" class="form-control" required>
+                        <label>Client STMA ID</label>
+                        <input type="number" name="client_stma_id" id="client_stma_id" class="form-control">
                     </div>
                     <div class="col-md-6">
-                        <label>Contact Name</label>
-                        <input type="text" name="contact_name" id="contact_name" class="form-control" required>
+                        <label>Business Name</label>
+                        <input type="text" name="mbusiness_name" id="mbusiness_name" class="form-control" required>
                     </div>
                     <div class="col-md-12">
                         <label>Business Address</label>
                         <textarea name="mbusiness_address" id="mbusiness_address" class="form-control"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Contact Name</label>
+                        <input type="text" name="contact_name" id="contact_name" class="form-control" required>
                     </div>
                     <div class="col-md-6">
                         <label>Phone</label>
@@ -27,10 +31,6 @@
                     <div class="col-md-6">
                         <label>Email</label>
                         <input type="email" name="contact_email" id="contact_email" class="form-control" required>
-                    </div>
-                    <div class="col-md-12">
-                        <label>Client STMA ID</label>
-                        <input type="number" name="client_stma_id" id="client_stma_id" class="form-control">
                     </div>
                     <div class="col-md-6">
                         <label>Tax Exempt ID</label>

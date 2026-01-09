@@ -24,6 +24,11 @@
                             <i class="bi bi-record-circle-fill"></i>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="material_categories.php">
+                            <i class="bi bi-list"></i>
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="mt-auto"></div>
@@ -87,9 +92,9 @@
                         </button>
                     </div>
                 </div>
-                <div class="data-record p-3">
+                <div class="data-record px-3">
                     <table class="table table-hover" id="orderListMain">
-                        <thead>
+                        <thead class="sticky-top">
                             <tr>
                                 <th width="116px">Order #</th>
                                 <th width="136px">Order Date</th>

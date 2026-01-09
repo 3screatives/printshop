@@ -91,8 +91,8 @@
                 <div class="col-3">
                     <h3>Contact</h3>
                     <p>12054 Starcrest drive, San Antonio, Texas 78247</p>
-                    <p>+1 (210) 672-6006 Ext:109</p>
-                    <p>info@cmsmart.net</p>
+                    <p>+1 (737) 381-2357</p>
+                    <p>info@stmaprinting.com</p>
                 </div>
             </div>
         </div>

@@ -76,9 +76,9 @@
                     <input type="text" class="form-control form-control-sm flex-grow-1" name="" id=""
                         placeholder="search order here...">
                 </div>
-                <div class="data-record p-3">
+                <div class="data-record px-3">
                     <table class="table" id="clientsTable">
-                        <thead>
+                        <thead class="sticky-top">
                             <tr>
                                 <th width="64px">C. ID</th>
                                 <th width="96px">STMA ID</th>

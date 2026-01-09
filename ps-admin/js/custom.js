@@ -845,7 +845,7 @@ $(document).ready(function () {
                             data-taxex="${client.tax_exempt || ''}"
                             data-employee="${client.is_employee || ''}"
                             >
-                            ${client.business_name + ' (' + client.contact_name + ')'}
+                            ${client.client_stma_id + ' - ' + client.business_name + ' (' + client.contact_name + ')'}
                         </button>`;
                         $suggestions.append(item);
                     });
@@ -1231,6 +1231,26 @@ $(document).ready(function () {
                 }
             }
         });
+    });
+
+    // live slug generator for material categories
+    let slugTouched = false;
+
+    $('#cat_slug').on('input', function () {
+        slugTouched = true;
+    });
+
+    $('#cat_name').on('input', function () {
+        if (slugTouched) return;
+
+        const slug = $(this).val()
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, '')  // remove special chars
+            .replace(/\s+/g, '-')          // spaces to dash
+            .replace(/-+/g, '-');          // collapse multiple -
+
+        $('#cat_slug').val(slug);
     });
 
 });

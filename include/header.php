@@ -15,7 +15,7 @@ $sql = "
     LEFT JOIN ps_material_categories_map cm ON cm.cat_id = c.cat_id
     LEFT JOIN ps_materials m ON m.mat_id = cm.mat_id
     GROUP BY c.cat_id
-    ORDER BY c.cat_group ASC, c.cat_order ASC
+    ORDER BY c.cat_group ASC, c.cat_section ASC, c.cat_order ASC
 ";
 $categories = select_query($conn, $sql);
 
@@ -54,7 +54,7 @@ foreach ($categories as $cat) {
                         </div>
                     </div>
                     <div class="me-2 contact-no">
-                        +1 (210) 672-6006 Ext:109
+                        +1 (737) 381-2357
                     </div>
                     <a class="btn-cart" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
                         aria-controls="offcanvasExample">
