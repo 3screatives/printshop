@@ -83,24 +83,29 @@ foreach ($categories as $cat) {
                             </a>
                             <div class="dropdown-menu w-100 mt-0">
                                 <div class="container">
-                                    <div class="row my-4">
+                                    <div class="mega-masonry my-4">
+
                                         <?php foreach ($sections as $sectionName => $items): ?>
-                                            <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-                                                <div class="list-group list-group-flush">
-                                                    <?php if ($sectionName): ?>
-                                                        <p class="mb-0 list-group-item text-uppercase fw-bold">
-                                                            <?= htmlspecialchars($sectionName) ?>
-                                                        </p>
-                                                    <?php endif; ?>
-                                                    <?php foreach ($items as $cat): ?>
-                                                        <a href="shop/<?= htmlspecialchars($cat['mat_type']) ?>/<?= htmlspecialchars($cat['cat_slug']) ?>/<?= (int)$cat['cat_id'] ?>"
-                                                            class="list-group-item list-group-item-action">
+                                            <ul class="list-box list-unstyled">
+
+                                                <?php if ($sectionName): ?>
+                                                    <li class="fw-bold text-uppercase mb-2">
+                                                        <?= htmlspecialchars($sectionName) ?>
+                                                    </li>
+                                                <?php endif; ?>
+
+                                                <?php foreach ($items as $cat): ?>
+                                                    <li>
+                                                        <a class="dropdown-item px-0"
+                                                            href="shop/<?= htmlspecialchars($cat['mat_type']) ?>/<?= htmlspecialchars($cat['cat_slug']) ?>/<?= (int)$cat['cat_id'] ?>">
                                                             <?= htmlspecialchars($cat['cat_name']) ?>
                                                         </a>
-                                                    <?php endforeach; ?>
-                                                </div>
-                                            </div>
+                                                    </li>
+                                                <?php endforeach; ?>
+
+                                            </ul>
                                         <?php endforeach; ?>
+
                                     </div>
                                 </div>
                             </div>

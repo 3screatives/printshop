@@ -760,3 +760,32 @@ footer {
     font-size: 14px;
     color: var(--color-red);
 }
+
+/* Masonry container */
+.mega-masonry {
+    column-count: 4;          /* max 4 columns */
+    column-gap: 1.25rem;
+}
+
+/* UL box */
+.list-box {
+    break-inside: avoid;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Links */
+.list-box .dropdown-item {
+    white-space: normal;
+    padding: .25rem 0;
+}
+
+@media (max-width: 992px) {
+    .mega-masonry { column-count: 3; }
+}
+@media (max-width: 768px) {
+    .mega-masonry { column-count: 2; }
+}
+@media (max-width: 576px) {
+    .mega-masonry { column-count: 1; }
+}
