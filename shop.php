@@ -46,9 +46,9 @@ $category = $categoryResult[0] ?? ['cat_name' => '', 'cat_image' => ''];
 $cat_name = $category['cat_name'];
 $cat_image = $category['cat_image'];
 
-$grommetCategories = [1, 3];
-$hframeCategories = [3];
-$sidesCategories = [3];
+$grommetCategories = [1, 39];
+$hframeCategories = [39];
+$sidesCategories = [39];
 
 mysqli_close($conn);
 ?>
@@ -181,22 +181,71 @@ mysqli_close($conn);
                         </div>
                     </div>
 
+                    <!-- Have Logo -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Have Logo?</label>
+                        <div class="col-sm-8">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="have_logo" id="logo_yes" value="1">
+                                <label class="form-check-label" for="logo_yes">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="have_logo" id="logo_no" value="0" checked>
+                                <label class="form-check-label" for="logo_no">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Upload -->
+                    <div class="mb-3 row d-none" id="logo_upload">
+                        <label class="col-sm-4 col-form-label">Upload Logo</label>
+                        <div class="col-sm-8">
+                            <input type="file" class="form-control" name="logo_file" id="logo_file" accept="image/*,.pdf">
+                            <div id="file_preview" class="mt-2"></div>
+                        </div>
+                    </div>
+
+                    <!-- have design -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Have Design?</label>
+                        <div class="col-sm-8">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="have_design" id="design_yes" value="1">
+                                <label class="form-check-label" for="design_yes">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="have_design" id="design_no" value="0" checked>
+                                <label class="form-check-label" for="design_no">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Upload -->
+                    <div class="mb-3 row d-none" id="design_upload">
+                        <label class="col-sm-4 col-form-label">Upload Design</label>
+                        <div class="col-sm-8">
+                            <input type="file" class="form-control" name="design_file" id="design_file" accept="image/*,.pdf">
+                            <div id="design_file_preview" class="mt-2"></div>
+                        </div>
+                    </div>
+
                     <!-- Price Outputs -->
                     <input type="hidden" name="unit_price" id="unit_price">
                     <input type="hidden" name="total_price" id="total_price">
 
                     <div class="price-wrap">
                         <h3 class="fw-bold mt-6 mb-4 text-end">
-                            <span class="fs-5 d-block thm-color mt-4 mb-3" style="color: #666666;">
+                            <span class="fs-5 d-block thm-color mt-4 mb-1" style="color: #666666;">
                                 Price: <b id="unit_price_display">$0.00</b> /item
+                            </span>
+                            <span class="fs-5 d-block thm-color mt-2 mb-3" style="color: #666666;">
+                                Design Fee: <b id="design_fee_display">$0.00</b> /item
                             </span>
                             <b id="result">Final Price: $0.00</b>
                         </h3>
                     </div>
 
-                    <button type="button" class="thm-btn red w-100" id="addToCart">
-                        <span>Add to Cart</span>
-                    </button>
+                    <button id="add_to_cart" class="thm-btn red w-100"><span>Add to Cart</span></button>
                 </div>
             </div>
         </div>

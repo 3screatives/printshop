@@ -12,8 +12,8 @@ $(window).scroll(function () {
 
 $(document).ready(function () {
 
-    $("#item_width, #item_height, #item_qty, #material_id, #process_time, #item_grommets, #item_hframes")
-        .on("change input", calculateFrontPrice);
+    const priceInputs = "#item_width, #item_height, #item_qty, #material_id, #process_time, #item_grommets, #item_hframes, #item_sides, input[name='have_design']";
+    $(priceInputs).on("change input", calculateFrontPrice);
 
     calculateFrontPrice();
 
@@ -33,6 +33,8 @@ $(document).ready(function () {
         const itemQty = parseInt($('#item_qty').val()) || 1;
         const itemGrommets = parseInt($('#item_grommets').val()) || 0;
         const itemHframes = parseInt($('#item_hframes').val()) || 0;
+        const itemSides = parseInt($('#item_sides').val()) || 0;
+        const hasDesign = $('#design_yes').is(':checked') ? 1 : 0;
 
         $.ajax({
             url: "ps-admin/get/material_price.php",
@@ -70,6 +72,8 @@ $(document).ready(function () {
 
                 if (itemGrommets === 1) subtotal += (4 * itemQty);
                 if (itemHframes === 1) subtotal += (3 * itemQty);
+                if (itemSides === 1) subtotal += (2 * itemQty);
+                if (hasDesign === 1) subtotal += 35;
 
                 let rush = ($('#process_time').val() == 2) ? 0.3 : 0;
                 let rushVal = subtotal * rush;
@@ -82,6 +86,7 @@ $(document).ready(function () {
                 $("#o_rush").val(rushVal.toFixed(2));
 
                 $("#unit_price_display").text("$" + unitPrice.toFixed(2));
+                $("#design_fee_display").text("$" + (hasDesign === 1 ? 35 : 0) + ".00");
                 $("#result").text("Final Price: $" + finalTotal.toFixed(2));
             }
         });
@@ -94,4 +99,108 @@ $(document).ready(function () {
             $("#item_image").attr("src", "img/product-" + imageKey + ".jpg");
         }
     });
+
+    // Toggle upload field
+    // ===== Toggle Logo Upload =====
+    $('input[name="have_logo"]').on('change', function () {
+        if ($(this).val() === '1') {
+            $('#logo_upload').removeClass('d-none');
+        } else {
+            $('#logo_upload').addClass('d-none');
+            $('#logo_file').val('');
+            $('#file_preview').html('');
+        }
+    });
+
+    // ===== Toggle Design Upload =====
+    $('input[name="have_design"]').on('change', function () {
+        if ($('#design_yes').is(':checked')) {
+            $('#design_upload').removeClass('d-none');
+        } else {
+            $('#design_upload').addClass('d-none');
+            $('#design_file').val('');           // clear file input
+            $('#design_file_preview').html('');  // clear preview
+        }
+    });
+
+
+    // ===== File Preview Function =====
+    function showPreview(input, previewDiv) {
+        const file = input.files[0];
+        const preview = $(previewDiv);
+        preview.html('');
+
+        if (!file) return;
+
+        // Image preview
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.html(`
+                    <img src="${e.target.result}"
+                         class="img-thumbnail"
+                         style="max-width:150px;">
+                `);
+            };
+            reader.readAsDataURL(file);
+
+        // PDF preview
+        } else if (file.type === 'application/pdf') {
+            preview.html(`
+                <div class="border rounded p-2">
+                    <strong>${file.name}</strong>
+                </div>
+            `);
+        } else {
+            preview.html('<small class="text-danger">Unsupported file type</small>');
+        }
+    }
+
+    // ===== Logo Preview =====
+    $('#logo_file').on('change', function () {
+        showPreview(this, '#file_preview');
+    });
+
+    // ===== Design Preview =====
+    $('#design_file').on('change', function () {
+        showPreview(this, '#design_file_preview');
+    });
+
+    // Add to Cart
+    $('#add_to_cart').on('click', function () {
+        const data = {
+            mat_id: $('#material_id').val(),
+            item_qty: parseInt($('#item_qty').val()) || 1,
+            width: parseFloat($('#item_width').val()) || 0,
+            height: parseFloat($('#item_height').val()) || 0,
+            item_grommets: parseInt($('#item_grommets').val()) || 0,
+            item_hframes: parseInt($('#item_hframes').val()) || 0,
+            item_sides: parseInt($('#item_sides').val()) || 0,
+            have_design: $('#design_yes').is(':checked') ? 1 : 0,
+            unit_price: parseFloat($('#unit_price').val()) || 0,
+            total_price: parseFloat($('#total_price').val()) || 0
+        };
+
+        $.post('add_to_cart.php', data, function (res) {
+            const result = JSON.parse(res);
+            // Update cart summary button
+            $('#cart_summary').html(`${result.items} Item(s) | $${result.total} <i class="bi bi-cart3 ms-2"></i>`);
+            $('#cart_total').text(result.total);
+            // Reload offcanvas cart items
+            loadCart();
+        });
+    });
+
+    // Load cart items into offcanvas
+    function loadCart() {
+        $('#cart_items').load('cart_slide_data.php');
+    }
+
+    // Update cart when offcanvas opens
+    $('#offcanvasCart').on('show.bs.offcanvas', function () {
+        loadCart();
+    });
+
+    // Initial load on page
+    loadCart();
 });

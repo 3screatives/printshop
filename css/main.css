@@ -789,3 +789,13 @@ footer {
 @media (max-width: 576px) {
     .mega-masonry { column-count: 1; }
 }
+
+/* Cart Page */
+.cart-page {
+    width: 100%;
+    height: 96px;
+    padding-top: 152px;
+    background-color: #ebebeb;
+    display: flex;
+    align-items: center;
+}
