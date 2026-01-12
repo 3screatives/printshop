@@ -113,13 +113,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // determine field to highlight
         if ($exceeds_width && $exceeds_length) {
             $field = 'both';
-            $message = "Print size exceeds both roll width and roll length. Cannot proceed.";
+            $message = "Print size exceeds both width and length. Cannot proceed.";
         } elseif ($exceeds_width) {
             $field = ($width < $height) ? 'width' : 'height';
-            $message = "Print size exceeds roll width. Cannot proceed.";
+            $message = "Print size exceeds width. Cannot proceed.";
         } else {
             $field = ($width > $height) ? 'width' : 'height';
-            $message = "Print size exceeds roll length. Cannot proceed.";
+            $message = "Print size exceeds length. Cannot proceed.";
         }
 
         echo json_encode([

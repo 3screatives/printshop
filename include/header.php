@@ -1,7 +1,4 @@
 <?php
-include 'ps-admin/db_function.php';
-$conn = db_connect();
-
 $sql = "
     SELECT
         c.cat_id,
@@ -56,7 +53,8 @@ foreach ($categories as $cat) {
                     <div class="me-2 contact-no">
                         +1 (737) 381-2357
                     </div>
-                    <a class="btn-cart" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button" aria-controls="offcanvasCart" id="cart_summary">
+                    <a class="btn-cart" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
+                        aria-controls="offcanvasCart" id="cart_summary">
                         0 Item(s) | $0.00 <i class="bi bi-cart3 ms-2"></i>
                     </a>
                 </div>

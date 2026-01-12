@@ -62,7 +62,7 @@
                         <!-- Material Cost -->
                         <div class="col-md-6">
                             <label for="mat_cost" class="form-label">Material Cost ($)</label>
-                            <input type="number" step="0.0001" name="mat_cost" id="mat_cost" class="form-control">
+                            <input type="number" step="0.0000001" name="mat_cost" id="mat_cost" class="form-control">
                         </div>
 
                         <!-- Ink Cost -->

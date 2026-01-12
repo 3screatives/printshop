@@ -1,9 +1,15 @@
 <?php
-include 'include/head.php';
-include 'include/header.php';
+include 'ps-admin/db_function.php';
+$conn = db_connect();
 
-// Get category ID from URL
 $cat_id = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
+
+$categoryResult = select_query($conn, "SELECT cat_name FROM ps_material_categories WHERE cat_id = ?", "i", $cat_id);
+$category = $categoryResult[0] ?? ['cat_name' => ''];
+
+$cat_name = $category['cat_name'];
+
+$pageTitle = $cat_name . ' Printing Service in San Antonio by STMA Printing';
 
 // Fetch materials for this category
 $materials = select_query(
@@ -50,7 +56,8 @@ $grommetCategories = [1, 39];
 $hframeCategories = [39];
 $sidesCategories = [39];
 
-mysqli_close($conn);
+include 'include/head.php';
+include 'include/header.php';
 ?>
 
 <section class="order-page">
@@ -95,7 +102,6 @@ mysqli_close($conn);
                             </select>
                         </div>
                     </div>
-
 
                     <!-- SIZE -->
                     <div class="mb-3 row">
@@ -223,24 +229,24 @@ mysqli_close($conn);
                         <label class="col-sm-4 col-form-label">Have Design?</label>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="have_design" id="design_yes"
-                                    value="1">
+                                <input class="form-check-input" type="radio" name="have_design" id="design_no" value="0"
+                                    checked>
                                 <label class="form-check-label" for="design_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="have_design" id="design_no" value="0"
-                                    checked>
+                                <input class="form-check-input" type="radio" name="have_design" id="design_yes"
+                                    value="1">
                                 <label class="form-check-label" for="design_no">No</label>
                             </div>
                         </div>
                     </div>
 
                     <!-- File Upload -->
-                    <div class="mb-3 row d-none" id="design_upload">
+                    <div class="mb-3 row" id="design_upload">
                         <label class="col-sm-4 col-form-label">Upload Design</label>
                         <div class="col-sm-8">
                             <input type="file" class="form-control" name="design_file" id="design_file"
-                                accept="image/*,.pdf">
+                                accept="image/*,.pdf" required>
                             <div id="design_file_preview" class="mt-2"></div>
                         </div>
                     </div>
@@ -268,4 +274,7 @@ mysqli_close($conn);
     </div>
 </section>
 
-<?php include 'include/footer.php'; ?>
+<?php
+include 'include/footer.php';
+mysqli_close($conn);
+?>

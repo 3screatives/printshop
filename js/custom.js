@@ -115,11 +115,11 @@ $(document).ready(function () {
     // ===== Toggle Design Upload =====
     $('input[name="have_design"]').on('change', function () {
         if ($('#design_yes').is(':checked')) {
-            $('#design_upload').removeClass('d-none');
-        } else {
             $('#design_upload').addClass('d-none');
             $('#design_file').val('');           // clear file input
             $('#design_file_preview').html('');  // clear preview
+        } else {
+            $('#design_upload').removeClass('d-none');
         }
     });
 
