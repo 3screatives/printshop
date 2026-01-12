@@ -9,7 +9,7 @@
     <div class="offcanvas-footer mt-3 p-3 text-end">
         <strong>Total: $<span id="cart_total">0.00</span></strong>
         <div class="mt-2">
-            <a href="view_cart.php" class="btn btn-primary w-100">View Cart</a>
+            <a href="view-cart.php" class="btn btn-primary w-100">View Cart</a>
         </div>
     </div>
 </div>

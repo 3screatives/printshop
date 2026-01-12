@@ -144,7 +144,7 @@ $(document).ready(function () {
             };
             reader.readAsDataURL(file);
 
-        // PDF preview
+            // PDF preview
         } else if (file.type === 'application/pdf') {
             preview.html(`
                 <div class="border rounded p-2">
@@ -167,6 +167,7 @@ $(document).ready(function () {
     });
 
     // Add to Cart
+    // Add to Cart
     $('#add_to_cart').on('click', function () {
         const data = {
             mat_id: $('#material_id').val(),
@@ -181,26 +182,34 @@ $(document).ready(function () {
             total_price: parseFloat($('#total_price').val()) || 0
         };
 
-        $.post('add_to_cart.php', data, function (res) {
-            const result = JSON.parse(res);
-            // Update cart summary button
-            $('#cart_summary').html(`${result.items} Item(s) | $${result.total} <i class="bi bi-cart3 ms-2"></i>`);
-            $('#cart_total').text(result.total);
-            // Reload offcanvas cart items
-            loadCart();
-        });
+        $.post('cart/cart_add.php', data, loadCart);
     });
 
-    // Load cart items into offcanvas
+    // Load cart (updates offcanvas + header)
     function loadCart() {
-        $('#cart_items').load('cart_slide_data.php');
+        $.getJSON('cart/cart_get.php', function (data) {
+            $('#cart_items').html(data.html);              // offcanvas items
+            $('#cart_total').text(data.total);            // footer total
+            $('#cart_summary').html(`${data.count} Item(s) | $${data.total} <i class="bi bi-cart3 ms-2"></i>`); // header
+        });
     }
 
-    // Update cart when offcanvas opens
-    $('#offcanvasCart').on('show.bs.offcanvas', function () {
-        loadCart();
+    // Remove item
+    $(document).on('click', '.remove-item', function () {
+        $.post('cart/cart_remove.php', { key: $(this).data('key') }, loadCart);
     });
 
-    // Initial load on page
+    // Update quantity (live)
+    $(document).on('change', '.cart-qty', function () {
+        $.post('cart/cart_update.php', { key: $(this).data('key'), qty: $(this).val() }, loadCart);
+    });
+
+    // Clear cart (optional)
+    $('#clear_cart').on('click', function () {
+        $.post('cart/cart_clear.php', {}, loadCart);
+    });
+
+    // Initial load
     loadCart();
+
 });

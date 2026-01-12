@@ -136,6 +136,17 @@ mysqli_close($conn);
                         </div>
                     <?php endif; ?>
 
+                    <!-- Orientation -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Orientation</label>
+                        <div class="col-sm-8">
+                            <select class="form-select" name="item_orientation" id="item_orientation">
+                                <option value="0" selected>Landscape</option>
+                                <option value="1">Portrait</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <!-- GROMMETS -->
                     <?php if (in_array($cat_id, $grommetCategories)): ?>
                         <div class="mb-3 row">
@@ -190,7 +201,8 @@ mysqli_close($conn);
                                 <label class="form-check-label" for="logo_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="have_logo" id="logo_no" value="0" checked>
+                                <input class="form-check-input" type="radio" name="have_logo" id="logo_no" value="0"
+                                    checked>
                                 <label class="form-check-label" for="logo_no">No</label>
                             </div>
                         </div>
@@ -200,7 +212,8 @@ mysqli_close($conn);
                     <div class="mb-3 row d-none" id="logo_upload">
                         <label class="col-sm-4 col-form-label">Upload Logo</label>
                         <div class="col-sm-8">
-                            <input type="file" class="form-control" name="logo_file" id="logo_file" accept="image/*,.pdf">
+                            <input type="file" class="form-control" name="logo_file" id="logo_file"
+                                accept="image/*,.pdf">
                             <div id="file_preview" class="mt-2"></div>
                         </div>
                     </div>
@@ -210,11 +223,13 @@ mysqli_close($conn);
                         <label class="col-sm-4 col-form-label">Have Design?</label>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="have_design" id="design_yes" value="1">
+                                <input class="form-check-input" type="radio" name="have_design" id="design_yes"
+                                    value="1">
                                 <label class="form-check-label" for="design_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="have_design" id="design_no" value="0" checked>
+                                <input class="form-check-input" type="radio" name="have_design" id="design_no" value="0"
+                                    checked>
                                 <label class="form-check-label" for="design_no">No</label>
                             </div>
                         </div>
@@ -224,7 +239,8 @@ mysqli_close($conn);
                     <div class="mb-3 row d-none" id="design_upload">
                         <label class="col-sm-4 col-form-label">Upload Design</label>
                         <div class="col-sm-8">
-                            <input type="file" class="form-control" name="design_file" id="design_file" accept="image/*,.pdf">
+                            <input type="file" class="form-control" name="design_file" id="design_file"
+                                accept="image/*,.pdf">
                             <div id="design_file_preview" class="mt-2"></div>
                         </div>
                     </div>
