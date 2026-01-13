@@ -2,12 +2,33 @@
 include 'ps-admin/db_function.php';
 $conn = db_connect();
 
-$cat_id = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
+$type = $_GET['type'] ?? '';
+$slug = $_GET['slug'] ?? '';
 
-$categoryResult = select_query($conn, "SELECT cat_name FROM ps_material_categories WHERE cat_id = ?", "i", $cat_id);
-$category = $categoryResult[0] ?? ['cat_name' => ''];
+if (!$slug) {
+    http_response_code(404);
+    exit('Category not found');
+}
 
-$cat_name = $category['cat_name'];
+$categoryResult = select_query(
+    $conn,
+    "SELECT cat_id, cat_name, cat_image 
+     FROM ps_material_categories 
+     WHERE cat_slug = ? 
+     LIMIT 1",
+    "s",
+    $slug
+);
+
+if (empty($categoryResult)) {
+    http_response_code(404);
+    exit('Category not found');
+}
+
+$category  = $categoryResult[0];
+$cat_id    = (int)$category['cat_id'];
+$cat_name  = $category['cat_name'];
+$cat_image = $category['cat_image'];
 
 $pageTitle = $cat_name . ' Printing Service in San Antonio by STMA Printing';
 
@@ -56,6 +77,18 @@ $grommetCategories = [1, 39];
 $hframeCategories = [39];
 $sidesCategories = [39];
 
+$printSizes = select_query(
+    $conn,
+    "SELECT s_id, labels, div_value
+     FROM ps_print_sizes
+     WHERE cat_id = ?
+       AND type = ?
+     ORDER BY s_id ASC",
+    "is",
+    $cat_id,
+    $matType
+);
+
 include 'include/head.php';
 include 'include/header.php';
 ?>
@@ -82,10 +115,12 @@ include 'include/header.php';
             <div class="col-6">
                 <img id="item_image" src="img/product-<?php echo htmlspecialchars($cat_image); ?>.jpg" class="img-fluid"
                     alt="<?php echo htmlspecialchars($cat_name); ?>">
+                <!-- src="uploads/categories/<?php echo htmlspecialchars($cat_image); ?>" -->
             </div>
 
             <div class="col-5 offset-1">
                 <div class="order-form-wrap">
+
                     <!-- MATERIAL -->
                     <div class="mb-3 row">
                         <label class="col-sm-4 col-form-label">Material</label>
@@ -103,23 +138,47 @@ include 'include/header.php';
                         </div>
                     </div>
 
-                    <!-- SIZE -->
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label">Size</label>
-                        <div class="col-sm-8 d-flex gap-3">
-                            <div class="input-group">
-                                <input type="number" class="form-control" name="item_width" id="item_width" value="24"
-                                    min="24">
-                                <span class="input-group-text">in</span>
-                            </div>
-                            <div class="input-group">
-                                <input type="number" class="form-control" name="item_height" id="item_height" value="36"
-                                    min="36">
-                                <span class="input-group-text">in</span>
+                    <!-- Digital Size -->
+                    <?php if ($matType === 'digital'): ?>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label">Size</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" name="item_print_size" id="item_print_size" required>
+                                    <option value="">-- Select Size --</option>
+
+                                    <?php if (!empty($printSizes)): ?>
+                                        <?php foreach ($printSizes as $size): ?>
+                                            <option value="<?= (int)$size['div_value'] ?>">
+                                                <?= htmlspecialchars($size['labels']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <option value="" disabled>No sizes available</option>
+                                    <?php endif; ?>
+                                </select>
                             </div>
                         </div>
-                        <div class="errorBox mt-2 text-end"></div>
-                    </div>
+                    <?php endif; ?>
+
+                    <!-- SIZE -->
+                    <?php if ($matType === 'large'): ?>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label">Size</label>
+                            <div class="col-sm-8 d-flex gap-3">
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="item_width" id="item_width" value="24"
+                                        min="24">
+                                    <span class="input-group-text">in</span>
+                                </div>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="item_height" id="item_height" value="36"
+                                        min="36">
+                                    <span class="input-group-text">in</span>
+                                </div>
+                            </div>
+                            <div class="errorBox mt-2 text-end"></div>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- QUANTITY -->
                     <div class="mb-3 row">
@@ -267,7 +326,7 @@ include 'include/header.php';
                         </h3>
                     </div>
 
-                    <button id="add_to_cart" class="thm-btn red w-100"><span>Add to Cart</span></button>
+                    <button id="add_to_cart" class="thm-btn red w-100" disabled><span>Add to Cart</span></button>
                 </div>
             </div>
         </div>

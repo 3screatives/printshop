@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2026 at 11:22 PM
+-- Generation Time: Jan 13, 2026 at 11:07 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -85,27 +85,45 @@ CREATE TABLE `ps_materials` (
 --
 
 INSERT INTO `ps_materials` (`mat_id`, `mat_vendor`, `mat_name`, `mat_type`, `mat_details`, `mat_roll_size`, `mat_length`, `mat_size`, `mat_cost`, `mat_cost_multiplier`, `ink_cost`, `mat_added_on`) VALUES
-(1, 'Lexjet', 'Adhesive', 'large', '4WM66A - HP Prime Matte Air GP, 3.4 Mil', 54, 150, 1800, 217.070000, 3.00, 0.003400, '2025-10-11'),
-(2, 'Lexjet', 'Backlit', 'large', 'KBLGS60 - Kodak glossy backlit film', 60, 100, 1200, 300.000000, 3.00, 0.003400, '2025-10-11'),
-(3, 'Clampitt', 'Banner Matte', 'large', '8600537	Maxbanner Matte, 13oz	54\"x164\'', 54, 164, 1968, 124.200000, 3.00, 0.003400, '2025-10-11'),
-(4, 'Clampitt', 'Banner Gloss', 'large', '86005371	Maxbanner Gloss, 13oz	54\"x164\'', 54, 164, 1968, 124.200000, 3.00, 0.003400, '2025-10-11'),
-(5, '', 'Print Only', 'large', 'N/A', 0, 0, 0, 1.000000, 3.00, 0.003400, '2025-10-11'),
-(6, 'Lexjet', 'Clear Adhesive', 'large', 'GF 206-54 - Clear Gloss Vinyl, Removeable', 54, 150, 1800, 230.000000, 3.00, 0.003400, '2025-10-11'),
-(7, 'Clampitt', 'Coroplast', 'large', '58263908	Centrlplas 60x120-4mm	60\"x120\"', 60, 120, 120, 13.250000, 6.00, 0.003400, '2025-10-11'),
-(8, 'Grimco', 'Floor Sticker', 'large', 'OLFL-30954, Briteline Floor Film Overlaminate - OLFL309 54 \" x 150 \'', 54, 150, 1800, 368.990000, 3.00, 0.003400, '2025-10-11'),
-(9, 'Reece Supply', 'Foam Board', 'large', 'Pn 122718 - 3/16 White Foam Board', 48, 96, 96, 15.130000, 6.00, 0.003400, '2025-10-11'),
-(10, 'Lexjet', 'Bond Paper', 'large', 'Canon Economy Bond Paper (75gsm)', 36, 200, 2400, 109.610000, 1.50, 0.003400, '2025-10-11'),
-(11, 'Lexjet', 'Polypropylene', 'large', 'ERWP36200 - LexJet Heavyweight WR Polypropylene - 36in x 200ft', 36, 200, 2400, 106.250000, 3.00, 0.003400, '2025-10-11'),
-(12, 'Grimco', 'Polystyrene 020', 'large', 'HIPS60XC0X020W, Duratex Polystyrene Sheets - Double White 60\" x 120\", .020\"', 60, 120, 120, 15.380000, 4.00, 0.003400, '2025-10-11'),
-(13, 'Grimco', 'Polystyrene 040', 'large', 'HIPS60XC0X040W, Duratex Polystyrene Sheets - Double White 60\" x 120\", .040\"', 60, 96, 120, 30.750000, 4.00, 0.003400, '2025-10-11'),
-(14, 'Lexjet', 'Static Cling', 'large', '207-5415 - GF-207 Clear', 54, 150, 1800, 260.090000, 3.00, 0.003400, '2025-10-11'),
-(15, 'Reece Supply', 'Window Perforated', 'large', 'Pn 55599 - UltraVision Window Perf 60/40 UV 6.3 Mil', 54, 164, 1968, 326.830000, 3.00, 0.003400, '2025-10-11'),
-(16, 'Grimco', 'Aluminum', 'large', 'MM843MWDP - MAXMETAL™ 4\' x 8\', White DP, EACH', 60, 120, 120, 86.320000, 3.00, 0.003400, '2025-10-11'),
-(17, 'Grimco', 'Acrylic - Clear', 'large', 'CC4896316C - Duratex Cast Acrylic 48\" x 96\", Clear, 3/16\"', 60, 120, 120, 172.190000, 3.00, 0.003400, '2025-10-11'),
-(18, 'Grimco', 'Acrylic - White', 'large', 'CC4896316W7328 - Duratex Cast Acrylic 48\" x 96\", White 7328, 3/16\"', 60, 120, 120, 184.370000, 3.00, 0.003400, '2025-10-11'),
-(19, 'Lexjet', 'Polyester', 'large', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 3.00, 0.003400, '2025-10-11'),
-(22, 'Test', 'Regular Paper', 'digital', 'None', 12, 18, 18, 0.001800, 1.00, 0.043000, '2025-12-29'),
-(24, 'Paper', 'Cardstock', 'digital', '', 9, 11, 11, 0.040000, 1.00, 0.043000, '2025-12-30');
+(1, 'Lexjet', 'Adhesive', 'large', '4WM66A - HP Prime Matte Air GP, 3.4 Mil', 54, 150, 1800, 217.070000, 3.00, 0.003400, '2026-01-12'),
+(2, 'Lexjet', 'Backlit', 'large', 'KBLGS60 - Kodak glossy backlit film', 60, 100, 1200, 300.000000, 3.00, 0.003400, '2026-01-12'),
+(3, 'Clampitt', 'Banner Matte', 'large', '8600537	Maxbanner Matte, 13oz	54\"x164\'', 54, 164, 1968, 124.200000, 3.00, 0.003400, '2026-01-12'),
+(4, 'Clampitt', 'Banner Gloss', 'large', '86005371	Maxbanner Gloss, 13oz	54\"x164\'', 54, 164, 1968, 124.200000, 3.00, 0.003400, '2026-01-12'),
+(5, 'Lexjet', 'Clear Adhesive', 'large', 'GF 206-54 - Clear Gloss Vinyl, Removeable', 54, 150, 1800, 230.000000, 3.00, 0.003400, '2026-01-12'),
+(6, 'Clampitt', 'Coroplast', 'large', '58263908	Centrlplas 60x120-4mm	60\"x120\"', 60, 120, 120, 13.250000, 6.00, 0.003400, '2026-01-12'),
+(7, 'Grimco', 'Floor Sticker', 'large', 'OLFL-30954, Briteline Floor Film Overlaminate - OLFL309 54 \" x 150 \'', 54, 150, 1800, 368.990000, 3.00, 0.003400, '2026-01-12'),
+(8, 'Reece Supply', 'Foam Board', 'large', 'Pn 122718 - 3/16 White Foam Board', 48, 96, 96, 15.130000, 6.00, 0.003400, '2026-01-12'),
+(9, 'Lexjet', 'Bond Paper', 'large', 'Canon Economy Bond Paper (75gsm)', 36, 200, 2400, 109.610000, 1.50, 0.003400, '2026-01-12'),
+(10, 'Lexjet', 'Polypropylene', 'large', 'ERWP36200 - LexJet Heavyweight WR Polypropylene - 36in x 200ft', 36, 200, 2400, 106.250000, 3.00, 0.003400, '2026-01-12'),
+(11, 'Grimco', 'Polystyrene 020', 'large', 'HIPS60XC0X020W, Duratex Polystyrene Sheets - Double White 60\" x 120\", .020\"', 60, 120, 120, 15.380000, 4.00, 0.003400, '2026-01-12'),
+(12, 'Grimco', 'Polystyrene 040', 'large', 'HIPS60XC0X040W, Duratex Polystyrene Sheets - Double White 60\" x 120\", .040\"', 60, 96, 120, 30.750000, 4.00, 0.003400, '2026-01-12'),
+(13, 'Lexjet', 'Static Cling', 'large', '207-5415 - GF-207 Clear', 54, 150, 1800, 260.090000, 3.00, 0.003400, '2026-01-12'),
+(14, 'Reece Supply', 'Window Perforated', 'large', 'Pn 55599 - UltraVision Window Perf 60/40 UV 6.3 Mil', 54, 164, 1968, 326.830000, 3.00, 0.003400, '2026-01-12'),
+(15, 'Grimco', 'Aluminum', 'large', 'MM843MWDP - MAXMETAL™ 4\' x 8\', White DP, EACH', 60, 120, 120, 86.320000, 3.00, 0.003400, '2026-01-12'),
+(16, 'Grimco', 'Acrylic - Clear', 'large', 'CC4896316C - Duratex Cast Acrylic 48\" x 96\", Clear, 3/16\"', 60, 120, 120, 172.190000, 3.00, 0.003400, '2026-01-12'),
+(17, 'Grimco', 'Acrylic - White', 'large', 'CC4896316W7328 - Duratex Cast Acrylic 48\" x 96\", White 7328, 3/16\"', 60, 120, 120, 184.370000, 3.00, 0.003400, '2026-01-12'),
+(18, 'Lexjet', 'Polyester', 'large', '142SGC30\r - LexJet Clear Polyester SUV - 30in x 100ft', 30, 100, 1200, 229.000000, 3.00, 0.003400, '2026-01-12'),
+(19, 'Clampitt', '60lb Matte Text', 'digital', 'Accent Opaque Smooth', 9, 0, 11, 0.016010, 1.00, 0.043000, '2026-01-12'),
+(20, 'Clampitt', '100lb Matte Cover', 'digital', 'Accent Opaque Smooth', 9, 0, 11, 0.049830, 1.00, 0.043000, '2026-01-12'),
+(21, 'Clampitt', '110lb Matte Cover', 'digital', 'Accent Opaque Smooth', 9, 0, 11, 0.185530, 1.00, 0.043000, '2026-01-12'),
+(22, 'Clampitt', '80lb Gloss Text', 'digital', 'Billerud Sterling Digital', 9, 0, 11, 0.026340, 1.00, 0.043000, '2026-01-12'),
+(23, 'Clampitt', '100lb Gloss Cover', 'digital', 'Billerud Sterling Digital', 9, 0, 11, 0.098000, 1.00, 0.043000, '2026-01-12'),
+(24, 'Clampitt', '80lb Matte Text', 'digital', 'Accent Opaque Smooth', 12, 0, 18, 0.052480, 1.00, 0.043000, '2026-01-12'),
+(25, 'Clampitt', '80lb Matte Cover', 'digital', 'Omnix Smooth', 12, 0, 18, 0.115561, 1.00, 0.043000, '2026-01-12'),
+(26, 'Clampitt', '100lb Matte Text', 'digital', 'Accent Opaque Smooth', 12, 0, 18, 0.077500, 1.00, 0.043000, '2026-01-12'),
+(27, 'Clampitt', '100lb Matte Cover', 'digital', 'Accent Opaque Smooth', 12, 0, 18, 0.114400, 1.00, 0.043000, '2026-01-12'),
+(28, 'Clampitt', '80lb Gloss Text', 'digital', 'Billerud Sterling Digital', 12, 0, 18, 0.061690, 1.00, 0.043000, '2026-01-12'),
+(29, 'Clampitt', '100lb Gloss Text', 'digital', 'Billerud Sterling Digital', 12, 0, 18, 0.077112, 1.00, 0.043000, '2026-01-12'),
+(30, 'Clampitt', '100lb Gloss Cover', 'digital', 'Billerud Sterling Digital', 12, 0, 18, 0.241700, 1.00, 0.043000, '2026-01-12'),
+(31, 'Clampitt', '87lb Gloss Cover', 'digital', '10pt White Tango Coated C2S Board', 13, 0, 19, 0.168730, 1.00, 0.043000, '2026-01-12'),
+(32, 'Office Depot', 'A9 Envelopes', 'digital', '', 6, 0, 9, 0.170000, 1.00, 0.043000, '2026-01-12'),
+(33, 'Lexjet', '4ups - Removeable', 'digital', '', 4, 0, 6, 0.400000, 1.00, 0.043000, '2026-01-12'),
+(34, 'Desktop Supplies', '4ups - Permanent', 'digital', '', 4, 0, 6, 0.140000, 1.00, 0.043000, '2026-01-12'),
+(35, 'Online Labels', 'Small Labels', 'digital', '', 1, 0, 2, 0.030000, 1.00, 0.043000, '2026-01-12'),
+(36, 'Online Labels', 'Round Labels', 'digital', '', 2, 0, 2, 0.040000, 1.00, 0.043000, '2026-01-12'),
+(37, '', 'Shelf Strips', 'digital', '', 9, 0, 11, 0.185530, 1.00, 0.043000, '2026-01-12'),
+(38, 'Lexjet', 'Photo Paper', 'large', '', 9, 0, 11, 0.000000, 1.00, 0.043000, '2026-01-12'),
+(39, '', '28lb Matte Text', 'digital', 'Hammermill', 11, 0, 17, 0.063034, 1.00, 0.043000, '2026-01-12');
 
 -- --------------------------------------------------------
 
@@ -169,7 +187,11 @@ INSERT INTO `ps_material_categories` (`cat_id`, `cat_name`, `cat_description`, `
 (38, 'Safety & Compliance Signs', '', 'safety-compliance-signs', 'safety-compliance-signs', 'Large Format', 'Signs', 4),
 (39, 'Yard Signs', '', 'yard-signs', 'yard-signs', 'Large Format', 'Signs', 5),
 (40, 'Window Decals', '', 'window-decals', 'window-decals', 'Large Format', 'Window & Glass', 1),
-(41, 'Window Perf Graphics', '', 'window-perf-graphics', 'window-perf-graphics', 'Large Format', 'Window & Glass', 2);
+(41, 'Window Perf Graphics', '', 'window-perf-graphics', 'window-perf-graphics', 'Large Format', 'Window & Glass', 2),
+(42, 'Floor Plans', '', 'floor-plans', 'floor-plans', 'Large Format', 'Posters & Large Paper', 3),
+(43, 'Custom Cut Stickers', '', 'custom-cut-stickers', 'custom-cut-stickers', 'Large Format', 'Stickers', 1),
+(44, 'Large Rigid Signage', '', 'large-rigid-signage', 'large-rigid-signage', 'Large Format', 'Signs', 6),
+(45, 'Large Stickers', '', 'large-stickers', 'large-stickers', 'Large Format', 'Stickers', 2);
 
 -- --------------------------------------------------------
 
@@ -182,6 +204,112 @@ CREATE TABLE `ps_material_categories_map` (
   `mat_id` int(11) NOT NULL,
   `cat_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ps_material_categories_map`
+--
+
+INSERT INTO `ps_material_categories_map` (`id`, `mat_id`, `cat_id`) VALUES
+(1, 20, 1),
+(2, 21, 1),
+(3, 23, 1),
+(4, 32, 2),
+(6, 22, 3),
+(10, 20, 6),
+(11, 21, 6),
+(12, 23, 6),
+(13, 25, 6),
+(14, 27, 6),
+(15, 30, 6),
+(18, 33, 8),
+(19, 34, 8),
+(20, 35, 8),
+(21, 36, 8),
+(22, 20, 9),
+(23, 21, 9),
+(24, 23, 9),
+(25, 25, 9),
+(26, 27, 9),
+(27, 30, 9),
+(29, 24, 10),
+(31, 28, 10),
+(32, 29, 10),
+(34, 22, 11),
+(35, 24, 12),
+(37, 28, 12),
+(38, 29, 12),
+(41, 22, 14),
+(43, 22, 15),
+(44, 20, 16),
+(45, 21, 16),
+(46, 23, 16),
+(47, 20, 17),
+(48, 21, 17),
+(49, 23, 17),
+(50, 22, 18),
+(52, 20, 20),
+(53, 21, 20),
+(54, 23, 20),
+(55, 37, 21),
+(56, 16, 22),
+(57, 17, 22),
+(58, 11, 23),
+(59, 12, 23),
+(60, 16, 23),
+(61, 17, 23),
+(62, 2, 24),
+(63, 16, 25),
+(64, 17, 25),
+(65, 10, 26),
+(66, 3, 26),
+(67, 4, 26),
+(68, 3, 27),
+(69, 4, 27),
+(70, 3, 28),
+(71, 4, 28),
+(72, 3, 29),
+(73, 4, 29),
+(74, 10, 29),
+(75, 8, 30),
+(76, 8, 31),
+(77, 11, 31),
+(78, 7, 32),
+(79, 38, 33),
+(80, 10, 33),
+(81, 10, 34),
+(82, 1, 35),
+(83, 6, 36),
+(84, 15, 36),
+(85, 11, 37),
+(86, 12, 37),
+(87, 6, 38),
+(88, 12, 38),
+(89, 15, 38),
+(90, 6, 39),
+(91, 1, 40),
+(92, 5, 40),
+(93, 14, 41),
+(94, 9, 42),
+(95, 1, 43),
+(96, 5, 43),
+(97, 6, 44),
+(98, 15, 44),
+(99, 1, 45),
+(100, 5, 45),
+(101, 13, 40),
+(108, 26, 10),
+(109, 26, 12),
+(110, 26, 4),
+(111, 19, 11),
+(112, 19, 14),
+(113, 19, 3),
+(114, 19, 15),
+(115, 19, 19),
+(117, 31, 6),
+(118, 31, 13),
+(119, 31, 7),
+(120, 31, 9),
+(121, 39, 5);
 
 -- --------------------------------------------------------
 
@@ -273,86 +401,57 @@ CREATE TABLE `ps_order_items` (
   `item_is_printed` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `ps_order_items`
+-- Table structure for table `ps_print_sizes`
 --
 
-INSERT INTO `ps_order_items` (`item_id`, `order_id`, `material_id`, `item_details`, `item_quantity`, `item_size_width`, `item_size_height`, `item_grommets`, `item_price`, `item_total`, `item_is_design`, `item_is_printed`) VALUES
-(1, 1, 1, 'Poster Print 24x36', 2, 24.00, 36.00, 0, 60.00, 120.00, 0, 0),
-(2, 2, 2, 'Banner 48x72 with grommets', 1, 48.00, 72.00, 1, 300.00, 300.00, 0, 0),
-(3, 3, 3, 'Vinyl decal set', 3, 12.00, 12.00, 0, 150.00, 450.00, 0, 0),
-(39, 24, 16, 'Sign', 1, 24.00, 36.00, 0, 14.00, 14.00, 1, 0),
-(40, 24, 1, 'Sticker', 1, 24.00, 36.00, 0, 19.00, 19.00, 0, 0),
-(41, 25, 1, 'Labels/Stickers', 1, 54.00, 54.00, 0, 29.00, 29.00, 0, 0),
-(42, 26, 1, 'Pizza Slice, Fountain Drink, $4.99', 1, 24.00, 36.00, 0, 19.00, 19.00, 1, 1),
-(43, 26, 1, 'Wings, Fries, Fountain Drink, $9.99', 1, 24.00, 36.00, 0, 19.00, 19.00, 1, 1),
-(44, 26, 1, 'Hunt Brothers Whole Cheese Pizza, $8.99', 1, 55.00, 45.00, 0, 47.00, 47.00, 1, 1),
-(45, 26, 1, 'Hunt Brothers Whole Pepperoni Pizza, $11.99', 1, 56.00, 45.00, 0, 48.00, 48.00, 1, 1),
-(46, 26, 1, 'Corn Dog, Burrito, Egg Roll, Fries (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00, 0, 0),
-(47, 26, 1, 'Egg & Cheese Sandwich, Hashbrowns, Coffee, $5.99 (2 pieces, 5 ft each)', 1, 120.00, 18.00, 0, 67.00, 67.00, 1, 0),
-(48, 26, 1, 'Text, 1 sign per item: Beer, Wine, Soda, Lotto, Snack, Fountain Drinks, Coffee, Slushy', 8, 55.00, 10.00, 0, 27.00, 216.00, 0, 0),
-(49, 26, 1, 'No Back Pack Signs', 10, 8.00, 11.00, 0, 6.00, 60.00, 1, 0),
-(50, 26, 6, '1 Per Combo', 4, 6.00, 24.00, 0, 5.00, 20.00, 1, 1),
-(51, 31, 16, 'Drive Thru Sign', 1, 18.00, 18.00, 0, 6.00, 24.00, 0, 0),
-(52, 35, 1, '', 1, 96.00, 48.00, 0, 83.00, 83.00, 1, 1),
-(53, 36, 17, '', 1, 24.00, 24.00, 0, 14.00, 14.00, 0, 0),
-(54, 37, 7, '', 1, 96.00, 48.00, 0, 144.00, 144.00, 1, 0),
-(55, 39, 17, '', 1, 1.00, 60.00, 0, 261.00, 261.00, 0, 0),
-(56, 39, 18, '', 1, 1.00, 60.00, 0, 279.00, 279.00, 0, 0),
-(57, 39, 1, '', 1, 1.00, 54.00, 0, 22.00, 22.00, 0, 0),
-(58, 39, 16, '', 1, 1.00, 60.00, 0, 132.00, 132.00, 0, 0),
-(59, 39, 2, '', 1, 1.00, 60.00, 0, 47.00, 47.00, 0, 0),
-(60, 39, 4, '', 1, 1.00, 54.00, 0, 17.00, 17.00, 0, 0),
-(61, 39, 3, '', 1, 1.00, 54.00, 0, 17.00, 17.00, 0, 0),
-(62, 39, 6, '', 1, 1.00, 54.00, 0, 23.00, 23.00, 0, 0),
-(63, 39, 7, '', 1, 1.00, 60.00, 0, 62.00, 62.00, 0, 0),
-(64, 39, 8, '', 1, 1.00, 54.00, 0, 2.00, 2.00, 0, 0),
-(65, 39, 9, '', 1, 1.00, 48.00, 0, 25.00, 25.00, 0, 0),
-(66, 39, 19, '', 1, 1.00, 30.00, 0, 19.00, 19.00, 0, 0),
-(67, 39, 11, '', 1, 1.00, 36.00, 0, 7.00, 7.00, 0, 0),
-(68, 39, 12, '', 1, 1.00, 48.00, 0, 39.00, 39.00, 0, 0),
-(69, 39, 13, '', 1, 1.00, 48.00, 0, 30.00, 30.00, 0, 0),
-(70, 39, 10, '', 1, 1.00, 36.00, 0, 2.00, 2.00, 0, 0),
-(71, 39, 14, '', 1, 1.00, 54.00, 0, 26.00, 26.00, 0, 0),
-(72, 39, 15, '', 1, 1.00, 54.00, 0, 29.00, 29.00, 0, 0),
-(73, 40, 17, 'TEST', 1, 24.00, 36.00, 0, 72.00, 72.00, 0, 0),
-(74, 40, 18, 'test', 1, 24.00, 36.00, 0, 76.00, 76.00, 0, 0),
-(75, 40, 1, 'TEST', 1, 24.00, 36.00, 0, 16.00, 16.00, 0, 0),
-(76, 40, 16, 'test', 1, 24.00, 36.00, 0, 41.00, 41.00, 0, 0),
-(77, 40, 2, 'TEST', 1, 24.00, 36.00, 0, 21.00, 21.00, 0, 0),
-(78, 40, 4, 'test', 1, 24.00, 36.00, 0, 13.00, 13.00, 0, 0),
-(79, 40, 3, 'TEST', 1, 24.00, 36.00, 0, 13.00, 13.00, 0, 0),
-(80, 40, 6, 'test', 1, 24.00, 36.00, 0, 16.00, 16.00, 0, 0),
-(81, 40, 7, 'TEST', 1, 24.00, 36.00, 0, 20.00, 20.00, 0, 0),
-(82, 40, 8, 'test', 1, 24.00, 36.00, 0, 20.00, 20.00, 0, 0),
-(83, 40, 9, 'TEST', 1, 24.00, 36.00, 0, 27.00, 27.00, 0, 0),
-(84, 40, 19, 'test', 1, 24.00, 36.00, 0, 27.00, 27.00, 0, 0),
-(85, 40, 11, 'TEST', 1, 24.00, 36.00, 0, 13.00, 13.00, 0, 0),
-(86, 40, 12, 'test', 1, 24.00, 36.00, 0, 21.00, 21.00, 0, 0),
-(87, 40, 13, 'TEST', 1, 24.00, 36.00, 0, 32.00, 32.00, 0, 0),
-(88, 40, 10, 'test', 1, 24.00, 36.00, 0, 12.00, 12.00, 0, 0),
-(89, 40, 14, 'TEST', 1, 24.00, 36.00, 0, 17.00, 17.00, 0, 0),
-(90, 40, 15, 'test', 1, 24.00, 36.00, 0, 18.00, 18.00, 0, 0),
-(91, 41, 1, '', 1, 96.00, 48.00, 0, 82.00, 82.00, 0, 0),
-(92, 42, 4, '', 1, 96.00, 48.00, 0, 67.00, 67.00, 0, 0),
-(93, 45, 17, '', 1, 24.00, 36.00, 0, 72.00, 72.00, 0, 0),
-(94, 45, 18, '', 1, 24.00, 36.00, 0, 76.00, 76.00, 0, 0),
-(95, 45, 1, '', 1, 24.00, 36.00, 0, 16.00, 16.00, 0, 0),
-(96, 45, 16, '', 1, 24.00, 36.00, 0, 41.00, 41.00, 0, 0),
-(97, 45, 2, '', 1, 24.00, 36.00, 0, 21.00, 21.00, 0, 0),
-(98, 45, 4, '', 1, 24.00, 36.00, 0, 13.00, 13.00, 0, 0),
-(99, 45, 3, '', 1, 24.00, 36.00, 0, 13.00, 13.00, 0, 0),
-(100, 45, 6, '', 1, 24.00, 36.00, 0, 16.00, 16.00, 0, 0),
-(101, 45, 7, '', 1, 24.00, 36.00, 0, 20.00, 20.00, 0, 0),
-(102, 45, 8, '', 1, 24.00, 36.00, 0, 20.00, 20.00, 0, 0),
-(103, 45, 9, '', 1, 24.00, 36.00, 0, 27.00, 27.00, 0, 0),
-(104, 45, 19, '', 1, 24.00, 36.00, 0, 27.00, 27.00, 0, 0),
-(105, 45, 11, '', 1, 24.00, 36.00, 0, 13.00, 13.00, 0, 0),
-(106, 45, 12, '', 1, 24.00, 36.00, 0, 21.00, 21.00, 0, 0),
-(107, 45, 13, '', 1, 24.00, 36.00, 0, 32.00, 32.00, 0, 0),
-(108, 45, 10, '', 1, 24.00, 36.00, 0, 12.00, 12.00, 0, 0),
-(109, 45, 14, '', 1, 24.00, 36.00, 0, 17.00, 17.00, 0, 0),
-(110, 45, 15, '', 1, 24.00, 36.00, 0, 18.00, 18.00, 0, 0);
+CREATE TABLE `ps_print_sizes` (
+  `s_id` int(11) NOT NULL,
+  `cat_id` int(11) NOT NULL,
+  `labels` varchar(32) NOT NULL,
+  `div_value` int(11) NOT NULL,
+  `type` enum('digital','large') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ps_print_sizes`
+--
+
+INSERT INTO `ps_print_sizes` (`s_id`, `cat_id`, `labels`, `div_value`, `type`) VALUES
+(1, 1, 'Standard (3.5 x 2)', 2, 'digital'),
+(2, 2, 'A9 Envelopes (5.75 x 8.75)', 2, 'digital'),
+(3, 3, 'Letter (8.5 x 11)', 2, 'digital'),
+(4, 4, 'Letter (8.5 x 11)', 2, 'digital'),
+(5, 5, 'Tabloid (11 x 17)', 2, 'digital'),
+(6, 6, 'Standard (1.5 x 11)', 2, 'digital'),
+(7, 7, 'Small (2 x 3.5)', 2, 'digital'),
+(8, 7, 'Long (1.5 x 4)', 2, 'digital'),
+(9, 8, 'Small (0.75 x 1.5)', 2, 'digital'),
+(10, 8, 'Large (4 x 6)', 2, 'digital'),
+(11, 9, 'Letter w/Tab (8.5 x 11)', 2, 'digital'),
+(12, 10, 'Arch A (9 x 12)', 2, 'digital'),
+(13, 10, 'Letter (8.5 x 11)', 2, 'digital'),
+(14, 10, 'Half Letter (5.5 x 8.5)', 2, 'digital'),
+(15, 11, 'Half Letter (5.5 x 8.5)', 2, 'digital'),
+(16, 12, 'Wall Calendar (9 x 12)', 2, 'digital'),
+(17, 12, 'Sheet Calendar (8.5 x 11)', 2, 'digital'),
+(18, 13, 'Standard (4.25 x 11)', 2, 'digital'),
+(19, 14, 'Letter (8.5 x 11)', 1, 'digital'),
+(20, 14, 'Half Sheet (5.5 x 8.5)', 2, 'digital'),
+(21, 14, 'Quarter Sheet (4.25 x 5.5)', 4, 'digital'),
+(22, 15, 'Letter (8.5 x 11)', 2, 'digital'),
+(23, 16, 'Half Page (5.5 x 8.5)', 2, 'digital'),
+(24, 16, 'Letter (8.5 x 11)', 2, 'digital'),
+(25, 17, 'Small (4 x 6)', 2, 'digital'),
+(26, 17, 'Medium (5 x 7)', 2, 'digital'),
+(27, 17, 'Large (6 x 9)', 2, 'digital'),
+(28, 18, 'Letter (8.5 x 11)', 2, 'digital'),
+(29, 18, 'Large (13 x 19)', 2, 'digital'),
+(30, 19, 'Letter (8.5 x 11)', 2, 'digital'),
+(31, 20, 'Small (2 x 3)', 2, 'digital'),
+(32, 21, 'Standard (11 x 1.25)', 2, 'digital');
 
 -- --------------------------------------------------------
 
@@ -430,7 +529,8 @@ ALTER TABLE `ps_materials`
 --
 ALTER TABLE `ps_material_categories`
   ADD PRIMARY KEY (`cat_id`),
-  ADD UNIQUE KEY `cat_slug` (`cat_slug`);
+  ADD UNIQUE KEY `cat_slug` (`cat_slug`),
+  ADD UNIQUE KEY `cat_slug_2` (`cat_slug`);
 
 --
 -- Indexes for table `ps_material_categories_map`
@@ -465,6 +565,12 @@ ALTER TABLE `ps_order_items`
   ADD KEY `fk_item_material` (`material_id`);
 
 --
+-- Indexes for table `ps_print_sizes`
+--
+ALTER TABLE `ps_print_sizes`
+  ADD PRIMARY KEY (`s_id`);
+
+--
 -- Indexes for table `ps_status`
 --
 ALTER TABLE `ps_status`
@@ -491,19 +597,19 @@ ALTER TABLE `ps_clients`
 -- AUTO_INCREMENT for table `ps_materials`
 --
 ALTER TABLE `ps_materials`
-  MODIFY `mat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `mat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `ps_material_categories`
 --
 ALTER TABLE `ps_material_categories`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `ps_material_categories_map`
 --
 ALTER TABLE `ps_material_categories_map`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT for table `ps_orders`
@@ -522,6 +628,12 @@ ALTER TABLE `ps_order_comments`
 --
 ALTER TABLE `ps_order_items`
   MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+
+--
+-- AUTO_INCREMENT for table `ps_print_sizes`
+--
+ALTER TABLE `ps_print_sizes`
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `ps_status`

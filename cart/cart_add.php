@@ -18,6 +18,12 @@ $has_design  = intval($_POST['have_design'] ?? 0);
 $unit_price  = floatval($_POST['unit_price'] ?? 0);
 $total_price = floatval($_POST['total_price'] ?? ($unit_price * $qty));
 
+if ($mat_id <= 0 || $unit_price <= 0) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid cart item']);
+    exit;
+}
+
 // Unique key for this combination
 $key = md5($mat_id . $width . $height . $grommets . $hframes . $sides . $has_design);
 

@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quantity = intval($_POST['quantity'] ?? 1);
     $color    = intval($_POST['color'] ?? 0);
     $is_cost_price = isset($_POST['is_cost_price']) ? (int)$_POST['is_cost_price'] : 0;
+    $printSize = intval($_POST['printSize'] ?? 0);
 
     // --------------------------
     // FETCH MATERIAL DATA
@@ -80,6 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         elseif ($quantity >= 500)   $discount_rate = 0.05;
 
         $final_unit_price = $unit_price * (1 - $discount_rate);
+
+        if ($printSize > 0) {
+            $final_unit_price = $final_unit_price / $printSize;
+        }
 
         header('Content-Type: application/json');
         echo json_encode([

@@ -32,9 +32,25 @@ include 'include/header.php';
         </div>
         <?php
         // Fetch categories
-        $sql = "SELECT cat_id, cat_name, cat_image, cat_slug 
-        FROM ps_material_categories 
-        ORDER BY cat_id ASC";
+        $sql = "
+            SELECT 
+                c.cat_id,
+                c.cat_name,
+                c.cat_image,
+                c.cat_slug,
+                COALESCE(
+                    CASE 
+                        WHEN COUNT(DISTINCT m.mat_type) = 1 THEN MAX(m.mat_type)
+                        ELSE 'mixed'
+                    END,
+                    'mixed'
+                ) AS mat_type
+            FROM ps_material_categories c
+            LEFT JOIN ps_material_categories_map cm ON c.cat_id = cm.cat_id
+            LEFT JOIN ps_materials m ON cm.mat_id = m.mat_id
+            GROUP BY c.cat_id
+            ORDER BY c.cat_id ASC
+            ";
         $categories = select_query($conn, $sql);
 
         if (!empty($categories)) {
@@ -42,19 +58,17 @@ include 'include/header.php';
 
             foreach ($categories as $row) {
 
-                // image fallback
                 $imgSrc = !empty($row['cat_image'])
                     ? 'img/product-' . $row['cat_image'] . '.jpg'
                     : 'img/no-product.jpg';
-
-                $slug = $row['cat_slug'];
-                $cat_id = $row['cat_id'];
 
                 echo '
                 <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
                     <div class="box h-100">
                         <div class="img-holder">
-                            <img class="bg img-fluid" src="' . $imgSrc . '" alt="' . htmlspecialchars($row['cat_name']) . '" />
+                            <img class="bg img-fluid"
+                                src="' . htmlspecialchars($imgSrc) . '"
+                                alt="' . htmlspecialchars($row['cat_name']) . '" />
                         </div>
                         <div class="info">
                             <h3>
@@ -63,7 +77,8 @@ include 'include/header.php';
                             </h3>
 
                             <div class="d-inline">
-                                <a class="thm-btn red" href="order/' . $slug . '/' . $cat_id . '">
+                                <a class="thm-btn red"
+                                href="shop/' . htmlspecialchars($row['mat_type']) . '/' . htmlspecialchars($row['cat_slug']) . '">
                                     <span>Order Now</span>
                                 </a>
                             </div>

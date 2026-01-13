@@ -8,7 +8,8 @@ RewriteRule ^ - [L]
 # Route /shop/SLUG/MATID to shop.php
 # Example: /shop/banner/5 → shop.php?product=banner&mat_id=5
 # RewriteRule ^shop/([^/]+)/([0-9]+)/?$ shop.php?product=$1&cat_id=$2 [L,QSA]
-RewriteRule ^shop/(digital|large|mixed)/([^/]+)/([0-9]+)/?$ shop.php?type=$1&slug=$2&cat_id=$3 [L,QSA]
+# RewriteRule ^shop/(digital|large|mixed)/([^/]+)/([0-9]+)/?$ shop.php?type=$1&slug=$2&cat_id=$3 [L,QSA]
+RewriteRule ^shop/(digital|large|mixed)/([^/]+)/?$ shop.php?type=$1&slug=$2 [L,QSA]
 
 # Optional: automatically add .php extension if file exists
 RewriteCond %{REQUEST_FILENAME}.php -f

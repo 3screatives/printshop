@@ -57,7 +57,7 @@ h2 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: auto;
+    width: 124px;
     height: 48px;
     color: var(--color-white);
     padding: 0 24px;
@@ -493,17 +493,17 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 0 0 24px;
+    padding: 0 0 0 12px;
     background-color: var(--color-white);
 }
 
 .services .box .info h3 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
 }
 
 .services .box .info h3 span {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: normal;
     display: block;
 }
@@ -807,4 +807,9 @@ footer {
     background-color: #ebebeb;
     display: flex;
     align-items: end;
+}
+
+button#add_to_cart[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
 }

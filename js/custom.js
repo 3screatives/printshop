@@ -12,7 +12,7 @@ $(window).scroll(function () {
 
 $(document).ready(function () {
 
-    const priceInputs = "#item_width, #item_height, #item_qty, #material_id, #process_time, #item_grommets, #item_hframes, #item_sides, input[name='have_design']";
+    const priceInputs = "#item_width, #item_height, #item_qty, #material_id, #process_time, #item_grommets, #item_hframes, #item_sides, input[name='have_design'], #item_print_size";
     $(priceInputs).on("change input", calculateFrontPrice);
 
     calculateFrontPrice();
@@ -35,6 +35,7 @@ $(document).ready(function () {
         const itemHframes = parseInt($('#item_hframes').val()) || 0;
         const itemSides = parseInt($('#item_sides').val()) || 0;
         const hasDesign = $('#design_yes').is(':checked') ? 1 : 0;
+        const printSize = parseInt($('#item_print_size').val()) || 0;
 
         $.ajax({
             url: "ps-admin/get/material_price.php",
@@ -47,6 +48,7 @@ $(document).ready(function () {
                 quantity: itemQty,
                 sides: $('#item_sides').val() || 'single',
                 color: $('#item_color').val() || 0,
+                printSize: printSize,
                 is_cost_price: 0
             },
             success: function (response) {
@@ -212,4 +214,29 @@ $(document).ready(function () {
     // Initial load
     loadCart();
 
+
+    // Add to Cart Validation
+    $(function () {
+
+        const $form = $('.order-form-wrap');
+        const $btn = $('#add_to_cart');
+
+        // Capture initial state
+        const initialState = $form.find('input, select, textarea')
+            .serialize();
+
+        function checkForChanges() {
+            const currentState = $form.find('input, select, textarea')
+                .serialize();
+
+            if (currentState !== initialState) {
+                $btn.prop('disabled', false);
+            } else {
+                $btn.prop('disabled', true);
+            }
+        }
+
+        // Watch all inputs
+        $form.on('change input', 'input, select, textarea', checkForChanges);
+    });
 });

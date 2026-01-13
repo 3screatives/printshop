@@ -94,7 +94,7 @@ foreach ($categories as $cat) {
                                                 <?php foreach ($items as $cat): ?>
                                                     <li>
                                                         <a class="dropdown-item px-0"
-                                                            href="shop/<?= htmlspecialchars($cat['mat_type']) ?>/<?= htmlspecialchars($cat['cat_slug']) ?>/<?= (int)$cat['cat_id'] ?>">
+                                                            href="shop/<?= htmlspecialchars($cat['mat_type']) ?>/<?= htmlspecialchars($cat['cat_slug']) ?>">
                                                             <?= htmlspecialchars($cat['cat_name']) ?>
                                                         </a>
                                                     </li>
