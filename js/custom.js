@@ -35,7 +35,7 @@ $(document).ready(function () {
         const itemHframes = parseInt($('#item_hframes').val()) || 0;
         const itemSides = parseInt($('#item_sides').val()) || 0;
         const hasDesign = $('#design_yes').is(':checked') ? 1 : 0;
-        const printSize = parseInt($('#item_print_size').val()) || 0;
+        const printSize = parseFloat($('#item_print_size').val()) || 1;
 
         $.ajax({
             url: "ps-admin/get/material_price.php",
@@ -68,6 +68,8 @@ $(document).ready(function () {
                 $('.order-form-wrap')
                     .find('input[name="item_width"], input[name="item_height"]')
                     .removeClass('border-red');
+
+                console.log(response.final_cost);
 
                 let unitPrice = parseFloat(response.final_cost) || 0;
                 let subtotal = unitPrice * itemQty;
