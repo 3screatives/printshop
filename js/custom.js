@@ -171,7 +171,6 @@ $(document).ready(function () {
     });
 
     // Add to Cart
-    // Add to Cart
     $('#add_to_cart').on('click', function () {
         const data = {
             mat_id: $('#material_id').val(),
@@ -182,6 +181,7 @@ $(document).ready(function () {
             item_grommets: parseInt($('#item_grommets').val()) || 0,
             item_hframes: parseInt($('#item_hframes').val()) || 0,
             item_sides: parseInt($('#item_sides').val()) || 0,
+            process_time: parseInt($('#process_time').val()) || 0,
             have_design: $('#design_yes').is(':checked') ? 1 : 0,
             unit_price: parseFloat($('#unit_price').val()) || 0,
             total_price: parseFloat($('#total_price').val()) || 0
@@ -196,7 +196,6 @@ $(document).ready(function () {
             $('#cart_items').html(data.html);              // offcanvas items
             $('#cart_total').text(data.total);            // footer total
             $('#cart_summary').html(`${data.count} Item(s) | $${data.total} <i class="bi bi-cart3 ms-2"></i>`); // header
-            console.log(data.catName);
         });
     }
 

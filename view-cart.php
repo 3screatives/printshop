@@ -37,22 +37,31 @@ $(document).ready(function() {
             // Add grand total at bottom if items exist
             if (data.count > 0) {
                 $('#cart_container').append(`
-                    <div class="mt-3 d-flex justify-content-between align-items-center">
-                        <strong>Grand Total: $<span id="cart_total_footer">${data.total}</span></strong>
-                        <div>
-                            <a href="index.php" class="btn btn-secondary me-2">Continue Shopping</a>
-                            <a href="checkout.php" class="btn btn-success">Proceed to Checkout</a>
-                            <button id="clear_cart" class="btn btn-warning ms-2">Clear Cart</button>
+                    <div class="mt-3 d-flex justify-content-end">
+                        <div class="text-end">
+                            <div class="d-flex justify-content-between" style="min-width:220px;">
+                                <b>Grand Total:</b>
+                                <span id="cart_total_footer">$${data.total}</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between" style="min-width:220px;">
+                                <b>Tax:</b>
+                                <span>8.25%</span>
+                            </div>
+
+                            <div class="mt-3">
+                                <a href="index.php" class="thm-btn gray me-2">
+                                    <span>Continue Shopping</span>
+                                </a>
+                                <a href="checkout.php" class="thm-btn blue">
+                                    <span>Proceed to Checkout</span>
+                                </a>
+                                <button id="clear_cart" class="thm-btn red ms-2">
+                                    <span>Clear Cart</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <ul class="">
-                        <li>
-                            <span>
-                                <strong>Grand Total: $<span id="cart_total_footer">${data.total}</span></strong>
-                            </span>
-                            <span></span>
-                        </li>
-                    </ul>
                 `);
             }
         });

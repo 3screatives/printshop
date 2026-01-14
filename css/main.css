@@ -71,6 +71,10 @@ h2 {
     width: auto;
 }
 
+.my-cart .thm-btn {
+    width: auto;
+}
+
 .thm-btn.thm-btn-small {
     height: 36px;
     padding: 0 18px;
