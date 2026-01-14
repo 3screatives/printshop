@@ -27,16 +27,16 @@ include 'include/header.php';
 <?php include 'include/footer.php'; ?>
 
 <script>
-    $(document).ready(function() {
+$(document).ready(function() {
 
-        // Load cart into page
-        function loadCart() {
-            $.getJSON('cart/cart_get.php', function(data) {
-                $('#cart_container').html(data.html);
+    // Load cart into page
+    function loadCart() {
+        $.getJSON('cart/cart_get.php', function(data) {
+            $('#cart_container').html(data.html);
 
-                // Add grand total at bottom if items exist
-                if (data.count > 0) {
-                    $('#cart_container').append(`
+            // Add grand total at bottom if items exist
+            if (data.count > 0) {
+                $('#cart_container').append(`
                     <div class="mt-3 d-flex justify-content-between align-items-center">
                         <strong>Grand Total: $<span id="cart_total_footer">${data.total}</span></strong>
                         <div>
@@ -45,42 +45,50 @@ include 'include/header.php';
                             <button id="clear_cart" class="btn btn-warning ms-2">Clear Cart</button>
                         </div>
                     </div>
+                    <ul class="">
+                        <li>
+                            <span>
+                                <strong>Grand Total: $<span id="cart_total_footer">${data.total}</span></strong>
+                            </span>
+                            <span></span>
+                        </li>
+                    </ul>
                 `);
-                }
-            });
-        }
-
-        loadCart(); // initial load
-
-        // Update quantity live
-        $(document).on('change', '.cart-qty', function() {
-            const key = $(this).data('key');
-            const qty = parseInt($(this).val()) || 1;
-
-            $.post('cart/cart_update.php', {
-                key: key,
-                qty: qty
-            }, function() {
-                loadCart(); // reload cart after update
-            });
+            }
         });
+    }
 
-        // Remove item
-        $(document).on('click', '.remove-item', function() {
-            const key = $(this).data('key');
-            $.post('cart/cart_remove.php', {
-                key: key
-            }, function() {
-                loadCart();
-            });
+    loadCart(); // initial load
+
+    // Update quantity live
+    $(document).on('change', '.cart-qty', function() {
+        const key = $(this).data('key');
+        const qty = parseInt($(this).val()) || 1;
+
+        $.post('cart/cart_update.php', {
+            key: key,
+            qty: qty
+        }, function() {
+            loadCart(); // reload cart after update
         });
-
-        // Clear cart
-        $(document).on('click', '#clear_cart', function() {
-            $.post('cart/cart_clear.php', {}, function() {
-                loadCart();
-            });
-        });
-
     });
+
+    // Remove item
+    $(document).on('click', '.remove-item', function() {
+        const key = $(this).data('key');
+        $.post('cart/cart_remove.php', {
+            key: key
+        }, function() {
+            loadCart();
+        });
+    });
+
+    // Clear cart
+    $(document).on('click', '#clear_cart', function() {
+        $.post('cart/cart_clear.php', {}, function() {
+            loadCart();
+        });
+    });
+
+});
 </script>

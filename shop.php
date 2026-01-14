@@ -116,6 +116,8 @@ include 'include/header.php';
                 <img id="item_image" src="img/product-<?php echo htmlspecialchars($cat_image); ?>.jpg" class="img-fluid"
                     alt="<?php echo htmlspecialchars($cat_name); ?>">
                 <!-- src="uploads/categories/<?php echo htmlspecialchars($cat_image); ?>" -->
+                <input type="hidden" id="cat_name_cart" name="cat_name_cart"
+                    value="<?php echo htmlspecialchars($cat_name); ?>">
             </div>
 
             <div class="col-5 offset-1">
@@ -130,7 +132,7 @@ include 'include/header.php';
                                 <?php
                                 if ($materials) {
                                     foreach ($materials as $mat) {
-                                        echo '<option value="' . htmlspecialchars($mat['mat_id']) . '" data-image="' . htmlspecialchars($cat_image) . '">' . htmlspecialchars($mat['mat_name']) . '</option>';
+                                        echo '<option value="' . htmlspecialchars($mat['mat_id']) . '" data-image="' . htmlspecialchars($cat_image) . '">' . htmlspecialchars(trim(preg_replace('/\s*\(.*?\)/', '', $mat['mat_name']))) . '</option>';
                                     }
                                 }
                                 ?>

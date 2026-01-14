@@ -8,6 +8,7 @@ if (!isset($_SESSION['cart'])) {
 
 // Get POST data
 $mat_id      = intval($_POST['mat_id'] ?? 0);
+$catName     = isset($_POST['catName']) ? trim($_POST['catName']) : '';
 $qty         = max(1, intval($_POST['item_qty'] ?? 1));
 $width       = floatval($_POST['width'] ?? 0);
 $height      = floatval($_POST['height'] ?? 0);
@@ -35,6 +36,7 @@ if (isset($_SESSION['cart'][$key])) {
     $_SESSION['cart'][$key] = [
         'key'         => $key,
         'material_id' => $mat_id,
+        'cat_name'    => $catName,
         'width'       => $width,
         'height'      => $height,
         'grommets'    => $grommets,
@@ -56,6 +58,7 @@ foreach ($_SESSION['cart'] as $item) {
 }
 
 echo json_encode([
-    'items' => $totalItems,
-    'total' => number_format($totalAmount, 2)
+    'items_count' => $totalItems,
+    'total_amount' => number_format($totalAmount, 2),
+    'cart' => array_values($_SESSION['cart'])
 ]);

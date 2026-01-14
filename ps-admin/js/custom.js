@@ -494,7 +494,7 @@ $(document).ready(function () {
                                     <input type="text" class="form-control form-control-sm mat-search"
                                         placeholder="Search Material..." autocomplete="off" value="${item.material}">
                                     <div class="dropdown-list border position-absolute bg-white w-100 shadow-sm"
-                                        style="display:none; max-height:180px; overflow-y:auto; z-index:1000;"></div>
+                                        style="display:none; max-height:180px; overflow-y:auto; z-index:1000; width:196px !important;"></div>
                                     <input type="hidden" name="order_material_id[]" value="${item.mat_id}">
                                     <input type="hidden" name="item_row_id[]" value="${id}">
                                     <input type="hidden" name="item_id[]" value="${item.item_id}">
@@ -553,7 +553,7 @@ $(document).ready(function () {
                 <input type="text" class="form-control form-control-sm mat-search"
                        placeholder="Search Material..." autocomplete="off">
                 <div class="dropdown-list border position-absolute bg-white w-100 shadow-sm"
-                     style="display:none; max-height:180px; overflow-y:auto; z-index:1000;"></div>
+                     style="display:none; max-height:180px; overflow-y:auto; z-index:1000; width:196px !important;"></div>
                 <input type="hidden" name="order_material_id[]">
                 <input type="hidden" name="item_row_id[]" value="${rowId}">
             </div>

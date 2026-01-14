@@ -175,6 +175,7 @@ $(document).ready(function () {
     $('#add_to_cart').on('click', function () {
         const data = {
             mat_id: $('#material_id').val(),
+            catName: $('#cat_name_cart').val(),
             item_qty: parseInt($('#item_qty').val()) || 1,
             width: parseFloat($('#item_width').val()) || 0,
             height: parseFloat($('#item_height').val()) || 0,
@@ -195,6 +196,7 @@ $(document).ready(function () {
             $('#cart_items').html(data.html);              // offcanvas items
             $('#cart_total').text(data.total);            // footer total
             $('#cart_summary').html(`${data.count} Item(s) | $${data.total} <i class="bi bi-cart3 ms-2"></i>`); // header
+            console.log(data.catName);
         });
     }
 
