@@ -79,7 +79,7 @@ $(document).ready(function () {
                 if (itemSides === 1) subtotal += (2 * itemQty);
                 if (hasDesign === 1) subtotal += 35;
 
-                let rush = ($('#process_time').val() == 2) ? 0.3 : 0;
+                let rush = ($('#process_time').val() == 1) ? 0.3 : 0;
                 let rushVal = subtotal * rush;
                 if (rush > 0 && rushVal < 15) rushVal = 15;
 
