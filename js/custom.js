@@ -175,43 +175,90 @@ $(document).ready(function () {
         const data = {
             mat_id: $('#material_id').val(),
             catName: $('#cat_name_cart').val(),
-            item_qty: parseInt($('#item_qty').val()) || 1,
-            width: parseFloat($('#item_width').val()) || 0,
-            height: parseFloat($('#item_height').val()) || 0,
-            item_grommets: parseInt($('#item_grommets').val()) || 0,
-            item_hframes: parseInt($('#item_hframes').val()) || 0,
-            item_sides: parseInt($('#item_sides').val()) || 0,
-            process_time: parseInt($('#process_time').val()) || 0,
-            have_design: $('#design_yes').is(':checked') ? 1 : 0,
-            unit_price: parseFloat($('#unit_price').val()) || 0,
-            total_price: parseFloat($('#total_price').val()) || 0
+            item_qty: Number($('#item_qty').val()) || 1,
+            width: Number($('#item_width').val()) || 0,
+            height: Number($('#item_height').val()) || 0,
+
+            item_sides: $('#item_sides').length ? Number($('#item_sides').val()) : 0,
+            item_grommets: $('#item_grommets').length ? Number($('#item_grommets').val()) : 0,
+            item_hframes: $('#item_hframes').length ? Number($('#item_hframes').val()) : 0,
+
+            process_time: Number($('#process_time').val()),
+
+            have_design: $('input[name="have_design"]:checked').val(),
+
+            unit_price: Number($('#unit_price').val()) || 0,
+            total_price: Number($('#total_price').val()) || 0
         };
 
-        $.post('cart/cart_add.php', data, loadCart);
+        $.post('cart/cart_add.php', data, function (res) {
+            loadCart(res);
+
+            console.log(res);
+
+            // show success popup
+            const $alert = $('#cartSuccess');
+            $alert.removeClass('d-none').fadeIn();
+
+            setTimeout(() => {
+                $alert.fadeOut(() => $alert.addClass('d-none'));
+            }, 2000);
+        });
     });
 
     // Load cart (updates offcanvas + header)
     function loadCart() {
         $.getJSON('cart/cart_get.php', function (data) {
-            $('#cart_items').html(data.html);              // offcanvas items
-            $('#cart_total').text(data.total);            // footer total
+            $('#cart_container').html(data.html);
             $('#cart_summary').html(`${data.count} Item(s) | $${data.total} <i class="bi bi-cart3 ms-2"></i>`); // header
+
+            if (data.count > 0) {
+                $('#cart_container').append(`
+                    <div class="mt-3 d-flex justify-content-end">
+                        <div class="text-end">
+                        <div>
+                            <div class="d-flex justify-content-between" style="min-width:220px;">
+                                <b>Grand Total:</b>
+                                <span id="cart_total_footer">$${data.total}</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between" style="min-width:220px;">
+                                <b>Tax (8.25%):</b>
+                                <span>${data}</span>
+                            </div>
+                        </div>
+                            <div class="mt-3">
+                                <a href="index.php" class="thm-btn gray me-2">
+                                    <span>Continue Shopping</span>
+                                </a>
+                                <a href="checkout.php" class="thm-btn blue">
+                                    <span>Proceed to Checkout</span>
+                                </a>
+                                <button id="clear_cart" class="thm-btn red ms-2">
+                                    <span>Clear Cart</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            }
         });
     }
 
     // Remove item
     $(document).on('click', '.remove-item', function () {
-        $.post('cart/cart_remove.php', { key: $(this).data('key') }, loadCart);
-    });
+        const key = $(this).data('key');
 
-    // Update quantity (live)
-    $(document).on('change', '.cart-qty', function () {
-        $.post('cart/cart_update.php', { key: $(this).data('key'), qty: $(this).val() }, loadCart);
+        $.post('cart/cart_remove.php', { key }, function () {
+            loadCart(); // force fresh fetch AFTER removal
+        }, 'json');
     });
 
     // Clear cart (optional)
-    $('#clear_cart').on('click', function () {
-        $.post('cart/cart_clear.php', {}, loadCart);
+    $(document).on('click', '#clear_cart', function () {
+        $.post('cart/cart_clear.php', {}, function () {
+            loadCart();
+        }, 'json');
     });
 
     // Initial load

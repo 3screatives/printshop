@@ -7,4 +7,7 @@ if ($key && isset($_SESSION['cart'][$key])) {
     unset($_SESSION['cart'][$key]);
 }
 
-echo json_encode(['success' => true]);
+echo json_encode([
+    'success' => true,
+    'count' => count($_SESSION['cart'])
+]);
