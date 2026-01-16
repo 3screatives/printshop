@@ -73,9 +73,9 @@ $category = $categoryResult[0] ?? ['cat_name' => '', 'cat_image' => ''];
 $cat_name = $category['cat_name'];
 $cat_image = $category['cat_image'];
 
-$grommetCategories = [1, 39];
-$hframeCategories = [39];
-$sidesCategories = [39];
+$grommetCategories = [30, 31, 40];
+$hframeCategories = [45];
+$sidesCategories = [40, 45];
 
 $printSizes = select_query(
     $conn,
