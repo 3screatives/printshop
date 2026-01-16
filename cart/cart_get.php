@@ -34,11 +34,13 @@ if (!$cart) {
         $sub_total          = floatval($item['total_price'] ?? 0);
         $width              = floatval($item['width'] ?? 0);
         $height             = floatval($item['height'] ?? 0);
+        $orientation        = (int)($item['orientation'] ?? 0);
         $grommets           = (int)($item['grommets'] ?? 0);
         $hframes            = (int)($item['hframes'] ?? 0);
         $sides              = (int)($item['sides'] ?? 0);
         $process_time       = (int)($item['process_time'] ?? 0);
 
+        $orientation_label = ($orientation === 1) ? 'Horizontal' : 'Portrait';
         $sides_label = ($sides === 1) ? 'Double Sided' : 'Single Sided';
         $grommets_label = ($grommets === 1) ? 'With Grommets' : 'No Grommets';
         $hframes_label = ($hframes === 1) ? 'With H-Frame' : 'No H-Frame';
@@ -46,6 +48,10 @@ if (!$cart) {
 
         $itemCount  += $qty;
         $grandTotal += $sub_total;
+
+        $taxRate = 0.0825;
+        $taxAmt  = $grandTotal * $taxRate;
+        $total   = $grandTotal + $taxAmt;
 
         $html .= "
             <tr>
@@ -63,6 +69,9 @@ if (!$cart) {
                     <div class='pt-3'>
                         <div class='d-flex'>
                             <span class='fw-bold me-2'>Size:</span>{$width}x{$height}
+                        </div>
+                        <div class='d-flex'>
+                            <span class='fw-bold me-2'>Orientation:</span>{$orientation_label}
                         </div>
                         <div class='d-flex'>
                             <span class='fw-bold me-2'>Sides:</span>{$sides_label}
@@ -103,7 +112,8 @@ if (!$cart) {
 // Return JSON
 echo json_encode([
     'html' => $html,
-    'total' => number_format($grandTotal, 2),
+    'tax' => number_format($taxAmt, 2),
+    'total' => number_format($total, 2),
     'count' => $itemCount,
     'catName' => $cat_name
 ]);

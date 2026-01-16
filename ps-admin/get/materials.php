@@ -10,7 +10,7 @@ $sql = "SELECT
             GROUP_CONCAT(c.cat_name ORDER BY c.cat_name SEPARATOR ', ') AS categories
         FROM ps_materials m
         LEFT JOIN ps_material_categories_map mc ON m.mat_id = mc.mat_id
-        LEFT JOIN ps_material_categories c ON mc.cat_id = c.cat_id
+        LEFT JOIN ps_categories c ON mc.cat_id = c.cat_id
         GROUP BY m.mat_id
         ORDER BY m.mat_name";
 

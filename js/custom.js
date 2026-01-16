@@ -179,6 +179,8 @@ $(document).ready(function () {
             width: Number($('#item_width').val()) || 0,
             height: Number($('#item_height').val()) || 0,
 
+            item_orientation: Number($('input[name="item_orientation"]:checked').val() || 0),
+
             item_sides: $('#item_sides').length ? Number($('#item_sides').val()) : 0,
             item_grommets: $('#item_grommets').length ? Number($('#item_grommets').val()) : 0,
             item_hframes: $('#item_hframes').length ? Number($('#item_hframes').val()) : 0,
@@ -191,10 +193,11 @@ $(document).ready(function () {
             total_price: Number($('#total_price').val()) || 0
         };
 
+        console.log(item_orientation);
+        return;
+
         $.post('cart/cart_add.php', data, function (res) {
             loadCart(res);
-
-            console.log(res);
 
             // show success popup
             const $alert = $('#cartSuccess');
@@ -216,15 +219,20 @@ $(document).ready(function () {
                 $('#cart_container').append(`
                     <div class="mt-3 d-flex justify-content-end">
                         <div class="text-end">
-                        <div>
+                        <div class="">
                             <div class="d-flex justify-content-between" style="min-width:220px;">
-                                <b>Grand Total:</b>
+                                <b>Sub Total:</b>
                                 <span id="cart_total_footer">$${data.total}</span>
                             </div>
 
                             <div class="d-flex justify-content-between" style="min-width:220px;">
                                 <b>Tax (8.25%):</b>
-                                <span>${data}</span>
+                                <span>${data.tax}</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between fw-bold" style="min-width:220px;">
+                                Grand Total:
+                                <span>${(Number(data.total) + Number(data.tax)).toFixed(2)}</span>
                             </div>
                         </div>
                             <div class="mt-3">

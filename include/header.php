@@ -8,7 +8,7 @@ $sql = "
         c.cat_slug,
         COUNT(DISTINCT m.mat_type) AS type_count,
         MIN(m.mat_type) AS mat_type
-    FROM ps_material_categories c
+    FROM ps_categories c
     LEFT JOIN ps_material_categories_map cm ON cm.cat_id = c.cat_id
     LEFT JOIN ps_materials m ON m.mat_id = cm.mat_id
     GROUP BY c.cat_id
@@ -77,39 +77,39 @@ foreach ($categories as $cat) {
                 <ul class="navbar-nav me-auto ps-lg-0" style="padding-left: 0.15rem">
 
                     <?php foreach ($menu as $groupName => $sections): ?>
-                    <li class="nav-item dropdown dropdown-hover position-static">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <?= htmlspecialchars($groupName) ?>
-                        </a>
-                        <div class="dropdown-menu w-100 mt-0">
-                            <div class="container">
-                                <div class="mega-masonry my-4">
+                        <li class="nav-item dropdown dropdown-hover position-static">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <?= htmlspecialchars($groupName) ?>
+                            </a>
+                            <div class="dropdown-menu w-100 mt-0">
+                                <div class="container">
+                                    <div class="mega-masonry my-4">
 
-                                    <?php foreach ($sections as $sectionName => $items): ?>
-                                    <ul class="list-box list-unstyled">
+                                        <?php foreach ($sections as $sectionName => $items): ?>
+                                            <ul class="list-box list-unstyled">
 
-                                        <?php if ($sectionName): ?>
-                                        <li class="fw-bold text-uppercase mb-2">
-                                            <?= htmlspecialchars($sectionName) ?>
-                                        </li>
-                                        <?php endif; ?>
+                                                <?php if ($sectionName): ?>
+                                                    <li class="fw-bold text-uppercase mb-2">
+                                                        <?= htmlspecialchars($sectionName) ?>
+                                                    </li>
+                                                <?php endif; ?>
 
-                                        <?php foreach ($items as $cat): ?>
-                                        <li>
-                                            <a class="dropdown-item px-0"
-                                                href="shop/<?= htmlspecialchars($cat['mat_type']) ?>/<?= htmlspecialchars($cat['cat_slug']) ?>">
-                                                <?= htmlspecialchars($cat['cat_name']) ?>
-                                            </a>
-                                        </li>
+                                                <?php foreach ($items as $cat): ?>
+                                                    <li>
+                                                        <a class="dropdown-item px-0"
+                                                            href="shop/<?= htmlspecialchars($cat['mat_type']) ?>/<?= htmlspecialchars($cat['cat_slug']) ?>">
+                                                            <?= htmlspecialchars($cat['cat_name']) ?>
+                                                        </a>
+                                                    </li>
+                                                <?php endforeach; ?>
+
+                                            </ul>
                                         <?php endforeach; ?>
 
-                                    </ul>
-                                    <?php endforeach; ?>
-
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
                     <?php endforeach; ?>
 
                     <!-- Get a Quote -->
@@ -120,28 +120,28 @@ foreach ($categories as $cat) {
                 </ul>
                 <ul class="navbar-nav h-100">
                     <?php if (!empty($_SESSION['customer_id'])): ?>
-                    <li class="nav-item h-100">
-                        <a class="nav-link" href="./users/my-orders">My Orders</a>
-                    </li>
-                    <li class="nav-item dropdown dropdown-hover position-static user h-100">
-                        <a data-mdb-dropdown-init class="nav-link dropdown-toggle" href="#" id="userinfo" role="button"
-                            data-mdb-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person fs-5 me-2"></i>
-                            <?php echo htmlspecialchars($_SESSION['customer_name'] ?? ''); ?>
-                        </a>
-                        <div class="dropdown-menu mt-0" aria-labelledby="userinfo">
-                            <a href="dashboard.php" class="list-group-item list-group-item-action">Dashboard</a>
-                            <a href="profile.php" class="list-group-item list-group-item-action">Profile Settings</a>
-                            <a href="logout.php" class="list-group-item list-group-item-action">Logout</a>
-                        </div>
-                    </li>
+                        <li class="nav-item h-100">
+                            <a class="nav-link" href="./users/my-orders">My Orders</a>
+                        </li>
+                        <li class="nav-item dropdown dropdown-hover position-static user h-100">
+                            <a data-mdb-dropdown-init class="nav-link dropdown-toggle" href="#" id="userinfo" role="button"
+                                data-mdb-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person fs-5 me-2"></i>
+                                <?php echo htmlspecialchars($_SESSION['customer_name'] ?? ''); ?>
+                            </a>
+                            <div class="dropdown-menu mt-0" aria-labelledby="userinfo">
+                                <a href="dashboard.php" class="list-group-item list-group-item-action">Dashboard</a>
+                                <a href="profile.php" class="list-group-item list-group-item-action">Profile Settings</a>
+                                <a href="logout.php" class="list-group-item list-group-item-action">Logout</a>
+                            </div>
+                        </li>
                     <?php else: ?>
-                    <li class="nav-item h-100">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
-                    <li class="nav-item h-100">
-                        <a class="nav-link" href="register.php">Register</a>
-                    </li>
+                        <li class="nav-item h-100">
+                            <a class="nav-link" href="login.php">Login</a>
+                        </li>
+                        <li class="nav-item h-100">
+                            <a class="nav-link" href="register.php">Register</a>
+                        </li>
                     <?php endif; ?>
                 </ul>
             </div>

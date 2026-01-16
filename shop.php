@@ -13,7 +13,7 @@ if (!$slug) {
 $categoryResult = select_query(
     $conn,
     "SELECT cat_id, cat_name, cat_image 
-     FROM ps_material_categories 
+     FROM ps_categories 
      WHERE cat_slug = ? 
      LIMIT 1",
     "s",
@@ -65,7 +65,7 @@ if ($matType === 'digital') {
 }
 
 // Fetch category details
-$categoryResult = select_query($conn, "SELECT cat_name, cat_image FROM ps_material_categories WHERE cat_id = ?", "i", $cat_id);
+$categoryResult = select_query($conn, "SELECT cat_name, cat_image FROM ps_categories WHERE cat_id = ?", "i", $cat_id);
 
 // Get the first row (or empty array if none)
 $category = $categoryResult[0] ?? ['cat_name' => '', 'cat_image' => ''];
@@ -207,12 +207,30 @@ include 'include/header.php';
                     <div class="mb-3 row">
                         <label class="col-sm-4 col-form-label">Orientation</label>
                         <div class="col-sm-8">
+                            <div class="orientation-picker">
+
+                                <label class="orientation-option">
+                                    <input type="radio" name="item_orientation" value="0" checked>
+                                    <span class="orientation-box landscape">Landscape</span>
+                                </label>
+
+                                <label class="orientation-option">
+                                    <input type="radio" name="item_orientation" value="1">
+                                    <span class="orientation-box portrait">Portrait</span>
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Orientation</label>
+                        <div class="col-sm-8">
                             <select class="form-select" name="item_orientation" id="item_orientation">
                                 <option value="0" selected>Landscape</option>
                                 <option value="1">Portrait</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- GROMMETS -->
                     <?php if (in_array($cat_id, $grommetCategories)): ?>
