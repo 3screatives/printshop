@@ -12,7 +12,7 @@ $(window).scroll(function () {
 
 $(document).ready(function () {
 
-    const priceInputs = "#item_width, #item_height, #item_qty, #material_id, #process_time, #item_grommets, #item_hframes, #item_sides, input[name='have_design'], #item_print_size";
+    const priceInputs = "#item_width, #item_height, #item_qty, #material_id, #item_grommets, #item_hframes, #item_sides, input[name='have_design'], #item_print_size";
     $(priceInputs).on("change input", calculateFrontPrice);
 
     calculateFrontPrice();
@@ -77,15 +77,16 @@ $(document).ready(function () {
                 if (itemSides === 1) subtotal += (2 * itemQty);
                 if (hasDesign === 1) subtotal += 35;
 
-                let rush = ($('#process_time').val() == 1) ? 0.3 : 0;
-                let rushVal = subtotal * rush;
-                if (rush > 0 && rushVal < 15) rushVal = 15;
+                // let rush = ($('#process_time').val() == 1) ? 0.3 : 0;
+                // let rushVal = subtotal * rush;
+                // if (rush > 0 && rushVal < 15) rushVal = 15;
+                // let finalTotal = subtotal + rushVal;
 
-                let finalTotal = subtotal + rushVal;
+                let finalTotal = subtotal;
 
                 $("#unit_price").val(unitPrice.toFixed(2));
                 $("#total_price").val(finalTotal.toFixed(2));
-                $("#o_rush").val(rushVal.toFixed(2));
+                // $("#o_rush").val(rushVal.toFixed(2));
 
                 $("#unit_price_display").text("$" + unitPrice.toFixed(2));
                 $("#design_fee_display").text("$" + (hasDesign === 1 ? 35 : 0) + ".00");
@@ -187,7 +188,7 @@ $(document).ready(function () {
             item_grommets: $('#item_grommets').length ? Number($('#item_grommets').val()) : 0,
             item_hframes: $('#item_hframes').length ? Number($('#item_hframes').val()) : 0,
 
-            process_time: Number($('#process_time').val()),
+            // process_time: Number($('#process_time').val()),
 
             have_design: $('input[name="have_design"]:checked').val(),
 
@@ -218,22 +219,27 @@ $(document).ready(function () {
                 $('#cart_container').append(`
                     <div class="mt-3 d-flex justify-content-end">
                         <div class="text-end">
-                        <div class="">
-                            <div class="d-flex justify-content-between" style="min-width:220px;">
-                                <b>Sub Total:</b>
-                                <span id="cart_total_footer">$${data.sub_total}</span>
-                            </div>
+                            <div id="cart_totals">
+                                <div class="d-flex justify-content-between py-2" style="min-width:220px;">
+                                    <b>Sub Total:</b>
+                                    <span id="cart_total_footer">$${data.sub_total}</span>
+                                </div>
 
-                            <div class="d-flex justify-content-between" style="min-width:220px;">
-                                <b>Tax (8.25%):</b>
-                                <span>${data.tax}</span>
-                            </div>
+                                <div id="rush_charges_row" class="d-flex justify-content-between py-2" style="min-width:220px;">
+                                    <b>Rush Charges:</b>
+                                    <span id="rush_charge_val">$0.00</span>
+                                </div>
 
-                            <div class="d-flex justify-content-between fw-bold" style="min-width:220px;">
-                                Grand Total:
-                                <span>${Number(data.total).toFixed(2)}</span>
+                                <div class="d-flex justify-content-between py-2" style="min-width:220px;">
+                                    <b>Tax (8.25%):</b>
+                                    <span>${data.tax}</span>
+                                </div>
+
+                                <div class="d-flex justify-content-between fw-bold py-2" style="min-width:220px;">
+                                    Grand Total:
+                                    <span>${Number(data.total).toFixed(2)}</span>
+                                </div>
                             </div>
-                        </div>
                             <div class="mt-3">
                                 <a href="index.php" class="thm-btn gray me-2">
                                     <span>Continue Shopping</span>
@@ -249,6 +255,26 @@ $(document).ready(function () {
                     </div>
                 `);
             }
+
+            $(document).on('change', '#process_time', function () {
+
+                const subTotal = Number(data.sub_total);
+                const isRush = $(this).val() == 1;
+
+                let rushVal = 0;
+
+                if (isRush) {
+                    rushVal = subTotal * 0.3;
+                    if (rushVal < 15) rushVal = 15;
+                }
+
+                // Update rush value (always visible)
+                $('#rush_charge_val').text(`$${rushVal.toFixed(2)}`);
+
+                // Update grand total
+                const finalTotal = subTotal + rushVal;
+                $('#cart_totals > div:last span').text(`$${finalTotal.toFixed(2)}`);
+            });
         });
     }
 

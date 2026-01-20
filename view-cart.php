@@ -7,7 +7,7 @@ include 'include/head.php';
 include 'include/header.php';
 ?>
 
-<section class="my-cart" style="min-height: 50vh;">
+<section class="my-cart" style="min-height: 50vh; padding-bottom: 96px;">
     <div class="container">
         <div class="sec-head">
             <div class="quick-links">

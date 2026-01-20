@@ -222,15 +222,6 @@ include 'include/header.php';
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label">Orientation</label>
-                        <div class="col-sm-8">
-                            <select class="form-select" name="item_orientation" id="item_orientation">
-                                <option value="0" selected>Landscape</option>
-                                <option value="1">Portrait</option>
-                            </select>
-                        </div>
-                    </div> -->
 
                     <!-- GROMMETS -->
                     <?php if (in_array($cat_id, $grommetCategories)): ?>
@@ -263,17 +254,6 @@ include 'include/header.php';
                         <label class="col-sm-4 col-form-label">Details</label>
                         <div class="col-sm-8">
                             <textarea class="form-control" name="item_details" id="item_details"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- PROCESS TIME -->
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label">Production Time</label>
-                        <div class="col-sm-8">
-                            <select class="form-select" name="process_time" id="process_time">
-                                <option value="0" selected>Standard (3-5 days)</option>
-                                <option value="1">Rush (1-2 days)</option>
-                            </select>
                         </div>
                     </div>
 

@@ -104,6 +104,15 @@ if (!$cart) {
     }
 
     $html .= "
+    <tr>
+        <td colspan='3'>Rush Printing:</td>
+        <td colspan='2'>
+            <select class='form-select' name='process_time' id='process_time'>
+                <option value='0' selected>Standard (3-5 days)</option>
+                <option value='1'>Rush (1-2 days)</option>
+            </select>
+        </td>
+    </tr>
 </tbody>
 </table>
 ";
