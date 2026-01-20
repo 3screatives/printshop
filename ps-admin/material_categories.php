@@ -10,7 +10,7 @@ $conn = db_connect();
 if (isset($_GET['delete'])) {
     execute_query(
         $conn,
-        "DELETE FROM ps_categories WHERE cat_id = ?",
+        "DELETE FROM ps_material_categories WHERE cat_id = ?",
         "i",
         (int)$_GET['delete']
     );
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($id) {
         execute_query(
             $conn,
-            "UPDATE ps_categories
+            "UPDATE ps_material_categories
              SET cat_name=?, cat_description=?, cat_image=?, cat_slug=?,
                  cat_group=?, cat_section=?, cat_order=?
              WHERE cat_id=?",
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         execute_query(
             $conn,
-            "INSERT INTO ps_categories
+            "INSERT INTO ps_material_categories
              (cat_name, cat_description, cat_image, cat_slug,
               cat_group, cat_section, cat_order)
              VALUES (?,?,?,?,?,?,?)",
@@ -78,7 +78,7 @@ $edit = null;
 if (isset($_GET['edit'])) {
     $row = select_query(
         $conn,
-        "SELECT * FROM ps_categories WHERE cat_id = ?",
+        "SELECT * FROM ps_material_categories WHERE cat_id = ?",
         "i",
         (int)$_GET['edit']
     );
@@ -90,7 +90,7 @@ if (isset($_GET['edit'])) {
 ========================= */
 $categories = select_query(
     $conn,
-    "SELECT * FROM ps_categories
+    "SELECT * FROM ps_material_categories
      ORDER BY cat_group, cat_section, cat_order"
 );
 

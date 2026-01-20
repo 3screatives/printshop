@@ -111,7 +111,7 @@ if ($action == 'save') {
                 $conn,
                 "SELECT c.cat_name 
                  FROM ps_material_categories_map m 
-                 JOIN ps_categories c ON c.cat_id = m.cat_id 
+                 JOIN ps_material_categories c ON c.cat_id = m.cat_id 
                  WHERE m.mat_id = ?",
                 "i",
                 $row['mat_id']

@@ -45,7 +45,7 @@ include 'include/header.php';
                     END,
                     'mixed'
                 ) AS mat_type
-            FROM ps_categories c
+            FROM ps_material_categories c
             LEFT JOIN ps_material_categories_map cm ON c.cat_id = cm.cat_id
             LEFT JOIN ps_materials m ON cm.mat_id = m.mat_id
             GROUP BY c.cat_id

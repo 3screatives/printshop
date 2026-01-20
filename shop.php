@@ -13,7 +13,7 @@ if (!$slug) {
 $categoryResult = select_query(
     $conn,
     "SELECT cat_id, cat_name, cat_image 
-     FROM ps_categories 
+     FROM ps_material_categories 
      WHERE cat_slug = ? 
      LIMIT 1",
     "s",
@@ -65,7 +65,7 @@ if ($matType === 'digital') {
 }
 
 // Fetch category details
-$categoryResult = select_query($conn, "SELECT cat_name, cat_image FROM ps_categories WHERE cat_id = ?", "i", $cat_id);
+$categoryResult = select_query($conn, "SELECT cat_name, cat_image FROM ps_material_categories WHERE cat_id = ?", "i", $cat_id);
 
 // Get the first row (or empty array if none)
 $category = $categoryResult[0] ?? ['cat_name' => '', 'cat_image' => ''];
@@ -73,9 +73,9 @@ $category = $categoryResult[0] ?? ['cat_name' => '', 'cat_image' => ''];
 $cat_name = $category['cat_name'];
 $cat_image = $category['cat_image'];
 
-$grommetCategories = [30, 31, 40];
-$hframeCategories = [45];
-$sidesCategories = [40, 45];
+$grommetCategories = [30, 31, 40, 39];
+$hframeCategories = [45, 39];
+$sidesCategories = [40, 45, 39];
 
 $printSizes = select_query(
     $conn,

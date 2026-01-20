@@ -112,6 +112,7 @@ if (!$cart) {
 // Return JSON
 echo json_encode([
     'html' => $html,
+    'sub_total' => number_format($grandTotal, 2),
     'tax' => number_format($taxAmt, 2),
     'total' => number_format($total, 2),
     'count' => $itemCount,

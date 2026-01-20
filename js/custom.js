@@ -69,8 +69,6 @@ $(document).ready(function () {
                     .find('input[name="item_width"], input[name="item_height"]')
                     .removeClass('border-red');
 
-                console.log(response.final_cost);
-
                 let unitPrice = parseFloat(response.final_cost) || 0;
                 let subtotal = unitPrice * itemQty;
 
@@ -171,7 +169,11 @@ $(document).ready(function () {
     });
 
     // Add to Cart
-    $('#add_to_cart').on('click', function () {
+    $('#add_to_cart').on('click', function (e) {
+        e.preventDefault();
+
+        const orientation = $('input[name="item_orientation"]:checked').val();
+
         const data = {
             mat_id: $('#material_id').val(),
             catName: $('#cat_name_cart').val(),
@@ -179,7 +181,7 @@ $(document).ready(function () {
             width: Number($('#item_width').val()) || 0,
             height: Number($('#item_height').val()) || 0,
 
-            item_orientation: Number($('input[name="item_orientation"]:checked').val() || 0),
+            item_orientation: Number(orientation),
 
             item_sides: $('#item_sides').length ? Number($('#item_sides').val()) : 0,
             item_grommets: $('#item_grommets').length ? Number($('#item_grommets').val()) : 0,
@@ -192,9 +194,6 @@ $(document).ready(function () {
             unit_price: Number($('#unit_price').val()) || 0,
             total_price: Number($('#total_price').val()) || 0
         };
-
-        console.log(item_orientation);
-        return;
 
         $.post('cart/cart_add.php', data, function (res) {
             loadCart(res);
@@ -222,7 +221,7 @@ $(document).ready(function () {
                         <div class="">
                             <div class="d-flex justify-content-between" style="min-width:220px;">
                                 <b>Sub Total:</b>
-                                <span id="cart_total_footer">$${data.total}</span>
+                                <span id="cart_total_footer">$${data.sub_total}</span>
                             </div>
 
                             <div class="d-flex justify-content-between" style="min-width:220px;">
@@ -232,7 +231,7 @@ $(document).ready(function () {
 
                             <div class="d-flex justify-content-between fw-bold" style="min-width:220px;">
                                 Grand Total:
-                                <span>${(Number(data.total) + Number(data.tax)).toFixed(2)}</span>
+                                <span>${Number(data.total).toFixed(2)}</span>
                             </div>
                         </div>
                             <div class="mt-3">

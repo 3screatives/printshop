@@ -8,7 +8,7 @@ $sql = "
         c.cat_slug,
         COUNT(DISTINCT m.mat_type) AS type_count,
         MIN(m.mat_type) AS mat_type
-    FROM ps_categories c
+    FROM ps_material_categories c
     LEFT JOIN ps_material_categories_map cm ON cm.cat_id = c.cat_id
     LEFT JOIN ps_materials m ON m.mat_id = cm.mat_id
     GROUP BY c.cat_id

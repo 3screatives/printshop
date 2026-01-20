@@ -343,7 +343,7 @@ $(document).ready(function () {
                         <td class="text-center"><input class="form-check-input item-is-design" type="checkbox" name="item_is_design[]" ${item.is_design == 1 ? 'checked' : ''}></td>
                         <td class="text-center"><input class="form-check-input item-is-printed" type="checkbox" name="item_is_printed[]" ${item.is_printed == 1 ? 'checked' : ''}></td>
                         <td class="text-center">${item.quantity}</td>
-                        <td>${item.material}</td>
+                        <td title="${item.mat_details}">${item.material}</td>
                         <td>${item.details}</td>
                         <td>${item.size_width} x ${item.size_height}</td>
                         <td class="text-end">$${item.price}</td>
