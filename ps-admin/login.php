@@ -2,10 +2,10 @@
 session_start();
 
 // If already logged in, redirect
-if (isset($_SESSION['user_id'])) {
-    header("Location: index.php");
-    exit;
-}
+// if (isset($_SESSION['user_id'])) {
+//     header("Location: index.php");
+//     exit;
+// }
 ?>
 
 <!DOCTYPE html>

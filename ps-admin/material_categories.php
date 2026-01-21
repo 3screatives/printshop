@@ -167,8 +167,12 @@ include 'include/head.php';
                             </span>
                             <span>New Material</span>
                         </a>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryModal">
-                            + Add Category
+                        <button class="btn btn-outline-primary btn-sm mx-1" data-bs-toggle="modal"
+                            data-bs-target="#categoryModal">
+                            <span class="pe-2">
+                                <i class="bi bi-plus"></i>
+                            </span>
+                            <span>Add Category</span>
                         </button>
                     </div>
                 </div>

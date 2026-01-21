@@ -27,7 +27,7 @@
                         <!-- Material Type -->
                         <div class="col-md-6">
                             <label for="mat_type" class="form-label">Material Type</label>
-                            <select id="mat_type" name="mat_type" class="form-select mt-2">
+                            <select id="mat_type" name="mat_type" class="form-select">
                                 <option value="">Select Material Type</option>
                                 <option value="large">Large Format</option>
                                 <option value="digital">Digital</option>
@@ -37,7 +37,7 @@
                         <!-- Details -->
                         <div class="col-12">
                             <label for="mat_details" class="form-label">Details</label>
-                            <textarea name="mat_details" id="mat_details" class="form-control" rows="3"></textarea>
+                            <textarea name="mat_details" id="mat_details" class="form-control" rows="1"></textarea>
                         </div>
 
                         <!-- Roll Size -->
@@ -75,7 +75,8 @@
                         <!-- Categories -->
                         <div class="col-12">
                             <label for="cat_ids" class="form-label">Categories</label>
-                            <select id="cat_ids" name="cat_ids[]" class="form-select" multiple></select>
+                            <select id="cat_ids" name="cat_ids[]" class="form-select cat-multicol" multiple
+                                size="6"></select>
                         </div>
                     </div>
 
