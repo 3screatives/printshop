@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 22, 2026 at 03:52 PM
+-- Generation Time: Jan 22, 2026 at 11:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -733,7 +733,7 @@ CREATE TABLE `ps_users` (
   `user_email` varchar(100) NOT NULL,
   `user_password` varchar(255) NOT NULL,
   `user_type` enum('admin','manager','viewer','client') NOT NULL,
-  `user_creation_date` date NOT NULL
+  `user_creation_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -741,9 +741,10 @@ CREATE TABLE `ps_users` (
 --
 
 INSERT INTO `ps_users` (`user_id`, `user_name`, `user_email`, `user_password`, `user_type`, `user_creation_date`) VALUES
-(1, 'Admin', 'admin@stmaprinting.com', 'admin7861', 'admin', '2024-01-01'),
-(2, 'Sajjad', 'sajjad@stmaprinting.com', 'user123', 'manager', '2024-02-10'),
-(3, 'Naail', 'naail@stmaprinting.com', 'user123', 'manager', '2024-03-05');
+(1, 'Admin', 'admin@stmaprinting.com', 'admin7861', 'admin', '2024-01-01 00:00:00'),
+(2, 'Sajjad', 'sajjad@stmaprinting.com', 'user123', 'manager', '2024-02-10 00:00:00'),
+(3, 'Naail', 'naail@stmaprinting.com', 'user123', 'manager', '2024-03-05 00:00:00'),
+(4, 'John', 'client@stmaprinting.com', 'client123', 'client', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
@@ -882,7 +883,7 @@ ALTER TABLE `ps_status`
 -- AUTO_INCREMENT for table `ps_users`
 --
 ALTER TABLE `ps_users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

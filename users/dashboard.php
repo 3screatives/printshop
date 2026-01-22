@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+include '../ps-admin/db_function.php';
+$conn = db_connect();
+
 if (!isset($_SESSION['user_id'], $_SESSION['user_type'])) {
     header("Location: login.php");
     exit;

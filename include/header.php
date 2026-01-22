@@ -1,6 +1,6 @@
 <?php
-include __DIR__ . '/../ps-admin/db_function.php';
-$conn = db_connect();
+// include __DIR__ . '/../ps-admin/db_function.php';
+// $conn = db_connect();
 
 $sql = "
     SELECT
