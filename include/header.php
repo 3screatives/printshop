@@ -1,4 +1,7 @@
 <?php
+include __DIR__ . '/../ps-admin/db_function.php';
+$conn = db_connect();
+
 $sql = "
     SELECT
         c.cat_id,
@@ -119,7 +122,7 @@ foreach ($categories as $cat) {
 
                 </ul>
                 <ul class="navbar-nav h-100">
-                    <?php if (!empty($_SESSION['customer_id'])): ?>
+                    <?php if (!empty($_SESSION['user_id']) && $_SESSION['user_type'] === 'client'): ?>
                         <li class="nav-item h-100">
                             <a class="nav-link" href="./users/my-orders">My Orders</a>
                         </li>
@@ -127,23 +130,25 @@ foreach ($categories as $cat) {
                             <a data-mdb-dropdown-init class="nav-link dropdown-toggle" href="#" id="userinfo" role="button"
                                 data-mdb-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person fs-5 me-2"></i>
-                                <?php echo htmlspecialchars($_SESSION['customer_name'] ?? ''); ?>
+                                <?php echo htmlspecialchars($_SESSION['user_name'] ?? ''); ?>
                             </a>
                             <div class="dropdown-menu mt-0" aria-labelledby="userinfo">
-                                <a href="dashboard.php" class="list-group-item list-group-item-action">Dashboard</a>
-                                <a href="profile.php" class="list-group-item list-group-item-action">Profile Settings</a>
-                                <a href="logout.php" class="list-group-item list-group-item-action">Logout</a>
+                                <a href="users/dashboard.php" class="list-group-item list-group-item-action">Dashboard</a>
+                                <a href="users/profile.php" class="list-group-item list-group-item-action">Profile
+                                    Settings</a>
+                                <a href="users/logout.php" class="list-group-item list-group-item-action">Logout</a>
                             </div>
                         </li>
                     <?php else: ?>
                         <li class="nav-item h-100">
-                            <a class="nav-link" href="login.php">Login</a>
+                            <a class="nav-link" href="users/login.php">Login</a>
                         </li>
                         <li class="nav-item h-100">
-                            <a class="nav-link" href="register.php">Register</a>
+                            <a class="nav-link" href="users/register.php">Register</a>
                         </li>
                     <?php endif; ?>
                 </ul>
+
             </div>
         </div>
     </nav>

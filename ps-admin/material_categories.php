@@ -131,7 +131,7 @@ include 'include/head.php';
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="get/logout.php">
+                        <a class="nav-link" href="../users/logout.php">
                             <i class="bi bi-box-arrow-left"></i>
                         </a>
                     </li>

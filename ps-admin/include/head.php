@@ -1,12 +1,6 @@
 <?php
 session_start();
-
-require_once __DIR__ . '/../admin_access.php';
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
+require_once '../users/admin_access.php';
 ?>
 
 <!DOCTYPE html>
