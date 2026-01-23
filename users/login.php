@@ -1,5 +1,6 @@
 <?php
 session_start();
+include '../ps-admin/config.php';
 
 // If already logged in, redirect to appropriate dashboard
 if (isset($_SESSION['user_id'])) {

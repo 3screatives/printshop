@@ -1,8 +1,7 @@
 <?php
-include 'ps-admin/db_function.php';
-$conn = db_connect();
-
 session_start();
+include 'ps-admin/config.php';
+
 include 'include/head.php';
 include 'include/header.php';
 ?>

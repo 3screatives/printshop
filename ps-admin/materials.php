@@ -1,4 +1,6 @@
-<?php include 'include/head.php'; ?>
+<?php
+include 'include/head.php';
+?>
 
 <div class="container-fluid h-100">
     <div class="d-flex justify-content-between h-100 py-3">

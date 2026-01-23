@@ -1,6 +1,5 @@
 <?php
-include 'ps-admin/db_function.php';
-$conn = db_connect();
+include 'ps-admin/config.php';
 
 $type = $_GET['type'] ?? '';
 $slug = $_GET['slug'] ?? '';

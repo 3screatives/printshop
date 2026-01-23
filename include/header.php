@@ -1,7 +1,4 @@
 <?php
-// include __DIR__ . '/../ps-admin/db_function.php';
-// $conn = db_connect();
-
 $sql = "
     SELECT
         c.cat_id,
