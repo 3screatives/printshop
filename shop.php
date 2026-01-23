@@ -236,7 +236,7 @@ include 'include/header.php';
                     <?php endif; ?>
 
                     <!-- HFrames -->
-                    <?php if (in_array($cat_id, $hframeCategories)): ?>
+                    <?php if (in_array($cat_id, $hframeCategories, $quote)): ?>
                         <div class="mb-3 row">
                             <label class="col-sm-4 col-form-label">H-Frame</label>
                             <div class="col-sm-8">
@@ -265,8 +265,7 @@ include 'include/header.php';
                                 <label class="form-check-label" for="logo_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="have_logo" id="logo_no" value="0"
-                                    checked>
+                                <input class="form-check-input" type="radio" name="have_logo" id="logo_no" value="0">
                                 <label class="form-check-label" for="logo_no">No</label>
                             </div>
                         </div>
@@ -287,8 +286,8 @@ include 'include/header.php';
                         <label class="col-sm-4 col-form-label">Have Design?</label>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="have_design" id="design_no" value="0"
-                                    checked>
+                                <input class="form-check-input" type="radio" name="have_design" id="design_no"
+                                    value="0">
                                 <label class="form-check-label" for="design_no">No</label>
                             </div>
                             <div class="form-check form-check-inline">
@@ -300,7 +299,7 @@ include 'include/header.php';
                     </div>
 
                     <!-- File Upload -->
-                    <div class="mb-3 row" id="design_upload">
+                    <div class="mb-3 row d-none" id="design_upload">
                         <label class="col-sm-4 col-form-label">Upload Design</label>
                         <div class="col-sm-8">
                             <input type="file" class="form-control" name="design_file" id="design_file"

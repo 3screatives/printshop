@@ -344,6 +344,7 @@ $(document).ready(function () {
                         <td class="text-center"><input class="form-check-input item-is-printed" type="checkbox" name="item_is_printed[]" ${item.is_printed == 1 ? 'checked' : ''}></td>
                         <td class="text-center">${item.quantity}</td>
                         <td title="${item.mat_details}">${item.material}</td>
+                        <td></td>
                         <td>${item.details}</td>
                         <td>${item.size_width} x ${item.size_height}</td>
                         <td class="text-end">$${item.price}</td>
@@ -500,6 +501,7 @@ $(document).ready(function () {
                                     <input type="hidden" name="item_id[]" value="${item.item_id}">
                                 </div>
                             </td>
+                            <td><input class="form-check form-check-sm mx-auto" type="checkbox" name="item_color_black[]"></td>
                             <td><textarea name="order_item_details[]" class="form-control form-control-sm" rows="1">${item.details}</textarea></td>
                             <td><div class="input-group">
                                 <input dir="rtl" type="number" name="order_item_width[]" class="form-control form-control-sm" placeholder="Width" value="${item.size_width}">

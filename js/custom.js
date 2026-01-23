@@ -75,7 +75,7 @@ $(document).ready(function () {
                 if (itemGrommets === 1) subtotal += (4 * itemQty);
                 if (itemHframes === 1) subtotal += (3 * itemQty);
                 if (itemSides === 1) subtotal += (2 * itemQty);
-                if (hasDesign === 1) subtotal += 35;
+                if (hasDesign === 0) subtotal += 35;
 
                 // let rush = ($('#process_time').val() == 1) ? 0.3 : 0;
                 // let rushVal = subtotal * rush;
@@ -89,7 +89,7 @@ $(document).ready(function () {
                 // $("#o_rush").val(rushVal.toFixed(2));
 
                 $("#unit_price_display").text("$" + unitPrice.toFixed(2));
-                $("#design_fee_display").text("$" + (hasDesign === 1 ? 35 : 0) + ".00");
+                $("#design_fee_display").text("$" + (hasDesign === 1 ? 0 : 35) + ".00");
                 $("#result").text("Final Price: $" + finalTotal.toFixed(2));
             }
         });
@@ -118,11 +118,11 @@ $(document).ready(function () {
     // ===== Toggle Design Upload =====
     $('input[name="have_design"]').on('change', function () {
         if ($('#design_yes').is(':checked')) {
+            $('#design_upload').removeClass('d-none');
+        } else {
             $('#design_upload').addClass('d-none');
             $('#design_file').val('');           // clear file input
             $('#design_file_preview').html('');  // clear preview
-        } else {
-            $('#design_upload').removeClass('d-none');
         }
     });
 

@@ -15,7 +15,7 @@ include 'include/header.php';
                 <a href="./get-a-quote" class="thm-btn">
                     <span>Get A Quote</span>
                 </a>
-                <a href="./get-a-quote" class="thm-btn gray">
+                <a href="#services" class="thm-btn gray">
                     <span>Order Now!</span>
                 </a>
             </div>

@@ -7,7 +7,7 @@
     <title><?php echo isset($pageTitle) ? $pageTitle : "STMA Printing - Print and Digital
 Solutions"; ?></title>
 
-    <!-- <base href="/printshop/">   -->
+    <base href="/printshop/">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,7 @@ Solutions"; ?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="../css/main.css" rel="stylesheet" rel="preload" as="style" />
+    <link href="css/main.css" rel="stylesheet" rel="preload" as="style" />
 </head>
 
 <body>

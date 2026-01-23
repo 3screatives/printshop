@@ -39,11 +39,14 @@
                         <table class="table table-bordered" id="order_items">
                             <thead class="table-light">
                                 <tr>
-                                    <th width="4%" class="text-center"><i class="bi bi-brush toggle-design-all" style="cursor:pointer;"></i></th>
-                                    <th width="4%" class="text-center"><i class="bi bi-printer toggle-print-all" style="cursor:pointer;"></i></th>
+                                    <th width="4%" class="text-center"><i class="bi bi-brush toggle-design-all"
+                                            style="cursor:pointer;"></i></th>
+                                    <th width="4%" class="text-center"><i class="bi bi-printer toggle-print-all"
+                                            style="cursor:pointer;"></i></th>
                                     <th width="4%" class="text-center">Qty</th>
                                     <th width="14%">Material</th>
-                                    <th width="34%">Details</th>
+                                    <th width="6%">Blk</th>
+                                    <th width="28%">Details</th>
                                     <th width="20%">Size (inches)</th>
                                     <th width="10%">Price</th>
                                     <th width="10%">Total</th>
@@ -59,7 +62,8 @@
                                 <td width="12%" style="text-align: right;" id="order_sub_total"></td>
                             </tr>
                             <tr>
-                                <td width="66%" rowspan="7" style="vertical-align: top !important; position: relative; padding: 0;">
+                                <td width="66%" rowspan="7"
+                                    style="vertical-align: top !important; position: relative; padding: 0;">
                                     <b style="display:block; padding:8px;">Comments:</b>
 
                                     <!-- Scrollable comment list -->
@@ -82,8 +86,10 @@
                                         box-sizing: border-box;
                                         border-top: 1px solid #ccc;
                                     ">
-                                        <input type="text" name="order-comment-input" class="order-comment-input form-control" placeholder="Add a comment...">
-                                        <button type="button" class="add-comment-btn btn btn-outline-primary ms-2" data-order-id="">
+                                        <input type="text" name="order-comment-input"
+                                            class="order-comment-input form-control" placeholder="Add a comment...">
+                                        <button type="button" class="add-comment-btn btn btn-outline-primary ms-2"
+                                            data-order-id="">
                                             <span class="bi bi-plus"></span>
                                         </button>
                                     </div>
