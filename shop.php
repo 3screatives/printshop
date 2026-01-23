@@ -236,7 +236,7 @@ include 'include/header.php';
                     <?php endif; ?>
 
                     <!-- HFrames -->
-                    <?php if (in_array($cat_id, $hframeCategories, $quote)): ?>
+                    <?php if (in_array($cat_id, $hframeCategories)): ?>
                         <div class="mb-3 row">
                             <label class="col-sm-4 col-form-label">H-Frame</label>
                             <div class="col-sm-8">
