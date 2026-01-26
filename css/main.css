@@ -731,7 +731,8 @@ footer {
 }
 
 
-.my-cart {
+.my-cart,
+.get-quote {
     width: 100%;
     padding: calc(124px + 64px) 0 24px;
     background-color: #f5f5f5;
