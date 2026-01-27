@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 22, 2026 at 11:28 PM
+-- Generation Time: Jan 27, 2026 at 01:39 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -301,6 +301,31 @@ INSERT INTO `ps_clients` (`client_id`, `business_name`, `business_address`, `con
 (248, 'Camco Market Gas and Delivery Food', '', '', '5122937065', '', '0000-00-00', 0, 0, 0, 0, 0, '', '', 0, NULL),
 (249, 'Greenlight Distribution', '', '', '2107482402', '', '0000-00-00', 0, 0, 0, 0, 0, '', '', 0, NULL),
 (250, 'The Villager Grocery', '630 QUITMAN ST\nPITTSBURG, TX 75686', '', '7752214042', 'kamikapoor1984@gmail.com', '0000-00-00', 0, 0, 0, 0, 0, '', '', 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ps_homepage_categories`
+--
+
+CREATE TABLE `ps_homepage_categories` (
+  `cat_id` int(11) NOT NULL,
+  `is_visible` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ps_homepage_categories`
+--
+
+INSERT INTO `ps_homepage_categories` (`cat_id`, `is_visible`) VALUES
+(1, 1),
+(8, 1),
+(10, 1),
+(14, 1),
+(28, 1),
+(39, 1),
+(40, 1),
+(41, 1);
 
 -- --------------------------------------------------------
 
@@ -757,6 +782,12 @@ ALTER TABLE `ps_clients`
   ADD PRIMARY KEY (`client_id`);
 
 --
+-- Indexes for table `ps_homepage_categories`
+--
+ALTER TABLE `ps_homepage_categories`
+  ADD PRIMARY KEY (`cat_id`);
+
+--
 -- Indexes for table `ps_materials`
 --
 ALTER TABLE `ps_materials`
@@ -888,6 +919,12 @@ ALTER TABLE `ps_users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `ps_homepage_categories`
+--
+ALTER TABLE `ps_homepage_categories`
+  ADD CONSTRAINT `ps_homepage_categories_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `ps_material_categories` (`cat_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `ps_material_categories_map`
