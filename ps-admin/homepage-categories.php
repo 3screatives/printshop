@@ -37,6 +37,8 @@ $enabled = select_query(
 );
 
 $enabled_ids = array_column($enabled, 'cat_id');
+
+include 'include/head.php';
 ?>
 
 <h2>Homepage Category Settings</h2>
@@ -48,7 +50,7 @@ $enabled_ids = array_column($enabled, 'cat_id');
 <form method="post">
     <div class="row">
         <?php foreach ($categories as $cat): ?>
-            <div class="col-md-4 mb-2">
+            <div class="col-md-3 mb-2">
                 <label class="form-check-label">
                     <input type="checkbox"
                         class="form-check-input"
