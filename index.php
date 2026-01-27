@@ -30,6 +30,26 @@ include 'include/header.php';
         </div>
         <?php
         // Fetch categories
+        // $sql = "
+        //     SELECT 
+        //         c.cat_id,
+        //         c.cat_name,
+        //         c.cat_image,
+        //         c.cat_slug,
+        //         COALESCE(
+        //             CASE 
+        //                 WHEN COUNT(DISTINCT m.mat_type) = 1 THEN MAX(m.mat_type)
+        //                 ELSE 'mixed'
+        //             END,
+        //             'mixed'
+        //         ) AS mat_type
+        //     FROM ps_material_categories c
+        //     LEFT JOIN ps_material_categories_map cm ON c.cat_id = cm.cat_id
+        //     LEFT JOIN ps_materials m ON cm.mat_id = m.mat_id
+        //     GROUP BY c.cat_id
+        //     ORDER BY c.cat_id ASC
+        //     ";
+        // $categories = select_query($conn, $sql);
         $sql = "
             SELECT 
                 c.cat_id,
@@ -43,13 +63,16 @@ include 'include/header.php';
                     END,
                     'mixed'
                 ) AS mat_type
-            FROM ps_material_categories c
+            FROM ps_homepage_categories hc
+            JOIN ps_material_categories c ON hc.cat_id = c.cat_id
             LEFT JOIN ps_material_categories_map cm ON c.cat_id = cm.cat_id
             LEFT JOIN ps_materials m ON cm.mat_id = m.mat_id
+            WHERE hc.is_visible = 1
             GROUP BY c.cat_id
             ORDER BY c.cat_id ASC
             ";
         $categories = select_query($conn, $sql);
+
 
         if (!empty($categories)) {
             echo '<div class="container"><div class="row">';
