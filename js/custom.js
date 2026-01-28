@@ -261,8 +261,8 @@ $(document).ready(function () {
             }
 
             $(document).on('change', '#process_time', function () {
-
                 const subTotal = Number(data.sub_total);
+                const taxRate = 0.0825;
                 const isRush = $(this).val() == 1;
 
                 let rushVal = 0;
@@ -272,12 +272,22 @@ $(document).ready(function () {
                     if (rushVal < 15) rushVal = 15;
                 }
 
-                // Update rush value (always visible)
+                // Update rush display
                 $('#rush_charge_val').text(`$${rushVal.toFixed(2)}`);
 
-                // Update grand total
-                const finalTotal = subTotal + rushVal;
-                $('#cart_totals > div:last span').text(`$${finalTotal.toFixed(2)}`);
+                // Recalculate tax AFTER rush
+                const taxableAmount = subTotal + rushVal;
+                const tax = taxableAmount * taxRate;
+
+                // Update tax display
+                $('#cart_totals b:contains("Tax")')
+                    .next()
+                    .text(`$${tax.toFixed(2)}`);
+
+                // Final total
+                const finalTotal = taxableAmount + tax;
+                $('#cart_totals > div:last span')
+                    .text(`$${finalTotal.toFixed(2)}`);
             });
         });
     }
