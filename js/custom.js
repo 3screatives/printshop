@@ -34,7 +34,10 @@ $(document).ready(function () {
         const itemGrommets = parseInt($('#item_grommets').val()) || 0;
         const itemHframes = parseInt($('#item_hframes').val()) || 0;
         const itemSides = parseInt($('#item_sides').val()) || 0;
-        const hasDesign = $('#design_yes').is(':checked') ? 1 : 0;
+
+        const designVal = $('input[name="have_design"]:checked').val();
+        const hasDesign = designVal === '1' ? 1 : (designVal === '0' ? 0 : null);
+
         const printSize = parseFloat($('#item_print_size').val()) || 1;
 
         $.ajax({
@@ -89,7 +92,8 @@ $(document).ready(function () {
                 // $("#o_rush").val(rushVal.toFixed(2));
 
                 $("#unit_price_display").text("$" + unitPrice.toFixed(2));
-                $("#design_fee_display").text("$" + (hasDesign === 1 ? 0 : 35) + ".00");
+                const designFee = hasDesign === 0 ? 35 : 0;
+                $("#design_fee_display").text(`$${designFee}.00`);
                 $("#result").text("Final Price: $" + finalTotal.toFixed(2));
             }
         });
