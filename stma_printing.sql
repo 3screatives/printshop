@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 27, 2026 at 01:39 AM
+-- Generation Time: Jan 30, 2026 at 09:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -629,6 +629,13 @@ CREATE TABLE `ps_orders` (
   `status_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `ps_orders`
+--
+
+INSERT INTO `ps_orders` (`order_id`, `order_date`, `order_due`, `user_id`, `order_before_tax`, `order_tax`, `order_after_tax`, `order_amount_paid`, `order_amount_due`, `order_discount`, `order_credits`, `order_production_time`, `payment_type_id`, `client_id`, `status_id`) VALUES
+(1, '2026-01-26', '2026-02-02', 2, 225.00, 18.56, 243.56, 0.00, 243.56, 0.00, 0.00, 1, 1, 51, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -662,6 +669,13 @@ CREATE TABLE `ps_order_items` (
   `item_is_design` tinyint(1) NOT NULL DEFAULT 0,
   `item_is_printed` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ps_order_items`
+--
+
+INSERT INTO `ps_order_items` (`item_id`, `order_id`, `material_id`, `item_details`, `item_quantity`, `item_size_width`, `item_size_height`, `item_grommets`, `item_price`, `item_total`, `item_is_design`, `item_is_printed`) VALUES
+(1, 1, 4, 'test', 1, 96.00, 48.00, 0, 225.00, 225.00, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -782,12 +796,6 @@ ALTER TABLE `ps_clients`
   ADD PRIMARY KEY (`client_id`);
 
 --
--- Indexes for table `ps_homepage_categories`
---
-ALTER TABLE `ps_homepage_categories`
-  ADD PRIMARY KEY (`cat_id`);
-
---
 -- Indexes for table `ps_materials`
 --
 ALTER TABLE `ps_materials`
@@ -884,7 +892,7 @@ ALTER TABLE `ps_material_categories_map`
 -- AUTO_INCREMENT for table `ps_orders`
 --
 ALTER TABLE `ps_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ps_order_comments`
@@ -896,7 +904,7 @@ ALTER TABLE `ps_order_comments`
 -- AUTO_INCREMENT for table `ps_order_items`
 --
 ALTER TABLE `ps_order_items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ps_print_sizes`
@@ -919,12 +927,6 @@ ALTER TABLE `ps_users`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `ps_homepage_categories`
---
-ALTER TABLE `ps_homepage_categories`
-  ADD CONSTRAINT `ps_homepage_categories_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `ps_material_categories` (`cat_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `ps_material_categories_map`
