@@ -909,3 +909,7 @@ button#add_to_cart[disabled] {
 .login-page .login-box label {
     font-size: 14px;
 }
+
+.card.shadow-sm.sticky-top {
+    z-index: inherit;
+}

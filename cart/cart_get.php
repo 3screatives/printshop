@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+$rushSelected = $_SESSION['rush'] ?? 0;
 $cart = $_SESSION['cart'] ?? [];
 $grandTotal = 0;
 $itemCount  = 0;
@@ -50,8 +51,20 @@ if (!$cart) {
         $grandTotal += $sub_total;
 
         $taxRate = 0.0825;
-        $taxAmt  = $grandTotal * $taxRate;
-        $total   = $grandTotal + $taxAmt;
+        // $taxAmt  = $grandTotal * $taxRate;
+        // $total   = $grandTotal + $taxAmt;
+        // Rush calculation
+        $rushCharge = 0;
+        if ($rushSelected == 1) {
+            $rushCharge = $grandTotal * 0.3;
+            if ($rushCharge < 15) {
+                $rushCharge = 15;
+            }
+        }
+
+        $taxableTotal = $grandTotal + $rushCharge;
+        $taxAmt = $taxableTotal * $taxRate;
+        $total = $taxableTotal + $taxAmt;
 
         $html .= "
             <tr>
@@ -103,17 +116,20 @@ if (!$cart) {
         ";
     }
 
+    $standardSelected = ($rushSelected == 0) ? 'selected' : '';
+    $rushSelectedAttr = ($rushSelected == 1) ? 'selected' : '';
+
     $html .= "
-    <tr>
-        <td colspan='3'>Rush Printing:</td>
-        <td colspan='2'>
-            <select class='form-select' name='process_time' id='process_time'>
-                <option value='0' selected>Standard (3-5 days)</option>
-                <option value='1'>Rush (1-2 days)</option>
-            </select>
-        </td>
-    </tr>
-</tbody>
+        <tr>
+            <td colspan='3'>Rush Printing:</td>
+            <td colspan='2'>
+                <select class='form-select' name='process_time' id='process_time'>
+                    <option value='0' $standardSelected>Standard (3-5 days)</option>
+                    <option value='1' $rushSelectedAttr>Rush (1-2 days)</option>
+                </select>
+            </td>
+        </tr>
+    </tbody>
 </table>
 ";
 }
@@ -122,6 +138,7 @@ if (!$cart) {
 echo json_encode([
     'html' => $html,
     'sub_total' => number_format($grandTotal, 2),
+    'rush' => number_format($rushCharge, 2),
     'tax' => number_format($taxAmt, 2),
     'total' => number_format($total, 2),
     'count' => $itemCount,

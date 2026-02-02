@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 include 'ps-admin/config.php';
 
 include 'include/head.php';
@@ -67,6 +67,43 @@ include 'include/header.php';
                             </div>
                         </div>
                     </div>
+                    <div class="col-4">
+                        <div class="card shadow-sm sticky-top" style="top: 96px;">
+                            <div class="card-body">
+                                <h4 class="mb-4">Order Summary</h4>
+
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Subtotal</span>
+                                    <strong>$<span id="cart-subtotal">0.00</span></strong>
+                                </div>
+
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Rush</span>
+                                    <strong>$<span id="cart-rush">0.00</span></strong>
+                                </div>
+
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Sales Tax (8.25%)</span>
+                                    <strong>$<span id="cart-tax">0.00</span></strong>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between fs-5 mb-4">
+                                    <span><strong>Total</strong></span>
+                                    <strong class="text-primary">
+                                        $<span id="cart-total">0.00</span>
+                                    </strong>
+                                </div>
+
+                                <button type="button" id="proceedPayment" class="btn btn-primary w-100 mb-2">
+                                    Proceed to Payment
+                                </button>
+
+                                <p class="text-muted small text-center mb-0">
+                                    Prices shown before payment confirmation
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -74,3 +111,23 @@ include 'include/header.php';
 </section>
 
 <?php include 'include/footer.php'; ?>
+
+<script>
+    $.ajax({
+        url: 'cart/cart_get.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function(res) {
+
+            // Inject cart HTML
+            $('.cart-table-wrapper').html(res.html);
+
+            // Update totals
+            $('#cart-subtotal').text(res.sub_total);
+            $('#cart-rush').text(res.rush);
+            $('#cart-tax').text(res.tax);
+            $('#cart-total').text(res.total);
+
+        }
+    });
+</script>

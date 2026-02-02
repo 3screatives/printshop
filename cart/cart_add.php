@@ -6,20 +6,24 @@ if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
+// Initialize rush flag if not set
+if (!isset($_SESSION['rush'])) {
+    $_SESSION['rush'] = 0; // default = Standard
+}
+
 // Get POST data
-$mat_id             = intval($_POST['mat_id'] ?? 0);
-$catName            = isset($_POST['catName']) ? trim($_POST['catName']) : '';
-$qty                = max(1, intval($_POST['item_qty'] ?? 1));
-$width              = floatval($_POST['width'] ?? 0);
-$height             = floatval($_POST['height'] ?? 0);
-$item_orientation   = intval($_POST['item_orientation'] ?? 0);
-$grommets           = intval($_POST['item_grommets'] ?? 0);
-$hframes            = intval($_POST['item_hframes'] ?? 0);
-$sides              = intval($_POST['item_sides'] ?? 0);
-$process_time       = intval($_POST['process_time'] ?? 0);
-$has_design         = intval($_POST['have_design'] ?? 0);
-$unit_price         = floatval($_POST['unit_price'] ?? 0);
-$total_price        = floatval($_POST['total_price'] ?? ($unit_price * $qty));
+$mat_id           = intval($_POST['mat_id'] ?? 0);
+$catName          = trim($_POST['catName'] ?? '');
+$qty              = max(1, intval($_POST['item_qty'] ?? 1));
+$width            = floatval($_POST['width'] ?? 0);
+$height           = floatval($_POST['height'] ?? 0);
+$item_orientation = intval($_POST['item_orientation'] ?? 0);
+$grommets         = intval($_POST['item_grommets'] ?? 0);
+$hframes          = intval($_POST['item_hframes'] ?? 0);
+$sides            = intval($_POST['item_sides'] ?? 0);
+$has_design       = intval($_POST['have_design'] ?? 0);
+$unit_price       = floatval($_POST['unit_price'] ?? 0);
+$total_price      = floatval($_POST['total_price'] ?? ($unit_price * $qty));
 
 if ($mat_id <= 0 || $unit_price <= 0) {
     http_response_code(400);
@@ -27,13 +31,14 @@ if ($mat_id <= 0 || $unit_price <= 0) {
     exit;
 }
 
-// Unique key for this combination
+// Unique key for this product configuration
 $key = md5($mat_id . $width . $height . $grommets . $hframes . $sides . $has_design);
 
 // Add or update cart item
 if (isset($_SESSION['cart'][$key])) {
     $_SESSION['cart'][$key]['quantity'] += $qty;
-    $_SESSION['cart'][$key]['total_price'] = $_SESSION['cart'][$key]['quantity'] * $unit_price;
+    $_SESSION['cart'][$key]['total_price'] =
+        $_SESSION['cart'][$key]['quantity'] * $unit_price;
 } else {
     $_SESSION['cart'][$key] = [
         'key'           => $key,
@@ -45,7 +50,6 @@ if (isset($_SESSION['cart'][$key])) {
         'grommets'      => $grommets,
         'hframes'       => $hframes,
         'sides'         => $sides,
-        'process_time'  => $process_time,
         'has_design'    => $has_design,
         'unit_price'    => $unit_price,
         'quantity'      => $qty,
@@ -62,7 +66,8 @@ foreach ($_SESSION['cart'] as $item) {
 }
 
 echo json_encode([
-    'items_count'       => $totalItems,
-    'total_amount'      => number_format($totalAmount, 2),
-    'cart' => array_values($_SESSION['cart'])
+    'items_count'  => $totalItems,
+    'total_amount' => number_format($totalAmount, 2),
+    'rush'         => $_SESSION['rush'], // expose rush state
+    'cart'         => array_values($_SESSION['cart'])
 ]);

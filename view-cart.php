@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 include 'ps-admin/config.php';
 
 include 'include/head.php';

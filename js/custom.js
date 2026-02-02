@@ -213,11 +213,43 @@ $(document).ready(function () {
         });
     });
 
+    function updateCartButton(data = null) {
+
+        const path = window.location.pathname;
+        const $cartBtn = $('#cart_summary');
+
+        // On CHECKOUT → go back to VIEW CART
+        if (path.includes('checkout.php')) {
+            $cartBtn
+                .attr('href', 'view-cart.php')
+                .html(`<i class="bi bi-arrow-left me-2"></i> Back to Cart`);
+
+            return;
+        }
+
+        // On VIEW CART → go back to SHOP
+        if (path.includes('view-cart.php')) {
+            $cartBtn
+                .attr('href', 'index.php')
+                .html(`<i class="bi bi-arrow-left me-2"></i> Back to Shop`);
+
+            return;
+        }
+
+        // Everywhere else → normal cart summary
+        if (data) {
+            $cartBtn
+                .attr('href', 'view-cart.php')
+                .html(`${data.count} Item(s) | $${data.sub_total} <i class="bi bi-cart3 ms-2"></i>`);
+        }
+    }
+
     // Load cart (updates offcanvas + header)
     function loadCart() {
         $.getJSON('cart/cart_get.php', function (data) {
             $('#cart_container').html(data.html);
-            $('#cart_summary').html(`${data.count} Item(s) | $${data.total} <i class="bi bi-cart3 ms-2"></i>`); // header
+            //$('#cart_summary').html(`${data.count} Item(s) | $${data.total} <i class="bi bi-cart3 ms-2"></i>`); // header
+            updateCartButton(data);
 
             if (data.count > 0) {
                 $('#cart_container').append(`
@@ -231,7 +263,7 @@ $(document).ready(function () {
 
                                 <div id="rush_charges_row" class="d-flex justify-content-between py-2" style="min-width:220px;">
                                     <b>Rush Charges:</b>
-                                    <span id="rush_charge_val">$0.00</span>
+                                    <span id="rush_charge_val">$${data.rush}</span>
                                 </div>
 
                                 <div class="d-flex justify-content-between py-2" style="min-width:220px;">
@@ -260,35 +292,47 @@ $(document).ready(function () {
                 `);
             }
 
+            // $(document).on('change', '#process_time', function () {
+            //     const subTotal = Number(data.sub_total);
+            //     const taxRate = 0.0825;
+            //     const isRush = $(this).val() == 1;
+
+            //     let rushVal = 0;
+
+            //     if (isRush) {
+            //         rushVal = subTotal * 0.3;
+            //         if (rushVal < 15) rushVal = 15;
+            //     }
+
+            //     // Update rush display
+            //     $('#rush_charge_val').text(`$${rushVal.toFixed(2)}`);
+
+            //     // Recalculate tax AFTER rush
+            //     const taxableAmount = subTotal + rushVal;
+            //     const tax = taxableAmount * taxRate;
+
+            //     // Update tax display
+            //     $('#cart_totals b:contains("Tax")')
+            //         .next()
+            //         .text(`$${tax.toFixed(2)}`);
+
+            //     // Final total
+            //     const finalTotal = taxableAmount + tax;
+            //     $('#cart_totals > div:last span')
+            //         .text(`$${finalTotal.toFixed(2)}`);
+            // });
             $(document).on('change', '#process_time', function () {
-                const subTotal = Number(data.sub_total);
-                const taxRate = 0.0825;
-                const isRush = $(this).val() == 1;
 
-                let rushVal = 0;
+                const isRush = $(this).val();
 
-                if (isRush) {
-                    rushVal = subTotal * 0.3;
-                    if (rushVal < 15) rushVal = 15;
-                }
-
-                // Update rush display
-                $('#rush_charge_val').text(`$${rushVal.toFixed(2)}`);
-
-                // Recalculate tax AFTER rush
-                const taxableAmount = subTotal + rushVal;
-                const tax = taxableAmount * taxRate;
-
-                // Update tax display
-                $('#cart_totals b:contains("Tax")')
-                    .next()
-                    .text(`$${tax.toFixed(2)}`);
-
-                // Final total
-                const finalTotal = taxableAmount + tax;
-                $('#cart_totals > div:last span')
-                    .text(`$${finalTotal.toFixed(2)}`);
+                // Save rush selection to session
+                $.post('cart/cart_set_rush.php', {
+                    process_time: isRush
+                }, function () {
+                    loadCart(); // reload cart with updated totals
+                });
             });
+
         });
     }
 

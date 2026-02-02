@@ -31,23 +31,30 @@ if ($password !== $user['user_password']) {
     exit;
 }
 
-// Set session
-$_SESSION['user_id']   = $user['user_id'];
-$_SESSION['user_name'] = $user['user_name'];
-$_SESSION['user_type'] = $user['user_type'];
-
-// 🔀 Redirect by role
+// Set sessions based on role
 if (in_array($user['user_type'], ['admin', 'manager', 'viewer'], true)) {
+
+    // 🔐 Admin session
+    $_SESSION['admin_user_id']   = $user['user_id'];
+    $_SESSION['admin_user_name'] = $user['user_name'];
+    $_SESSION['admin_user_type'] = $user['user_type'];
+
     header("Location: ../ps-admin/index.php");
     exit;
 }
 
+// ✅ Client session
 if ($user['user_type'] === 'client') {
+
+    $_SESSION['client_user_id']   = $user['user_id'];
+    $_SESSION['client_user_name'] = $user['user_name'];
+    $_SESSION['client_user_type'] = $user['user_type'];
+
     header("Location: dashboard.php");
     exit;
 }
 
-// Safety fallback
+// ❌ Unknown role
 session_destroy();
 header("Location: login.php?error=Invalid role");
 exit;

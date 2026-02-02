@@ -1,20 +1,15 @@
 <?php
-session_start();
+include '../ps-admin/config.php';
+include '../include/head.php';
 
-include '../ps-admin/db_function.php';
-$conn = db_connect();
-
-if (!isset($_SESSION['user_id'], $_SESSION['user_type'])) {
+if (
+    !isset($_SESSION['client_user_id']) ||
+    $_SESSION['client_user_type'] !== 'client'
+) {
     header("Location: login.php");
     exit;
 }
 
-if ($_SESSION['user_type'] !== 'client') {
-    header("Location: ../ps-admin/index.php");
-    exit;
-}
-
-include '../include/head.php';
 include '../include/header.php';
 ?>
 
@@ -45,35 +40,35 @@ include '../include/header.php';
             </thead>
             <tbody>
                 <?php if (!empty($orders)): ?>
-                <?php foreach ($orders as $order): ?>
-                <tr>
-                    <td>#<?= (int)$order['order_id'] ?></td>
-                    <td><?= date('M d, Y', strtotime($order['order_date'])) ?></td>
-                    <!-- <td>
+                    <?php foreach ($orders as $order): ?>
+                        <tr>
+                            <td>#<?= (int)$order['order_id'] ?></td>
+                            <td><?= date('M d, Y', strtotime($order['order_date'])) ?></td>
+                            <!-- <td>
                         <?= $order['order_due']
                             ? date('M d, Y', strtotime($order['order_due']))
                             : '-' ?>
                     </td> -->
-                    <td>$<?= number_format($order['order_after_tax'], 2) ?></td>
-                    <td>$<?= number_format($order['order_amount_due'], 2) ?></td>
-                    <td>
-                        <span class="badge bg-secondary">
-                            <?= $order['status_id'] ?>
-                        </span>
-                    </td>
-                    <td class="text-end">
-                        <a href="order_view.php?id=<?= $order['order_id'] ?>" class="btn btn-sm btn-primary">
-                            View
-                        </a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
+                            <td>$<?= number_format($order['order_after_tax'], 2) ?></td>
+                            <td>$<?= number_format($order['order_amount_due'], 2) ?></td>
+                            <td>
+                                <span class="badge bg-secondary">
+                                    <?= $order['status_id'] ?>
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <a href="order_view.php?id=<?= $order['order_id'] ?>" class="btn btn-sm btn-primary">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 <?php else: ?>
-                <tr>
-                    <td colspan="7" class="text-center py-4">
-                        No orders found.
-                    </td>
-                </tr>
+                    <tr>
+                        <td colspan="7" class="text-center py-4">
+                            No orders found.
+                        </td>
+                    </tr>
                 <?php endif; ?>
             </tbody>
         </table>

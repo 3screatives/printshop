@@ -1,6 +1,8 @@
 <?php
-// Must be logged in
-if (!isset($_SESSION['user_id'], $_SESSION['user_type'])) {
+// Must be logged in as admin-type user
+if (
+    !isset($_SESSION['admin_user_id'], $_SESSION['admin_user_type'])
+) {
     header("Location: ../users/login.php");
     exit;
 }
@@ -12,14 +14,17 @@ $allowed_ips = [
     '172.16.1.120'
 ];
 
-// Admins: always allowed
-if ($_SESSION['user_type'] === 'admin') {
+$userType = $_SESSION['admin_user_type'];
+
+// ✅ Admin → always allowed
+if ($userType === 'admin') {
     return;
 }
 
-// Managers & viewers: IP-restricted
-if (in_array($_SESSION['user_type'], ['manager', 'viewer'], true)) {
+// 🔒 Manager & Viewer → IP restricted
+if (in_array($userType, ['manager', 'viewer'], true)) {
     $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+
     if (!in_array($ip, $allowed_ips, true)) {
         http_response_code(403);
         exit('Access denied (IP restricted)');
@@ -27,6 +32,6 @@ if (in_array($_SESSION['user_type'], ['manager', 'viewer'], true)) {
     return;
 }
 
-// Clients or anything else → send to client dashboard
+// ❌ Anything else (client, unknown role)
 header("Location: ../users/dashboard.php");
 exit;

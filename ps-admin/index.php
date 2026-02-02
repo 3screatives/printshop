@@ -55,7 +55,7 @@
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="user me-3">
-                            Welcome,<b>&nbsp; <?php echo htmlspecialchars($_SESSION['user_name']); ?></b>
+                            Welcome,<b>&nbsp; <?php echo htmlspecialchars($_SESSION['admin_user_name']); ?></b>
                         </div>
                         <a href="#" id="newOrder" class="btn btn-primary btn-sm mx-1">
                             <span class=" pe-2">
