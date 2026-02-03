@@ -100,16 +100,16 @@ if ($action == 'save') {
 
     session_start();
 
-    if (!isset($_SESSION['client_user_id'])) {
+    if (!isset($_SESSION['client_id'])) {
         echo json_encode([]);
         exit;
     }
 
-    $client_id = $_SESSION['client_user_id'];
+    $client_id = $_SESSION['client_id'];
 
     $result = select_query(
         $conn,
-        "SELECT * FROM ps_clients WHERE user_id = ?",
+        "SELECT * FROM ps_clients WHERE client_id = ?",
         "i",
         $client_id
     );

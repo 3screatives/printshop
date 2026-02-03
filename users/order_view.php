@@ -1,24 +1,20 @@
 <div class="modal fade" id="orderModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h5 class="modal-title">Order Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
             <div class="modal-body">
                 <div id="orderModalBody" class="py-4">
                     <div class="spinner-border" role="status"></div>
                 </div>
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
             </div>
-
         </div>
     </div>
 </div>
@@ -62,7 +58,7 @@
                             (${item.size_width}" × ${item.size_height}")
                             <span class="float-end">$${item.total}</span>
                             </div>
-                            <span class="d-block" style="font-size: 12px; color: #99999;">${item.details}</span>
+                            <span class="d-block" style="font-size: 12px; color: #999999;">${item.details}</span>
                         </li>
                     `).join('')}
                 </ul>

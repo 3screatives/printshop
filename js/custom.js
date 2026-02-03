@@ -252,7 +252,7 @@ $(document).ready(function () {
             updateCartButton(data);
 
             if (data.count > 0) {
-                $('#cart_container').append(`
+                $('#cart_calc').append(`
                     <div class="mt-3 d-flex justify-content-end">
                         <div class="text-end">
                             <div id="cart_totals">

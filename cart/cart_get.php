@@ -3,144 +3,86 @@ session_start();
 
 $rushSelected = $_SESSION['rush'] ?? 0;
 $cart = $_SESSION['cart'] ?? [];
+
 $grandTotal = 0;
 $itemCount  = 0;
 $html       = '';
 
-if (!$cart) {
+$taxRate = 0.0825;
+$rushCharge = 0;
+$taxAmt = 0;
+$total = 0;
 
-    $html = "<p class='text-muted text-center my-3'>Your cart is empty.</p>";
+if (empty($cart)) {
+
+    $html = "<tr>
+                <td colspan='5' class='text-center text-muted py-4'>
+                    Your cart is empty.
+                </td>
+             </tr>";
 } else {
 
-    $html .= "
-    <table class='table table-sm align-middle cart-table'>
-        <thead class='table-light'>
-            <tr>
-                <th style='width:136px'></th>
-                <th>Product</th>
-                <th style='width:136px' class='text-center'>Price</th>
-                <th style='width:136px' class='text-center'>Qty</th>
-                <th style='width:196px' class='text-center'>Sub Total</th>
-            </tr>
-        </thead>
-        <tbody>
-    ";
-
     foreach ($cart as $item) {
-        $key                = $item['key'] ?? '';
-        $material_id        = $item['material_id'] ?? 0;
-        $cat_name           = $item['cat_name'];
-        $qty                = intval($item['quantity'] ?? 1);
-        $unit_price         = floatval($item['unit_price'] ?? 0);
-        $sub_total          = floatval($item['total_price'] ?? 0);
-        $width              = floatval($item['width'] ?? 0);
-        $height             = floatval($item['height'] ?? 0);
-        $orientation        = (int)($item['orientation'] ?? 0);
-        $grommets           = (int)($item['grommets'] ?? 0);
-        $hframes            = (int)($item['hframes'] ?? 0);
-        $sides              = (int)($item['sides'] ?? 0);
-        $process_time       = (int)($item['process_time'] ?? 0);
 
-        $orientation_label = ($orientation === 1) ? 'Horizontal' : 'Portrait';
-        $sides_label = ($sides === 1) ? 'Double Sided' : 'Single Sided';
-        $grommets_label = ($grommets === 1) ? 'With Grommets' : 'No Grommets';
-        $hframes_label = ($hframes === 1) ? 'With H-Frame' : 'No H-Frame';
-        $process_label = ($process_time === 1) ? 'Rush (1-2 days)' : 'Standard (3-5 days)';
+        $key         = $item['key'];
+        $cat_name    = $item['cat_name'];
+        $qty         = (int)$item['quantity'];
+        $unit_price  = (float)$item['unit_price'];
+        $sub_total   = (float)$item['total_price'];
+        $width       = (float)$item['width'];
+        $height      = (float)$item['height'];
+
+        $orientation = (int)$item['orientation'];
+        $grommets    = (int)$item['grommets'];
+        $hframes     = (int)$item['hframes'];
+        $sides       = (int)$item['sides'];
+
+        $orientation_label = $orientation ? 'Horizontal' : 'Portrait';
+        $sides_label       = $sides ? 'Double Sided' : 'Single Sided';
+        $grommets_label    = $grommets ? 'With Grommets' : 'No Grommets';
+        $hframes_label     = $hframes ? 'With H-Frame' : 'No H-Frame';
 
         $itemCount  += $qty;
         $grandTotal += $sub_total;
 
-        $taxRate = 0.0825;
-        // $taxAmt  = $grandTotal * $taxRate;
-        // $total   = $grandTotal + $taxAmt;
-        // Rush calculation
-        $rushCharge = 0;
-        if ($rushSelected == 1) {
-            $rushCharge = $grandTotal * 0.3;
-            if ($rushCharge < 15) {
-                $rushCharge = 15;
-            }
-        }
-
-        $taxableTotal = $grandTotal + $rushCharge;
-        $taxAmt = $taxableTotal * $taxRate;
-        $total = $taxableTotal + $taxAmt;
-
         $html .= "
-            <tr>
-                <td class='text-center px-2 py-2'>
-                    <button class='btn btn-outline-danger btn-sm me-2 remove-item' data-key='{$key}' style='color: var(--color-red)'>
-                        <span class='bi bi-trash'></span>
-                    </button>
-                    <button class='btn btn-outline-primary btn-sm me-2 edit-item' data-key='{$key}' style='color: var(--color-blue)'>
-                        <span class='bi bi-pencil'></span>
-                    </button>
-                </td>
+        <tr>
+            <td class='text-center'>
+                <button class='btn btn-outline-danger btn-sm remove-item' data-key='{$key}'>
+                    <i class='bi bi-trash'></i>
+                </button>
+            </td>
 
-                <td class='py-4'>
-                    <strong class='fs-4 thm-link blue'>{$cat_name}</strong>
-                    <div class='pt-3'>
-                        <div class='d-flex'>
-                            <span class='fw-bold me-2'>Size:</span>{$width}x{$height}
-                        </div>
-                        <div class='d-flex'>
-                            <span class='fw-bold me-2'>Orientation:</span>{$orientation_label}
-                        </div>
-                        <div class='d-flex'>
-                            <span class='fw-bold me-2'>Sides:</span>{$sides_label}
-                        </div>
-                        <div class='d-flex'>
-                            <span class='fw-bold me-2'>Processing time:</span>{$process_label}
-                        </div>
-                        <div class='d-flex'>
-                            <span class='fw-bold me-2'>Grommets:</span>{$grommets_label}
-                        </div>
-                        <div class='d-flex'>
-                            <span class='fw-bold me-2'>H-Frames:</span>{$hframes_label}
-                        </div>
-                    </div>
-                </td>
+            <td>
+                <strong>{$cat_name}</strong>
+                <div class='small text-muted'>
+                    {$width} × {$height} • {$orientation_label}<br>
+                    {$sides_label}, {$grommets_label}, {$hframes_label}
+                </div>
+            </td>
 
-                <td class='text-center px-3 py-2'>
-                    $" . number_format($unit_price, 2) . "
-                </td>
-
-                <td class='text-center px-2 py-1'>
-                    <span><b>{$qty}</b></span>
-                </td>
-
-                <td class='text-center px-3 py-2'>
-                    $" . number_format($sub_total, 2) . "
-                </td>
-            </tr>
-        ";
+            <td class='text-center'>$" . number_format($unit_price, 2) . "</td>
+            <td class='text-center'>{$qty}</td>
+            <td class='text-center'>$" . number_format($sub_total, 2) . "</td>
+        </tr>";
     }
 
-    $standardSelected = ($rushSelected == 0) ? 'selected' : '';
-    $rushSelectedAttr = ($rushSelected == 1) ? 'selected' : '';
+    /* ===== TOTALS ===== */
+    if ($rushSelected == 1) {
+        $rushCharge = max(15, $grandTotal * 0.3);
+    }
 
-    $html .= "
-        <tr>
-            <td colspan='3'>Rush Printing:</td>
-            <td colspan='2'>
-                <select class='form-select' name='process_time' id='process_time'>
-                    <option value='0' $standardSelected>Standard (3-5 days)</option>
-                    <option value='1' $rushSelectedAttr>Rush (1-2 days)</option>
-                </select>
-            </td>
-        </tr>
-    </tbody>
-</table>
-";
+    $taxableTotal = $grandTotal + $rushCharge;
+    $taxAmt = $taxableTotal * $taxRate;
+    $total  = $taxableTotal + $taxAmt;
 }
 
-// Return JSON
 echo json_encode([
-    'html' => $html,
+    'html'      => $html,
     'sub_total' => number_format($grandTotal, 2),
-    'rush' => number_format($rushCharge, 2),
-    'tax' => number_format($taxAmt, 2),
-    'total' => number_format($total, 2),
-    'count' => $itemCount,
-    'catName' => $cat_name
+    'rush'      => number_format($rushCharge, 2),
+    'tax'       => number_format($taxAmt, 2),
+    'total'     => number_format($total, 2),
+    'count'     => $itemCount,
+    'items'     => array_values($cart) // IMPORTANT for checkout
 ]);
