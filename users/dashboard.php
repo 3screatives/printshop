@@ -2,11 +2,15 @@
 include '../ps-admin/config.php';
 include '../include/head.php';
 
-if (
-    !isset($_SESSION['client_user_id']) ||
-    $_SESSION['client_user_type'] !== 'client'
-) {
+$user_id = intval($_SESSION['client_user_id'] ?? 0);
+
+if ($user_id <= 0) {
+    echo json_encode(['error' => 'Unauthorized']);
     header("Location: login.php");
+    exit;
+}
+
+if (!isset($_SESSION['client_user_id'])) {
     exit;
 }
 
