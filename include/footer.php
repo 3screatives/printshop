@@ -3,10 +3,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-4 d-flex align-item-center">
-                    <i class="bi bi-truck me-3"></i>
+                    <i class="bi bi-palette me-3"></i>
                     <h3>
-                        Free Shipping
-                        <span>for order over $50.00</span>
+                        Free Designing
+                        <span>Terms Apply*</span>
                     </h3>
                 </div>
                 <div class="col-4 d-flex align-item-center">

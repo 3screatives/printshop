@@ -96,6 +96,25 @@ if ($action == 'save') {
     $client_id = $_POST['client_id'];
     $success = execute_query($conn, "DELETE FROM ps_clients WHERE client_id=?", "i", $client_id);
     echo $success ? "Client deleted successfully!" : "Error deleting client.";
+} elseif ($action == 'get_by_session') {
+
+    session_start();
+
+    if (!isset($_SESSION['client_user_id'])) {
+        echo json_encode([]);
+        exit;
+    }
+
+    $client_id = $_SESSION['client_user_id'];
+
+    $result = select_query(
+        $conn,
+        "SELECT * FROM ps_clients WHERE user_id = ?",
+        "i",
+        $client_id
+    );
+
+    echo json_encode($result[0] ?? []);
 }
 
 mysqli_close($conn);

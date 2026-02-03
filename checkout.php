@@ -25,7 +25,7 @@ include 'include/header.php';
                 <div class="row g-3">
                     <div class="col-8">
                         <div class="row"></div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-md-12 mb-4">
                                 <label>Client STMA ID</label>
                                 <input type="number" name="client_stma_id" id="client_stma_id" class="form-control">
@@ -54,16 +54,38 @@ include 'include/header.php';
                                 <input type="email" name="contact_email" id="contact_email" class="form-control"
                                     required>
                             </div>
-                            <div class="col-md-12 mb-4">
-                                <label>Tax Exempt ID</label>
-                                <input type="number" name="tax_exempt_id" id="tax_exempt_id" class="form-control">
-                            </div>
-                            <div class="col-md-12">
-                                <label>Is Employee at STMA?</label>
-                                <select name="is_employee" id="is_employee" class="form-control">
-                                    <option value="0">No</option>
-                                    <option value="1">Yes</option>
-                                </select>
+                        </div> -->
+                        <table class="table table-responsive">
+                            <tr>
+                                <td width="30%">STMA ID</td>
+                                <td id="client_stma_id"></td>
+                            </tr>
+                            <tr>
+                                <td>Business Name</td>
+                                <td id="mbusiness_name"></td>
+                            </tr>
+                            <tr>
+                                <td>Business Address</td>
+                                <td id="mbusiness_address"></td>
+                            </tr>
+                            <tr>
+                                <td>Contact Name</td>
+                                <td id="contact_name"></td>
+                            </tr>
+                            <tr>
+                                <td>Phone</td>
+                                <td id="contact_phone"></td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td id="contact_email"></td>
+                            </tr>
+                        </table>
+
+                        <div>
+                            <h4 class="mb-3">Cart Items</h4>
+                            <div class="cart-table">
+
                             </div>
                         </div>
                     </div>
@@ -94,8 +116,8 @@ include 'include/header.php';
                                     </strong>
                                 </div>
 
-                                <button type="button" id="proceedPayment" class="btn btn-primary w-100 mb-2">
-                                    Proceed to Payment
+                                <button type="button" id="proceedPayment" class="thm-btn btn-primary w-100 mb-2">
+                                    <span>Proceed to Payment</span>
                                 </button>
 
                                 <p class="text-muted small text-center mb-0">
@@ -129,5 +151,30 @@ include 'include/header.php';
             $('#cart-total').text(res.total);
 
         }
+    });
+
+    $(document).ready(function() {
+        $.ajax({
+            url: 'ps-admin/get/client_action.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'get_by_session'
+            },
+            success: function(data) {
+                if (!data || !data.client_id) return;
+
+                $('#n_client_id').val(data.client_id);
+                $('#client_stma_id').text(data.client_stma_id);
+                $('#mbusiness_name').text(data.business_name);
+                $('#mbusiness_address').text(data.business_address);
+                $('#contact_name').text(data.contact_name);
+                $('#contact_phone').text(data.contact_phone);
+                $('#contact_email').text(data.contact_email);
+
+                $('#contact_phone, #contact_email, #contact_name').prop('readonly', true);
+                $('#client_stma_id').prop('disabled', true);
+            }
+        });
     });
 </script>
