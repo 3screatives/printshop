@@ -21,7 +21,7 @@ if (isset($_SESSION['user_id'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" />
-    <link href="../css/main.css" rel="stylesheet" rel="preload" as="style" />
+    <link href="../../css/main.css" rel="stylesheet" rel="preload" as="style" />
 </head>
 
 <body>
@@ -38,7 +38,7 @@ if (isset($_SESSION['user_id'])) {
             endif;
             ?>
 
-            <form action="get/login_check.php" method="POST">
+            <form action="login_check.php" method="POST">
                 <div class="form-group mb-2">
                     <label>Username/Email:</label><br>
                     <input class="form-control" type="email" name="email" required>

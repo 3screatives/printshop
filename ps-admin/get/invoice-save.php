@@ -52,7 +52,7 @@ if ($dayOfWeek == 6) {
     $order_due = date('Y-m-d', strtotime($order_due . ' +1 day'));
 }
 
-$user_id = intval($_SESSION['client_user_id'] ?? 0);
+$user_id = intval($_SESSION['client_id'] ?? 0);
 $order_id = intval($data['order_id'] ?? 0);
 $client_id = intval($data['client_id'] ?? 0); // ✅ add this line
 $order_before_tax = floatval($data['order_before_tax'] ?? 0);

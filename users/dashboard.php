@@ -2,17 +2,31 @@
 include '../ps-admin/config.php';
 include '../include/head.php';
 
-$user_id = intval($_SESSION['client_user_id'] ?? 0);
+$client_id = intval($_SESSION['client_id'] ?? 0);
 
-if ($user_id <= 0) {
-    echo json_encode(['error' => 'Unauthorized']);
+if ($client_id <= 0) {
     header("Location: login.php");
     exit;
 }
 
-if (!isset($_SESSION['client_user_id'])) {
-    exit;
-}
+$orders = select_query(
+    $conn,
+    "SELECT 
+        o.order_id,
+        o.order_date,
+        o.order_completed,
+        o.order_after_tax,
+        o.order_amount_due,
+        s.status_id,
+        s.status_name,
+        s.status_color
+     FROM ps_orders o
+     JOIN ps_status s ON o.status_id = s.status_id
+     WHERE o.client_id = ?
+     ORDER BY o.order_date DESC",
+    "i",
+    $client_id
+);
 
 include '../include/header.php';
 ?>
@@ -35,10 +49,10 @@ include '../include/header.php';
                 <tr>
                     <th>Order #</th>
                     <th>Order Date</th>
-                    <!-- <th>Due Date</th> -->
                     <th>Total</th>
                     <th>Amount Due</th>
                     <th>Status</th>
+                    <th>Completed on</th>
                     <th></th>
                 </tr>
             </thead>
@@ -55,13 +69,25 @@ include '../include/header.php';
                     </td> -->
                             <td>$<?= number_format($order['order_after_tax'], 2) ?></td>
                             <td>$<?= number_format($order['order_amount_due'], 2) ?></td>
-                            <td>
-                                <span class="badge bg-secondary">
-                                    <?= $order['status_id'] ?>
+                            <td class="p-2">
+                                <span style="
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    background-color: <?= htmlspecialchars($order['status_color']) ?>;
+                                    color: #000;
+                                    padding: 8px;
+                                    text-align: center;
+                                    font-weight: 500;
+                                ">
+                                    <?= htmlspecialchars($order['status_name']) ?>
                                 </span>
                             </td>
-                            <td class="text-end">
-                                <a href="order_view.php?id=<?= $order['order_id'] ?>" class="btn btn-sm btn-primary">
+                            <td><?= date('M d, Y', strtotime($order['order_completed'])) ?></td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-primary view-order-btn"
+                                    data-order-id="<?= (int)$order['order_id'] ?>" data-bs-toggle="modal"
+                                    data-bs-target="#orderModal">
                                     View
                                 </a>
                             </td>
@@ -77,7 +103,9 @@ include '../include/header.php';
             </tbody>
         </table>
     </div>
-
 </section>
 
-<?php include '../include/footer.php'; ?>
+<?php
+include 'order_view.php';
+include '../include/footer.php';
+?>

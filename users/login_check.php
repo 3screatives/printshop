@@ -4,57 +4,55 @@ require_once '../ps-admin/db_function.php';
 
 $conn = db_connect();
 
-$email    = $_POST['email'] ?? '';
-$password = $_POST['password'] ?? '';
+$username = trim($_POST['email'] ?? '');
+$password = trim($_POST['password'] ?? '');
 
-// Fetch user
-$user = select_query(
-    $conn,
-    "SELECT user_id, user_name, user_password, user_type
-     FROM ps_users
-     WHERE user_email = ?
-     LIMIT 1",
-    "s",
-    $email
-);
-
-if (count($user) !== 1) {
-    header("Location: login.php?error=User not found");
+if ($username === '' || $password === '') {
+    header("Location: login.php?error=Missing credentials");
     exit;
 }
 
-$user = $user[0];
+// Fetch client by username
+$client = select_query(
+    $conn,
+    "SELECT 
+        client_id,
+        contact_name,
+        client_username,
+        client_password,
+        client_status
+     FROM ps_clients
+     WHERE client_username = ?
+     LIMIT 1",
+    "s",
+    $username
+);
 
-// ⚠️ Plain text check (upgrade later)
-if ($password !== $user['user_password']) {
+if (count($client) !== 1) {
+    header("Location: login.php?error=Client not found");
+    exit;
+}
+
+$client = $client[0];
+
+// ❌ Inactive client
+if ((int)$client['client_status'] !== 1) {
+    header("Location: login.php?error=Account inactive");
+    exit;
+}
+
+// ⚠️ Plain-text password check (upgrade later)
+if ($password !== $client['client_password']) {
     header("Location: login.php?error=Invalid password");
     exit;
 }
 
-// Set sessions based on role
-if (in_array($user['user_type'], ['admin', 'manager', 'viewer'], true)) {
-
-    // 🔐 Admin session
-    $_SESSION['admin_user_id']   = $user['user_id'];
-    $_SESSION['admin_user_name'] = $user['user_name'];
-    $_SESSION['admin_user_type'] = $user['user_type'];
-
-    header("Location: ../ps-admin/index.php");
-    exit;
-}
-
 // ✅ Client session
-if ($user['user_type'] === 'client') {
+$_SESSION['client_id']        = $client['client_id'];
+$_SESSION['contact_name']  = $client['contact_name'];
+$_SESSION['client_username']  = $client['client_username'];
+$_SESSION['client_user_type'] = 'client';
 
-    $_SESSION['client_user_id']   = $user['user_id'];
-    $_SESSION['client_user_name'] = $user['user_name'];
-    $_SESSION['client_user_type'] = $user['user_type'];
-
-    header("Location: dashboard.php");
-    exit;
-}
-
-// ❌ Unknown role
-session_destroy();
-header("Location: login.php?error=Invalid role");
+// Redirect
+header("Location: dashboard.php");
 exit;

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../users/admin_access.php';
+require_once 'users/admin_access.php';
 ?>
 
 <!DOCTYPE html>

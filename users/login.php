@@ -3,7 +3,7 @@
 include '../ps-admin/config.php';
 
 // If already logged in, redirect to appropriate dashboard
-if (isset($_SESSION['client_user_id'])) {
+if (isset($_SESSION['client_id'])) {
     if ($_SESSION['client_user_type'] === 'client') {
         header("Location: dashboard.php");
         exit;

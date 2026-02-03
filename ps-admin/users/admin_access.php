@@ -3,7 +3,7 @@
 if (
     !isset($_SESSION['admin_user_id'], $_SESSION['admin_user_type'])
 ) {
-    header("Location: ../users/login.php");
+    header("Location: users/login.php");
     exit;
 }
 
