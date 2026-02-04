@@ -24,6 +24,8 @@ if (empty($cart)) {
 
     foreach ($cart as $item) {
 
+        $mat_type = $item['mat_type'] ?? 'None';
+
         $key         = $item['key'];
         $cat_name    = $item['cat_name'];
         $qty         = (int)$item['quantity'];
@@ -32,6 +34,7 @@ if (empty($cart)) {
         $width       = (float)$item['width'];
         $height      = (float)$item['height'];
 
+        $item_size   = $item['item_size'];
         $orientation = (int)$item['orientation'];
         $grommets    = (int)$item['grommets'];
         $hframes     = (int)$item['hframes'];
@@ -45,6 +48,15 @@ if (empty($cart)) {
         $itemCount  += $qty;
         $grandTotal += $sub_total;
 
+        $optionsText = $sides_label;
+
+        if ($mat_type !== 'digital') {
+            $optionsText .= ", {$grommets_label}, {$hframes_label}";
+        }
+        $sizeText = ($mat_type === 'digital')
+            ? "{$item_size}"
+            : "{$width} × {$height}";
+
         $html .= "
         <tr>
             <td class='text-center'>
@@ -56,8 +68,8 @@ if (empty($cart)) {
             <td>
                 <strong>{$cat_name}</strong>
                 <div class='small text-muted'>
-                    {$width} × {$height} • {$orientation_label}<br>
-                    {$sides_label}, {$grommets_label}, {$hframes_label}
+                    {$sizeText} • {$orientation_label}<br>
+                    {$optionsText}
                 </div>
             </td>
 

@@ -14,9 +14,11 @@ if (!isset($_SESSION['rush'])) {
 // Get POST data
 $mat_id           = intval($_POST['mat_id'] ?? 0);
 $catName          = trim($_POST['catName'] ?? '');
+$matType          = $_POST['matType'] ?? '-';
 $qty              = max(1, intval($_POST['item_qty'] ?? 1));
 $width            = floatval($_POST['width'] ?? 0);
 $height           = floatval($_POST['height'] ?? 0);
+$item_print_size  = $_POST['item_print_size'];
 $item_orientation = intval($_POST['item_orientation'] ?? 0);
 $grommets         = intval($_POST['item_grommets'] ?? 0);
 $hframes          = intval($_POST['item_hframes'] ?? 0);
@@ -44,6 +46,7 @@ if (isset($_SESSION['cart'][$key])) {
         'key'           => $key,
         'material_id'   => $mat_id,
         'cat_name'      => $catName,
+        'mat_type'      => $matType,
         'width'         => $width,
         'height'        => $height,
         'orientation'   => $item_orientation,
@@ -53,7 +56,8 @@ if (isset($_SESSION['cart'][$key])) {
         'has_design'    => $has_design,
         'unit_price'    => $unit_price,
         'quantity'      => $qty,
-        'total_price'   => $total_price
+        'total_price'   => $total_price,
+        'item_size'     => $item_print_size
     ];
 }
 

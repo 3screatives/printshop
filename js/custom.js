@@ -182,12 +182,14 @@ $(document).ready(function () {
         const data = {
             mat_id: $('#material_id').val(),
             catName: $('#cat_name_cart').val(),
+            matType: $('#material_id option:selected').data('mat-type'),
             item_qty: Number($('#item_qty').val()) || 1,
             width: Number($('#item_width').val()) || 0,
             height: Number($('#item_height').val()) || 0,
 
             item_orientation: Number(orientation),
 
+            item_print_size: $('#item_print_size option:selected').text(),
             item_sides: $('#item_sides').length ? Number($('#item_sides').val()) : 0,
             item_grommets: $('#item_grommets').length ? Number($('#item_grommets').val()) : 0,
             item_hframes: $('#item_hframes').length ? Number($('#item_hframes').val()) : 0,
@@ -252,75 +254,14 @@ $(document).ready(function () {
             updateCartButton(data);
 
             if (data.count > 0) {
-                $('#cart_calc').append(`
-                    <div class="mt-3 d-flex justify-content-end">
-                        <div class="text-end">
-                            <div id="cart_totals">
-                                <div class="d-flex justify-content-between py-2" style="min-width:220px;">
-                                    <b>Sub Total:</b>
-                                    <span id="cart_total_footer">$${data.sub_total}</span>
-                                </div>
-
-                                <div id="rush_charges_row" class="d-flex justify-content-between py-2" style="min-width:220px;">
-                                    <b>Rush Charges:</b>
-                                    <span id="rush_charge_val">$${data.rush}</span>
-                                </div>
-
-                                <div class="d-flex justify-content-between py-2" style="min-width:220px;">
-                                    <b>Tax (8.25%):</b>
-                                    <span>${data.tax}</span>
-                                </div>
-
-                                <div class="d-flex justify-content-between fw-bold py-2" style="min-width:220px;">
-                                    Grand Total:
-                                    <span>${Number(data.total).toFixed(2)}</span>
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <a href="index.php" class="thm-btn gray me-2">
-                                    <span>Continue Shopping</span>
-                                </a>
-                                <a href="checkout.php" class="thm-btn blue">
-                                    <span>Proceed to Checkout</span>
-                                </a>
-                                <button id="clear_cart" class="thm-btn red ms-2">
-                                    <span>Clear Cart</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `);
+                $('#cart_total_footer').text(`$${data.sub_total}`);
+                $('#rush_charge_val').text(`$${data.rush}`);
+                $('#cart_tax').text(`$${data.tax}`);
+                $('#cart_total').text(`$${data.total}`);
+            } else {
+                $('#cart_calc').html('');
             }
 
-            // $(document).on('change', '#process_time', function () {
-            //     const subTotal = Number(data.sub_total);
-            //     const taxRate = 0.0825;
-            //     const isRush = $(this).val() == 1;
-
-            //     let rushVal = 0;
-
-            //     if (isRush) {
-            //         rushVal = subTotal * 0.3;
-            //         if (rushVal < 15) rushVal = 15;
-            //     }
-
-            //     // Update rush display
-            //     $('#rush_charge_val').text(`$${rushVal.toFixed(2)}`);
-
-            //     // Recalculate tax AFTER rush
-            //     const taxableAmount = subTotal + rushVal;
-            //     const tax = taxableAmount * taxRate;
-
-            //     // Update tax display
-            //     $('#cart_totals b:contains("Tax")')
-            //         .next()
-            //         .text(`$${tax.toFixed(2)}`);
-
-            //     // Final total
-            //     const finalTotal = taxableAmount + tax;
-            //     $('#cart_totals > div:last span')
-            //         .text(`$${finalTotal.toFixed(2)}`);
-            // });
             $(document).on('change', '#process_time', function () {
 
                 const isRush = $(this).val();

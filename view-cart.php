@@ -1,6 +1,11 @@
 <?php
-// session_start();
+session_start();
 include 'ps-admin/config.php';
+
+$rush = $_SESSION['rush'] ?? 0;
+
+$standardSelected = ($rush == 0) ? 'selected' : '';
+$rushSelectedAttr = ($rush == 1) ? 'selected' : '';
 
 include 'include/head.php';
 include 'include/header.php';
@@ -32,19 +37,54 @@ include 'include/header.php';
             <tbody id="cart_container">
             </tbody>
         </table>
-        <div class="row d-flex align-item-center justify-content-right">
+        <div class="row d-flex align-items-center justify-content-end">
             <div class="col-8 text-end">
                 Rush Printing?
             </div>
             <div class="col-4">
-                <select class='form-select' name='process_time' id='process_time'>
-                    <option value='0' $standardSelected>Standard (3-5 days)</option>
-                    <option value='1' $rushSelectedAttr>Rush (1-2 days)</option>
+                <select class="form-select" name="process_time" id="process_time">
+                    <option value="0" <?= $standardSelected ?>>Standard (3-5 days)</option>
+                    <option value="1" <?= $rushSelectedAttr ?>>Rush (1-2 days)</option>
                 </select>
             </div>
         </div>
         <div id="cart_calc">
+            <div class="mt-3 d-flex justify-content-end">
+                <div class="text-end">
+                    <div id="cart_totals">
+                        <div class="d-flex justify-content-between py-2" style="min-width:220px;">
+                            <b>Sub Total:</b>
+                            <span id="cart_total_footer"></span>
+                        </div>
 
+                        <div id="rush_charges_row" class="d-flex justify-content-between py-2" style="min-width:220px;">
+                            <b>Rush Charges:</b>
+                            <span id="rush_charge_val"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between py-2" style="min-width:220px;">
+                            <b>Tax (8.25%):</b>
+                            <span id="cart_tax"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between fw-bold py-2" style="min-width:220px;">
+                            Grand Total:
+                            <span id="cart_total"></span>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a href="index.php" class="thm-btn gray me-2">
+                            <span>Continue Shopping</span>
+                        </a>
+                        <a href="checkout.php" class="thm-btn blue">
+                            <span>Proceed to Checkout</span>
+                        </a>
+                        <button id="clear_cart" class="thm-btn red ms-2">
+                            <span>Clear Cart</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
