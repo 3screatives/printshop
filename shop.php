@@ -212,12 +212,12 @@ include 'include/header.php';
 
                                 <label class="orientation-option">
                                     <input type="radio" name="item_orientation" value="0" checked>
-                                    <span class="orientation-box landscape">Landscape</span>
+                                    <span class="orientation-box portrait">Portrait</span>
                                 </label>
 
                                 <label class="orientation-option">
                                     <input type="radio" name="item_orientation" value="1">
-                                    <span class="orientation-box portrait">Portrait</span>
+                                    <span class="orientation-box landscape">Landscape</span>
                                 </label>
 
                             </div>

@@ -322,4 +322,9 @@ $(document).ready(function () {
         // Watch all inputs
         $form.on('change input', 'input, select, textarea', checkForChanges);
     });
+
+    //payment
+    $('#proceedPayment').on('click', function () {
+        window.location.href = 'payment.php';
+    });
 });

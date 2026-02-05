@@ -121,7 +121,7 @@ foreach ($categories as $cat) {
                 <ul class="navbar-nav h-100">
                     <?php if (!empty($_SESSION['client_id']) && $_SESSION['client_user_type'] === 'client'): ?>
                         <li class="nav-item h-100">
-                            <a class="nav-link" href="./users/my-orders">My Orders</a>
+                            <a class="nav-link" href="users/dashboard.php">My Orders</a>
                         </li>
                         <li class="nav-item dropdown dropdown-hover position-static user h-100">
                             <a data-mdb-dropdown-init class="nav-link dropdown-toggle" href="#" id="userinfo" role="button"
@@ -130,7 +130,7 @@ foreach ($categories as $cat) {
                                 <?php echo htmlspecialchars($_SESSION['contact_name'] ?? ''); ?>
                             </a>
                             <div class="dropdown-menu mt-0" aria-labelledby="userinfo">
-                                <a href="users/dashboard.php" class="list-group-item list-group-item-action">Dashboard</a>
+                                <!-- <a href="users/dashboard.php" class="list-group-item list-group-item-action">Dashboard</a> -->
                                 <a href="users/profile.php" class="list-group-item list-group-item-action">Profile
                                     Settings</a>
                                 <a href="users/logout.php" class="list-group-item list-group-item-action">Logout</a>
