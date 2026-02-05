@@ -14,6 +14,7 @@ if (!isset($_SESSION['rush'])) {
 // Get POST data
 $mat_id           = intval($_POST['mat_id'] ?? 0);
 $catName          = trim($_POST['catName'] ?? '');
+$catImage         = trim($_POST['catImage'] ?? '');
 $matType          = $_POST['matType'] ?? '-';
 $qty              = max(1, intval($_POST['item_qty'] ?? 1));
 $width            = floatval($_POST['width'] ?? 0);
@@ -46,6 +47,7 @@ if (isset($_SESSION['cart'][$key])) {
         'key'           => $key,
         'material_id'   => $mat_id,
         'cat_name'      => $catName,
+        'cat_image'     => $catImage,
         'mat_type'      => $matType,
         'width'         => $width,
         'height'        => $height,

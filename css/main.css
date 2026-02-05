@@ -746,9 +746,13 @@ footer {
 }
 
 .cart-table thead th {
-    height: 64px;
+    height: 48px;
     vertical-align: middle;
     padding: 0 12px;
+}
+
+#cart_container td {
+    padding: 12px;
 }
 
 .cart-item {

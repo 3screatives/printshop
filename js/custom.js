@@ -182,6 +182,7 @@ $(document).ready(function () {
         const data = {
             mat_id: $('#material_id').val(),
             catName: $('#cat_name_cart').val(),
+            catImage: $('#cat_img_name').val(),
             matType: $('#material_id option:selected').data('mat-type'),
             item_qty: Number($('#item_qty').val()) || 1,
             width: Number($('#item_width').val()) || 0,

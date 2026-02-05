@@ -100,8 +100,8 @@ include 'include/header.php';
                 <i class="bi bi-chevron-right"></i>
 
                 <?php if ($typeLabel): ?>
-                <span><?= htmlspecialchars($typeLabel) ?></span>
-                <i class="bi bi-chevron-right"></i>
+                    <span><?= htmlspecialchars($typeLabel) ?></span>
+                    <i class="bi bi-chevron-right"></i>
                 <?php endif; ?>
 
                 <?= htmlspecialchars($cat_name) ?>
@@ -112,9 +112,11 @@ include 'include/header.php';
 
         <div class="row">
             <div class="col-6">
-                <img id="item_image" src="img/product-<?php echo htmlspecialchars($cat_image); ?>.jpg" class="img-fluid"
+                <img id="item_image" src="img/<?php echo htmlspecialchars($cat_image); ?>.jpg" class="img-fluid"
                     alt="<?php echo htmlspecialchars($cat_name); ?>">
                 <!-- src="uploads/categories/<?php echo htmlspecialchars($cat_image); ?>" -->
+                <input type="hidden" id="cat_img_name" name="cat_img_name"
+                    value="<?php echo htmlspecialchars($cat_image); ?>">
                 <input type="hidden" id="cat_name_cart" name="cat_name_cart"
                     value="<?php echo htmlspecialchars($cat_name); ?>">
             </div>
@@ -141,44 +143,44 @@ include 'include/header.php';
 
                     <!-- Digital Size -->
                     <?php if ($matType === 'digital'): ?>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label">Size</label>
-                        <div class="col-sm-8">
-                            <select class="form-select" name="item_print_size" id="item_print_size" required>
-                                <option value="">-- Select Size --</option>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label">Size</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" name="item_print_size" id="item_print_size" required>
+                                    <option value="">-- Select Size --</option>
 
-                                <?php if (!empty($printSizes)): ?>
-                                <?php foreach ($printSizes as $size): ?>
-                                <option value="<?= htmlspecialchars($size['div_value']) ?>">
-                                    <?= htmlspecialchars($size['labels']) ?>
-                                </option>
-                                <?php endforeach; ?>
-                                <?php else: ?>
-                                <option value="" disabled>No sizes available</option>
-                                <?php endif; ?>
-                            </select>
+                                    <?php if (!empty($printSizes)): ?>
+                                        <?php foreach ($printSizes as $size): ?>
+                                            <option value="<?= htmlspecialchars($size['div_value']) ?>">
+                                                <?= htmlspecialchars($size['labels']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <option value="" disabled>No sizes available</option>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <!-- SIZE -->
                     <?php if ($matType === 'large'): ?>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label">Size</label>
-                        <div class="col-sm-8 d-flex gap-3">
-                            <div class="input-group">
-                                <input type="number" class="form-control" name="item_width" id="item_width" value="24"
-                                    min="24">
-                                <span class="input-group-text">in</span>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label">Size</label>
+                            <div class="col-sm-8 d-flex gap-3">
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="item_width" id="item_width" value="24"
+                                        min="24">
+                                    <span class="input-group-text">in</span>
+                                </div>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="item_height" id="item_height" value="36"
+                                        min="36">
+                                    <span class="input-group-text">in</span>
+                                </div>
                             </div>
-                            <div class="input-group">
-                                <input type="number" class="form-control" name="item_height" id="item_height" value="36"
-                                    min="36">
-                                <span class="input-group-text">in</span>
-                            </div>
+                            <div class="errorBox mt-2 text-end"></div>
                         </div>
-                        <div class="errorBox mt-2 text-end"></div>
-                    </div>
                     <?php endif; ?>
 
                     <!-- QUANTITY -->
@@ -191,15 +193,15 @@ include 'include/header.php';
 
                     <!-- Sides -->
                     <?php if (in_array($cat_id, $sidesCategories)): ?>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label">Sides</label>
-                        <div class="col-sm-8">
-                            <select class="form-select" name="item_sides" id="item_sides">
-                                <option value="0" selected>Single Sided</option>
-                                <option value="1">Double Sided</option>
-                            </select>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label">Sides</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" name="item_sides" id="item_sides">
+                                    <option value="0" selected>Single Sided</option>
+                                    <option value="1">Double Sided</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <!-- Orientation -->
@@ -224,28 +226,28 @@ include 'include/header.php';
 
                     <!-- GROMMETS -->
                     <?php if (in_array($cat_id, $grommetCategories)): ?>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label">Grommets</label>
-                        <div class="col-sm-8">
-                            <select class="form-select" name="item_grommets" id="item_grommets">
-                                <option value="0" selected>No Grommets</option>
-                                <option value="1">With Grommets</option>
-                            </select>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label">Grommets</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" name="item_grommets" id="item_grommets">
+                                    <option value="0" selected>No Grommets</option>
+                                    <option value="1">With Grommets</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <!-- HFrames -->
                     <?php if (in_array($cat_id, $hframeCategories)): ?>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label">H-Frame</label>
-                        <div class="col-sm-8">
-                            <select class="form-select" name="item_hframes" id="item_hframes">
-                                <option value="0" selected>No H-Frame</option>
-                                <option value="1">With H-Frame</option>
-                            </select>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label">H-Frame</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" name="item_hframes" id="item_hframes">
+                                    <option value="0" selected>No H-Frame</option>
+                                    <option value="1">With H-Frame</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <!-- DETAILS -->

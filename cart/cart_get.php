@@ -16,7 +16,7 @@ $total = 0;
 if (empty($cart)) {
 
     $html = "<tr>
-                <td colspan='5' class='text-center text-muted py-4'>
+                <td colspan='6' class='text-center text-muted py-4'>
                     Your cart is empty.
                 </td>
              </tr>";
@@ -28,6 +28,7 @@ if (empty($cart)) {
 
         $key         = $item['key'];
         $cat_name    = $item['cat_name'];
+        $cat_image    = $item['cat_image'];
         $qty         = (int)$item['quantity'];
         $unit_price  = (float)$item['unit_price'];
         $sub_total   = (float)$item['total_price'];
@@ -51,7 +52,20 @@ if (empty($cart)) {
         $optionsText = $sides_label;
 
         if ($mat_type !== 'digital') {
-            $optionsText .= ", {$grommets_label}, {$hframes_label}";
+
+            $extraOptions = [];
+
+            if ($grommets === 1) {
+                $extraOptions[] = 'With Grommets';
+            }
+
+            if ($hframes === 1) {
+                $extraOptions[] = 'With H-Frame';
+            }
+
+            if (!empty($extraOptions)) {
+                $optionsText .= ', ' . implode(', ', $extraOptions);
+            }
         }
         $sizeText = ($mat_type === 'digital')
             ? "{$item_size}"
@@ -63,6 +77,10 @@ if (empty($cart)) {
                 <button class='btn btn-outline-danger btn-sm remove-item' data-key='{$key}'>
                     <i class='bi bi-trash'></i>
                 </button>
+            </td>
+
+            <td>
+                <img src='img/{$cat_image}.jpg' class='img-responsive' id='item_img' style='width: 64px; height: 64px;'>
             </td>
 
             <td>
