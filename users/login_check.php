@@ -48,10 +48,10 @@ if ($password !== $client['client_password']) {
 }
 
 // ✅ Client session
-$_SESSION['client_id']        = $client['client_id'];
-$_SESSION['contact_name']  = $client['contact_name'];
-$_SESSION['client_username']  = $client['client_username'];
-$_SESSION['client_user_type'] = 'client';
+$_SESSION['client_id']          = $client['client_id'];
+$_SESSION['contact_name']       = $client['contact_name'];
+$_SESSION['client_username']    = $client['client_username'];
+$_SESSION['client_user_type']   = 'client';
 
 // Redirect
 header("Location: dashboard.php");

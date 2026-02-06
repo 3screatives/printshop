@@ -15,7 +15,7 @@ include 'include/header.php';
                 Checkout
             </div>
 
-            <h2>My Cart</h2>
+            <h2>Checkout</h2>
         </div>
     </div>
     <div class="container">
@@ -25,36 +25,7 @@ include 'include/header.php';
                 <div class="row g-3">
                     <div class="col-8">
                         <div class="row"></div>
-                        <!-- <div class="row">
-                            <div class="col-md-12 mb-4">
-                                <label>Client STMA ID</label>
-                                <input type="number" name="client_stma_id" id="client_stma_id" class="form-control">
-                            </div>
-                            <div class="col-md-12 mb-4">
-                                <label>Business Name</label>
-                                <input type="text" name="mbusiness_name" id="mbusiness_name" class="form-control"
-                                    required>
-                            </div>
-                            <div class="col-md-12 mb-4">
-                                <label>Business Address</label>
-                                <textarea name="mbusiness_address" id="mbusiness_address"
-                                    class="form-control"></textarea>
-                            </div>
-                            <div class="col-md-12 mb-4">
-                                <label>Contact Name</label>
-                                <input type="text" name="contact_name" id="contact_name" class="form-control" required>
-                            </div>
-                            <div class="col-md-12 mb-4">
-                                <label>Phone</label>
-                                <input type="text" name="contact_phone" id="contact_phone" class="form-control"
-                                    required>
-                            </div>
-                            <div class="col-md-12 mb-4">
-                                <label>Email</label>
-                                <input type="email" name="contact_email" id="contact_email" class="form-control"
-                                    required>
-                            </div>
-                        </div> -->
+                        <?php if (!isset($_SESSION['client_id'])) { ?>
                         <table class="table table-responsive">
                             <tr>
                                 <td width="30%">STMA ID</td>
@@ -81,6 +52,7 @@ include 'include/header.php';
                                 <td id="contact_email"></td>
                             </tr>
                         </table>
+                        <?php } ?>
 
                         <div>
                             <h4 class="mb-3">Cart Items</h4>
@@ -135,46 +107,46 @@ include 'include/header.php';
 <?php include 'include/footer.php'; ?>
 
 <script>
+$.ajax({
+    url: 'cart/cart_get.php',
+    method: 'GET',
+    dataType: 'json',
+    success: function(res) {
+
+        // Inject cart HTML
+        $('.cart-table-wrapper').html(res.html);
+
+        // Update totals
+        $('#cart-subtotal').text(res.sub_total);
+        $('#cart-rush').text(res.rush);
+        $('#cart-tax').text(res.tax);
+        $('#cart-total').text(res.total);
+
+    }
+});
+
+$(document).ready(function() {
     $.ajax({
-        url: 'cart/cart_get.php',
-        method: 'GET',
+        url: 'ps-admin/get/client_action.php',
+        type: 'POST',
         dataType: 'json',
-        success: function(res) {
+        data: {
+            action: 'get_by_session'
+        },
+        success: function(data) {
+            if (!data || !data.client_id) return;
 
-            // Inject cart HTML
-            $('.cart-table-wrapper').html(res.html);
+            $('#n_client_id').val(data.client_id);
+            $('#client_stma_id').text(data.client_stma_id);
+            $('#mbusiness_name').text(data.business_name);
+            $('#mbusiness_address').text(data.business_address);
+            $('#contact_name').text(data.contact_name);
+            $('#contact_phone').text(data.contact_phone);
+            $('#contact_email').text(data.contact_email);
 
-            // Update totals
-            $('#cart-subtotal').text(res.sub_total);
-            $('#cart-rush').text(res.rush);
-            $('#cart-tax').text(res.tax);
-            $('#cart-total').text(res.total);
-
+            $('#contact_phone, #contact_email, #contact_name').prop('readonly', true);
+            $('#client_stma_id').prop('disabled', true);
         }
     });
-
-    $(document).ready(function() {
-        $.ajax({
-            url: 'ps-admin/get/client_action.php',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                action: 'get_by_session'
-            },
-            success: function(data) {
-                if (!data || !data.client_id) return;
-
-                $('#n_client_id').val(data.client_id);
-                $('#client_stma_id').text(data.client_stma_id);
-                $('#mbusiness_name').text(data.business_name);
-                $('#mbusiness_address').text(data.business_address);
-                $('#contact_name').text(data.contact_name);
-                $('#contact_phone').text(data.contact_phone);
-                $('#contact_email').text(data.contact_email);
-
-                $('#contact_phone, #contact_email, #contact_name').prop('readonly', true);
-                $('#client_stma_id').prop('disabled', true);
-            }
-        });
-    });
+});
 </script>

@@ -107,7 +107,7 @@ include 'include/head.php';
 
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="./">
+                        <a class="nav-link" href="./">
                             <i class="bi bi-card-checklist"></i>
                         </a>
                     </li>
@@ -119,6 +119,11 @@ include 'include/head.php';
                     <li class="nav-item">
                         <a class="nav-link" href="materials.php">
                             <i class="bi bi-record-circle-fill"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="material_categories.php">
+                            <i class="bi bi-list"></i>
                         </a>
                     </li>
                 </ul>
@@ -147,7 +152,7 @@ include 'include/head.php';
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="user me-3">
-                            Welcome,<b>&nbsp; <?php echo htmlspecialchars($_SESSION['user_name']); ?></b>
+                            Welcome,<b>&nbsp; <?php echo htmlspecialchars($_SESSION['admin_user_name']); ?></b>
                         </div>
                         <a href="#" id="newOrder" class="btn btn-primary btn-sm mx-1">
                             <span class=" pe-2">
@@ -208,27 +213,27 @@ include 'include/head.php';
                         </thead>
                         <tbody>
                             <?php foreach ($categories as $cat): ?>
-                                <tr>
-                                    <td><?= $cat['cat_id'] ?></td>
-                                    <td><?= htmlspecialchars($cat['cat_name']) ?></td>
-                                    <td><?= htmlspecialchars($cat['cat_description']) ?></td>
-                                    <td><?= htmlspecialchars($cat['cat_image']) ?></td>
-                                    <td><?= htmlspecialchars($cat['cat_slug']) ?></td>
-                                    <td><?= htmlspecialchars($cat['cat_group']) ?></td>
-                                    <td><?= htmlspecialchars($cat['cat_section']) ?></td>
-                                    <td><?= $cat['cat_order'] ?></td>
-                                    <td>
-                                        <a href="?edit=<?= $cat['cat_id'] ?>" class="btn btn-outline-primary btn-sm me-2"
-                                            style="color: var(--color-blue)">
-                                            <span class="bi bi-pencil"></span>
-                                        </a>
-                                        <a href="?delete=<?= $cat['cat_id'] ?>" class="btn btn-outline-danger btn-sm"
-                                            style="color: var(--color-red)"
-                                            onclick="return confirm('Delete this category?')">
-                                            <span class="bi bi-trash"></span>
-                                        </a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td><?= $cat['cat_id'] ?></td>
+                                <td><?= htmlspecialchars($cat['cat_name']) ?></td>
+                                <td><?= htmlspecialchars($cat['cat_description']) ?></td>
+                                <td><?= htmlspecialchars($cat['cat_image']) ?></td>
+                                <td><?= htmlspecialchars($cat['cat_slug']) ?></td>
+                                <td><?= htmlspecialchars($cat['cat_group']) ?></td>
+                                <td><?= htmlspecialchars($cat['cat_section']) ?></td>
+                                <td><?= $cat['cat_order'] ?></td>
+                                <td>
+                                    <a href="?edit=<?= $cat['cat_id'] ?>" class="btn btn-outline-primary btn-sm me-2"
+                                        style="color: var(--color-blue)">
+                                        <span class="bi bi-pencil"></span>
+                                    </a>
+                                    <a href="?delete=<?= $cat['cat_id'] ?>" class="btn btn-outline-danger btn-sm"
+                                        style="color: var(--color-red)"
+                                        onclick="return confirm('Delete this category?')">
+                                        <span class="bi bi-trash"></span>
+                                    </a>
+                                </td>
+                            </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>

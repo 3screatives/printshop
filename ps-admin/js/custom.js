@@ -71,7 +71,7 @@ $(document).ready(function () {
                         </span>
                         <i style="color: #999999;">(${o.contact_name})</i>
                     </td>
-                    <td class="copy-phone" data-phone="${o.contact_phone}" style="cursor:pointer;">${formatUSPhone(o.contact_phone)}</td>
+                    <td class="copy-me" data-phone="${o.contact_phone}" style="cursor:pointer;">${formatUSPhone(o.contact_phone)}</td>
                     <td>$${parseFloat(o.order_after_tax || 0).toFixed(2)}</td>
                     <td>${statusSelect}</td>
                     <td class="text-center">

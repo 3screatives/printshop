@@ -26,6 +26,11 @@ include 'include/head.php';
                             <i class="bi bi-record-circle-fill"></i>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="material_categories.php">
+                            <i class="bi bi-list"></i>
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="mt-auto"></div>
@@ -52,7 +57,7 @@ include 'include/head.php';
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="user me-3">
-                            Welcome,<b>&nbsp; <?php echo htmlspecialchars($_SESSION['user_name']); ?></b>
+                            Welcome,<b>&nbsp; <?php echo htmlspecialchars($_SESSION['admin_user_name']); ?></b>
                         </div>
                         <a href="#" id="newOrder" class="btn btn-primary btn-sm mx-1">
                             <span class=" pe-2">
